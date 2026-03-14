@@ -1,0 +1,3 @@
+[submodule "SMILESearcher"]
+	path = SMILESearcher
+	url = https://github.com/StarLiu714/SMILESearcher.git
