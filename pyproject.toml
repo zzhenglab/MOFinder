@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mofinder"
+version = "0.1.0"
+description = "Literature-mining and LLM fine-tuning pipeline for Metal-Organic Framework (MOF) synthesis prediction."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Academic / research use" }
+authors = [
+    { name = "IntelliMol Lab, University of Pennsylvania" },
+]
+keywords = [
+    "metal-organic-framework",
+    "MOF",
+    "synthesis-prediction",
+    "literature-mining",
+    "large-language-model",
+    "fine-tuning",
+    "chemistry",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+
+# Core runtime dependencies — what every step assumes is importable.
+dependencies = [
+    # data / numerics
+    "pandas>=1.5",
+    "numpy>=1.23",
+    "matplotlib>=3.6",
+    "scikit-learn>=1.2",
+
+    # LLM client + schema
+    "openai>=1.40",
+    "pydantic>=2.0",
+    "tiktoken>=0.5",
+
+    # paper / SI ingestion
+    "pypdf>=4.0",
+    "openpyxl>=3.1",
+
+    # utility
+    "requests>=2.28",
+    "tqdm>=4.64",
+    "rich>=13.0",
+    "python-dotenv>=1.0",
+    "ipywidgets>=8.0",
+]
+
+[project.optional-dependencies]
+# Tk + image-based downloader used by step 2.1 / 2.2 (Windows-friendly; needs a desktop session).
+fetch-gui = [
+    "pyautogui>=0.9.54",
+    "pyperclip>=1.8",
+    "pynput>=1.7",
+    "opencv-python>=4.7",
+]
+
+# Selenium stack — used by SMILESearcher (ChemSpider, Google AI Overview, etc.).
+fetch-web = [
+    "selenium>=4.10",
+    "webdriver-manager>=4.0",
+]
+
+# Chemistry-aware SMILES validation. Optional: SMILESearcher falls back to a heuristic check
+# if rdkit is unavailable. Install separately if pip wheels are unstable on your platform.
+chem = [
+    "rdkit>=2023.3",
+]
+
+# Notebook UX. The numbered step notebooks are usable without jupyterlab if you prefer VS Code / nbclient.
+notebook = [
+    "jupyterlab>=4.0",
+    "notebook>=7.0",
+]
+
+# Convenience: everything.
+all = [
+    "mofinder[fetch-gui,fetch-web,chem,notebook]",
+]
+
+[project.urls]
+Homepage = "https://github.com/IntelliMol/MOFinder"
+Repository = "https://github.com/IntelliMol/MOFinder"
+
+# The repository is currently organized as numbered notebooks at the repo root,
+# plus the self-contained SMILESearcher/ utility. Packaging is therefore minimal —
+# we only declare the SMILESearcher tree as a package so its modules remain importable.
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["SMILESearcher*"]
+exclude = ["downloaded*", "mof_json_store*"]
