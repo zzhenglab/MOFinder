@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import time
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
-from typing import Optional
+from typing import Any, Optional
 
 from openai import OpenAI
 
-from config import RunConfig
-from utils import (
+from utils.base_config import ModelConfig
+from utils.response_utils import (
     dump_one_time,
     extract_text_from_output_array,
     summarize_for_debug,
@@ -17,23 +17,23 @@ from utils import (
 
 class ModelSender:
     """
-    Wraps OpenAI Responses API calls for MOF abstract classification.
+    Wraps OpenAI Responses API calls for MOF Y/N classification.
 
-    Two API paths — chosen by RunConfig.is_reasoning_model():
+    Two API paths — chosen by ``ModelConfig.is_reasoning_model()``:
 
       send_reasoning_model()  — gpt-5 / gpt-5.1 with reasoning effort
-          Uses `reasoning={"effort": ...}` and a large max_output_tokens budget.
-          No temperature parameter (not supported by reasoning models).
+          Uses ``reasoning={"effort": ...}`` and a large max_output_tokens
+          budget. No temperature parameter (not supported by reasoning models).
 
       send_chat_model()       — gpt-4o-mini style
-          Uses temperature=0 and a small max_output_tokens (64).
+          Uses ``temperature=0`` and a small max_output_tokens (64).
 
-    call_with_timeout() dispatches to the right path, wraps the call in a
+    ``call_with_timeout()`` dispatches to the right path, wraps the call in a
     thread so a wall-clock timeout can be enforced, and returns 'Y', 'N', or
-    '' (skip) after up to cfg.max_tries attempts.
+    '' (skip) after up to ``cfg.max_tries`` attempts.
     """
 
-    def __init__(self, cfg: RunConfig, client: Optional[OpenAI] = None):
+    def __init__(self, cfg: ModelConfig, client: Optional[OpenAI] = None):
         self.cfg    = cfg
         self.client = client or OpenAI()
         self._dumped_once = False
@@ -75,12 +75,13 @@ class ModelSender:
     # Main public call                                                     #
     # ------------------------------------------------------------------ #
 
-    def call_with_timeout(self, prompt: str, row_idx: int) -> str:
+    def call_with_timeout(self, prompt: str, item_label: Any) -> str:
         """
         Send one classification request and return 'Y', 'N', or '' (skip).
 
-        Retries up to cfg.max_tries times on timeout or error.
-        Prints debug info (via utils) whenever a response does not yield Y/N.
+        Only the first character of the model's reply is inspected; the
+        prompt may permit an explanation after the letter, which is ignored.
+        Retries up to ``cfg.max_tries`` times on timeout or error.
         """
         cfg = self.cfg
         for attempt in range(1, cfg.max_tries + 1):
@@ -102,12 +103,12 @@ class ModelSender:
                     c0 = text[0].upper()
                     if c0 in ("Y", "N"):
                         return c0
-                    if cfg.debug_per_row:
-                        summarize_for_debug(row_idx, resp, note="(non-Y/N text)")
+                    if cfg.debug_per_item:
+                        summarize_for_debug(item_label, resp, note="(non-Y/N text)")
                     return ""
 
-                if cfg.debug_per_row:
-                    summarize_for_debug(row_idx, resp, note="(empty text)")
+                if cfg.debug_per_item:
+                    summarize_for_debug(item_label, resp, note="(empty text)")
 
                 status = getattr(resp, "status", None)
                 inc    = getattr(resp, "incomplete_details", None)
@@ -119,18 +120,18 @@ class ModelSender:
                         reason = str(inc)
                 if status == "incomplete" and reason == "max_output_tokens":
                     print(
-                        f"[DEBUG row {row_idx}] Ran out of tokens during reasoning "
+                        f"[DEBUG item {item_label}] Ran out of tokens during reasoning "
                         "(increase reasoning_max_output_tokens or reduce effort)."
                     )
 
                 time.sleep(0.3)
 
             except FuturesTimeout:
-                if cfg.debug_per_row:
-                    print(f"[DEBUG row {row_idx}] timeout on attempt {attempt}")
+                if cfg.debug_per_item:
+                    print(f"[DEBUG item {item_label}] timeout on attempt {attempt}")
             except Exception as e:
-                if cfg.debug_per_row:
-                    print(f"[DEBUG row {row_idx}] error on attempt {attempt}: {e}")
+                if cfg.debug_per_item:
+                    print(f"[DEBUG item {item_label}] error on attempt {attempt}: {e}")
             time.sleep(0.7)
 
         return ""

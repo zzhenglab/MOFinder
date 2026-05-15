@@ -54,8 +54,14 @@ def usage_tuple(resp_obj: Any) -> Tuple[int, int, int, int]:
         return (0, 0, 0, 0)
 
 
-def summarize_for_debug(idx: int, resp_obj: Any, note: str = "") -> None:
-    """Print a one-line debug summary for a response that did not yield Y/N."""
+def summarize_for_debug(item_label: Any, resp_obj: Any, note: str = "") -> None:
+    """
+    Print a one-line debug summary for a response that did not yield Y/N.
+
+    ``item_label`` is whatever identifies the request in the caller — a row
+    index for tabular pipelines (Step 1.1), a filename for PDF pipelines
+    (Step 1.2), etc. It is stringified for display.
+    """
     try:
         status = getattr(resp_obj, "status", None)
         inc    = getattr(resp_obj, "incomplete_details", None)
@@ -72,12 +78,12 @@ def summarize_for_debug(idx: int, resp_obj: Any, note: str = "") -> None:
         preview = (text[:1] if text else "") or (extract_text_from_output_array(out)[:1] if out else "")
         it, ot, rt, tt = usage_tuple(resp_obj)
         print(
-            f"[DEBUG row {idx}] status={status} reason={reason or '-'} "
+            f"[DEBUG item {item_label}] status={status} reason={reason or '-'} "
             f"usage(input={it}, output={ot}, reasoning={rt}, total={tt}) "
             f"types={types} output_text_len={len(text)} preview_char={repr(preview)} {note}".strip()
         )
     except Exception as e:
-        print(f"[DEBUG row {idx}] <summarize error: {e}> {note}")
+        print(f"[DEBUG item {item_label}] <summarize error: {e}> {note}")
 
 
 def dump_one_time(resp_obj: Any) -> None:
