@@ -109,13 +109,11 @@ Either `pyproject.toml` (PEP 517) or `setup.py` (legacy) will produce the same i
 
 2. **Configure.** Set `OPENAI_API_KEY` in your environment. Step 2.1 (paper download) additionally needs a working Chrome plus a logged-in browser session for institutional PDF access. Step 3.2 uses model `gpt-5` (or the latest reasoning model you have access to).
 
-3. **Run notebooks in numerical order.** Open each `stepN_*/` folder in turn. Notebooks now read and write data under `data/...` rather than the repo root — the per-notebook one-line shim is
+3. **Run notebooks in numerical order.** Open each `stepN_*/` folder in turn. The step 4 and step 5 notebooks resolve CSV and JSONL names relative to Jupyter's working directory, so **launch Jupyter from the `data/` directory** (or set the kernel working directory to `data/`) before running them:
 
-```python
-from pathlib import Path
-DATA = Path("data")     # if you launch Jupyter from the repo root
-# or
-DATA = Path.cwd().parents[1] / "data"   # if you launch from inside stepN_*/
+```bash
+cd data
+jupyter lab   # or: jupyter notebook
 ```
 
 4. **SMILES resolution.** At any point after step 3, run `SMILESearcher/app.py` (or `start.bat` on Windows) on the current `data/mof_extraction*.csv`, pointing it at `data/name_SMILES_mappers/name2smiles_1222.json` as the persistent cache.
