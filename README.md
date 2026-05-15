@@ -27,11 +27,11 @@ filtered DOI list
         │
         ▼  (3.3)              ─► negative-example mining (failed conditions)
         │
-data/extraction/mof_extraction*.csv  (+ mof_json_store/)
+data/mof_extraction*.csv  (+ mof_json_store/)
         │
         ▼ step_4_cleansing/                    ─► rule-based cleaning & synonym merging
         │
-data/extraction/mof_extraction_1_2_3_4_5_6.csv      (final cleaned table)
+data/mof_extraction_1_2_3_4_5_6.csv      (final cleaned table)
         │
         ▼ step_5_assembly/                     ─► SFT / CLS / DPO JSONL, cluster-aware split
         │
@@ -45,7 +45,7 @@ data/training/{mof_sft_*,mof_cls_*,mof_dpo_*}.jsonl
 ```
 
 A separate agentic assistant lives under [`SMILESearcher/`](https://github.com/StarLiu714/SMILESearcher/) submodule which queries public databases and retrieval engine/LLM (PubChem, OPSIN, Wikipedia/Wikidata and ChemSpider databases with a Google/Gemini searching fallback). 
-The cleaned-up name-SMILES mapping full metadata lives in [`data/mappers/`](data/mappers/). See [`SMILESearcher/README.md`](SMILESearcher/README.md).
+The cleaned-up name-SMILES mapping full metadata lives in [`data/name_SMILES_mappers/`](data/name_SMILES_mappers/). See [`SMILESearcher/README.md`](SMILESearcher/README.md).
 
 The cumulative cleaning suffix (`_1`, `_1_2`, …, `_1_2_3_4_5_6`) on the extraction CSVs shows the data after each step's cleansing.
 
@@ -53,7 +53,7 @@ The cumulative cleaning suffix (`_1`, `_1_2`, …, `_1_2_3_4_5_6`) on the extrac
 
 ### `data/mof_extraction*.csv`
 
-Each row is **one synthesis condition for one MOF**, taken from a single paper. The cumulative-cleaning convention is that filename suffixes `_1`, `_1_2`, …, `_1_2_3_4_5_6` indicate which cleaning passes from step 4 have been applied. The final cleaned table is `data/extraction/mof_extraction_1_2_3_4_5_6.csv`.
+Each row is **one synthesis condition for one MOF**, taken from a single paper. The cumulative-cleaning convention is that filename suffixes `_1`, `_1_2`, …, `_1_2_3_4_5_6` indicate which cleaning passes from step 4 have been applied. The final cleaned table is `data/mof_extraction_1_2_3_4_5_6.csv`.
 
 Key column groups (≈90 columns):
 
@@ -118,7 +118,7 @@ DATA = Path("data")     # if you launch Jupyter from the repo root
 DATA = Path.cwd().parents[1] / "data"   # if you launch from inside stepN_*/
 ```
 
-4. **SMILES resolution.** At any point after step 3, run `SMILESearcher/app.py` (or `start.bat` on Windows) on the current `data/extraction/mof_extraction*.csv`, pointing it at `data/mappers/name2smiles_1222.json` as the persistent cache.
+4. **SMILES resolution.** At any point after step 3, run `SMILESearcher/app.py` (or `start.bat` on Windows) on the current `data/mof_extraction*.csv`, pointing it at `data/name_SMILES_mappers/name2smiles_1222.json` as the persistent cache.
 
 
 ## License and Citation
