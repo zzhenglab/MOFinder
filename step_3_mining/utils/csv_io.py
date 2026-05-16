@@ -1,5 +1,5 @@
-﻿"""
-Shared CSV I/O and path utilities for step_3_mining.
+"""
+CSV I/O and path utilities for step_3_mining.
 
 Exports
 -------
@@ -17,11 +17,11 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# Unicode normalisation regexes
+# Unicode normalisation regexes (re handles \u/\x escapes in raw strings)
 # ---------------------------------------------------------------------------
-_HARD_BREAKS = re.compile(r'[\r\n  ]')
-_CTRL        = re.compile(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]')
-_ZERO_WIDTH  = re.compile(r'[​-‏‪-‮⁠﻿]')
+_HARD_BREAKS = re.compile(r"[\r\n\x85\u2028\u2029]")
+_CTRL        = re.compile(r"[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]")
+_ZERO_WIDTH  = re.compile(r"[\u200B-\u200F\u202A-\u202E\u2060\uFEFF]")
 
 
 # ---------------------------------------------------------------------------
@@ -53,12 +53,12 @@ def to_oneline(val) -> str:
         return ""
     s = val if isinstance(val, str) else str(val)
     s = unicodedata.normalize("NFC", s)
-    # PDF artifact: middle-dot encoded as NUL + 'b7'
-    s = s.replace("\x00b7", u"·").replace("\\u0000b7", u"·")
+    # PDF artifact: middle-dot encoded as NUL + b7
+    s = s.replace("\x00b7", "\u00B7").replace("\\u0000b7", "\u00B7")
     s = _HARD_BREAKS.sub("\n", s)
     s = _CTRL.sub(" ", s)
     s = _ZERO_WIDTH.sub("", s)
-    s = s.replace(u" ", " ").replace("\t", " ")
+    s = s.replace("\u00A0", " ").replace("\t", " ")
     s = re.sub(r"[ ]{2,}", " ", s)
     s = re.sub(r"\n+", "\n", s).replace("\n", "\\n")
     return s

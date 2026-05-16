@@ -1,5 +1,5 @@
 """
-Shared PDF / DOCX / DOC text-extraction utilities for step_3_mining.
+PDF / DOCX / DOC text-extraction utilities for step_3_mining.
 
 Exports
 -------
