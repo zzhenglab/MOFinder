@@ -9,8 +9,8 @@ What it does
     JSON object matching the ``ArticleExtraction`` Pydantic schema.
 
     Large JSON payloads are saved to disk first; the CSV output stores only
-    file paths to them.  The runner is resume-safe: already-processed DOIs
-    (present in the CSV) are skipped.
+    file paths to them.  The runner is resume-safe: successfully processed
+    DOIs (present in the CSV with status="ok") are skipped.
 
     A ``--backfill`` mode can reconstruct the CSV from previously saved JSON
     payloads without making any API calls.
@@ -466,9 +466,31 @@ def already_done_dois(csv_path: str) -> set:
         return set()
     try:
         df = pd.read_csv(csv_path, encoding="utf-8-sig")
-        return set(df["doi"].astype(str).tolist())
+        if "status" not in df.columns:
+            return set()
+        ok = df["status"].astype(str).str.strip().str.lower() == "ok"
+        return set(df.loc[ok, "doi"].astype(str).tolist())
     except Exception:
         return set()
+
+
+def _clean_excel_cell(value: Any) -> str:
+    if pd.isna(value):
+        return ""
+    s = str(value).strip()
+    return "" if s.lower() in {"", "nan", "none"} else s
+
+
+def _valid_file_path(path_str: str, allowed_exts: Optional[set[str]] = None) -> bool:
+    if not path_str:
+        return False
+    try:
+        path = Path(path_str)
+        if allowed_exts is not None and path.suffix.lower() not in allowed_exts:
+            return False
+        return path.is_file()
+    except (OSError, ValueError):
+        return False
 
 
 # ===========================================================================
@@ -569,15 +591,23 @@ def run(
 
     done  = already_done_dois(csv_out)
     items: List[Dict[str, str]] = []
+    skipped_invalid = 0
     for _, row in df.iloc[start_row:].iterrows():
-        doi = str(row["DOI"]).strip()
+        doi = _clean_excel_cell(row["DOI"])
         if doi in done:
             continue
-        main_pdf = str(row["Main File"]).strip()
-        si_pdf   = str(row["SI File"]).strip() if pd.notna(row["SI File"]) else ""
+        main_pdf = _clean_excel_cell(row["Main File"])
+        si_pdf   = _clean_excel_cell(row["SI File"])
+        if not doi or not _valid_file_path(main_pdf, {".pdf"}):
+            skipped_invalid += 1
+            continue
+        if si_pdf and not _valid_file_path(si_pdf, {".pdf", ".docx", ".doc"}):
+            si_pdf = ""
         items.append({"doi": doi, "main_pdf": main_pdf, "si_pdf": si_pdf})
 
     n_total = len(items)
+    if skipped_invalid:
+        print(f"Skipped {skipped_invalid} row(s) with blank DOI or missing Main File.")
     print(f"Total to process: {n_total}")
     if n_total == 0:
         print("Nothing to do.")

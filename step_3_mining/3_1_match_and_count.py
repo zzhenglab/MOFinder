@@ -59,6 +59,8 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
+from utils.text_io import read_any_text
+
 
 # ===========================================================================
 # 1. Script paths / defaults
@@ -285,6 +287,13 @@ def _read_pdf_for_count(path: Path) -> str:
     return text
 
 
+def _read_file_for_count(path: Path) -> str:
+    """Read supported count inputs: PDF main articles and PDF/DOCX/DOC SI files."""
+    if path.suffix.lower() == ".pdf":
+        return _read_pdf_for_count(path)
+    return read_any_text(str(path))
+
+
 _word_re = re.compile(r"\b\w+\b", flags=re.UNICODE)
 
 
@@ -367,7 +376,7 @@ def count_words_and_tokens(xlsx_path: Path) -> None:
             _needs_value(row.get(SI_WORDS)) or _needs_value(row.get(SI_TOKENS))
         ):
             pending += 1
-    print(f"PDFs to process (missing counts): {pending}")
+    print(f"Files to process (missing counts): {pending}")
 
     processed = 0
     t0 = time.time()
@@ -379,7 +388,7 @@ def count_words_and_tokens(xlsx_path: Path) -> None:
         if main_path and (
             _needs_value(row.get(MAIN_WORDS)) or _needs_value(row.get(MAIN_TOKENS))
         ):
-            text = _read_pdf_for_count(main_path)
+            text = _read_file_for_count(main_path)
             if _needs_value(row.get(MAIN_WORDS)):
                 df2.at[idx, MAIN_WORDS]  = int(_count_words(text))
             if _needs_value(row.get(MAIN_TOKENS)):
@@ -390,7 +399,7 @@ def count_words_and_tokens(xlsx_path: Path) -> None:
         if si_path and (
             _needs_value(row.get(SI_WORDS)) or _needs_value(row.get(SI_TOKENS))
         ):
-            text = _read_pdf_for_count(si_path)
+            text = _read_file_for_count(si_path)
             if _needs_value(row.get(SI_WORDS)):
                 df2.at[idx, SI_WORDS]  = int(_count_words(text))
             if _needs_value(row.get(SI_TOKENS)):

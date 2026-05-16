@@ -242,7 +242,7 @@ def run(cfg: RunConfig, client: Optional[OpenAI] = None) -> None:
     out_df     = load_or_init_output(input_df, cfg.output_xlsx)
 
     all_pending = rows_to_process_indices(out_df)
-    pending     = [i for i in all_pending if i < cfg.test_n] if cfg.test_mode else all_pending
+    pending     = all_pending[: cfg.test_n] if cfg.test_mode else all_pending
 
     total_pending = len(pending)
     print(f"Model: {cfg.model_name} | Output: {cfg.output_xlsx}")

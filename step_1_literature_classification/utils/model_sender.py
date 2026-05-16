@@ -49,6 +49,7 @@ class ModelSender:
             input=messages,
             reasoning={"effort": self.cfg.reasoning_effort},
             max_output_tokens=self.cfg.reasoning_max_output_tokens,
+            timeout=self.cfg.request_timeout_seconds,
             store=False,
         )
 
@@ -59,6 +60,7 @@ class ModelSender:
             input=messages,
             temperature=self.cfg.chat_temperature,
             max_output_tokens=self.cfg.chat_max_output_tokens,
+            timeout=self.cfg.request_timeout_seconds,
             store=False,
         )
 
@@ -87,9 +89,19 @@ class ModelSender:
         for attempt in range(1, cfg.max_tries + 1):
             try:
                 messages = [{"role": "user", "content": prompt}]
-                with ThreadPoolExecutor(max_workers=1) as pool:
-                    future = pool.submit(self._dispatch, messages)
-                    resp   = future.result(timeout=cfg.request_timeout_seconds)
+                pool = ThreadPoolExecutor(max_workers=1)
+                future = pool.submit(self._dispatch, messages)
+                try:
+                    resp = future.result(timeout=cfg.request_timeout_seconds)
+                except FuturesTimeout:
+                    future.cancel()
+                    pool.shutdown(wait=False, cancel_futures=True)
+                    raise
+                except Exception:
+                    pool.shutdown(wait=False, cancel_futures=True)
+                    raise
+                else:
+                    pool.shutdown(wait=True)
 
                 if cfg.debug_one_time_dump and not self._dumped_once:
                     dump_one_time(resp)

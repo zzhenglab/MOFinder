@@ -14,6 +14,7 @@ here and only specify which model, holdout, and output CSV to use.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import math
 import os
@@ -97,6 +98,61 @@ def gold_label_from_record(
 ) -> Optional[str]:
     g = get_msg(record, "assistant").strip().upper()
     return g if g in valid_labels else None
+
+
+def _key_text(value: Any) -> str:
+    try:
+        if pd.isna(value):
+            return ""
+    except (TypeError, ValueError):
+        pass
+    return "" if value is None else str(value)
+
+
+def build_example_key(
+    source_path: Any,
+    example_index: Any,
+    system_text: Any,
+    user_text: Any,
+    gold_label: Any,
+) -> str:
+    """Stable resume key for a specific source example and prompt content."""
+    source = _key_text(source_path)
+    try:
+        source = str(Path(source).resolve())
+    except (OSError, RuntimeError, ValueError):
+        pass
+    payload = {
+        "source_path": source,
+        "example_index": _key_text(example_index),
+        "system_text": _key_text(system_text),
+        "user_text": _key_text(user_text),
+        "gold_label": _key_text(gold_label),
+    }
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def add_example_keys(df: pd.DataFrame) -> pd.DataFrame:
+    """Populate missing example_key values for current and legacy result rows."""
+    key_cols = ["source_path", "example_index", "system_text", "user_text", "gold_label"]
+    if any(c not in df.columns for c in key_cols):
+        return df
+    if "example_key" not in df.columns:
+        df["example_key"] = ""
+    missing = df["example_key"].astype(str).str.strip().isin(["", "nan", "None"])
+    if missing.any():
+        df.loc[missing, "example_key"] = df.loc[missing].apply(
+            lambda r: build_example_key(
+                r["source_path"],
+                r["example_index"],
+                r["system_text"],
+                r["user_text"],
+                r["gold_label"],
+            ),
+            axis=1,
+        )
+    return df
 
 
 # ---------------------------------------------------------------------------
@@ -421,7 +477,7 @@ async def evaluate_holdout(
 ) -> None:
     """Concurrent, resumable evaluation of one or more JSONL holdout files.
 
-    Output CSV is appended to (deduped by example_index) so the run is resumable.
+    Output CSV is appended to (deduped by example_key) so the run is resumable.
     """
     pos_label, neg_label = label_pair
     csv_path = Path(csv_path)
@@ -451,6 +507,7 @@ async def evaluate_holdout(
             items.append(dict(
                 example_index=global_idx,
                 source_path=str(p),
+                example_key=build_example_key(str(p), global_idx, system_text, user_text, gold),
                 gold_label=gold,
                 system_text=system_text,
                 user_text=user_text,
@@ -465,14 +522,14 @@ async def evaluate_holdout(
     seen: set = set()
     if csv_path.exists():
         try:
-            prev = pd.read_csv(csv_path)
-            if "example_index" in prev.columns:
-                seen = set(prev["example_index"].tolist())
-                print(f"Found existing CSV with {len(seen)} rows. Will skip those indices.")
+            prev = add_example_keys(pd.read_csv(csv_path))
+            if "example_key" in prev.columns:
+                seen = set(prev["example_key"].astype(str).tolist())
+                print(f"Found existing CSV with {len(seen)} rows. Will skip those examples.")
         except Exception:
             pass
 
-    pending = [it for it in items if it["example_index"] not in seen]
+    pending = [it for it in items if it["example_key"] not in seen]
     if test_mode:
         pending = pending[:test_limit]
 
@@ -512,6 +569,7 @@ async def evaluate_holdout(
             return {
                 "example_index": it["example_index"],
                 "source_path": it["source_path"],
+                "example_key": it["example_key"],
                 "system_text": it["system_text"],
                 "user_text": it["user_text"],
                 "gold_label": it["gold_label"],
@@ -547,10 +605,10 @@ async def evaluate_holdout(
 
     df_new = pd.DataFrame(completed)
     if csv_path.exists():
-        old = pd.read_csv(csv_path)
-        merged = pd.concat([old, df_new], ignore_index=True)
+        old = add_example_keys(pd.read_csv(csv_path))
+        merged = add_example_keys(pd.concat([old, df_new], ignore_index=True))
         merged = merged.sort_values("timestamp").drop_duplicates(
-            subset=["example_index"], keep="last"
+            subset=["example_key"], keep="last"
         )
         merged.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"\nAppended results. CSV updated at: {csv_path}")
