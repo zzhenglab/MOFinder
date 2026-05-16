@@ -20,7 +20,7 @@ What it does
 How rows are joined
     Every input file must contain a DOI column or a filename column.
     DOIs are normalized — lowercased; ``doi.org/`` / ``doi:`` prefixes
-    stripped; trailing ``.pdf`` stripped; ``\`` and ``_`` mapped to ``/``
+    stripped; trailing ``.pdf`` stripped; ``\\`` and ``_`` mapped to ``/``
     — so that ``10.1021/jacs.5b00001``, ``DOI: 10.1021/JACS.5b00001``,
     and ``10.1021_jacs.5b00001.pdf`` all match the same ground-truth row.
 
@@ -52,22 +52,25 @@ Usage
 
 Examples:
 
-  # Compare two model prediction files against ground truth
-  python 1_3_evaluate.py \\
-      --ground-truth "mof_pdf_labels_using gpt5 only YN response 478.xlsx" \\
-      --predictions gpt-5=Full_gpt-5.xlsx \\
-      --predictions gpt-4o-mini=Full_gpt-4o-mini.xlsx \\
-      --full Full.xlsx \\
-      --output Full_with_predictions.xlsx
+  # Default
+  #   FULL_FILE        = Full.xlsx
+  #   GPT5_FILE        = Full_gpt-5.xlsx
+  #   GPT4MINI_FILE    = Full_gpt-4o-mini.xlsx
+  #   GT_FILE          = mof_pdf_labels_using gpt5 only YN response 478.xlsx
+  #   OPEN_SOURCE_FILE = ground truth open access 500 around 278 download.xlsx
+  #   OUTPUT_FILE      = Full_with_gpt5_gpt4omini.xlsx
+  #   OPEN_SOURCE_ONLY = True   (open-source filter on)
+  #   Plot confusion matrices: on
+  python 1_3_evaluate.py
 
-  # Same, but restrict to the open-access subset and plot confusion matrices
+  # 3-model comparison on the 478-test subset:
   python 1_3_evaluate.py \\
-      --ground-truth "mof_pdf_labels_using gpt5 only YN response 478.xlsx" \\
       --predictions gpt-5.1-high=Full_478test_only_gpt-5.1_high.xlsx \\
       --predictions gpt-5.1-none=Full_478test_only_gpt-5.1_none.xlsx \\
-      --predictions gpt-4o=Full_478test_only_gpt-4o_none.xlsx \\
-      --open-source-file "ground truth open access 500 around 278 download.xlsx" \\
-      --plot
+      --predictions gpt-4o=Full_478test_only_gpt-4o_none.xlsx
+
+  # Drop the open-source filter, suppress plots:
+  python 1_3_evaluate.py --open-source-file "" --no-plot
 
 Requirements
 ------------
@@ -396,33 +399,56 @@ def _parse_args() -> RunConfig:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("--ground-truth", required=True,
-                        help="Path to ground-truth xlsx with 'File'/'DOI' + 'Agent_YN'")
+    # Defaults:
+    #   FULL_FILE        = "Full.xlsx"
+    #   GPT5_FILE        = "Full_gpt-5.xlsx"
+    #   GPT4MINI_FILE    = "Full_gpt-4o-mini.xlsx"
+    #   GT_FILE          = "mof_pdf_labels_using gpt5 only YN response 478.xlsx"
+    #   OPEN_SOURCE_FILE = "ground truth open access 500 around 278 download.xlsx"
+    #   OUTPUT_FILE      = "Full_with_gpt5_gpt4omini.xlsx"
+    #   OPEN_SOURCE_ONLY = True   (i.e. open-source filter on by default)
+
+    parser.add_argument("--ground-truth",
+                        default="mof_pdf_labels_using gpt5 only YN response 478.xlsx",
+                        help="Path to ground-truth xlsx with 'File'/'DOI' + 'Agent_YN' "
+                             "(default: notebook GT_FILE)")
     parser.add_argument("--predictions", action="append", default=[], metavar="NAME=FILE",
-                        help="Model prediction file (repeat for each model)")
-    parser.add_argument("--full", default=None,
-                        help="Full.xlsx of paper metadata to join model labels into")
-    parser.add_argument("--output", default=None,
-                        help="Output xlsx (gets a 'full_with_predictions' sheet + 'metrics' sheet)")
-    parser.add_argument("--open-source-file", default=None,
-                        help="xlsx whose 'Downloaded' column = 1 restricts evaluation")
+                        help="Model prediction file (repeat for each model). If omitted, "
+                             "defaults to the notebook pair: 'gpt-5=Full_gpt-5.xlsx' + "
+                             "'gpt-4o-mini=Full_gpt-4o-mini.xlsx'.")
+    parser.add_argument("--full", default="Full.xlsx",
+                        help="Full.xlsx of paper metadata to join model labels into "
+                             "(default: Full.xlsx)")
+    parser.add_argument("--output", default="Full_with_gpt5_gpt4omini.xlsx",
+                        help="Output xlsx (gets 'full_with_predictions' + 'metrics' sheets) "
+                             "(default: Full_with_gpt5_gpt4omini.xlsx)")
+    parser.add_argument("--open-source-file",
+                        default="ground truth open access 500 around 278 download.xlsx",
+                        help="xlsx whose 'Downloaded' column = 1 restricts evaluation "
+                             "(default: notebook OPEN_SOURCE_FILE, OPEN_SOURCE_ONLY=True). "
+                             "Pass an empty string to disable the open-source filter.")
     parser.add_argument("--open-source-sheets", nargs="*", default=None,
                         help="Limit open-source audit to these sheet names (default: all)")
     parser.add_argument("--pred-column", default="Agent_YN",
                         help="Label column inside each prediction file (default: Agent_YN)")
-    parser.add_argument("--plot", action="store_true",
-                        help="Render a 2x2 confusion-matrix plot per model")
+    parser.add_argument("--plot", action=argparse.BooleanOptionalAction, default=True,
+                        help="Render a 2x2 confusion-matrix plot per model (default: on). Pass --no-plot to suppress.")
 
     args = parser.parse_args()
     if not args.predictions:
-        parser.error("at least one --predictions NAME=FILE is required")
+        args.predictions = [
+            "gpt-5=Full_gpt-5.xlsx",
+            "gpt-4o-mini=Full_gpt-4o-mini.xlsx",
+        ]
+    # Empty string for --open-source-file disables the filter.
+    open_source_file = args.open_source_file if args.open_source_file else None
 
     return RunConfig(
         ground_truth_file=args.ground_truth,
         predictions=_parse_predictions(args.predictions),
         full_file=args.full,
         output_file=args.output,
-        open_source_file=args.open_source_file,
+        open_source_file=open_source_file,
         open_source_sheets=args.open_source_sheets,
         pred_column=args.pred_column,
         plot_confusion=args.plot,

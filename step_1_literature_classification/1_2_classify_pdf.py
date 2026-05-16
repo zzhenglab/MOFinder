@@ -14,8 +14,15 @@ Input
     A folder of PDFs (default: ``./downloaded/*.pdf``).
 
 Output
-    ``<output-prefix>_<model>[_<effort>].xlsx``  — one row per PDF.
-    Columns: ``File`` (PDF path) and ``Agent_YN`` ('Y' / 'N' / blank).
+    ``<output-prefix>_<model>[_<batch-tag>].xlsx`` — one row per PDF. With
+    default flags this produces ``mof_pdf_labels_gpt-5_580.xlsx``,
+    ``OUTPUT_XLSX = "mof_pdf_labels_" + MODEL_NAME + "_580.xlsx"`` formula
+    (the ``_580`` encodes "580-PDF ground-truth batch"; override with
+    ``--batch-tag`` or pass an empty tag to drop it). Note ``_<effort>`` is
+    deliberately NOT in the filename so if you
+    sweep multiple efforts you must distinguish runs via ``--batch-tag``
+    (e.g. ``--batch-tag low_580`` vs ``high_580``). Columns: ``File`` (PDF
+    path) and ``Agent_YN`` ('Y' / 'N' / blank).
 
 Resume-safe
     The output is rewritten every ``--save-every`` files. Rerunning only
@@ -37,14 +44,20 @@ Usage
 
 Examples:
 
-  # gpt-4o-mini over ./downloaded
-  python 1_2_classify_pdf.py --input-folder downloaded --model gpt-4o-mini
+  # Default — gpt-5 with low reasoning effort on the 580-PDF ground-truth batch. MODEL_NAME='gpt-5',
+  # GPT5_EFFORT='low' setup exactly. Output: mof_pdf_labels_gpt-5_580.xlsx
+  python 1_2_classify_pdf.py
 
-  # gpt-5 with low reasoning effort
-  python 1_2_classify_pdf.py --input-folder downloaded --model gpt-5 --effort low
+  # Switch model — gpt-4o-mini chat path. Output:
+  # mof_pdf_labels_gpt-4o-mini_580.xlsx
+  python 1_2_classify_pdf.py --model gpt-4o-mini
 
-  # gpt-5.1 with medium reasoning, custom output prefix
-  python 1_2_classify_pdf.py --model gpt-5.1 --effort medium --output-prefix mof_pdf_labels
+  # Sweep efforts: distinguish runs via --batch-tag since effort isn't in
+  # the filename. Output: mof_pdf_labels_gpt-5.1_high_580.xlsx
+  python 1_2_classify_pdf.py --model gpt-5.1 --effort high --batch-tag high_580
+
+  # Drop the batch tag entirely. Output: mof_pdf_labels_gpt-5.1.xlsx
+  python 1_2_classify_pdf.py --model gpt-5.1 --effort medium --batch-tag ""
 
 Requirements
 ------------
@@ -87,6 +100,11 @@ class RunConfig(ModelConfig):
     """
     input_folder: str = "downloaded"
     output_prefix: str = "mof_pdf_labels"
+    # Batch-size suffix appended to the output filename
+    # ``mof_pdf_labels_<model>_580.xlsx`` convention (the "_580"
+    # encoded "this is the 580-PDF ground-truth batch"). Pass ``--batch-tag ""``
+    # to drop the suffix for a different / unnamed batch.
+    batch_tag: str = "580"
     max_words_per_pdf: int = 8000
 
     # Step 1.2 reads a lot more text per request than 1.1, so keep timeout
@@ -96,9 +114,13 @@ class RunConfig(ModelConfig):
 
     @property
     def output_xlsx(self) -> str:
-        if self.reasoning_effort is not None:
-            return f"{self.output_prefix}_{self.model_name}_{self.reasoning_effort}.xlsx"
-        return f"{self.output_prefix}_{self.model_name}.xlsx"
+        #  Formula: "mof_pdf_labels_" + MODEL_NAME + "_580.xlsx" — no
+        # effort segment. Mirrored exactly so default args produce
+        # ``mof_pdf_labels_gpt-5_580.xlsx`` (the file the original notebook
+        # writes). To disambiguate multiple effort runs against the same
+        # model, override --batch-tag (e.g. --batch-tag "low_580").
+        tag_suffix = f"_{self.batch_tag}" if self.batch_tag else ""
+        return f"{self.output_prefix}_{self.model_name}{tag_suffix}.xlsx"
 
 
 # ===========================================================================
@@ -314,12 +336,20 @@ def _parse_args() -> RunConfig:
                         help="Folder containing PDFs to classify (default: downloaded)")
     parser.add_argument("--output-prefix", default="mof_pdf_labels",
                         help="Prefix for the output xlsx (default: mof_pdf_labels)")
+    parser.add_argument("--batch-tag", default="580",
+                        help="Batch-size suffix appended after model/effort, mirroring the "
+                             "'_580' convention (default: 580). Pass an empty "
+                             "string to drop the suffix.")
     parser.add_argument("--max-words", type=int, default=8000,
                         help="Max words extracted per PDF (default: 8000)")
-    parser.add_argument("--model", default="gpt-4o-mini",
-                        help="Model: gpt-4o-mini | gpt-5 | gpt-5.1  (default: gpt-4o-mini)")
-    parser.add_argument("--effort", default=None, choices=["none", "low", "medium", "high"],
-                        help="Reasoning effort for gpt-5/gpt-5.1; omit for chat models.")
+    parser.add_argument("--model", default="gpt-5",
+                        help="Model: gpt-4o-mini | gpt-5 | gpt-5.1  (default: gpt-5, "
+                             "ground-truth pass)")
+    parser.add_argument("--effort", default="low", choices=["none", "low", "medium", "high"],
+                        help="Reasoning effort for gpt-5/gpt-5.1 (default: low, matching the "
+                             "GPT5_EFFORT='low'). Pass --effort none for "
+                             "no-reasoning mode; for chat models like gpt-4o-mini the value "
+                             "is included in the filename but has no API effect.")
     parser.add_argument("--timeout", type=int, default=None,
                         help="Request timeout in seconds (default: 90)")
     parser.add_argument("--max-tries", type=int, default=2,
@@ -340,6 +370,7 @@ def _parse_args() -> RunConfig:
     return RunConfig(
         input_folder=args.input_folder,
         output_prefix=args.output_prefix,
+        batch_tag=args.batch_tag,
         max_words_per_pdf=args.max_words,
         model_name=args.model,
         reasoning_effort=args.effort,
