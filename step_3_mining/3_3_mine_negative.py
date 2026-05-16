@@ -13,7 +13,7 @@ What it does
     enumerated (combinatorial) failed condition, referencing the original
     success synthesis JSON from Step 3.2.
 
-    Both tasks are resume-safe: already-processed DOIs are skipped.
+    Both tasks are resume-safe: successfully processed DOIs are skipped.
 
 Input (mine task)
     ``<data>/SELECTED 7000 SI - Copy - simple.xlsx``  (output of Step 3.1)
@@ -448,8 +448,11 @@ def _load_done_dois_from_csv(csv_path: str) -> Set[str]:
     if not os.path.exists(csv_path):
         return set()
     try:
-        df = pd.read_csv(csv_path, encoding="utf-8-sig", usecols=["doi"])
-        return set(df["doi"].astype(str))
+        df = pd.read_csv(csv_path, encoding="utf-8-sig")
+        if "doi" not in df.columns or "status" not in df.columns:
+            return set()
+        ok = df["status"].astype(str).str.strip().str.lower() == "ok"
+        return set(df.loc[ok, "doi"].astype(str))
     except Exception:
         return set()
 
