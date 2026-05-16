@@ -17,7 +17,8 @@ JSONL_OUT = Path("out/mof_cls_train_H_from_B.jsonl")
 
 def extract_misclassified(csv_path: Path, jsonl_out: Path) -> int:
     df = pd.read_csv(csv_path)
-    miscls = df[df["gold_label"] != df["pred_label"]].copy()
+    valid_preds = df["pred_label"].isin(["P", "N"])
+    miscls = df[valid_preds & (df["gold_label"] != df["pred_label"])].copy()
     miscls["system_text"] = miscls["system_text"].fillna("")
     miscls["user_text"] = miscls["user_text"].fillna("")
     miscls["gold_label"] = miscls["gold_label"].astype(str)

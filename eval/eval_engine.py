@@ -104,9 +104,8 @@ def gold_label_from_record(
 # ---------------------------------------------------------------------------
 
 def parse_pred_label(text: str, valid_labels: Sequence[str] = ("P", "N")) -> str:
-    pattern = f"[{''.join(valid_labels)}]"
-    m = re.search(pattern, (text or "").upper())
-    return m.group(0) if m else ""
+    first_token = re.split(r"\s+", (text or "").strip(), maxsplit=1)[0].upper()
+    return first_token if first_token in [v.upper() for v in valid_labels] else ""
 
 
 def running_metrics(

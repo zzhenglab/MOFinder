@@ -126,7 +126,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 If you use our workflow or our [database](MOFinder.chemistry.wustl.edu) in your research or re-development, please cite:
 
 ```bibtex
-@article{esumof2026,
+@article{mofinder2026,
   title={},
   journal={arXiv},
   year={2026}
