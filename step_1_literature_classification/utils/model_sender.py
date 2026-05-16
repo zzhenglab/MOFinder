@@ -30,7 +30,7 @@ class ModelSender:
 
     ``call_with_timeout()`` dispatches to the right path, wraps the call in a
     thread so a wall-clock timeout can be enforced, and returns 'Y', 'N', or
-    '' (skip) after up to ``cfg.max_tries`` attempts.
+    '' (skip). Non-timeout errors are retried up to ``cfg.max_tries`` times.
     """
 
     def __init__(self, cfg: ModelConfig, client: Optional[OpenAI] = None):
@@ -140,7 +140,11 @@ class ModelSender:
 
             except FuturesTimeout:
                 if cfg.debug_per_item:
-                    print(f"[DEBUG item {item_label}] timeout on attempt {attempt}")
+                    print(
+                        f"[DEBUG item {item_label}] timeout on attempt {attempt}; "
+                        "skipping without retry to avoid duplicate in-flight requests"
+                    )
+                return ""
             except Exception as e:
                 if cfg.debug_per_item:
                     print(f"[DEBUG item {item_label}] error on attempt {attempt}: {e}")

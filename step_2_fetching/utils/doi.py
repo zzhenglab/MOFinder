@@ -80,10 +80,9 @@ def publisher_key(pub_value: str, use_aliases: bool = True) -> Optional[str]:
     """
     Map a free-form Publisher cell to one of SUPPORTED_PREFIXES, or None.
 
-    With ``use_aliases=True`` (the Step 2.2 behavior) the PUBLISHER_ALIASES
+    With ``use_aliases=True`` (the default) the PUBLISHER_ALIASES
     regex table runs first; falls back to ``key in normalized_value``.
-    With ``use_aliases=False`` (the Step 2.1 behavior) only the strict
-    ``startswith`` check is used.
+    With ``use_aliases=False`` only the strict ``startswith`` check is used.
     """
     p = normalize_pub(pub_value)
     if not p:

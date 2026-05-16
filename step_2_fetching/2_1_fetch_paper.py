@@ -697,7 +697,7 @@ class App:
 
             row     = df.iloc[idx]
             doi     = str(row.get("DOI", "")).strip()
-            pub_key = publisher_key(row.get("Publisher", ""), use_aliases=False)
+            pub_key = publisher_key(row.get("Publisher", ""))
             jkey    = doi_journal_key(doi)
 
             # Journal-wide fast skip

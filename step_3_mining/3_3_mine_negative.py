@@ -457,6 +457,25 @@ def _load_done_dois_from_csv(csv_path: str) -> Set[str]:
         return set()
 
 
+def _clean_excel_cell(value: Any) -> str:
+    if pd.isna(value):
+        return ""
+    s = str(value).strip()
+    return "" if s.lower() in {"", "nan", "none"} else s
+
+
+def _valid_file_path(path_str: str, allowed_exts: Optional[Set[str]] = None) -> bool:
+    if not path_str:
+        return False
+    try:
+        path = Path(path_str)
+        if allowed_exts is not None and path.suffix.lower() not in allowed_exts:
+            return False
+        return path.is_file()
+    except (OSError, ValueError):
+        return False
+
+
 def drop_rows_for_dois(csv_path: str, dois_to_drop: Set[str]) -> int:
     if not os.path.exists(csv_path) or not dois_to_drop:
         return 0
@@ -653,9 +672,10 @@ def run_negative(
         return
 
     candidates = []
+    skipped_invalid_source = 0
     seen: Set[str] = set()
     for _, row in df.iloc[start_row:].iterrows():
-        doi = str(row["DOI"]).strip()
+        doi = _clean_excel_cell(row["DOI"])
         if not doi or doi in seen:
             continue
         seen.add(doi)
@@ -663,9 +683,18 @@ def run_negative(
             if verbose_skip:
                 print(f"[SKIP NO/EMPTY] {doi} not marked 'yes'")
             continue
-        main_file = str(row["Main File"]).strip()
-        si_file   = str(row["SI File"]).strip() if pd.notna(row["SI File"]) else ""
+        main_file = _clean_excel_cell(row["Main File"])
+        si_file   = _clean_excel_cell(row["SI File"])
+        if not _valid_file_path(main_file, {".pdf"}):
+            skipped_invalid_source += 1
+            if verbose_skip:
+                print(f"[SKIP NO MAIN] {doi} missing usable Main File")
+            continue
+        if si_file and not _valid_file_path(si_file, {".pdf", ".docx", ".doc"}):
+            si_file = ""
         candidates.append({"doi": doi, "main_pdf": main_file, "si_pdf": si_file})
+    if skipped_invalid_source:
+        print(f"[INFO] Skipped {skipped_invalid_source} DOI(s) with missing usable Main File.")
 
     done_csv = _load_done_dois_from_csv(csv_out) if (resume_mode == "csv" and skip_if_plan_csv_exists) else set()
     items = []
