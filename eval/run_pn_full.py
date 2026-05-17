@@ -1,7 +1,7 @@
 """Evaluate the fine-tuned PN classifier (full training set) on mof_cls_holdout.jsonl.
 
-Run from a directory containing `out/mof_cls_holdout.jsonl`:
-    python <repo>/eval/run_pn_full.py
+Run from the repository root:
+    python eval/run_pn_full.py
 """
 
 import os
@@ -12,7 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from eval_engine import ensure_api_key, evaluate_holdout, run_async  # noqa: E402
 
 MODEL_ID = "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y"
-HOLDOUT_PATH = Path("out/mof_cls_holdout.jsonl")
+REPO_ROOT = Path(__file__).resolve().parent.parent
+HOLDOUT_PATH = REPO_ROOT / "data" / "mof_cls_holdout.jsonl"
 CSV_PATH = Path("out/mof_cls_holdout_eval.csv")
 
 

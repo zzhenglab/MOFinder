@@ -3,21 +3,12 @@ MOFinder
 
 This repository is the research codebase for MOFinder, where the pipeline mines Metal-Organic Framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction.
 
-The repository contains:
-
-- a literature-screening pipeline for identifying traditional solution-phase MOF synthesis papers;
-- browser-assisted download tools for main articles and Supporting Information;
-- schema-constrained LLM extraction scripts for successful and failed synthesis conditions;
-- rule-based data cleaning and feature construction;
-- dataset assembly scripts for SFT, binary classification, and DPO training;
-- evaluation and visualization utilities.
 
 
 Checked-In Data
 ---------------
 
-The current repository includes cleaned extraction tables, SMILES caches, and
-assembled JSONL datasets.
+The current repository includes cleaned extraction tables, SMILES caches, and assembled JSONL datasets.
 
 ### Cleaned extraction tables and caches
 
@@ -132,12 +123,12 @@ Step 1 scripts are resume-safe and write Excel outputs.
 
 ```bash
 # Abstract-only screening; reads data/Full.xlsx
-python 1_1_classify_abstract.py \
+python step_1_literature_classification/1_1_classify_abstract.py \
   --input-name data/Full \
   --model gpt-4o-mini
 
 # PDF-based screening; reads PDFs from data/downloaded/
-python 1_2_classify_pdf.py \
+python step_1_literature_classification/1_2_classify_pdf.py \
   --input-folder data/downloaded \
   --model gpt-5 \
   --effort low
@@ -148,8 +139,8 @@ python 1_2_classify_pdf.py \
 Step 2 is desktop automation, not a headless scraper. It requires Chrome, a visible desktop session, and whatever institutional access or browser login is needed for the target publishers.
 
 ```bash
-python 2_1_fetch_paper.py
-python 2_2_fetch_si.py
+python step_2_fetching/2_1_fetch_paper.py
+python step_2_fetching/2_2_fetch_si.py
 ```
 
 Both tools open a Tkinter UI, remember the last selected workbook, and update download status columns in the workbook.
@@ -158,13 +149,13 @@ Both tools open a Tkinter UI, remember the last selected workbook, and update do
 
 ```bash
 # Build the 3-column DOI/Main File/SI File workbook for extraction
-python 3_1_match_and_count.py \
+python step_3_mining/3_1_match_and_count.py \
   --excel data/"SELECTED 7000 SI - Copy.xlsx" \
   --main-folder data/downloaded \
   --si-folder data/"SI downloaded"
 
 # Extract successful synthesis records
-python 3_2_mine_synthesis.py \
+python step_3_mining/3_2_mine_synthesis.py \
   --excel data/"SELECTED 7000 SI - Copy - simple.xlsx" \
   --csv-out data/mof_extraction.csv \
   --json-dir data/mof_json_store \
@@ -172,14 +163,13 @@ python 3_2_mine_synthesis.py \
   --concurrency 5
 
 # Rebuild the CSV from saved JSON without API calls
-python 3_2_mine_synthesis.py --backfill
+python step_3_mining/3_2_mine_synthesis.py --backfill
 ```
 
-Negative mining is split into a planning pass and an enumeration pass. The
-default command runs both:
+Negative mining is split into a planning pass and an enumeration pass. The default command runs both:
 
 ```bash
-python 3_3_mine_negative.py \
+python step_3_mining/3_3_mine_negative.py \
   --task all \
   --positive-csv data/mof_extraction.csv \
   --success-dir data/mof_json_store
@@ -190,14 +180,14 @@ python 3_3_mine_negative.py \
 Step 4 can run the positive branch end to end using the files under `data/`:
 
 ```bash
-python run_cleansing.py --branch positive
+python step_4_cleansing/run_cleansing.py --branch positive
 ```
 
 Other branches are available for negative data:
 
 ```bash
-python run_cleansing.py --branch negative
-python run_cleansing.py --branch negative-basic
+python step_4_cleansing/run_cleansing.py --branch negative
+python step_4_cleansing/run_cleansing.py --branch negative-basic
 ```
 
 Those branches require the corresponding negative raw CSVs from Step 3.3.
@@ -208,8 +198,8 @@ Step 5 builds clustered train/holdout files. Its default option is `d`, the curr
 year-wise splits, fine lamellae positive/negative interleaving.
 
 ```bash
-python run_assembly.py
-python run_assembly.py   # defalut to --option d
+python step_5_assembly/run_assembly.py
+python step_5_assembly/run_assembly.py   # default to --option d
 ```
 
 When regenerating classifier datasets, requires the
@@ -233,16 +223,15 @@ python app.py --csv ../data/mof_extraction_1_2_3_4_5_6.csv \
   --headless
 ```
 
-On Windows, `SMILESearcher/start.bat` launches the interactive workflow. See
-`SMILESearcher/README.md` for resolver details.
+On Windows, `SMILESearcher/start.bat` launches the interactive workflow. 
+See `SMILESearcher/README.md` for resolver details.
 
 
 Evaluation and Plots
 --------------------
 
 Evaluation wrappers live in `eval/`. 
-They are thin scripts around
-`eval/eval_engine.py` and contain hard-coded model IDs, holdout paths, and output paths for the experiments used in this project. 
+They are thin scripts around `eval/eval_engine.py` and contain hard-coded model IDs, holdout paths, and output paths for the experiments used in this project. 
 Edit the constants at the top of each runner before launching a new evaluation.
 
 Examples:

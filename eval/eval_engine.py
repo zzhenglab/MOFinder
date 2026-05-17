@@ -116,7 +116,12 @@ def build_example_key(
     user_text: Any,
     gold_label: Any,
 ) -> str:
-    """Stable resume key for a specific source example and prompt content."""
+    """Stable resume key for source, prompt content, and label.
+
+    ``example_index`` is accepted for backward-compatible callers, but is not
+    included in the key so inserting/reordering holdout rows does not force
+    unchanged examples to be re-evaluated.
+    """
     source = _key_text(source_path)
     try:
         source = str(Path(source).resolve())
@@ -124,7 +129,6 @@ def build_example_key(
         pass
     payload = {
         "source_path": source,
-        "example_index": _key_text(example_index),
         "system_text": _key_text(system_text),
         "user_text": _key_text(user_text),
         "gold_label": _key_text(gold_label),
@@ -134,24 +138,20 @@ def build_example_key(
 
 
 def add_example_keys(df: pd.DataFrame) -> pd.DataFrame:
-    """Populate missing example_key values for current and legacy result rows."""
-    key_cols = ["source_path", "example_index", "system_text", "user_text", "gold_label"]
+    """Populate/normalize example_key values for current and legacy result rows."""
+    key_cols = ["source_path", "system_text", "user_text", "gold_label"]
     if any(c not in df.columns for c in key_cols):
         return df
-    if "example_key" not in df.columns:
-        df["example_key"] = ""
-    missing = df["example_key"].astype(str).str.strip().isin(["", "nan", "None"])
-    if missing.any():
-        df.loc[missing, "example_key"] = df.loc[missing].apply(
-            lambda r: build_example_key(
-                r["source_path"],
-                r["example_index"],
-                r["system_text"],
-                r["user_text"],
-                r["gold_label"],
-            ),
-            axis=1,
-        )
+    df["example_key"] = df.apply(
+        lambda r: build_example_key(
+            r["source_path"],
+            r.get("example_index", None),
+            r["system_text"],
+            r["user_text"],
+            r["gold_label"],
+        ),
+        axis=1,
+    )
     return df
 
 
@@ -1023,5 +1023,10 @@ def run_async(coro: Awaitable[Any]) -> Any:
         import nest_asyncio
         nest_asyncio.apply()
     except ImportError:
-        pass
+        coro.close()
+        raise RuntimeError(
+            "run_async() was called inside an already-running event loop, but "
+            "nest_asyncio is not installed. Install the notebook dependencies "
+            "or add nest_asyncio to the environment before calling run_async()."
+        ) from None
     return loop.run_until_complete(coro)

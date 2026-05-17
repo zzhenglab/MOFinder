@@ -55,6 +55,7 @@ dependencies = [
     "rich>=13.0",
     "python-dotenv>=1.0",
     "ipywidgets>=8.0",
+    "nest_asyncio>=1.5",
 ]
 
 [project.optional-dependencies]

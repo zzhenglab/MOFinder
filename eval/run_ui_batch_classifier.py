@@ -51,8 +51,10 @@ from eval_engine import (  # noqa: E402
 # -----------------------
 MODEL_ID = "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y"
 
-POS_PATH = Path("mof_extraction_1_2_3_4_5_6_7.csv")
-NEG_PATH = Path("mof_extraction_failures_enum_1_2_3_4_5_6.csv")
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = REPO_ROOT / "data"
+POS_PATH = DATA_DIR / "mof_extraction_1_2_3_4_5_6.csv"
+NEG_PATH = DATA_DIR / "mof_extraction_failures_enum_1_2_3_4_5_6.csv"
 
 OUT_DIR = Path("out_ui")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -140,7 +142,7 @@ df_src = load_sources()
 if df_src is None:
     warnings.warn(
         "Source CSVs not found. Using small fallback lists. Put your CSVs in the "
-        "working directory for full lists."
+        f"data directory for full lists: {POS_PATH} and/or {NEG_PATH}"
     )
     metal_opts = ["Zn(NO3)2·6H2O", "AlCl3·6H2O", "ZrOCl2·8H2O", "ZrCl4",
                   "Cu(NO3)2·3H2O", "FeCl2·4H2O"]

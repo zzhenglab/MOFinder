@@ -97,12 +97,12 @@ def extract_metal_element(row: pd.Series) -> str:
 
 def linker_family_from_abbr_full(abbr: str) -> str | None:
     a = abbr.lower()
+    if "bpdc" in a:
+        return "bpdc"
     if "bdc" in a:
         return "bdc"
     if "btc" in a:
         return "btc"
-    if "bpdc" in a:
-        return "bpdc"
     if "ndc" in a:
         return "ndc"
     if "bpy" in a or "bipy" in a:
@@ -120,7 +120,7 @@ def linker_family_from_abbr_full(abbr: str) -> str | None:
 
 def linker_family_from_abbr_simple(abbr: str) -> str | None:
     a = abbr.lower()
-    for k in ["bdc", "btc", "bpdc", "ndc", "bpy", "mim"]:
+    for k in ["bpdc", "bdc", "btc", "ndc", "bpy", "mim"]:
         if k in a:
             return k
     return None
@@ -128,9 +128,11 @@ def linker_family_from_abbr_simple(abbr: str) -> str | None:
 
 def linker_family_from_abbr_year(abbr: str) -> str | None:
     a = abbr.lower()
-    for k in ["bdc", "btc", "bpdc", "ndc", "bpy", "tcpp", "ipa", "ipc"]:
+    for k in ["bpdc", "bdc", "btc", "ndc", "bpy", "tcpp"]:
         if k in a:
             return k
+    if "ipa" in a or "ipc" in a:
+        return "isophthalate"
     return None
 
 
