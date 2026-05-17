@@ -165,13 +165,11 @@ def safe_read_excel(path_str: str) -> Optional[pd.DataFrame]:
     try:
         return pd.read_excel(path_str, engine="openpyxl")
     except Exception:
-        try:
-            bak = path_str + ".bak"
-            if os.path.exists(path_str):
-                os.replace(path_str, bak)
-                print(f"[WARN] Existing output file unreadable; backed up to: {bak}")
-        finally:
-            return None
+        bak = path_str + ".bak"
+        if os.path.exists(path_str):
+            os.replace(path_str, bak)
+            print(f"[WARN] Existing output file unreadable; backed up to: {bak}")
+        return None
 
 
 def load_input_df(path: str) -> pd.DataFrame:

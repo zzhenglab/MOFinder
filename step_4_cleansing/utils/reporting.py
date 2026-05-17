@@ -144,6 +144,8 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
     df = pd.read_csv(csv_path, dtype=str, encoding="utf-8-sig", low_memory=False)
     print_header(f"Dataset used: {csv_path.name}")
     print(f"Rows: {len(df)}")
+    if "applications" not in df.columns and "application" in df.columns:
+        df["applications"] = df["application"]
 
     # ensure needed columns exist
     for c in [
@@ -153,7 +155,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
         "solvent_main","solvent_main_abbr","solvent_secondary","solvent_secondary_abbr",
         "M_L_ratio","metel_concnertation","time_h","temperature_c","doi",
         "metal_cluster_connectivity_classified","metal_cluster_connectivity",
-        "topology_code","tga_decomposition_temp_c","water_stable","air_stable","application"
+        "topology_code","tga_decomposition_temp_c","water_stable","air_stable","applications"
     ]:
         if c not in df.columns:
             df[c] = ""
@@ -296,8 +298,8 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
     stability_block("water_stable")
     stability_block("air_stable")
 
-    # application
-    app_series = df["application"].astype(str).str.strip()
+    # applications
+    app_series = df["applications"].astype(str).str.strip()
     app_nonempty = app_series[app_series != ""]
     print_header("Application - ranking")
     print(f"Unique application entries (raw): {app_nonempty.nunique()}")
