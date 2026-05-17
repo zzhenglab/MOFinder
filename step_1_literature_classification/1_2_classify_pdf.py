@@ -347,9 +347,9 @@ def _parse_args() -> RunConfig:
                              "ground-truth pass)")
     parser.add_argument("--effort", default="low", choices=["none", "low", "medium", "high"],
                         help="Reasoning effort for gpt-5/gpt-5.1 (default: low, matching the "
-                             "GPT5_EFFORT='low'). Pass --effort none for "
-                             "no-reasoning mode; for chat models like gpt-4o-mini the value "
-                             "is included in the filename but has no API effect.")
+                             "GPT5_EFFORT='low'). Pass --effort none only for models that "
+                             "support it, such as gpt-5.1; for chat models like gpt-4o-mini "
+                             "the value is included in the filename but has no API effect.")
     parser.add_argument("--timeout", type=int, default=None,
                         help="Request timeout in seconds (default: 90)")
     parser.add_argument("--max-tries", type=int, default=2,
@@ -367,21 +367,24 @@ def _parse_args() -> RunConfig:
 
     args = parser.parse_args()
 
-    return RunConfig(
-        input_folder=args.input_folder,
-        output_prefix=args.output_prefix,
-        batch_tag=args.batch_tag,
-        max_words_per_pdf=args.max_words,
-        model_name=args.model,
-        reasoning_effort=args.effort,
-        request_timeout_seconds=args.timeout if args.timeout is not None else 90,
-        max_tries=args.max_tries,
-        save_every=args.save_every,
-        test_mode=args.test,
-        test_n=args.test_n,
-        debug_one_time_dump=args.debug_dump,
-        debug_per_item=not args.no_debug_per_item,
-    )
+    try:
+        return RunConfig(
+            input_folder=args.input_folder,
+            output_prefix=args.output_prefix,
+            batch_tag=args.batch_tag,
+            max_words_per_pdf=args.max_words,
+            model_name=args.model,
+            reasoning_effort=args.effort,
+            request_timeout_seconds=args.timeout if args.timeout is not None else 90,
+            max_tries=args.max_tries,
+            save_every=args.save_every,
+            test_mode=args.test,
+            test_n=args.test_n,
+            debug_one_time_dump=args.debug_dump,
+            debug_per_item=not args.no_debug_per_item,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
 
 
 if __name__ == "__main__":

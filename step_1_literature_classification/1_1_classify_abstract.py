@@ -321,18 +321,21 @@ def _parse_args() -> RunConfig:
     is_reasoning   = args.model.startswith("gpt-5") and args.effort is not None
     default_timeout = 90 if is_reasoning else 60
 
-    return RunConfig(
-        input_name=args.input_name,
-        model_name=args.model,
-        reasoning_effort=args.effort,
-        request_timeout_seconds=args.timeout if args.timeout is not None else default_timeout,
-        max_tries=args.max_tries,
-        save_every=args.save_every,
-        test_mode=args.test,
-        test_n=args.test_n,
-        debug_one_time_dump=args.debug_dump,
-        debug_per_item=not args.no_debug_per_item,
-    )
+    try:
+        return RunConfig(
+            input_name=args.input_name,
+            model_name=args.model,
+            reasoning_effort=args.effort,
+            request_timeout_seconds=args.timeout if args.timeout is not None else default_timeout,
+            max_tries=args.max_tries,
+            save_every=args.save_every,
+            test_mode=args.test,
+            test_n=args.test_n,
+            debug_one_time_dump=args.debug_dump,
+            debug_per_item=not args.no_debug_per_item,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
 
 
 if __name__ == "__main__":

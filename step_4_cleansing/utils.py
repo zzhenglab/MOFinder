@@ -299,6 +299,34 @@ def print_spec(spec: StepSpec, data_dir: Path) -> None:
         print(f"    notes:    {spec.notes}")
 
 
+def _load_notebook_text_from_git_history(git_path: str) -> str:
+    try:
+        rev_text = subprocess.check_output(
+            ["git", "log", "--format=%H", "--all", "--", git_path],
+            cwd=REPO_ROOT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except Exception as exc:
+        raise FileNotFoundError(f"Could not inspect git history for {git_path}") from exc
+
+    for rev in [line.strip() for line in rev_text.splitlines() if line.strip()]:
+        try:
+            return subprocess.check_output(
+                ["git", "show", f"{rev}:{git_path}"],
+                cwd=REPO_ROOT,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except Exception:
+            continue
+
+    raise FileNotFoundError(f"Notebook not found in git history: {git_path}")
+
+
 def _load_cell_source(spec: StepSpec) -> str:
     notebook_path = spec.notebook_path
     if notebook_path.exists():
@@ -306,16 +334,10 @@ def _load_cell_source(spec: StepSpec) -> str:
     else:
         git_path = f"step_4_cleansing/{spec.notebook_name}"
         try:
-            notebook_text = subprocess.check_output(
-                ["git", "show", f"HEAD:{git_path}"],
-                cwd=REPO_ROOT,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-            )
+            notebook_text = _load_notebook_text_from_git_history(git_path)
         except Exception as exc:
             raise FileNotFoundError(
-                f"Notebook not found on disk or in git HEAD: {notebook_path}"
+                f"Notebook not found on disk or in git history: {notebook_path}"
             ) from exc
 
     notebook = json.loads(notebook_text)

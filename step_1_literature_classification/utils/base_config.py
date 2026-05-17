@@ -18,7 +18,7 @@ class ModelConfig:
 
     # reasoning_effort controls two things:
     #   None           → chat-model path  (temperature=0, max_tokens=64)
-    #   "none"/"low"/"medium"/"high"
+    #   "low"/"medium"/"high" (and "none" only for models that support it)
     #                  → reasoning-model path (no temperature, large token budget)
     # For gpt-4o-mini you can pass a string effort to include it in the
     # output filename without switching to the reasoning API path
@@ -44,6 +44,20 @@ class ModelConfig:
     # --- debug ---
     debug_one_time_dump: bool = False
     debug_per_item: bool = True
+
+    def __post_init__(self) -> None:
+        self.validate()
+
+    def validate(self) -> None:
+        """Fail fast for model/effort combinations known to be unsupported."""
+        effort = (self.reasoning_effort or "").lower()
+        model = (self.model_name or "").lower()
+        if model.startswith("gpt-5") and not model.startswith("gpt-5.1") and effort == "none":
+            raise ValueError(
+                "--effort none is not supported for gpt-5 models before gpt-5.1; "
+                "omit --effort for chat models, use low/medium/high for gpt-5, "
+                "or switch to gpt-5.1 if you need effort none."
+            )
 
     def is_reasoning_model(self) -> bool:
         """True when the model uses the reasoning API path (gpt-5 family + effort set)."""

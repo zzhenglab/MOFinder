@@ -34,6 +34,7 @@ class ModelSender:
     """
 
     def __init__(self, cfg: ModelConfig, client: Optional[OpenAI] = None):
+        cfg.validate()
         self.cfg    = cfg
         self.client = client or OpenAI()
         self._dumped_once = False
