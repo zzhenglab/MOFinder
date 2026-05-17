@@ -1,135 +1,276 @@
 MOFinder
-================================
+========
 
-**LLM-based literature-mining pipeline for Metal–Organic Framework (MOF) synthesis prediction.**
+This repository is the research codebase for MOFinder, where the pipeline mines Metal-Organic Framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction.
 
-MOFinder is the research codebase accompanying our work on extracting MOF synthesis recipes from the chemistry literature and fine-tuning large language models to:
-- classify whether a hypothetical MOF is synthesizable and 
-- propose plausible reaction conditions
+The repository contains:
+
+- a literature-screening pipeline for identifying traditional solution-phase MOF synthesis papers;
+- browser-assisted download tools for main articles and Supporting Information;
+- schema-constrained LLM extraction scripts for successful and failed synthesis conditions;
+- rule-based data cleaning and feature construction;
+- dataset assembly scripts for SFT, binary classification, and DPO training;
+- evaluation and visualization utilities.
 
 
-## Pipeline Overview
+Checked-In Data
+---------------
 
+The current repository includes cleaned extraction tables, SMILES caches, and
+assembled JSONL datasets.
+
+### Cleaned extraction tables and caches
+
+| File | Description |
+| --- | --- |
+| `data/mof_extraction.csv` | Raw positive synthesis extraction table from Step 3.2. |
+| `data/mof_extraction_1.csv` ... `data/mof_extraction_1_2_3_4_5_6.csv` | Successive Step 4 cleaning outputs. The final CSV has 13,182 data rows. |
+| `data/name_SMILES_mappers/*.json` | Persistent name/SMILES caches generated and used by `SMILESearcher`. |
+
+### Assembled JSONL datasets ready for LLM use
+
+These files are already assembled for fine-tuning, preference optimization, or
+downstream evaluation:
+
+| File | Description |
+| --- | --- |
+| `data/mof_sft_train.jsonl` | SFT training set for condition prediction, 28,320 records. |
+| `data/mof_sft_holdout.jsonl` | SFT holdout set, 2,034 records. |
+| `data/mof_sft_train_pos_only.jsonl` | SFT training set restricted to successful syntheses. |
+| `data/mof_cls_train.jsonl` | Binary synthesizability classifier training set, 27,585 records. |
+| `data/mof_cls_holdout.jsonl` | Binary classifier holdout set, 2,922 records. |
+| `data/mof_dpo_pairs.jsonl` | DPO preference pairs, 2,215 records. |
+
+These records follow the OpenAI chat fine-tuning style:
+
+```json
+{"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "..."}]}
 ```
-abstracts (WoS export)
-        │
-        ▼ step_1_literature_classification/  (1.1 / 1.2)   ─► Y/N: "is this a traditional MOF synthesis paper?"
-        │
-        ▼   (1.3)         ─► classification metrics vs. expert labels
-        │
-filtered DOI list
-        │
-        ▼ step_2_fetching/                    ─► main PDFs + Supporting Information
-        │
-        ▼ step_3_mining/  (3.1)              ─► main+SI file pairing
-        │
-        ▼  (3.2)              ─► GPT-5 schema-constrained extraction
-        │
-        ▼  (3.3)              ─► negative-example mining (failed conditions)
-        │
-data/mof_extraction*.csv  (+ mof_json_store/)
-        │
-        ▼ step_4_cleansing/                    ─► rule-based cleaning & synonym merging
-        │
-data/mof_extraction_1_2_3_4_5_6.csv      (final cleaned table)
-        │
-        ▼ step_5_assembly/                     ─► SFT / CLS / DPO JSONL, cluster-aware split
-        │
-data/training/{mof_sft_*,mof_cls_*,mof_dpo_*}.jsonl
-        │
-        ▼ eval/  (PN / PU / ablations / A,AB,ABC,ABH)   ─► async eval
-        ▼ eval/  (6b)               ─► 20-question OOD probe
-        ▼ eval/  (6c)               ─► synthesis screening of novel MOFs
-        │
-        ▼ visualization/            ─► plot figures from our results
+
+
+Pipeline
+--------
+
+```text
+WoS / paper metadata
+  -> step_1_literature_classification/
+       1.1 abstract-only Y/N screening
+       1.2 PDF-based Y/N screening
+       1.3 evaluation against expert / model labels
+  -> step_2_fetching/
+       2.1 download main article PDFs
+       2.2 download Supporting Information files
+  -> step_3_mining/
+       3.1 match main PDFs with SI files and count words/tokens
+       3.2 extract successful synthesis records with structured LLM output
+       3.3 mine and enumerate failed synthesis conditions
+  -> step_4_cleansing/
+       clean metals, linkers, solvents, stoichiometry, and derived features
+  -> step_5_assembly/
+       build SFT, classifier, DPO, and clustered holdout JSONL datasets
+  -> eval/
+       run PN/PU classifiers, ablations, OOD probes, and screening
+  -> visualization/
+       generate result figures
 ```
 
-A separate agentic assistant lives under [`SMILESearcher/`](https://github.com/StarLiu714/SMILESearcher/) submodule which queries public databases and retrieval engine/LLM (PubChem, OPSIN, Wikipedia/Wikidata and ChemSpider databases with a Google/Gemini searching fallback). 
-The cleaned-up name-SMILES mapping full metadata lives in [`data/name_SMILES_mappers/`](data/name_SMILES_mappers/). See [`SMILESearcher/README.md`](SMILESearcher/README.md).
-
-The cumulative cleaning suffix (`_1`, `_1_2`, …, `_1_2_3_4_5_6`) on the extraction CSVs shows the data after each step's cleansing.
-
-## Data Description
-
-### `data/mof_extraction*.csv`
-
-Each row is **one synthesis condition for one MOF**, taken from a single paper. The cumulative-cleaning convention is that filename suffixes `_1`, `_1_2`, …, `_1_2_3_4_5_6` indicate which cleaning passes from step 4 have been applied. The final cleaned table is `data/mof_extraction_1_2_3_4_5_6.csv`.
-
-Key column groups (≈90 columns):
-
-| Group | Examples |
-|---|---|
-| Paper metadata | `DOI`, main PDF path, SI path, journal/publisher |
-| Metals | `metal_1`, `metal_1_amount`, `metal_1_unit`, … up to `metal_3` |
-| Linkers | `linker_1`, `linker_1_amount`, `linker_1_unit`, …, `linker_n_SMILES_*` |
-| Modulators | `modulator_1`, …, `modulator_n_SMILES_*` |
-| Solvents | composition and volumes |
-| Conditions | temperature, time, vessel, stirring |
-| Product | topology, yield %, BET surface area, pore diameter, applications |
-| Flags | `synthesizable` (positive / negative), processing notes |
-
-### `data/*.jsonl`
-
-* `mof_sft_train.jsonl`, `mof_sft_holdout.jsonl` — instruction-style SFT records (`{system, user, assistant}`) for **condition prediction**.
-* `mof_sft_train_pos_only.jsonl` — same, restricted to successful syntheses.
-* `mof_cls_train.jsonl`, `mof_cls_holdout.jsonl` — binary **synthesizability classification** records (positives + step-3.3 negatives).
-* `mof_dpo_pairs.jsonl` — Direct Preference Optimization pairs.
-
-### `data/`
-
-* `mof_cls_holdout_metrics.json` — held-out evaluation metrics, written by step 6 notebooks.
-
-### `data/name_SMILES_mappers`
-
-A growing JSON cache mapping cleaned chemical names ⇄ SMILES, produced by `SMILESearcher` and reused across runs.
+The cumulative CSV suffixes in `data/` show the cleaning chain. For example,
+`mof_extraction_1_2_3_4_5_6.csv` is the positive extraction table after all
+currently scripted Step 4 cleaning passes.
 
 
-## Method Notes
-
-* **LLM extraction (step 3.2).** Each paper's main text + SI is fed to GPT-5 under a strict Pydantic schema (`ArticleExtraction`) enforcing one record per unique reaction condition, excluding post-synthetic modifications and non-traditional methods (microwave, mechanochemical). 
-* **Negative mining (step 3.3).** Many MOF papers describe condition screens — temperatures, solvents, linker variants — where only one combination yields the framework. We guide the LLM to enumerate the *explicitly tested but unsuccessful* siblings of each successful recipe, producing labeled negatives without hallucinating failures the paper never reported.
-* **Cluster-aware splitting (step 5).** Holdout is constructed by clustering on (metal, linker) signatures so that the train and holdout sets do not share the same MOF identity. 
-* **Evaluation (step 6).** Two evaluation regimes are supported: **PN** (positive + negative classification) and **PU** (positive-only) as controlled comparison. 
 
 
-## Reproducing
+Installation
+------------
 
-To reproduce in order:
-
-1. **Install.** From the repo root:
+Python 3.10 or newer is required.
 
 ```bash
-pip install -e ".[all]"            # core + GUI downloader + Selenium + RDKit + notebook
-# or, lighter:
-pip install -e .                   # core only
-pip install -e ".[fetch-web,chem]" # add what you actually need
+git clone --recurse-submodules <repo-url>
+cd MOFinder
+
+# Core runtime dependencies
+pip install -e .
+
+# Full research environment: GUI downloader, Selenium, RDKit, notebooks
+pip install -e ".[all]"
 ```
 
-Either `pyproject.toml` (PEP 517) or `setup.py` (legacy) will produce the same install — see the docstring at the top of [setup.py](setup.py).
-
-2. **Configure.** Set `OPENAI_API_KEY` in your environment. Step 2.1 (paper download) additionally needs a working Chrome plus a logged-in browser session for institutional PDF access. Step 3.2 uses model `gpt-5` (or the latest reasoning model you have access to).
-
-3. **Run notebooks in numerical order.** Open each `stepN_*/` folder in turn. The step 4 and step 5 notebooks resolve CSV and JSONL names relative to Jupyter's working directory, so **launch Jupyter from the `data/` directory** (or set the kernel working directory to `data/`) before running them:
+If the repository was cloned without submodules, initialize `SMILESearcher`:
 
 ```bash
-cd data
-jupyter lab   # or: jupyter notebook
+git submodule update --init --recursive
 ```
 
-4. **SMILES resolution.** At any point after step 3, run `SMILESearcher/app.py` (or `start.bat` on Windows) on the current `data/mof_extraction*.csv`, pointing it at `data/name_SMILES_mappers/name2smiles_1222.json` as the persistent cache.
+Useful optional extras:
+
+```bash
+pip install -e ".[fetch-gui]"   # Tk/PyAutoGUI downloader tools
+pip install -e ".[fetch-web]"   # Selenium-backed web resolvers
+pip install -e ".[chem]"        # RDKit-backed SMILES validation
+pip install -e ".[notebook]"    # JupyterLab / notebook UI
+```
+
+Set your OpenAI API key before running Step 1, Step 3, or `eval/` scripts:
+
+```bash
+# PowerShell
+$env:OPENAI_API_KEY = "sk-..."
+
+# bash/zsh
+export OPENAI_API_KEY="sk-..."
+```
 
 
-## License and Citation
+Codebase Usage
+----------------
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+### Run Step 1 paper classification
 
-If you use our workflow or our [database](MOFinder.chemistry.wustl.edu) in your research or re-development, please cite:
+Step 1 scripts are resume-safe and write Excel outputs.
+
+```bash
+# Abstract-only screening; reads data/Full.xlsx
+python 1_1_classify_abstract.py \
+  --input-name data/Full \
+  --model gpt-4o-mini
+
+# PDF-based screening; reads PDFs from data/downloaded/
+python 1_2_classify_pdf.py \
+  --input-folder data/downloaded \
+  --model gpt-5 \
+  --effort low
+```
+
+### Download PDFs and SI files
+
+Step 2 is desktop automation, not a headless scraper. It requires Chrome, a visible desktop session, and whatever institutional access or browser login is needed for the target publishers.
+
+```bash
+python 2_1_fetch_paper.py
+python 2_2_fetch_si.py
+```
+
+Both tools open a Tkinter UI, remember the last selected workbook, and update download status columns in the workbook.
+
+### Match PDFs/SI and extract syntheses
+
+```bash
+# Build the 3-column DOI/Main File/SI File workbook for extraction
+python 3_1_match_and_count.py \
+  --excel data/"SELECTED 7000 SI - Copy.xlsx" \
+  --main-folder data/downloaded \
+  --si-folder data/"SI downloaded"
+
+# Extract successful synthesis records
+python 3_2_mine_synthesis.py \
+  --excel data/"SELECTED 7000 SI - Copy - simple.xlsx" \
+  --csv-out data/mof_extraction.csv \
+  --json-dir data/mof_json_store \
+  --model gpt-5 \
+  --concurrency 5
+
+# Rebuild the CSV from saved JSON without API calls
+python 3_2_mine_synthesis.py --backfill
+```
+
+Negative mining is split into a planning pass and an enumeration pass. The
+default command runs both:
+
+```bash
+python 3_3_mine_negative.py \
+  --task all \
+  --positive-csv data/mof_extraction.csv \
+  --success-dir data/mof_json_store
+```
+
+### Clean extraction tables
+
+Step 4 can run the positive branch end to end using the files under `data/`:
+
+```bash
+python run_cleansing.py --branch positive
+```
+
+Other branches are available for negative data:
+
+```bash
+python run_cleansing.py --branch negative
+python run_cleansing.py --branch negative-basic
+```
+
+Those branches require the corresponding negative raw CSVs from Step 3.3.
+
+### Assemble classifier datasets
+
+Step 5 builds clustered train/holdout files. Its default option is `d`, the current best strategy in the code: 
+year-wise splits, fine lamellae positive/negative interleaving.
+
+```bash
+python run_assembly.py
+python run_assembly.py   # defalut to --option d
+```
+
+When regenerating classifier datasets, requires the
+cleaned negative CSV:
+
+- `data/mof_extraction_failures_enum_1_2_3_4_5_6.csv`
+
+The checked-in `data/mof_cls_*.jsonl`, `data/mof_sft_*.jsonl`, and
+`data/mof_dpo_pairs.jsonl` are already assembled outputs.
+
+### Resolve chemical names to SMILES
+
+`SMILESearcher/` is a separate resolver submodule used to fill linker,
+modulator, and related SMILES columns with a persistent JSON cache.
+
+```bash
+cd SMILESearcher
+pip install -r requirements.txt
+python app.py --csv ../data/mof_extraction_1_2_3_4_5_6.csv \
+  --cache ../data/name_SMILES_mappers/name2smiles_1222.json \
+  --headless
+```
+
+On Windows, `SMILESearcher/start.bat` launches the interactive workflow. See
+`SMILESearcher/README.md` for resolver details.
+
+
+Evaluation and Plots
+--------------------
+
+Evaluation wrappers live in `eval/`. 
+They are thin scripts around
+`eval/eval_engine.py` and contain hard-coded model IDs, holdout paths, and output paths for the experiments used in this project. 
+Edit the constants at the top of each runner before launching a new evaluation.
+
+Examples:
+
+```bash
+python eval/run_pn_full.py
+python eval/run_20q_challenge.py
+```
+
+Plotting scripts live in `visualization/` and accept CLI inputs/outputs:
+
+```bash
+python visualization/plot_metal_linker_heatmaps.py --help
+python visualization/plot_human_llm_performance.py --help
+```
+
+
+License and Citation
+--------------------
+
+This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for details.
+
+If you use the workflow or [database](MOFinder.chemistry.wustl.edu) in your research, please cite the project.
 
 ```bibtex
 @article{mofinder2026,
-  title={},
-  journal={arXiv},
-  year={2026}
+  title = {},
+  journal = {arXiv},
+  year = {2026}
 }
 ```
-
