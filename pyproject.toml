@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Literature-mining and LLM fine-tuning pipeline for Metal-Organic Framework (MOF) synthesis prediction."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "Academic / research use" }
+license = { text = "MIT" }
 authors = [
     { name = "IntelliMol Lab, University of Pennsylvania" },
 ]
@@ -55,6 +55,7 @@ dependencies = [
     "rich>=13.0",
     "python-dotenv>=1.0",
     "ipywidgets>=8.0",
+    "nest_asyncio>=1.5",
 ]
 
 [project.optional-dependencies]
@@ -84,9 +85,18 @@ notebook = [
     "notebook>=7.0",
 ]
 
-# Convenience: everything.
+# Convenience: everything. Listed explicitly to avoid pip resolving mofinder as
+# a separate index candidate instead of expanding local extras.
 all = [
-    "mofinder[fetch-gui,fetch-web,chem,notebook]",
+    "pyautogui>=0.9.54",
+    "pyperclip>=1.8",
+    "pynput>=1.7",
+    "opencv-python>=4.7",
+    "selenium>=4.10",
+    "webdriver-manager>=4.0",
+    "rdkit>=2023.3",
+    "jupyterlab>=4.0",
+    "notebook>=7.0",
 ]
 
 [project.urls]
