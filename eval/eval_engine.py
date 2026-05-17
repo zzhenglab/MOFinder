@@ -848,10 +848,19 @@ def load_screening_csv(
         na_values=["null", "NULL", "NaN", "", " "],
         keep_default_na=True, encoding=encoding,
     )
+    null_tokens = {"", "null", "nan", "none"}
+
+    def clean_text_cell(v: Any) -> Any:
+        if pd.isna(v):
+            return np.nan
+        if isinstance(v, str):
+            s = v.strip()
+            return np.nan if s.lower() in null_tokens else s
+        return v
+
     for c in df.columns:
-        if df[c].dtype == object:
-            df[c] = df[c].astype(str).str.strip()
-    df = df.replace({"null": np.nan, "NULL": np.nan, "": np.nan, " ": np.nan})
+        if pd.api.types.is_object_dtype(df[c]) or pd.api.types.is_string_dtype(df[c]):
+            df[c] = df[c].map(clean_text_cell)
     missing = [c for c in expected_cols if c not in df.columns]
     if missing:
         raise ValueError(f"Missing expected columns in CSV: {missing}")
@@ -983,7 +992,7 @@ async def evaluate_screening_dataframe(
                 f"prec {m['precision']:.3f}  rec {m['recall']:.3f}"
             )
 
-    df_pred = pd.DataFrame(completed).sort_values("example_index")
+    df_pred = pd.DataFrame(completed).set_index("example_index").sort_index()
     join_cols = [
         "system_text", "user_text", "pred_label",
         f"prob_{pos_label}", f"prob_{neg_label}",
