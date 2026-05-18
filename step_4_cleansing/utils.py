@@ -1,14 +1,12 @@
 """Shared paths and small helpers for Step 4 cleansing scripts."""
 from __future__ import annotations
 
+import math
 from pathlib import Path
 import sys
 from typing import Iterable
 
-import numpy as np
-import pandas as pd
-
-SCRIPT_DIR = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 DATA_DIR = REPO_ROOT / "data"
 
@@ -34,15 +32,15 @@ ALL_BRANCHES = {"positive", "negative-plans", "negative-basic"}
 def is_filled(x) -> bool:
     if x is None:
         return False
-    if isinstance(x, float) and np.isnan(x):
+    if isinstance(x, float) and math.isnan(x):
         return False
     s = str(x).strip()
     return s != "" and s.lower() not in {"nan", "none"}
 
-def filled_series(s: pd.Series) -> pd.Series:
+def filled_series(s):
     return s.apply(is_filled)
 
-def count_changes(before: pd.Series, after: pd.Series) -> int:
+def count_changes(before, after) -> int:
     return int((before.astype(str) != after.astype(str)).sum())
 
 def print_header(msg: str) -> None:
@@ -56,7 +54,9 @@ def safe_lower(x) -> str:
     except Exception:
         return ""
 
-def reset_index(df: pd.DataFrame, why: str) -> pd.DataFrame:
+def reset_index(df, why: str):
+    import pandas as pd
+
     df = df.reset_index(drop=True)
     assert df.index.equals(pd.RangeIndex(len(df))), f"Index is not contiguous after: {why}"
     return df

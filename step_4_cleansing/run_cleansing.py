@@ -6,7 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from utils.common import ALL_BRANCHES, DATA_DIR, branch_paths, configure_utf8_stdio
+from utils import ALL_BRANCHES, DATA_DIR, branch_paths, configure_utf8_stdio
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
@@ -38,10 +38,16 @@ def run(branch: str, data_dir: str | Path | None = None, *, dry_run: bool = Fals
     if branch == "negative-basic":
         print("negative-basic branch stops after Step 4.1 and writes the _2 output.")
         return
+    if branch == "positive":
+        step_4_2_script = "4_2a_positive.py"
+    elif branch == "negative-plans":
+        step_4_2_script = "4_2b_negative_plans.py"
+    else:
+        raise ValueError(f"Step 4.2 is not defined for branch: {branch}")
+
     call_step(
-        "4_2_linkers_and_solvents.py",
+        step_4_2_script,
         [
-            "--branch", branch,
             "--input", str(paths["s2"]),
             "--output-3", str(paths["s3"]),
             "--output-4", str(paths["s4"]),
