@@ -3,6 +3,9 @@ MOFinder
 
 This repository is the research codebase for MOFinder, where the pipeline mines Metal-Organic Framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction.
 
+<p align="center">
+  <img src="data/TOC%20Figure.png" alt="TOC Figure" width="500">
+</p>
 
 
 Checked-In Data
@@ -256,6 +259,7 @@ This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for det
 
 If you use the workflow or [database](MOFinder.chemistry.wustl.edu) in your research, please cite the project.
 
+The arXiv link will be available soon.
 ```bibtex
 @article{mofinder2026,
   title = {},
