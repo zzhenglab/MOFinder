@@ -116,12 +116,7 @@ def build_example_key(
     user_text: Any,
     gold_label: Any,
 ) -> str:
-    """Stable resume key for source, prompt content, and label.
-
-    ``example_index`` is accepted for backward-compatible callers, but is not
-    included in the key so inserting/reordering holdout rows does not force
-    unchanged examples to be re-evaluated.
-    """
+    """Stable resume key for a specific holdout row."""
     source = _key_text(source_path)
     try:
         source = str(Path(source).resolve())
@@ -129,6 +124,7 @@ def build_example_key(
         pass
     payload = {
         "source_path": source,
+        "example_index": _key_text(example_index),
         "system_text": _key_text(system_text),
         "user_text": _key_text(user_text),
         "gold_label": _key_text(gold_label),
