@@ -122,7 +122,7 @@ def linker_family_from_abbr_simple(abbr: str) -> str | None:
     a = abbr.lower()
     for k in ["bpdc", "bdc", "btc", "ndc", "bpy", "mim"]:
         if k in a:
-            return k
+            return "imidazole" if k == "mim" else k
     return None
 
 

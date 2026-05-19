@@ -125,6 +125,11 @@ def cluster_holdout_split(
     else:
         unique_clusters = df["cluster_key"].unique()
     n_clusters = len(unique_clusters)
+    if n_clusters == 0:
+        df_seed = df.copy()
+        df_seed["is_holdout"] = False
+        return df_seed.copy(), df_seed.iloc[0:0].copy(), 0
+
     n_holdout_clusters = max(1, ceil(holdout_frac * n_clusters))
     if cap_at_n_clusters:
         n_holdout_clusters = min(n_holdout_clusters, n_clusters)
@@ -145,6 +150,11 @@ def interleave_by_ratio(
     n_neg: int = 17,
     rng_seed: int = 42,
 ) -> pd.DataFrame:
+    if n_pos <= 0 or n_neg <= 0:
+        raise ValueError(
+            f"Interleave block sizes must be positive; got n_pos={n_pos}, n_neg={n_neg}."
+        )
+
     rng = np.random.default_rng(rng_seed)
     pos_idx = df[df["is_success"]].index.to_numpy()
     neg_idx = df[~df["is_success"]].index.to_numpy()

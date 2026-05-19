@@ -406,6 +406,11 @@ async def call_responses_gpt5(
             "For gpt-5* models, set reasoning_effort to 'none', 'low', 'medium', or 'high'."
         )
     effort = (reasoning_effort or "none").lower()
+    valid_efforts = {"none", "low", "medium", "high"}
+    if effort not in valid_efforts:
+        raise ValueError(
+            f"Unsupported reasoning_effort={reasoning_effort!r}; expected one of {sorted(valid_efforts)}."
+        )
     combined_input = (
         system_text.strip() + "\n\nReaction conditions as JSON:\n" + user_text
     )
@@ -414,9 +419,8 @@ async def call_responses_gpt5(
         try:
             kwargs: Dict[str, Any] = dict(
                 model=model_id, input=combined_input, top_p=1,
+                reasoning={"effort": effort},
             )
-            if effort != "none":
-                kwargs["reasoning"] = {"effort": effort}
             if use_web_search:
                 kwargs["tools"] = [{"type": "web_search"}]
             resp = await aclient.responses.create(**kwargs)
