@@ -189,7 +189,7 @@ python step_4_cleansing/run_cleansing.py --branch positive
 Other branches are available for negative data:
 
 ```bash
-python step_4_cleansing/run_cleansing.py --branch negative
+python step_4_cleansing/run_cleansing.py --branch negative-plans
 python step_4_cleansing/run_cleansing.py --branch negative-basic
 ```
 

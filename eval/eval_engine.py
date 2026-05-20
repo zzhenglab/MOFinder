@@ -326,6 +326,7 @@ async def call_chat_completions(
     messages: List[Dict[str, str]],
     retries: int = 6,
     seed: int = 7,
+    temperature: float = 0.0,
     max_tokens: int = 2,
     top_logprobs: int = 5,
 ) -> Tuple[str, Any]:
@@ -335,7 +336,7 @@ async def call_chat_completions(
             resp = await aclient.chat.completions.create(
                 model=model_id,
                 messages=messages,
-                temperature=0,
+                temperature=temperature,
                 top_p=1,
                 max_tokens=max_tokens,
                 logprobs=True,
@@ -442,6 +443,7 @@ async def call_model_generic(
     use_web_search: bool = False,
     retries: int = 6,
     seed: int = 7,
+    chat_temperature: float = 0.0,
 ) -> Tuple[str, Any, str]:
     """Pick chat.completions for non-gpt-5* models, Responses for gpt-5*.
 
@@ -454,7 +456,10 @@ async def call_model_generic(
         )
         return text, None, "responses"
     text, choice = await call_chat_completions(
-        aclient, model_id, messages, retries=retries, seed=seed,
+        aclient, model_id, messages,
+        retries=retries,
+        seed=seed,
+        temperature=chat_temperature,
     )
     return text, choice, "chat"
 
@@ -468,6 +473,7 @@ async def evaluate_holdout(
     holdout_paths: Union[str, Path, Sequence[Union[str, Path]]],
     csv_path: Union[str, Path],
     label_pair: Tuple[str, str] = ("P", "N"),
+    gold_label_map: Optional[Dict[str, str]] = None,
     max_concurrency: int = 50,
     print_interval: int = 5,
     test_mode: bool = False,
@@ -478,6 +484,8 @@ async def evaluate_holdout(
     """Concurrent, resumable evaluation of one or more JSONL holdout files.
 
     Output CSV is appended to (deduped by example_key) so the run is resumable.
+    ``gold_label_map`` can relabel existing JSONL labels for compatible evals
+    such as P/N holdouts scored as P/U.
     """
     pos_label, neg_label = label_pair
     csv_path = Path(csv_path)
@@ -491,6 +499,9 @@ async def evaluate_holdout(
     # Load and assign global indices
     items: List[Dict[str, Any]] = []
     global_idx = 0
+    valid_gold_labels = tuple(
+        dict.fromkeys([*label_pair, *(gold_label_map or {}).keys()])
+    )
     for p in path_list:
         if not p.exists():
             print(f"Warning: holdout path does not exist: {p}")
@@ -500,7 +511,11 @@ async def evaluate_holdout(
             print(f"Warning: holdout file is empty: {p}")
             continue
         for rec in recs:
-            gold = gold_label_from_record(rec, valid_labels=label_pair)
+            gold = gold_label_from_record(rec, valid_labels=valid_gold_labels)
+            if gold is not None and gold_label_map:
+                gold = gold_label_map.get(gold, gold)
+            if gold not in label_pair:
+                gold = None
             if gold is None:
                 continue
             system_text, user_text, messages = build_messages_from_record(rec)
@@ -519,13 +534,27 @@ async def evaluate_holdout(
         print("No labeled examples found.")
         return
 
+    item_keys = {it["example_key"] for it in items}
+    previous_for_model = pd.DataFrame()
     seen: set = set()
     if csv_path.exists():
         try:
             prev = add_example_keys(pd.read_csv(csv_path))
-            if "example_key" in prev.columns:
-                seen = set(prev["example_key"].astype(str).tolist())
-                print(f"Found existing CSV with {len(seen)} rows. Will skip those examples.")
+            if "example_key" in prev.columns and "model_id" in prev.columns:
+                previous_for_model = prev[
+                    (prev["model_id"].astype(str) == model_id)
+                    & (prev["example_key"].astype(str).isin(item_keys))
+                ].copy()
+                seen = set(previous_for_model["example_key"].astype(str).tolist())
+                print(
+                    f"Found existing CSV with {len(seen)} row(s) for this model. "
+                    "Will skip those examples."
+                )
+            elif "example_key" in prev.columns:
+                print(
+                    "Found existing CSV without model_id column. "
+                    "Will not use it as a resume cache for this model."
+                )
         except Exception:
             pass
 
@@ -536,6 +565,14 @@ async def evaluate_holdout(
     total = len(pending)
     if total == 0:
         print("No pending examples.")
+        final = running_metrics(
+            previous_for_model.to_dict("records"),
+            pos_label=pos_label,
+            neg_label=neg_label,
+        )
+        print("\n=== Final metrics for this model from cached rows ===")
+        for k, v in final.items():
+            print(f"{k}: {v:.4f}")
         return
 
     print(f"Evaluating {total} example(s) with concurrency={max_concurrency}...")
@@ -606,18 +643,31 @@ async def evaluate_holdout(
     df_new = pd.DataFrame(completed)
     if csv_path.exists():
         old = add_example_keys(pd.read_csv(csv_path))
+        if "model_id" not in old.columns:
+            old["model_id"] = ""
         merged = add_example_keys(pd.concat([old, df_new], ignore_index=True))
-        merged = merged.sort_values("timestamp").drop_duplicates(
-            subset=["example_key"], keep="last"
+        if "timestamp" in merged.columns:
+            merged = merged.sort_values("timestamp")
+        merged = merged.drop_duplicates(
+            subset=["model_id", "example_key"], keep="last"
         )
         merged.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"\nAppended results. CSV updated at: {csv_path}")
     else:
+        merged = df_new
         df_new.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"\nWrote CSV to: {csv_path}")
 
-    final = running_metrics(completed, pos_label=pos_label, neg_label=neg_label)
-    print("\n=== Final metrics for this run ===")
+    final_rows = merged[
+        (merged["model_id"].astype(str) == model_id)
+        & (merged["example_key"].astype(str).isin(item_keys))
+    ]
+    final = running_metrics(
+        final_rows.to_dict("records"),
+        pos_label=pos_label,
+        neg_label=neg_label,
+    )
+    print("\n=== Final metrics for this model ===")
     for k, v in final.items():
         print(f"{k}: {v:.4f}")
 
@@ -666,6 +716,13 @@ def sanitize_for_filename(text: str) -> str:
     return t.strip("_") or "model"
 
 
+def model_tag_for_filename(model_id: str) -> str:
+    """Stable, compact-ish model tag with a hash suffix to avoid collisions."""
+    clean = sanitize_for_filename(model_id)
+    digest = hashlib.sha256(model_id.encode("utf-8")).hexdigest()[:10]
+    return f"{clean[:80]}_{digest}"
+
+
 async def evaluate_manual_questions(
     manual_questions: List[Dict[str, Any]],
     model_ids: Optional[List[str]] = None,
@@ -678,6 +735,8 @@ async def evaluate_manual_questions(
     print_interval: int = 5,
     label_pair: Tuple[str, str] = ("P", "N"),
     system_prompt: str = MOF_CLASSIFIER_SYSTEM_PROMPT,
+    seed: int = 7,
+    multi_round_chat_temperature: float = 0.7,
 ) -> Dict[str, Dict[str, Any]]:
     """Run a manual-question batch against one or more models for N rounds.
 
@@ -718,6 +777,10 @@ async def evaluate_manual_questions(
 
         for rnd in range(1, rounds + 1):
             print(f"\n--- Round {rnd} / {rounds} ---")
+            round_seed = seed + rnd - 1
+            round_chat_temperature = (
+                multi_round_chat_temperature if rounds > 1 else 0.0
+            )
             semaphore = asyncio.Semaphore(max_concurrency)
             t0 = time.time()
             completed: List[Dict[str, Any]] = []
@@ -728,6 +791,8 @@ async def evaluate_manual_questions(
                     text, extra, backend = await call_model_generic(
                         aclient, model_id, it["system_text"], it["user_text"],
                         it["messages"], reasoning_effort, use_web_search,
+                        seed=round_seed,
+                        chat_temperature=round_chat_temperature,
                     )
                     latency = time.time() - t_start
 
@@ -756,6 +821,10 @@ async def evaluate_manual_questions(
                         "gold_label": it["gold_label"],
                         "model_id": model_id,
                         "backend": backend,
+                        "seed": round_seed,
+                        "chat_temperature": (
+                            round_chat_temperature if backend == "chat" else None
+                        ),
                         "model_output": text,
                         "pred_label": pred_label,
                         f"logprob_{pos_label}": lp_pos,
@@ -788,8 +857,7 @@ async def evaluate_manual_questions(
                     )
 
             df = pd.DataFrame(completed)
-            model_suffix = model_id[-7:] if len(model_id) >= 7 else model_id
-            model_tag = sanitize_for_filename(model_suffix)
+            model_tag = model_tag_for_filename(model_id)
             reason_tag = (
                 f"reason_{reasoning_effort.lower()}"
                 if reasoning_effort and reasoning_effort.lower() != "none"
