@@ -45,6 +45,7 @@ def row_to_conditions(
         row,
         multi_linker=multi_linker,
         include_secondary_solvent=include_secondary_solvent,
+        dedupe_secondary_solvent=dedupe_secondary_solvent,
     )
 
 

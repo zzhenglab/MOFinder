@@ -279,11 +279,29 @@ def _try_pypdf2(path: Path) -> str:
         return ""
 
 
+def _try_pypdf(path: Path) -> str:
+    try:
+        from pypdf import PdfReader
+        parts = []
+        with open(path, "rb") as f:
+            reader = PdfReader(f)
+            for page in reader.pages:
+                try:
+                    parts.append(page.extract_text() or "")
+                except Exception:
+                    parts.append("")
+        return "\n".join(parts)
+    except Exception:
+        return ""
+
+
 def _read_pdf_for_count(path: Path) -> str:
-    """Try pdfminer first (more accurate), fall back to PyPDF2."""
+    """Try pdfminer first (more accurate), then PyPDF2, then pypdf."""
     text = _try_pdfminer(path)
     if not text:
         text = _try_pypdf2(path)
+    if not text:
+        text = _try_pypdf(path)
     return text
 
 

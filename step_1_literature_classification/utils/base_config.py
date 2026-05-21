@@ -4,6 +4,25 @@ from dataclasses import dataclass
 from typing import Optional
 
 
+def base_model_name(model_name: str) -> str:
+    """Return the underlying model name from plain or fine-tuned model IDs."""
+    model = (model_name or "").strip().lower()
+    if model.startswith("ft:"):
+        parts = model.split(":")
+        if len(parts) > 1 and parts[1]:
+            return parts[1]
+    return model
+
+
+def is_gpt5_family(model_name: str) -> bool:
+    return base_model_name(model_name).startswith("gpt-5")
+
+
+def supports_none_effort(model_name: str) -> bool:
+    model = base_model_name(model_name)
+    return model.startswith(("gpt-5.1", "gpt-5.2", "gpt-5.3", "gpt-5.4", "gpt-5.5"))
+
+
 @dataclass
 class ModelConfig:
     """
@@ -51,14 +70,17 @@ class ModelConfig:
     def validate(self) -> None:
         """Fail fast for model/effort combinations known to be unsupported."""
         effort = (self.reasoning_effort or "").lower()
-        model = (self.model_name or "").lower()
-        if model.startswith("gpt-5") and not model.startswith("gpt-5.1") and effort == "none":
+        if (
+            is_gpt5_family(self.model_name)
+            and not supports_none_effort(self.model_name)
+            and effort == "none"
+        ):
             raise ValueError(
                 "--effort none is not supported for gpt-5 models before gpt-5.1; "
                 "omit --effort for chat models, use low/medium/high for gpt-5, "
-                "or switch to gpt-5.1 if you need effort none."
+                "or switch to gpt-5.1+ if you need effort none."
             )
 
     def is_reasoning_model(self) -> bool:
         """True when the model uses the reasoning API path (gpt-5 family + effort set)."""
-        return self.model_name.startswith("gpt-5") and self.reasoning_effort is not None
+        return is_gpt5_family(self.model_name) and self.reasoning_effort is not None
