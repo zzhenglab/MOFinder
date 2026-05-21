@@ -212,11 +212,18 @@ def collect_modulators(row: pd.Series) -> list[str]:
     return collect_numbered_reagents(row, "modulator", max_n=2)
 
 
-def collect_solvents(row: pd.Series, *, include_secondary: bool = True) -> list[str]:
+def collect_solvents(
+    row: pd.Series,
+    *,
+    include_secondary: bool = True,
+    dedupe_secondary: bool = True,
+) -> list[str]:
     vals = [display_value(row.get("solvent_main"), row.get("solvent_main_abbr"))]
     if include_secondary:
         vals.append(display_value(row.get("solvent_secondary"), row.get("solvent_secondary_abbr")))
-    return unique_preserve_order(vals)
+    if dedupe_secondary:
+        return unique_preserve_order(vals)
+    return [cleaned for value in vals if (cleaned := clean_str(value))]
 
 
 def primary_metal_precursor(row: pd.Series) -> str | None:
@@ -228,6 +235,7 @@ def row_to_classifier_conditions(
     *,
     multi_linker: bool,
     include_secondary_solvent: bool,
+    dedupe_secondary_solvent: bool = False,
 ) -> dict[str, Any]:
     if multi_linker:
         organic_linker = join_with_and(collect_linkers(row))
@@ -237,7 +245,12 @@ def row_to_classifier_conditions(
         modulator = clean_str(row.get("modulator_1"))
 
     if include_secondary_solvent:
-        solvent = join_with_and(collect_solvents(row, include_secondary=True))
+        solvent_values = collect_solvents(
+            row,
+            include_secondary=True,
+            dedupe_secondary=dedupe_secondary_solvent,
+        )
+        solvent = " and ".join(solvent_values) if solvent_values else None
     else:
         solvent = display_value(row.get("solvent_main"), row.get("solvent_main_abbr"))
 

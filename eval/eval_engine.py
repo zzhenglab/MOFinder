@@ -92,6 +92,38 @@ def build_messages_from_record(
     return system_text, user_text, messages
 
 
+def remap_label_prompt(
+    system_text: str,
+    *,
+    label_pair: Tuple[str, str],
+    gold_label_map: Optional[Dict[str, str]] = None,
+) -> str:
+    """Align a serialized classifier prompt with remapped evaluation labels."""
+    if not gold_label_map:
+        return system_text
+
+    out = system_text
+    for old_label, new_label in gold_label_map.items():
+        old = str(old_label).strip().upper()
+        new = str(new_label).strip().upper()
+        if not old or not new or old == new:
+            continue
+        if old in label_pair:
+            continue
+        out = re.sub(
+            rf"'{re.escape(old)}'(\s+if\b)",
+            rf"'{new}'\1",
+            out,
+        )
+        out = re.sub(
+            rf"\b{re.escape(old)}\b(?=\s*(?:label|labels|outputs?|class|classes)\b)",
+            new,
+            out,
+            flags=re.IGNORECASE,
+        )
+    return out
+
+
 def gold_label_from_record(
     record: Dict[str, Any],
     valid_labels: Sequence[str] = ("P", "N"),
@@ -557,7 +589,16 @@ async def evaluate_holdout(
                 gold = None
             if gold is None:
                 continue
-            system_text, user_text, messages = build_messages_from_record(rec)
+            system_text, user_text, _ = build_messages_from_record(rec)
+            system_text = remap_label_prompt(
+                system_text,
+                label_pair=label_pair,
+                gold_label_map=gold_label_map,
+            )
+            messages = [
+                {"role": "system", "content": system_text},
+                {"role": "user", "content": user_text},
+            ]
             items.append(dict(
                 example_index=global_idx,
                 source_path=str(p),
