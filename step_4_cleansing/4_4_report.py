@@ -38,6 +38,9 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
         s = str(x).strip()
         return s != "" and s.lower() not in {"nan", "none"}
 
+    def clean_text_series(series):
+        return series.fillna("").map(lambda x: str(x).strip() if is_filled(x) else "")
+
     def first_existing(paths):
         for p in paths:
             if Path(p).exists():
@@ -70,14 +73,14 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
         parts = []
         for c in cols:
             if c in df.columns:
-                parts.append(df[c].astype(str).fillna("").str.strip())
+                parts.append(clean_text_series(df[c]))
         if not parts:
             return pd.Series([], dtype=str)
         s = pd.concat(parts, ignore_index=True)
         return s if include_empty else s[s != ""]
 
     def value_counts_table(series, top=30, include_empty=False, empty_label="(empty)"):
-        s = series.astype(str).str.strip()
+        s = clean_text_series(series)
         if include_empty:
             s = s.replace({"": empty_label})
         else:
@@ -92,7 +95,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
                 print(vc.head(top).to_string())
 
     def parse_num_series(series):
-        s = series.astype(str).str.strip()
+        s = clean_text_series(series)
         s = s[s != ""]
         nums = pd.to_numeric(s, errors="coerce").dropna()
         return nums
@@ -292,7 +295,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
 
     # stability
     def stability_block(col):
-        s = df[col].astype(str).str.strip().str.lower()
+        s = clean_text_series(df[col]).str.lower()
         s = s.replace({"": "(empty)"})
         print_header(f"{col} - distribution")
         print(f"Unique labels including empty: {s.nunique()}")
@@ -302,7 +305,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
     stability_block("air_stable")
 
     # applications
-    app_series = df["applications"].astype(str).str.strip()
+    app_series = clean_text_series(df["applications"])
     app_nonempty = app_series[app_series != ""]
     print_header("Application - ranking")
     print(f"Unique application entries (raw): {app_nonempty.nunique()}")

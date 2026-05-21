@@ -677,7 +677,9 @@ def clean_solvents(input_path: str | Path, output_path: str | Path | None = None
         df[name_col] = new_names
         df[abbr_col] = new_abbrs
         changed_n = int((before_name != df[name_col].astype(str)).sum())
-        changed_a = int((before_abbr != df[abbr_col].astype(str)).sum())
+        before_abbr_cmp = before_abbr.fillna("").replace({"nan": ""})
+        after_abbr_cmp = df[abbr_col].astype(str).fillna("").replace({"nan": ""})
+        changed_a = int((before_abbr_cmp != after_abbr_cmp).sum())
         print(f"{name_col} mapped changes: {changed_n}")
         print(f"{abbr_col} mapped changes: {changed_a}")
 

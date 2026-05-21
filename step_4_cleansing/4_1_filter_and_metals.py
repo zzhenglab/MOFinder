@@ -598,6 +598,10 @@ def normalize_metals_basic(input_path: str | Path, output_path: str | Path | Non
     input_path = Path(input_path)
     output_path = Path(output_path) if output_path is not None else input_path.with_name(f"{input_path.stem}_2.csv")
 
+    def _reset(df, why):
+        df = df.reset_index(drop=True)
+        assert df.index.equals(pd.RangeIndex(len(df))), f"Index is not contiguous after: {why}"
+        return df
 
     def is_filled(x):
         if x is None: return False
@@ -954,17 +958,20 @@ def normalize_metals_basic(input_path: str | Path, output_path: str | Path | Non
     drop_mask0 = df.apply(row_should_drop, axis=1)
     dropped0 = int(drop_mask0.sum())
     df = df[~drop_mask0].copy()
+    df = _reset(df, "drop framework-like metal rows")
 
     # 1) drop if metal_1 is NaN or empty
     drop_mask_nan = ~df["metal_1"].apply(is_filled)
     dropped_nan = int(drop_mask_nan.sum())
     df = df[~drop_mask_nan].copy()
+    df = _reset(df, "drop empty metal_1 rows")
 
     # 2) drop if metal_1 non-compliant
     noncomp_m1_vals = set(v.strip() for v in df["metal_1"].astype(str) if v.strip() and not COMPLIANT.fullmatch(v.strip()))
     drop_mask_nc = df["metal_1"].astype(str).str.strip().isin(noncomp_m1_vals)
     dropped_nc = int(drop_mask_nc.sum())
     df = df[~drop_mask_nc].copy()
+    df = _reset(df, "drop non-compliant metal_1 rows")
 
     # 3) drop if metal_1 value occurs once and length ≤ 10 and has no '(' or ')'
     m1_clean = df["metal_1"].astype(str).str.strip()
@@ -978,6 +985,7 @@ def normalize_metals_basic(input_path: str | Path, output_path: str | Path | Non
     drop_mask_unique = m1_clean.apply(is_unique_short_no_paren)
     dropped_unique = int(drop_mask_unique.sum())
     df = df[~drop_mask_unique].copy()
+    df = _reset(df, "drop unique short metal_1 rows")
 
     # save
     df = df.fillna("")
@@ -1016,6 +1024,12 @@ def normalize_metals_full(input_path: str | Path, output_path: str | Path | None
 
     input_path = Path(input_path)
     output_path = Path(output_path) if output_path is not None else input_path.with_name(f"{input_path.stem}_2.csv")
+
+    def _reset(df, why):
+        df = df.reset_index(drop=True)
+        assert df.index.equals(pd.RangeIndex(len(df))), f"Index is not contiguous after: {why}"
+        return df
+
     def is_filled(x):
         if x is None: return False
         if isinstance(x, float) and np.isnan(x): return False
@@ -1433,6 +1447,7 @@ def normalize_metals_full(input_path: str | Path, output_path: str | Path | None
                       (~df["metal_1_amount_value"].apply(is_filled)) & \
                       (~df["metal_1_amount_unit"].apply(is_filled))
     df = df[~all_three_empty].copy()
+    df = _reset(df, "drop rows with empty metal_1 amount fields")
 
     # 2) Always prefer explicit mol information from the text, even if mg/g are present
     def grab_num_unit_from_text(s):
@@ -1640,17 +1655,20 @@ def normalize_metals_full(input_path: str | Path, output_path: str | Path | None
     drop_mask0 = df.apply(row_should_drop, axis=1)
     dropped0 = int(drop_mask0.sum())
     df = df[~drop_mask0].copy()
+    df = _reset(df, "drop framework-like metal rows")
 
     # 1) drop if metal_1 is NaN or empty
     drop_mask_nan = ~df["metal_1"].apply(is_filled)
     dropped_nan = int(drop_mask_nan.sum())
     df = df[~drop_mask_nan].copy()
+    df = _reset(df, "drop empty metal_1 rows")
 
     # 2) drop if metal_1 non-compliant
     noncomp_m1_vals = set(v.strip() for v in df["metal_1"].astype(str) if v.strip() and not COMPLIANT.fullmatch(v.strip()))
     drop_mask_nc = df["metal_1"].astype(str).str.strip().isin(noncomp_m1_vals)
     dropped_nc = int(drop_mask_nc.sum())
     df = df[~drop_mask_nc].copy()
+    df = _reset(df, "drop non-compliant metal_1 rows")
 
     # 3) drop if metal_1 value occurs once and length ≤ 10 and has no '(' or ')'
     m1_clean = df["metal_1"].astype(str).str.strip()
@@ -1664,11 +1682,13 @@ def normalize_metals_full(input_path: str | Path, output_path: str | Path | None
     drop_mask_unique = m1_clean.apply(is_unique_short_no_paren)
     dropped_unique = int(drop_mask_unique.sum())
     df = df[~drop_mask_unique].copy()
+    df = _reset(df, "drop unique short metal_1 rows")
 
     # ---------- final filter on amount fields before save ----------
     bad_unit = (~df["metal_1_amount_unit"].apply(is_filled)) | (df["metal_1_amount_unit"].isin(["mL","mM"]))
     text_has_keys = df["metal_1_amount_text"].astype(str).str.contains(r"\beq\b|\bmolar\b|\bratio\b|:", case=False, na=False)
     df = df[~(bad_unit & ~text_has_keys)].copy()
+    df = _reset(df, "drop bad metal_1 amount units")
 
     # save
     df = df.fillna("")

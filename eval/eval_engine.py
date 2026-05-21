@@ -392,6 +392,54 @@ def _extract_text_from_responses_obj(resp: Any) -> str:
     return str(resp)
 
 
+GPT5_REASONING_EFFORTS_BY_PREFIX: Tuple[Tuple[str, Tuple[str, ...]], ...] = (
+    ("gpt-5.1-codex-max", ("none", "medium", "high", "xhigh")),
+    ("gpt-5.5", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.4", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.2", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.1", ("none", "low", "medium", "high")),
+    ("gpt-5-mini", ("minimal", "low", "medium", "high")),
+    ("gpt-5-nano", ("minimal", "low", "medium", "high")),
+    ("gpt-5", ("minimal", "low", "medium", "high")),
+)
+
+
+def base_model_id(model_id: str) -> str:
+    """Return the underlying model name from plain or fine-tuned model IDs."""
+    model = model_id.strip().lower()
+    if model.startswith("ft:"):
+        parts = model.split(":")
+        if len(parts) > 1 and parts[1]:
+            return parts[1]
+    return model
+
+
+def supported_reasoning_efforts(model_id: str) -> Tuple[str, ...]:
+    """Supported Responses reasoning efforts for the selected GPT-5 model."""
+    model = base_model_id(model_id)
+    if re.match(r"^gpt-5(?:\.\d+)?-pro(?:-|$)", model):
+        return ("high",)
+    for prefix, efforts in GPT5_REASONING_EFFORTS_BY_PREFIX:
+        if model == prefix or model.startswith(prefix + "-"):
+            return efforts
+    return ("none", "minimal", "low", "medium", "high", "xhigh")
+
+
+def validate_reasoning_effort(model_id: str, reasoning_effort: Optional[str]) -> str:
+    valid_efforts = supported_reasoning_efforts(model_id)
+    if reasoning_effort is None:
+        raise ValueError(
+            f"For {model_id!r}, set reasoning_effort to one of {list(valid_efforts)}."
+        )
+    effort = reasoning_effort.lower()
+    if effort not in valid_efforts:
+        raise ValueError(
+            f"Unsupported reasoning_effort={reasoning_effort!r} for model {model_id!r}; "
+            f"expected one of {list(valid_efforts)}."
+        )
+    return effort
+
+
 async def call_responses_gpt5(
     aclient: Any,
     model_id: str,
@@ -402,16 +450,7 @@ async def call_responses_gpt5(
     retries: int = 6,
 ) -> str:
     """Single-input Responses-API call for gpt-5* models. Returns raw text."""
-    if "gpt-5" in model_id and reasoning_effort is None:
-        raise ValueError(
-            "For gpt-5* models, set reasoning_effort to 'none', 'low', 'medium', or 'high'."
-        )
-    effort = (reasoning_effort or "none").lower()
-    valid_efforts = {"none", "low", "medium", "high"}
-    if effort not in valid_efforts:
-        raise ValueError(
-            f"Unsupported reasoning_effort={reasoning_effort!r}; expected one of {sorted(valid_efforts)}."
-        )
+    effort = validate_reasoning_effort(model_id, reasoning_effort)
     combined_input = (
         system_text.strip() + "\n\nReaction conditions as JSON:\n" + user_text
     )

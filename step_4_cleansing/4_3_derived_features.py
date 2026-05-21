@@ -102,7 +102,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
     conc_fail_non_numeric = 0
     conc_fail_zero_vol = 0
 
-    for idx, row in df.iterrows():
+    for pos, (_, row) in enumerate(df.iterrows()):
         # ---------- M:L ratio ----------
         m1_u = row.get("metal_1_amount_unit", "")
         m2_u = row.get("metal_2_amount_unit", "")
@@ -127,12 +127,12 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
                 ratio_fail_zero += 1
             else:
                 ratio = m1_val / l1_val
-                ratio_col[idx] = f"{ratio:.2f}"
+                ratio_col[pos] = f"{ratio:.2f}"
                 ratio_ok += 1
         else:
             txt = row.get("metal_1_amount_text", "")
             if is_filled(txt) and RATIO_1_1_PAT.search(str(txt)):
-                ratio_col[idx] = "1.00"
+                ratio_col[pos] = "1.00"
                 ratio_fallback += 1
             else:
                 if not is_mmol(m1_u) or not is_mmol(l1_u):
@@ -154,7 +154,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
                     conc_fail_non_numeric += 1
                 else:
                     conc_mM = conc_M * 1000.0         # convert to mM
-                    conc_mM_col[idx] = str(int(round(conc_mM)))
+                    conc_mM_col[pos] = str(int(round(conc_mM)))
                     conc_ok += 1
         else:
             conc_fail_unit += 1
@@ -507,7 +507,7 @@ def build_mof_description(input_path: str | Path, output_path: str | Path | None
     cnt_basic = 0
     cnt_skipped = 0
 
-    for idx, row in df.iterrows():
+    for pos, (_, row) in enumerate(df.iterrows()):
         m1 = row.get("metal_1", "")
         l1 = row.get("linker_1", "")
         l2 = row.get("linker_2", "")
@@ -549,7 +549,7 @@ def build_mof_description(input_path: str | Path, output_path: str | Path | None
             desc = f"{article} {metal_name} metal-organic framework {lphrase}"
             cnt_basic += 1
 
-        descriptions[idx] = desc.strip()
+        descriptions[pos] = desc.strip()
 
     # Remove existing column to avoid duplicates, then insert before 'mof_name'
     if "mof_description" in df.columns:
