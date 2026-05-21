@@ -34,6 +34,11 @@ class OptionSpec:
     family_mode: str
     sort_clusters: bool
     cap_holdout_clusters: bool
+    holdout_cluster_frac: float | None
+    holdout_target_mode: str
+    holdout_search_trials: int
+    cluster_metal_mode: str
+    include_modulator_in_cluster: bool
 
     multi_linker: bool
     include_secondary_solvent: bool
@@ -58,6 +63,11 @@ class OptionSpec:
     write_holdout_all: bool = False
     write_holdout_year_all: bool = False
     print_sample_records: bool = False
+    require_any_metal: bool = False
+    require_any_solvent: bool = False
+    drop_input_label_conflicts: bool = False
+    dedupe_exact_input_within_label: bool = False
+    shuffle_output: bool = False
 
 
 @dataclass
@@ -101,17 +111,22 @@ class RunConfig:
 OPTION_SPECS: dict[str, OptionSpec] = {
     "a": OptionSpec(
         option="a",
-        title="random cluster holdout",
-        notebook_branch="Ablation 1: random split",
+        title="balanced metal-linker-solvent holdout",
+        notebook_branch="Updated first cell: metal/linker/solvent cluster split",
         out_dir=DATA_DIR / "out",
         seeds=(42,),
         holdout_frac=0.10,
-        required_cols=tuple(SINGLE_LINKER_REQUIRED_COLS),
-        require_any_linker=False,
-        family_mode="full",
-        sort_clusters=False,
+        required_cols=("metal_concentration", "M_L_ratio"),
+        require_any_linker=True,
+        family_mode="condition_set",
+        sort_clusters=True,
         cap_holdout_clusters=False,
-        multi_linker=False,
+        holdout_cluster_frac=0.10,
+        holdout_target_mode="both",
+        holdout_search_trials=800,
+        cluster_metal_mode="precursor",
+        include_modulator_in_cluster=False,
+        multi_linker=True,
         include_secondary_solvent=True,
         dedupe_secondary_solvent=False,
         jsonl_encoding="utf-8",
@@ -119,6 +134,11 @@ OPTION_SPECS: dict[str, OptionSpec] = {
         class_map_ensure_ascii=False,
         layout="flat",
         print_sample_records=True,
+        require_any_metal=True,
+        require_any_solvent=True,
+        drop_input_label_conflicts=True,
+        dedupe_exact_input_within_label=False,
+        shuffle_output=True,
     ),
     "b": OptionSpec(
         option="b",
@@ -132,6 +152,11 @@ OPTION_SPECS: dict[str, OptionSpec] = {
         family_mode="simple",
         sort_clusters=True,
         cap_holdout_clusters=False,
+        holdout_cluster_frac=None,
+        holdout_target_mode="random",
+        holdout_search_trials=800,
+        cluster_metal_mode="element",
+        include_modulator_in_cluster=False,
         multi_linker=True,
         include_secondary_solvent=True,
         dedupe_secondary_solvent=False,
@@ -153,6 +178,11 @@ OPTION_SPECS: dict[str, OptionSpec] = {
         family_mode="year",
         sort_clusters=False,
         cap_holdout_clusters=False,
+        holdout_cluster_frac=None,
+        holdout_target_mode="random",
+        holdout_search_trials=800,
+        cluster_metal_mode="element",
+        include_modulator_in_cluster=False,
         multi_linker=True,
         include_secondary_solvent=False,
         dedupe_secondary_solvent=False,
@@ -177,6 +207,11 @@ OPTION_SPECS: dict[str, OptionSpec] = {
         family_mode="full",
         sort_clusters=True,
         cap_holdout_clusters=True,
+        holdout_cluster_frac=None,
+        holdout_target_mode="random",
+        holdout_search_trials=800,
+        cluster_metal_mode="element",
+        include_modulator_in_cluster=False,
         multi_linker=True,
         include_secondary_solvent=True,
         dedupe_secondary_solvent=True,
@@ -297,6 +332,10 @@ def print_config(cfg: RunConfig) -> None:
     print(f"Output dir:      {cfg.resolved_out_dir}")
     print(f"SEEDS:           {list(cfg.resolved_seeds)}")
     print(f"HOLDOUT_FRAC:    {cfg.resolved_holdout_frac}")
+    if spec.holdout_cluster_frac is not None or spec.holdout_target_mode != "random":
+        print(f"CLUSTER_FRAC:    {spec.holdout_cluster_frac if spec.holdout_cluster_frac is not None else cfg.resolved_holdout_frac}")
+        print(f"TARGET_MODE:     {spec.holdout_target_mode}")
+        print(f"SEARCH_TRIALS:   {spec.holdout_search_trials}")
     if spec.use_year_splits:
         print(f"SPLIT_NAMES:     {list(cfg.resolved_split_names)}")
     if spec.interleave_train or spec.interleave_train_splits or spec.interleave_holdout_splits:

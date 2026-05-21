@@ -1,3 +1,10 @@
+"""Step 4.3: add derived columns used by downstream assembly.
+
+Input is a Step 4.2 ``_1_2_3_4.csv``. This script writes ``_1_2_3_4_5.csv``
+with ``metal_concentration``, ``M_L_ratio``, and
+``metal_cluster_connectivity_classified``; it also writes ``_1_2_3_4_5_6.csv``
+with ``mof_description``.
+"""
 from __future__ import annotations
 
 import argparse
@@ -7,7 +14,7 @@ from utils import FULL_BRANCHES, branch_paths, configure_utf8_stdio
 
 
 def compute_ratio_and_concentration(input_path: str | Path, output_path: str | Path | None = None) -> Path:
-    """Compute M:L ratio and metel_concnertation, then write the _5 CSV."""
+    """Compute M:L ratio and metal_concentration, then write the _5 CSV."""
     import math
     import re
 
@@ -16,9 +23,9 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
 
     input_path = Path(input_path)
     output_path = Path(output_path) if output_path is not None else input_path.with_name(f"{input_path.stem}_5.csv")
-    # Compute M:L ratio and metel_concnertation (mM, integer), then insert before "temperature_c"
+    # Compute M:L ratio and metal_concentration (mM, integer), then insert before "temperature_c"
     # - M:L ratio uses mmol units only, same logic as before plus a 1:1 text fallback
-    # - metel_concnertation = round( (metal_1_amount_value / solvent_main_ml) * 1000 ) as an integer string
+    # - metal_concentration = round( (metal_1_amount_value / solvent_main_ml) * 1000 ) as an integer string
     # - Any legacy "metal_1_concentration_M" column is removed
     # - Prints success and failure counts for both calculations
 
@@ -85,7 +92,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
 
     # Prepare output columns as strings
     ratio_col = [""] * len(df)
-    conc_mM_col = [""] * len(df)  # metel_concnertation
+    conc_mM_col = [""] * len(df)  # metal_concentration
 
     # Counters for M:L ratio
     ratio_ok = 0
@@ -95,7 +102,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
     ratio_fail_non_numeric = 0
     ratio_fail_zero = 0
 
-    # Counters for metel_concnertation (mM integer)
+    # Counters for metal_concentration (mM integer)
     conc_ok = 0
     conc_fail_unit = 0
     conc_fail_missing = 0
@@ -140,7 +147,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
                 else:
                     ratio_fail_missing += 1
 
-        # ---------- metel_concnertation (mM integer) ----------
+        # ---------- metal_concentration (mM integer) ----------
         if is_mmol(m1_u):
             m1_val = parse_num(row.get("metal_1_amount_value", ""))
             vol_ml = parse_num(row.get("solvent_main_ml", ""))
@@ -161,7 +168,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
 
     # Insert new columns before temperature_c
     insert_at = df.columns.get_loc("temperature_c") if "temperature_c" in df.columns else len(df.columns)
-    df.insert(insert_at, "metel_concnertation", conc_mM_col)
+    df.insert(insert_at, "metal_concentration", conc_mM_col)
     insert_at = df.columns.get_loc("temperature_c") if "temperature_c" in df.columns else len(df.columns)
     df.insert(insert_at, "M_L_ratio", ratio_col)
 
@@ -178,7 +185,7 @@ def compute_ratio_and_concentration(input_path: str | Path, output_path: str | P
     print(f"Failed due to zero linker_1 amount: {ratio_fail_zero}")
     print(f"Other failures or missing pieces: {ratio_fail_missing}")
 
-    print_header("Concentration summary (metel_concnertation in mM, integer)")
+    print_header("Concentration summary (metal_concentration in mM, integer)")
     print(f"Computed: {conc_ok}")
     print(f"Failed due to metal_1 unit not mmol: {conc_fail_unit}")
     print(f"Failed due to non numeric amount or volume: {conc_fail_non_numeric}")

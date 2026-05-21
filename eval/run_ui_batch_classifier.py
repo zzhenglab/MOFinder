@@ -49,7 +49,7 @@ from eval_engine import (  # noqa: E402
 # -----------------------
 # Config
 # -----------------------
-MODEL_ID = "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y"
+MODEL_ID = "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:cls-full:Dhhxwa0M"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
@@ -164,7 +164,7 @@ else:
     solvent_opts = freq_list(df_src.get("solvent_main", pd.Series(dtype=str)))
     # NB: source column names preserved even when misspelled in upstream CSVs.
     conc_opts = freq_list_numeric(
-        df_src.get("metel_concnertation", pd.Series(dtype=float)), to_float_any
+        df_src.get("metal_concentration", pd.Series(dtype=float)), to_float_any
     )
     mlr_opts = freq_list_numeric(
         df_src.get("M_L_ratio", pd.Series(dtype=str)), parse_ml_ratio

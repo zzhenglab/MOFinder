@@ -3,6 +3,16 @@
 Default option is ``d``, matching the notebook's best strategy:
 year-wise F/G/H/I splits plus 11/17 P/N interleave and duplicate-solvent
 avoidance.
+
+Input note:
+  Step 5 expects Step 4.3 output, usually ``mof_extraction_1_2_3_4_5.csv``
+  or ``mof_extraction_1_2_3_4_5_6.csv``. Do not feed ``_1_2_3_4.csv``
+  directly: it does not yet contain ``metal_concentration`` or ``M_L_ratio``.
+
+Output note:
+  Step 5 writes classifier artifacts such as ``mof_cls_train.jsonl``,
+  ``mof_cls_holdout.jsonl``, and ``mof_cls_class_map.json``. The ``_5_6.csv``
+  file is produced by Step 4.3, not by Step 5.
 """
 from __future__ import annotations
 

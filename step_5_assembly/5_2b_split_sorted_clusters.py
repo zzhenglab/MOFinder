@@ -57,6 +57,9 @@ def main() -> None:
             holdout_frac=cfg.resolved_holdout_frac,
             sort_clusters=True,
             cap_at_n_clusters=cfg.spec.cap_holdout_clusters,
+            holdout_cluster_frac=cfg.spec.holdout_cluster_frac,
+            target_mode=cfg.spec.holdout_target_mode,
+            search_trials=cfg.spec.holdout_search_trials,
         )
         write_stage_csv(train_df, split_train_path(cfg, seed))
         write_stage_csv(holdout_df, split_holdout_path(cfg, seed))

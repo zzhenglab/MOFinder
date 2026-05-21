@@ -159,7 +159,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
         "linker_1","linker_2","linker_3",
         "modulator_1","modulator_2","modulator_3",
         "solvent_main","solvent_main_abbr","solvent_secondary","solvent_secondary_abbr",
-        "M_L_ratio","metel_concnertation","time_h","temperature_c","doi",
+        "M_L_ratio","metal_concentration","time_h","temperature_c","doi",
         "metal_cluster_connectivity_classified","metal_cluster_connectivity",
         "topology_code","tga_decomposition_temp_c","water_stable","air_stable","applications"
     ]:
@@ -215,7 +215,7 @@ def run_analysis_report(input_path: str | Path | None = None, *, data_dir: str |
     value_counts_table(ratio_series, top=30)
 
     # concentration (mM, integer in your pipeline)
-    conc_col = "metel_concnertation" if "metel_concnertation" in df.columns else None
+    conc_col = "metal_concentration" if "metal_concentration" in df.columns else None
     conc_series = df[conc_col].astype(str).str.strip() if conc_col else pd.Series([], dtype=str)
     conc_series = conc_series[conc_series != ""]
     print_header("Metal concentration (mM) - ranking")
