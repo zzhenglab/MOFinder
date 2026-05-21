@@ -92,6 +92,38 @@ def build_messages_from_record(
     return system_text, user_text, messages
 
 
+def remap_label_prompt(
+    system_text: str,
+    *,
+    label_pair: Tuple[str, str],
+    gold_label_map: Optional[Dict[str, str]] = None,
+) -> str:
+    """Align a serialized classifier prompt with remapped evaluation labels."""
+    if not gold_label_map:
+        return system_text
+
+    out = system_text
+    for old_label, new_label in gold_label_map.items():
+        old = str(old_label).strip().upper()
+        new = str(new_label).strip().upper()
+        if not old or not new or old == new:
+            continue
+        if old in label_pair:
+            continue
+        out = re.sub(
+            rf"'{re.escape(old)}'(\s+if\b)",
+            rf"'{new}'\1",
+            out,
+        )
+        out = re.sub(
+            rf"\b{re.escape(old)}\b(?=\s*(?:label|labels|outputs?|class|classes)\b)",
+            new,
+            out,
+            flags=re.IGNORECASE,
+        )
+    return out
+
+
 def gold_label_from_record(
     record: Dict[str, Any],
     valid_labels: Sequence[str] = ("P", "N"),
@@ -116,12 +148,7 @@ def build_example_key(
     user_text: Any,
     gold_label: Any,
 ) -> str:
-    """Stable resume key for source, prompt content, and label.
-
-    ``example_index`` is accepted for backward-compatible callers, but is not
-    included in the key so inserting/reordering holdout rows does not force
-    unchanged examples to be re-evaluated.
-    """
+    """Stable resume key for a specific holdout row."""
     source = _key_text(source_path)
     try:
         source = str(Path(source).resolve())
@@ -129,6 +156,7 @@ def build_example_key(
         pass
     payload = {
         "source_path": source,
+        "example_index": _key_text(example_index),
         "system_text": _key_text(system_text),
         "user_text": _key_text(user_text),
         "gold_label": _key_text(gold_label),
@@ -330,6 +358,7 @@ async def call_chat_completions(
     messages: List[Dict[str, str]],
     retries: int = 6,
     seed: int = 7,
+    temperature: float = 0.0,
     max_tokens: int = 2,
     top_logprobs: int = 5,
 ) -> Tuple[str, Any]:
@@ -339,7 +368,7 @@ async def call_chat_completions(
             resp = await aclient.chat.completions.create(
                 model=model_id,
                 messages=messages,
-                temperature=0,
+                temperature=temperature,
                 top_p=1,
                 max_tokens=max_tokens,
                 logprobs=True,
@@ -395,6 +424,54 @@ def _extract_text_from_responses_obj(resp: Any) -> str:
     return str(resp)
 
 
+GPT5_REASONING_EFFORTS_BY_PREFIX: Tuple[Tuple[str, Tuple[str, ...]], ...] = (
+    ("gpt-5.1-codex-max", ("none", "medium", "high", "xhigh")),
+    ("gpt-5.5", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.4", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.2", ("none", "low", "medium", "high", "xhigh")),
+    ("gpt-5.1", ("none", "low", "medium", "high")),
+    ("gpt-5-mini", ("minimal", "low", "medium", "high")),
+    ("gpt-5-nano", ("minimal", "low", "medium", "high")),
+    ("gpt-5", ("minimal", "low", "medium", "high")),
+)
+
+
+def base_model_id(model_id: str) -> str:
+    """Return the underlying model name from plain or fine-tuned model IDs."""
+    model = model_id.strip().lower()
+    if model.startswith("ft:"):
+        parts = model.split(":")
+        if len(parts) > 1 and parts[1]:
+            return parts[1]
+    return model
+
+
+def supported_reasoning_efforts(model_id: str) -> Tuple[str, ...]:
+    """Supported Responses reasoning efforts for the selected GPT-5 model."""
+    model = base_model_id(model_id)
+    if re.match(r"^gpt-5(?:\.\d+)?-pro(?:-|$)", model):
+        return ("high",)
+    for prefix, efforts in GPT5_REASONING_EFFORTS_BY_PREFIX:
+        if model == prefix or model.startswith(prefix + "-"):
+            return efforts
+    return ("none", "minimal", "low", "medium", "high", "xhigh")
+
+
+def validate_reasoning_effort(model_id: str, reasoning_effort: Optional[str]) -> str:
+    valid_efforts = supported_reasoning_efforts(model_id)
+    if reasoning_effort is None:
+        raise ValueError(
+            f"For {model_id!r}, set reasoning_effort to one of {list(valid_efforts)}."
+        )
+    effort = reasoning_effort.lower()
+    if effort not in valid_efforts:
+        raise ValueError(
+            f"Unsupported reasoning_effort={reasoning_effort!r} for model {model_id!r}; "
+            f"expected one of {list(valid_efforts)}."
+        )
+    return effort
+
+
 async def call_responses_gpt5(
     aclient: Any,
     model_id: str,
@@ -405,11 +482,7 @@ async def call_responses_gpt5(
     retries: int = 6,
 ) -> str:
     """Single-input Responses-API call for gpt-5* models. Returns raw text."""
-    if "gpt-5" in model_id and reasoning_effort is None:
-        raise ValueError(
-            "For gpt-5* models, set reasoning_effort to 'none', 'low', 'medium', or 'high'."
-        )
-    effort = (reasoning_effort or "none").lower()
+    effort = validate_reasoning_effort(model_id, reasoning_effort)
     combined_input = (
         system_text.strip() + "\n\nReaction conditions as JSON:\n" + user_text
     )
@@ -418,9 +491,8 @@ async def call_responses_gpt5(
         try:
             kwargs: Dict[str, Any] = dict(
                 model=model_id, input=combined_input, top_p=1,
+                reasoning={"effort": effort},
             )
-            if effort != "none":
-                kwargs["reasoning"] = {"effort": effort}
             if use_web_search:
                 kwargs["tools"] = [{"type": "web_search"}]
             resp = await aclient.responses.create(**kwargs)
@@ -442,6 +514,7 @@ async def call_model_generic(
     use_web_search: bool = False,
     retries: int = 6,
     seed: int = 7,
+    chat_temperature: float = 0.0,
 ) -> Tuple[str, Any, str]:
     """Pick chat.completions for non-gpt-5* models, Responses for gpt-5*.
 
@@ -454,7 +527,10 @@ async def call_model_generic(
         )
         return text, None, "responses"
     text, choice = await call_chat_completions(
-        aclient, model_id, messages, retries=retries, seed=seed,
+        aclient, model_id, messages,
+        retries=retries,
+        seed=seed,
+        temperature=chat_temperature,
     )
     return text, choice, "chat"
 
@@ -468,6 +544,7 @@ async def evaluate_holdout(
     holdout_paths: Union[str, Path, Sequence[Union[str, Path]]],
     csv_path: Union[str, Path],
     label_pair: Tuple[str, str] = ("P", "N"),
+    gold_label_map: Optional[Dict[str, str]] = None,
     max_concurrency: int = 50,
     print_interval: int = 5,
     test_mode: bool = False,
@@ -478,6 +555,8 @@ async def evaluate_holdout(
     """Concurrent, resumable evaluation of one or more JSONL holdout files.
 
     Output CSV is appended to (deduped by example_key) so the run is resumable.
+    ``gold_label_map`` can relabel existing JSONL labels for compatible evals
+    such as P/N holdouts scored as P/U.
     """
     pos_label, neg_label = label_pair
     csv_path = Path(csv_path)
@@ -491,6 +570,9 @@ async def evaluate_holdout(
     # Load and assign global indices
     items: List[Dict[str, Any]] = []
     global_idx = 0
+    valid_gold_labels = tuple(
+        dict.fromkeys([*label_pair, *(gold_label_map or {}).keys()])
+    )
     for p in path_list:
         if not p.exists():
             print(f"Warning: holdout path does not exist: {p}")
@@ -500,10 +582,23 @@ async def evaluate_holdout(
             print(f"Warning: holdout file is empty: {p}")
             continue
         for rec in recs:
-            gold = gold_label_from_record(rec, valid_labels=label_pair)
+            gold = gold_label_from_record(rec, valid_labels=valid_gold_labels)
+            if gold is not None and gold_label_map:
+                gold = gold_label_map.get(gold, gold)
+            if gold not in label_pair:
+                gold = None
             if gold is None:
                 continue
-            system_text, user_text, messages = build_messages_from_record(rec)
+            system_text, user_text, _ = build_messages_from_record(rec)
+            system_text = remap_label_prompt(
+                system_text,
+                label_pair=label_pair,
+                gold_label_map=gold_label_map,
+            )
+            messages = [
+                {"role": "system", "content": system_text},
+                {"role": "user", "content": user_text},
+            ]
             items.append(dict(
                 example_index=global_idx,
                 source_path=str(p),
@@ -519,13 +614,27 @@ async def evaluate_holdout(
         print("No labeled examples found.")
         return
 
+    item_keys = {it["example_key"] for it in items}
+    previous_for_model = pd.DataFrame()
     seen: set = set()
     if csv_path.exists():
         try:
             prev = add_example_keys(pd.read_csv(csv_path))
-            if "example_key" in prev.columns:
-                seen = set(prev["example_key"].astype(str).tolist())
-                print(f"Found existing CSV with {len(seen)} rows. Will skip those examples.")
+            if "example_key" in prev.columns and "model_id" in prev.columns:
+                previous_for_model = prev[
+                    (prev["model_id"].astype(str) == model_id)
+                    & (prev["example_key"].astype(str).isin(item_keys))
+                ].copy()
+                seen = set(previous_for_model["example_key"].astype(str).tolist())
+                print(
+                    f"Found existing CSV with {len(seen)} row(s) for this model. "
+                    "Will skip those examples."
+                )
+            elif "example_key" in prev.columns:
+                print(
+                    "Found existing CSV without model_id column. "
+                    "Will not use it as a resume cache for this model."
+                )
         except Exception:
             pass
 
@@ -536,6 +645,14 @@ async def evaluate_holdout(
     total = len(pending)
     if total == 0:
         print("No pending examples.")
+        final = running_metrics(
+            previous_for_model.to_dict("records"),
+            pos_label=pos_label,
+            neg_label=neg_label,
+        )
+        print("\n=== Final metrics for this model from cached rows ===")
+        for k, v in final.items():
+            print(f"{k}: {v:.4f}")
         return
 
     print(f"Evaluating {total} example(s) with concurrency={max_concurrency}...")
@@ -606,18 +723,31 @@ async def evaluate_holdout(
     df_new = pd.DataFrame(completed)
     if csv_path.exists():
         old = add_example_keys(pd.read_csv(csv_path))
+        if "model_id" not in old.columns:
+            old["model_id"] = ""
         merged = add_example_keys(pd.concat([old, df_new], ignore_index=True))
-        merged = merged.sort_values("timestamp").drop_duplicates(
-            subset=["example_key"], keep="last"
+        if "timestamp" in merged.columns:
+            merged = merged.sort_values("timestamp")
+        merged = merged.drop_duplicates(
+            subset=["model_id", "example_key"], keep="last"
         )
         merged.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"\nAppended results. CSV updated at: {csv_path}")
     else:
+        merged = df_new
         df_new.to_csv(csv_path, index=False, encoding="utf-8-sig")
         print(f"\nWrote CSV to: {csv_path}")
 
-    final = running_metrics(completed, pos_label=pos_label, neg_label=neg_label)
-    print("\n=== Final metrics for this run ===")
+    final_rows = merged[
+        (merged["model_id"].astype(str) == model_id)
+        & (merged["example_key"].astype(str).isin(item_keys))
+    ]
+    final = running_metrics(
+        final_rows.to_dict("records"),
+        pos_label=pos_label,
+        neg_label=neg_label,
+    )
+    print("\n=== Final metrics for this model ===")
     for k, v in final.items():
         print(f"{k}: {v:.4f}")
 
@@ -666,6 +796,13 @@ def sanitize_for_filename(text: str) -> str:
     return t.strip("_") or "model"
 
 
+def model_tag_for_filename(model_id: str) -> str:
+    """Stable, compact-ish model tag with a hash suffix to avoid collisions."""
+    clean = sanitize_for_filename(model_id)
+    digest = hashlib.sha256(model_id.encode("utf-8")).hexdigest()[:10]
+    return f"{clean[:80]}_{digest}"
+
+
 async def evaluate_manual_questions(
     manual_questions: List[Dict[str, Any]],
     model_ids: Optional[List[str]] = None,
@@ -678,6 +815,8 @@ async def evaluate_manual_questions(
     print_interval: int = 5,
     label_pair: Tuple[str, str] = ("P", "N"),
     system_prompt: str = MOF_CLASSIFIER_SYSTEM_PROMPT,
+    seed: int = 7,
+    multi_round_chat_temperature: float = 0.7,
 ) -> Dict[str, Dict[str, Any]]:
     """Run a manual-question batch against one or more models for N rounds.
 
@@ -718,6 +857,10 @@ async def evaluate_manual_questions(
 
         for rnd in range(1, rounds + 1):
             print(f"\n--- Round {rnd} / {rounds} ---")
+            round_seed = seed + rnd - 1
+            round_chat_temperature = (
+                multi_round_chat_temperature if rounds > 1 else 0.0
+            )
             semaphore = asyncio.Semaphore(max_concurrency)
             t0 = time.time()
             completed: List[Dict[str, Any]] = []
@@ -728,6 +871,8 @@ async def evaluate_manual_questions(
                     text, extra, backend = await call_model_generic(
                         aclient, model_id, it["system_text"], it["user_text"],
                         it["messages"], reasoning_effort, use_web_search,
+                        seed=round_seed,
+                        chat_temperature=round_chat_temperature,
                     )
                     latency = time.time() - t_start
 
@@ -756,6 +901,10 @@ async def evaluate_manual_questions(
                         "gold_label": it["gold_label"],
                         "model_id": model_id,
                         "backend": backend,
+                        "seed": round_seed,
+                        "chat_temperature": (
+                            round_chat_temperature if backend == "chat" else None
+                        ),
                         "model_output": text,
                         "pred_label": pred_label,
                         f"logprob_{pos_label}": lp_pos,
@@ -788,8 +937,7 @@ async def evaluate_manual_questions(
                     )
 
             df = pd.DataFrame(completed)
-            model_suffix = model_id[-7:] if len(model_id) >= 7 else model_id
-            model_tag = sanitize_for_filename(model_suffix)
+            model_tag = model_tag_for_filename(model_id)
             reason_tag = (
                 f"reason_{reasoning_effort.lower()}"
                 if reasoning_effort and reasoning_effort.lower() != "none"

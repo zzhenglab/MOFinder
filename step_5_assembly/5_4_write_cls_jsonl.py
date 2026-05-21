@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Sequence
+from typing import Any
 
 import pandas as pd
 
@@ -20,43 +20,18 @@ from utils.cls_dataset import (
     staged_train_all_path,
     staged_train_year_path,
 )
-from utils.common import LINKER_COLS, clean_str, configure_utf8_stdio, parse_ml_ratio, to_float
+from utils.common import configure_utf8_stdio, row_to_classifier_conditions
 
 LABEL_POS = "P"
 LABEL_NEG = "N"
 CLASS_MAP = {LABEL_POS: "success", LABEL_NEG: "failure"}
 
 SYSTEM_PROMPT = (
-    "Act as an expert in reticular chemistry. You will receive reaction conditions as a JSON object "
-    "with the fields: metal_precursor, organic_linker, modulator, solvent, metal_concentration_mM, "
-    "M_L_ratio, temperature_C, and time_h. Based on this, output: "
-    "'P' if the conditions are likely to yield a crystalline metal-organic framework under experimental "
-    "conditions, or 'N' if not."
+    "Act as an expert in reticular chemistry. You will receive reaction conditions as a JSON object with the fields: \n"
+    "    metal_precursor, organic_linker, modulator, solvent, metal_concentration_mM, M_L_ratio, temperature_C, and time_h. \n"
+    "    Based on these inputs, output exactly one uppercase label: 'P' if the conditions are likely to yield a crystalline \n"
+    "    metal-organic framework under experimental conditions, or 'N' if not."
 )
-
-MODULATOR_COLS = ["modulator_1", "modulator_2"]
-
-
-def collect_nonempty_fields(row: pd.Series, cols: Sequence[str]) -> list[str]:
-    out = []
-    for c in cols:
-        if c in row.index:
-            v = clean_str(row.get(c))
-            if v is not None:
-                out.append(v)
-    return out
-
-
-def join_fields(values: Sequence[str], sep: str = "; ") -> str | None:
-    return sep.join(values) if values else None
-
-
-def format_solvent(main_s: Any, secondary_s: Any, *, dedupe_secondary: bool = False) -> str | None:
-    main = clean_str(main_s)
-    secondary = clean_str(secondary_s)
-    if main and secondary and (not dedupe_secondary or main != secondary):
-        return f"{main} and {secondary}"
-    return main if main else None
 
 
 def row_to_conditions(
@@ -66,33 +41,12 @@ def row_to_conditions(
     include_secondary_solvent: bool,
     dedupe_secondary_solvent: bool = False,
 ) -> dict[str, Any]:
-    if multi_linker:
-        organic_linker = join_fields(collect_nonempty_fields(row, LINKER_COLS), sep="; ")
-        modulator = join_fields(collect_nonempty_fields(row, MODULATOR_COLS), sep="; ")
-    else:
-        organic_linker = clean_str(row.get("linker_1"))
-        modulator_1 = clean_str(row.get("modulator_1"))
-        modulator = modulator_1 if modulator_1 is not None else None
-
-    if include_secondary_solvent:
-        solvent = format_solvent(
-            row.get("solvent_main"),
-            row.get("solvent_secondary"),
-            dedupe_secondary=dedupe_secondary_solvent,
-        )
-    else:
-        solvent = clean_str(row.get("solvent_main"))
-
-    return {
-        "metal_precursor": clean_str(row.get("metal_1")),
-        "organic_linker": organic_linker,
-        "modulator": modulator,
-        "solvent": solvent,
-        "metal_concentration_mM": to_float(row.get("metel_concnertation")),
-        "M_L_ratio": parse_ml_ratio(row.get("M_L_ratio")),
-        "temperature_C": to_float(row.get("temperature_c")),
-        "time_h": to_float(row.get("time_h")),
-    }
+    return row_to_classifier_conditions(
+        row,
+        multi_linker=multi_linker,
+        include_secondary_solvent=include_secondary_solvent,
+        dedupe_secondary_solvent=dedupe_secondary_solvent,
+    )
 
 
 def to_messages_record(
@@ -127,10 +81,15 @@ def write_jsonl(
     include_secondary_solvent: bool,
     dedupe_secondary_solvent: bool = False,
     encoding: str = "utf-8",
+    shuffle_output: bool = False,
+    seed: int | None = None,
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    out = df
+    if shuffle_output and len(out) > 1:
+        out = out.sample(frac=1.0, random_state=seed).reset_index(drop=True)
     with open(path, "w", encoding=encoding) as f:
-        for _, row in df.iterrows():
+        for _, row in out.iterrows():
             rec = to_messages_record(
                 row,
                 multi_linker=multi_linker,
@@ -146,7 +105,7 @@ def write_class_map(path, *, encoding: str = "utf-8", ensure_ascii: bool = False
         json.dump(CLASS_MAP, f, ensure_ascii=ensure_ascii, indent=2)
 
 
-def write_record_jsonl(cfg, df, path) -> None:
+def write_record_jsonl(cfg, df, path, *, seed: int | None = None) -> None:
     write_jsonl(
         df,
         path,
@@ -154,6 +113,8 @@ def write_record_jsonl(cfg, df, path) -> None:
         include_secondary_solvent=cfg.spec.include_secondary_solvent,
         dedupe_secondary_solvent=cfg.spec.dedupe_secondary_solvent,
         encoding=cfg.spec.jsonl_encoding,
+        shuffle_output=cfg.spec.shuffle_output,
+        seed=seed,
     )
 
 
@@ -207,8 +168,8 @@ def main() -> None:
                 seed_dir = cfg.resolved_out_dir / f"seed_{seed}"
                 train_path = seed_dir / "mof_cls_train.jsonl"
                 holdout_path = seed_dir / "mof_cls_holdout.jsonl"
-            write_record_jsonl(cfg, train_df, train_path)
-            write_record_jsonl(cfg, holdout_df, holdout_path)
+            write_record_jsonl(cfg, train_df, train_path, seed=seed + 1)
+            write_record_jsonl(cfg, holdout_df, holdout_path, seed=seed + 2)
             written.extend([train_path, holdout_path])
             print(f"Seed {seed}: wrote train={len(train_df)}, holdout={len(holdout_df)}")
             continue
@@ -219,21 +180,21 @@ def main() -> None:
             holdout_df = read_stage_csv(staged_holdout_year_path(cfg, seed, name))
             train_path = seed_dir / f"mof_cls_train_year_{name}.jsonl"
             holdout_path = seed_dir / f"mof_cls_holdout_year_{name}.jsonl"
-            write_record_jsonl(cfg, train_df, train_path)
-            write_record_jsonl(cfg, holdout_df, holdout_path)
+            write_record_jsonl(cfg, train_df, train_path, seed=seed + 1)
+            write_record_jsonl(cfg, holdout_df, holdout_path, seed=seed + 2)
             written.extend([train_path, holdout_path])
 
         if cfg.spec.write_holdout_year_all:
             path = seed_dir / "mof_cls_holdout_year.jsonl"
-            write_record_jsonl(cfg, read_stage_csv(staged_holdout_year_all_path(cfg, seed)), path)
+            write_record_jsonl(cfg, read_stage_csv(staged_holdout_year_all_path(cfg, seed)), path, seed=seed + 2)
             written.append(path)
         if cfg.spec.write_train_all:
             path = seed_dir / "mof_cls_train_all.jsonl"
-            write_record_jsonl(cfg, read_stage_csv(staged_train_all_path(cfg, seed)), path)
+            write_record_jsonl(cfg, read_stage_csv(staged_train_all_path(cfg, seed)), path, seed=seed + 1)
             written.append(path)
         if cfg.spec.write_holdout_all:
             path = seed_dir / "mof_cls_holdout_all.jsonl"
-            write_record_jsonl(cfg, read_stage_csv(staged_holdout_all_path(cfg, seed)), path)
+            write_record_jsonl(cfg, read_stage_csv(staged_holdout_all_path(cfg, seed)), path, seed=seed + 2)
             written.append(path)
         print(f"Seed {seed}: wrote year-wise outputs to {seed_dir}")
 

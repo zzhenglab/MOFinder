@@ -16,7 +16,7 @@ from eval_engine import (  # noqa: E402
     run_async,
 )
 
-MODEL_ID = "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y"
+MODEL_ID = "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:cls-full:Dhhxwa0M"
 IN_CSV = Path("out/screening_conditions.csv")
 OUT_CSV = Path("out/screening_conditions_with_preds.csv")
 

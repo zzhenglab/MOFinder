@@ -21,6 +21,6 @@
   "n_records_in_file": 5,
   "parsed_ok": 0,
   "timestamp_utc": "2025-10-26T17:15:08.020094+00:00",
-  "model_id": "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y",
+  "model_id": "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:cls-full:Dhhxwa0M",
   "holdout_path": "out\\mof_cls_holdout.jsonl"
 }

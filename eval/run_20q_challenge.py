@@ -22,7 +22,8 @@ REASONING_EFFORT = None  # set to "low" / "medium" / "high" for gpt-5* models
 USE_WEB_SEARCH = False
 
 MODELS = [
-    "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y",
+    "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:cls-full:Dhhxwa0M",  # Our primary model
+    # "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-full:CUx5cx8y",
     # "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-ablation:Cgcag41g",
     # "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-a:ChKaeWqB",
     # "ft:gpt-4.1-2025-04-14:washington-university-in-st-louis-zheng-group:cls-ab:ChL9CqnE",

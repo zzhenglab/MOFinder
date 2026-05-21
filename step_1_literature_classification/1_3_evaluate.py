@@ -167,13 +167,17 @@ def compute_metrics(y_true: pd.Series, y_pred: pd.Series) -> Dict[str, float]:
     """
     Confusion-matrix metrics with Y as the positive class, then also with N
     as positive (so we can macro-average over the two classes).
+
+    Invalid or missing predictions count as evaluated errors: a true Y with
+    any non-Y prediction is an FN, and a true N with any non-N prediction is
+    an FP.
     """
     y_true = y_true.astype(str).str.upper().str.strip()
     y_pred = y_pred.astype(str).str.upper().str.strip()
 
     TP = int(((y_true == "Y") & (y_pred == "Y")).sum())
-    FN = int(((y_true == "Y") & (y_pred == "N")).sum())
-    FP = int(((y_true == "N") & (y_pred == "Y")).sum())
+    FN = int(((y_true == "Y") & (y_pred != "Y")).sum())
+    FP = int(((y_true == "N") & (y_pred != "N")).sum())
     TN = int(((y_true == "N") & (y_pred == "N")).sum())
     n  = TP + TN + FP + FN
 
