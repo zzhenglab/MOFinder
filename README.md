@@ -258,12 +258,3 @@ License and Citation
 This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for details.
 
 If you use the workflow or [database](MOFinder.chemistry.wustl.edu) in your research, please cite the project.
-
-The arXiv link will be available soon.
-```bibtex
-@article{mofinder2026,
-  title = {},
-  journal = {arXiv},
-  year = {2026}
-}
-```
