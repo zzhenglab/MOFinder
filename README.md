@@ -1,4 +1,4 @@
-MOFinder:  TO DO: For DATA Folder, the csv files and training needs updates
+MOFinder
 ========
 
 This repository is the research codebase for MOFinder, where the pipeline mines Metal-Organic Framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction.
