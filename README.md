@@ -28,11 +28,11 @@ downstream evaluation:
 
 | File | Description |
 | --- | --- |
-| `data/mof_sft_train.jsonl` | SFT training set for condition prediction, 28,320 records. |
+| `data/mof_cls_train.jsonl` | Binary synthesizability classifier training set, 27,585 records. |
+| `data/mof_cls_holdout.jsonl` | Binary classifier holdout set, 3,154 records. |
+| `data/mof_sft_train.jsonl` | SFT training set for condition prediction, 28,388 records. |
 | `data/mof_sft_holdout.jsonl` | SFT holdout set, 2,034 records. |
 | `data/mof_sft_train_pos_only.jsonl` | SFT training set restricted to successful syntheses. |
-| `data/mof_cls_train.jsonl` | Binary synthesizability classifier training set, 27,585 records. |
-| `data/mof_cls_holdout.jsonl` | Binary classifier holdout set, 2,922 records. |
 | `data/mof_dpo_pairs.jsonl` | DPO preference pairs, 2,215 records. |
 
 These records follow the OpenAI chat fine-tuning style:
