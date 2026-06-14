@@ -306,6 +306,7 @@ def run(cfg: RunConfig) -> pd.DataFrame:
     full_df: Optional[pd.DataFrame] = None
     full_id_col: Optional[str] = None
     if cfg.full_file:
+        
         print(f"\nReading Full table: {cfg.full_file}")
         full_df = pd.read_excel(cfg.full_file, dtype=object)
         full_id_col = find_doi_column(full_df)
@@ -375,7 +376,6 @@ def run(cfg: RunConfig) -> pd.DataFrame:
                     writer, index=False, sheet_name="full_with_predictions",
                 )
             metrics_df.to_excel(writer, index=False, sheet_name="metrics")
-        print("Done.")
 
     return metrics_df
 
