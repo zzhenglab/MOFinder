@@ -4,8 +4,10 @@ MOFinder
 This repository is the research codebase for MOFinder, where the pipeline mines metal-organic framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction. 
 
 <p align="center">
-  <img src="data/Figures-03a.png" alt="TOC Figure" width="500">
+  <img src="data/mofinder.png" alt="TOC Figure" width="500">
 </p>
+
+
 
 
 Checked-In Data
@@ -73,7 +75,9 @@ The cumulative CSV suffixes in `data/` show the cleaning chain. For example,
 currently scripted Step 4 cleaning passes.
 
 
-
+<p align="center">
+  <img src="data/Figures-03a.png" alt="TOC Figure" width="500">
+</p>
 
 Installation
 ------------
