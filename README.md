@@ -4,7 +4,7 @@ MOFinder
 This repository is the research codebase for MOFinder, where the pipeline mines metal-organic framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction. 
 
 <p align="center">
-  <img src="data/mofinder.png" alt="TOC Figure" width="500">
+  <img src="data/mofinder.png" alt="TOC Figure" width="750">
 </p>
 
 
