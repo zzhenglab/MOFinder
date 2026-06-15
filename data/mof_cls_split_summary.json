@@ -1,0 +1,119 @@
+{
+  "config": {
+    "rng_seed": 42,
+    "holdout_frac": 0.1,
+    "holdout_cluster_frac": 0.1,
+    "holdout_target_mode": "both",
+    "holdout_search_trials": 800,
+    "cluster_metal_mode": "precursor",
+    "cluster_definition": "primary metal + all linkers + all solvents",
+    "drop_input_label_conflicts": true,
+    "dedup_exact_input_within_label": false
+  },
+  "counts": {
+    "input_rows_total": 37878,
+    "rows_after_required_field_checks": 34419,
+    "rows_skipped_required": 3459,
+    "rows_with_conflicting_input_labels": 2877,
+    "rows_after_conflict_filter": 31542,
+    "rows_deduped_exact_input_within_label": 0,
+    "rows_final": 31542,
+    "rows_with_publication_year_final": 31541,
+    "train_rows": 28388,
+    "holdout_rows": 3154,
+    "train_missing_publication_year_rows": 1,
+    "holdout_missing_publication_year_rows": 0
+  },
+  "labels": {
+    "train": {
+      "P": 11854,
+      "N": 16534
+    },
+    "holdout": {
+      "P": 1317,
+      "N": 1837
+    }
+  },
+  "clusters": {
+    "unique_clusters_final": 10291,
+    "holdout_clusters": 1060,
+    "train_clusters": 9231
+  },
+  "outputs": {
+    "train": "out\\mof_cls_train.jsonl",
+    "holdout": "out\\mof_cls_holdout.jsonl",
+    "class_map": "out\\mof_cls_class_map.json",
+    "year_outputs": [
+      {
+        "type": "single_bin",
+        "bin": 1,
+        "path": "out\\mof_cls_train_1999to2012.jsonl",
+        "start_year": 1999,
+        "end_year": 2012,
+        "rows": 6521,
+        "labels": {
+          "P": 2571,
+          "N": 3950
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 2,
+        "path": "out\\mof_cls_train_2013to2016.jsonl",
+        "start_year": 2013,
+        "end_year": 2016,
+        "rows": 7679,
+        "labels": {
+          "P": 3094,
+          "N": 4585
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 3,
+        "path": "out\\mof_cls_train_2017to2020.jsonl",
+        "start_year": 2017,
+        "end_year": 2020,
+        "rows": 7547,
+        "labels": {
+          "P": 3081,
+          "N": 4466
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 4,
+        "path": "out\\mof_cls_train_2021to2025.jsonl",
+        "start_year": 2021,
+        "end_year": 2025,
+        "rows": 6640,
+        "labels": {
+          "P": 3107,
+          "N": 3533
+        }
+      },
+      {
+        "type": "cumulative_1to2",
+        "path": "out\\mof_cls_train_1999to2016.jsonl",
+        "start_year": 1999,
+        "end_year": 2016,
+        "rows": 14200,
+        "labels": {
+          "P": 5665,
+          "N": 8535
+        }
+      },
+      {
+        "type": "cumulative_1to3",
+        "path": "out\\mof_cls_train_1999to2020.jsonl",
+        "start_year": 1999,
+        "end_year": 2020,
+        "rows": 21747,
+        "labels": {
+          "P": 8746,
+          "N": 13001
+        }
+      }
+    ]
+  }
+}

@@ -507,6 +507,7 @@ def _parse_args():
         "--no-count", action="store_true",
         help="Skip the word/token counting step (only run file matching)",
     )
+    
     return parser.parse_args()
 
 

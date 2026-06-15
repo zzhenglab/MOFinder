@@ -31,7 +31,6 @@ from utils.cls_dataset import (
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
-
 def forwarded_args(cfg) -> list[str]:
     args = [
         "--option", cfg.spec.option,

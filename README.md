@@ -1,11 +1,13 @@
 MOFinder
 ========
 
-This repository is the research codebase for MOFinder, where the pipeline mines Metal-Organic Framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction.
+This repository is the research codebase for MOFinder, where the pipeline mines metal-organic framework (MOF) synthesis recipes from the chemistry literature and assembling datasets for LLM-based MOF synthesis prediction. 
 
 <p align="center">
-  <img src="data/TOC%20Figure.png" alt="TOC Figure" width="500">
+  <img src="data/mofinder.png" alt="TOC Figure" width="750">
 </p>
+
+
 
 
 Checked-In Data
@@ -28,11 +30,11 @@ downstream evaluation:
 
 | File | Description |
 | --- | --- |
-| `data/mof_sft_train.jsonl` | SFT training set for condition prediction, 28,320 records. |
+| `data/mof_cls_train.jsonl` | Binary synthesizability classifier training set, 27,585 records. |
+| `data/mof_cls_holdout.jsonl` | Binary classifier holdout set, 3,154 records. |
+| `data/mof_sft_train.jsonl` | SFT training set for condition prediction, 28,388 records. |
 | `data/mof_sft_holdout.jsonl` | SFT holdout set, 2,034 records. |
 | `data/mof_sft_train_pos_only.jsonl` | SFT training set restricted to successful syntheses. |
-| `data/mof_cls_train.jsonl` | Binary synthesizability classifier training set, 27,585 records. |
-| `data/mof_cls_holdout.jsonl` | Binary classifier holdout set, 2,922 records. |
 | `data/mof_dpo_pairs.jsonl` | DPO preference pairs, 2,215 records. |
 
 These records follow the OpenAI chat fine-tuning style:
@@ -73,7 +75,9 @@ The cumulative CSV suffixes in `data/` show the cleaning chain. For example,
 currently scripted Step 4 cleaning passes.
 
 
-
+<p align="center">
+  <img src="data/Figures-03a.png" alt="TOC Figure" width="500">
+</p>
 
 Installation
 ------------
@@ -258,12 +262,3 @@ License and Citation
 This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for details.
 
 If you use the workflow or [database](MOFinder.chemistry.wustl.edu) in your research, please cite the project.
-
-The arXiv link will be available soon.
-```bibtex
-@article{mofinder2026,
-  title = {},
-  journal = {arXiv},
-  year = {2026}
-}
-```
