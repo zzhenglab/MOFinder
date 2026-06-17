@@ -8,42 +8,6 @@ MOFinder is a research codebase for mining metal-organic framework (MOF) synthes
 </p>
 
 
-Nature software review quick start
-----------------------------------
-
-For reviewer testing, use the offline demo in `demo/`. The demo runs from the checked-in extraction table to cleaned reaction records and then prepares model-ready positive/negative JSONL files for fine-tuning.
-
-The demo does **not** require:
-
-- OpenAI API access
-- Hugging Face model weights
-- GPU hardware
-- Chrome automation
-- Publisher access
-
-From the repository root:
-
-```bash
-pip install -e ".[notebook]"
-cd demo
-python -m jupyter nbconvert --to notebook --execute demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb
-python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
-cd ..
-```
-
-Expected main outputs:
-
-```text
-demo/mof_extraction_1_2_3_4_5_6.csv
-demo/out/mof_cls_train.jsonl
-demo/out/mof_cls_holdout.jsonl
-demo/out/mof_cls_class_map.json
-demo/out/mof_cls_split_summary.json
-```
-
-Measured runtime on the tested Windows desktop: 9.6 seconds for Demo 01 and 105 seconds for Demo 02, approximately 1 minute 55 seconds total excluding installation.
-
-
 Checked-in data
 ---------------
 
@@ -96,22 +60,6 @@ The classifier user message contains a compact reaction-condition JSON object wi
 }
 ```
 
-### Demo-generated classifier files
-
-`demo_02_prepare_json_for_fine_tuning.ipynb` writes the following files under `demo/out/`:
-
-| File | Description |
-| --- | --- |
-| `demo/out/mof_cls_train.jsonl` | Main P/N classifier training set, 28,388 records. |
-| `demo/out/mof_cls_holdout.jsonl` | Main clustered holdout set, 3,154 records. |
-| `demo/out/mof_cls_class_map.json` | Class map for `P` and `N`. |
-| `demo/out/mof_cls_split_summary.json` | Summary of filtering, conflict removal, cluster split, label counts, and year subsets. |
-| `demo/out/mof_cls_train_1999to2012.jsonl` | Year-bin training subset, 6,521 records. Labels: 2,571 `P`, 3,950 `N`. |
-| `demo/out/mof_cls_train_2013to2016.jsonl` | Year-bin training subset, 7,679 records. Labels: 3,094 `P`, 4,585 `N`. |
-| `demo/out/mof_cls_train_2017to2020.jsonl` | Year-bin training subset, 7,547 records. Labels: 3,081 `P`, 4,466 `N`. |
-| `demo/out/mof_cls_train_2021to2025.jsonl` | Year-bin training subset, 6,640 records. Labels: 3,107 `P`, 3,533 `N`. |
-| `demo/out/mof_cls_train_1999to2016.jsonl` | Cumulative year subset, 14,200 records. Labels: 5,665 `P`, 8,535 `N`. |
-| `demo/out/mof_cls_train_1999to2020.jsonl` | Cumulative year subset, 21,747 records. Labels: 8,746 `P`, 13,001 `N`. |
 
 
 System requirements
@@ -188,6 +136,58 @@ A normal laptop or desktop computer with CPU and standard memory is sufficient f
 
 Optional local inference with `StarLiu714/GPT-oss-MOF` requires hardware suitable for a 20B-parameter language model. This is not part of the required Nature demo.
 
+
+### Demo Files
+
+For user testing, use the offline demo in `Demo/`. The demo runs from the checked-in extraction table to cleaned reaction records and then prepares model-ready positive/negative JSONL files for fine-tuning.
+
+The demo does **not** require:
+
+- OpenAI API access
+- Hugging Face model weights
+- GPU hardware
+- Chrome automation
+- Publisher access
+
+From the repository root:
+
+```bash
+pip install -e ".[notebook]"
+cd demo
+python -m jupyter nbconvert --to notebook --execute demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb
+python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
+cd ..
+```
+
+Expected main outputs:
+
+```text
+Demo/mof_extraction_1_2_3_4_5_6.csv
+Demo/out/mof_cls_train.jsonl
+Demo/out/mof_cls_holdout.jsonl
+Demo/out/mof_cls_class_map.json
+Demo/out/mof_cls_split_summary.json
+```
+
+Measured runtime on the tested Windows desktop: 9.6 seconds for Demo 01 and 105 seconds for Demo 02, approximately 1 minute 55 seconds total excluding installation.
+
+
+### Demo-generated classifier files
+
+`demo_02_prepare_json_for_fine_tuning.ipynb` writes the following files under `Demo/out/`:
+
+| File | Description |
+| --- | --- |
+| `Demo/out/mof_cls_train.jsonl` | Main P/N classifier training set, 28,388 records. |
+| `Demo/out/mof_cls_holdout.jsonl` | Main clustered holdout set, 3,154 records. |
+| `Demo/out/mof_cls_class_map.json` | Class map for `P` and `N`. |
+| `Demo/out/mof_cls_split_summary.json` | Summary of filtering, conflict removal, cluster split, label counts, and year subsets. |
+| `Demo/out/mof_cls_train_1999to2012.jsonl` | Year-bin training subset, 6,521 records. Labels: 2,571 `P`, 3,950 `N`. |
+| `Demo/out/mof_cls_train_2013to2016.jsonl` | Year-bin training subset, 7,679 records. Labels: 3,094 `P`, 4,585 `N`. |
+| `Demo/out/mof_cls_train_2017to2020.jsonl` | Year-bin training subset, 7,547 records. Labels: 3,081 `P`, 4,466 `N`. |
+| `Demo/out/mof_cls_train_2021to2025.jsonl` | Year-bin training subset, 6,640 records. Labels: 3,107 `P`, 3,533 `N`. |
+| `Demo/out/mof_cls_train_1999to2016.jsonl` | Cumulative year subset, 14,200 records. Labels: 5,665 `P`, 8,535 `N`. |
+| `Demo/out/mof_cls_train_1999to2020.jsonl` | Cumulative year subset, 21,747 records. Labels: 8,746 `P`, 13,001 `N`. |
 
 Installation guide
 ------------------
