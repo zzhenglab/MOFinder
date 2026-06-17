@@ -261,4 +261,4 @@ License and Citation
 
 This project is licensed under the MIT License. See [`LICENSE`](LICENSE) for details.
 
-If you use the workflow or [database](MOFinder.chemistry.wustl.edu) in your research, please cite the project.
+If you use the workflow or database (https://mofinder.chemistry.wustl.edu/) in your research, please cite the project.
