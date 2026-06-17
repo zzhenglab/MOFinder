@@ -1,0 +1,6 @@
+.venv/
+mofinder.egg-info/
+
+demo/out/
+demo/*_executed.ipynb
+demo/.ipynb_checkpoints/
