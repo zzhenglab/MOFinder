@@ -102,8 +102,8 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/IntelliMol/MOFinder"
-Repository = "https://github.com/IntelliMol/MOFinder"
+Homepage = "https://github.com/zzhenglab/MOFinder"
+Repository = "https://github.com/zzhenglab/MOFinder"
 
 # The repository is currently organized as numbered notebooks at the repo root,
 # plus the self-contained SMILESearcher/ utility. Packaging is therefore minimal —
