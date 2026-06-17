@@ -74,7 +74,6 @@ These files are already assembled for fine-tuning, preference optimization, or d
 | `data/mof_sft_train.jsonl` | SFT training set for condition prediction or instruction-tuning experiments, 28,388 records. |
 | `data/mof_sft_holdout.jsonl` | SFT holdout set for condition prediction or instruction-tuning experiments, 2,034 records. |
 | `data/mof_sft_train_pos_only.jsonl` | SFT training set restricted to successful syntheses. |
-| `data/mof_dpo_pairs.jsonl` | DPO preference pairs, 2,215 records. |
 
 The classifier JSONL records follow a chat fine-tuning style:
 
