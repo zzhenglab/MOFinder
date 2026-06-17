@@ -174,7 +174,6 @@ pip install -e ".[notebook]" nbconvert ipykernel
 | --- | --- | --- |
 | OpenAI API key | Step 1 LLM classification, Step 3 LLM extraction, API-based evaluation, optional gpt-4.1 JSON runs | Offline demo |
 | Publisher or institutional access | Step 2 article and Supporting Information download | Offline demo |
-| Chrome or Chromium with a visible desktop session | Step 2 GUI download automation and some Selenium-backed resolver workflows | Offline demo |
 | Hugging Face model weights | Optional local inference with the trained open-weight model | Offline demo and JSONL preparation |
 
 ### Hardware requirements
