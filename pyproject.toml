@@ -10,7 +10,9 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "IntelliMol Lab, University of Pennsylvania" },
+    { name = "Xinxin Liu, University of Pennsylvania, Washington University in St. Louis" },
+    { name = "Peter Walther, Washington University in St. Louis" },
+    { name = "Zhiling Zheng, Washington University in St. Louis" },
 ]
 keywords = [
     "metal-organic-framework",
