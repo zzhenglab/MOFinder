@@ -655,28 +655,7 @@ $env:OPENAI_API_KEY = "sk-..."
 
 The optional API-based gpt-4.1 JSON run took approximately 1 hour in author tests. The exact time can vary with dataset size, model availability, API rate limits, and network conditions.
 
-### Manuscript-level quantitative reproduction
 
-The manuscript uses the following main computational artifacts:
-
-- Cleaned positive reaction table
-- Cleaned inferred negative reaction table
-- P/N classifier JSONL train and holdout files
-- Year-wise and cumulative-year training subsets
-- Evaluation outputs under `eval/`
-- Plotting inputs and scripts under `visualization/`
-- Optional open-weight model `StarLiu714/GPT-oss-MOF`
-
-
-Versioning and archival
------------------------
-
-Before peer review, archive a fixed version of the repository:
-
-```bash
-git tag -a v1.0.0-nature-submission -m "MOFinder code for Nature submission"
-git push origin v1.0.0-nature-submission
-```
 
 License and citation
 --------------------
