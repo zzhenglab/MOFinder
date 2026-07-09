@@ -71,12 +71,7 @@ npm run build
 
 https://mofinder.chemistry.wustl.edu/
 
-## Related Projects
 
-- MOF Reactome
-- MOF Quest
-- LLM-based MOF literature mining
-- Negative-data reasoning for materials discovery
 
 
 
