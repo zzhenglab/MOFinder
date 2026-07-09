@@ -690,9 +690,3 @@ If you use MOFinder, the workflow, the dataset, or the public database in your r
 ```text
 https://mofinder.chemistry.wustl.edu/
 ```
-
-
-Suggested manuscript code availability statement
-------------------------------------------------
-
-All code used for dataset construction, data processing, open-weight model training, evaluation, quantitative analyses, and the public MOFinder web interface is available at the MOFinder GitHub repository. The main MOFinder codebase is released under the MIT License. The offline demo, expected outputs, and software checklist are provided in the repository and can be run without API credentials. The fine-tuned open-weight model used in the GPT-oss-MOF experiments is available on Hugging Face as `StarLiu714/GPT-oss-MOF`; local inference with this model is optional and requires hardware suitable for a 20B-parameter checkpoint.
