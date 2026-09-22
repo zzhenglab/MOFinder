@@ -21,7 +21,7 @@ Paths are relative to `project_root` in [dataset_preparation.json](../configs/da
 | Positive CSV | `results/curation/positive/mof_extraction_1_2_3_4_5_6.csv` | Successful syntheses, labelled P |
 | Negative CSV | `results/curation/negative/mof_extraction_failures_enum_1_2_3_4_5_6.csv` | Enumerated unsuccessful conditions, labelled N |
 | Publication metadata | `data/metadata/publication_years.csv` | DOI-to-year mapping |
-| Classification prompt | `prompts/dataset_classification.txt` | System message in every example |
+| Reaction-prediction prompt | `prompts/training/reaction_prediction.txt` | System message in every example; shared with MOF Quest evaluation and HPC training |
 | Benchmark conditions | `configs/dataset_forced_questions.json` | 22 question inputs reserved for holdout when matched |
 
 For the archived inputs, use:

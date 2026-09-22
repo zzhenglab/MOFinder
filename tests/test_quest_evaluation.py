@@ -107,8 +107,9 @@ class QuestEvaluationTests(unittest.TestCase):
 
     def test_label_parsing_and_valid_only_metric_denominator(self):
         m = self.module
-        # The parser returns the first P/N character in response text.
-        for text, expected in [("P", "P"), (" n ", "N"), ("Label: P", "P"), ("", ""), ("?", "")]:
+        for text, expected in [("P", "P"), (" n ", "N"), ("Label: P", ""),
+                               ("cannot determine", ""), ("explanation", ""), ("P or N", ""),
+                               ("", ""), ("?", "")]:
             self.assertEqual(m.parse_pred_label(text), expected)
         result = m.running_metrics([{"gold_label": "P", "pred_label": "P"},
                                     {"gold_label": "N", "pred_label": "P"},
@@ -117,6 +118,29 @@ class QuestEvaluationTests(unittest.TestCase):
         self.assertEqual(result["precision"], .5)
         self.assertEqual(result["recall"], 1)
         self.assertAlmostEqual(result["f1"], 2 / 3)
+
+    def test_fallback_logprobs_are_assigned_to_the_actual_token(self):
+        choice = chat_choice("N", logp=-1.0, logn=-.2)
+        self.assertEqual(self.module.extract_logprobs_for_label_chat(choice, "P"), (-1.0, -.2, False))
+        output_text = NS(logprobs=choice.logprobs.content)
+        self.assertEqual(self.module.extract_logprobs_for_label_responses(output_text, "P"), (-1.0, -.2, False))
+
+    def test_chat_and_responses_nonanswers_remain_unscored(self):
+        questions = self.module.load_questions(self.config["questions_file"])[:1]
+        client = NS(chat=NS(completions=NS(create=AsyncMock(return_value=NS(choices=[chat_choice("explanation")])))),
+                    responses=NS(create=AsyncMock(return_value=NS(output_text="cannot determine"))))
+        with contextlib.redirect_stdout(io.StringIO()):
+            asyncio.run(self.module.evaluate_mof_classifier(
+                ["fixture-model", "gpt-5"], rounds=1, out_dir=self.root / "run", max_concurrency=1,
+                manual_questions=questions, client=client, reasoning_effort="high"))
+        paths = list((self.root / "run").glob("*.csv"))
+        self.assertEqual(len(paths), 2)
+        for path in paths:
+            rows = self.module.pd.read_csv(path, keep_default_na=False)
+            self.assertEqual(rows["pred_label"].tolist(), [""])
+            self.assertTrue(rows.loc[0, "error"])
+            analyzed = next(iter(self.module.analyze_results([path]).values()))
+            self.assertEqual(analyzed["round_counts"], [{"total": 1, "scored": 0, "unscored": 1}])
 
     def test_retry_counts_and_empty_failed_result(self):
         request = AsyncMock(side_effect=RuntimeError("controlled fixture"))
@@ -170,6 +194,7 @@ class QuestEvaluationTests(unittest.TestCase):
         self.assertEqual(request.await_count, 22)
         manifest = json.loads((destination / "run_manifest.json").read_text())
         self.assertEqual(manifest["status"], "completed")
+        self.assertEqual(manifest["label_parser"], "standalone_pn_v1")
         self.assertEqual(manifest["settings"]["rounds"], 1)
         self.assertEqual(manifest["settings"]["seed"], 7)
         self.assertEqual(result["output_dir"], destination)

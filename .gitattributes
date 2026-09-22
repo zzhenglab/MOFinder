@@ -3,3 +3,6 @@
 *.xlsx binary
 *.jsonl -text
 prompts/*.txt -text
+prompts/**/*.txt -text
+# Configuration and provenance hashes must match on Windows and Linux.
+*.json -text

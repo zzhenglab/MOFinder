@@ -8,6 +8,15 @@ INPUT_FIELDS = (
     "metal_precursor", "organic_linker", "modulator", "solvent",
     "metal_concentration_mM", "M_L_ratio", "temperature_C", "time_h",
 )
+REACTION_PROMPT_FILE = Path(__file__).resolve().parents[3] / "prompts/training/reaction_prediction.txt"
+
+
+def read_reaction_prompt(path=REACTION_PROMPT_FILE):
+    """Read full reaction-prediction instructions, without a conditions placeholder."""
+    prompt = Path(path).read_text(encoding="utf-8")
+    if not prompt.strip() or "{conditions}" in prompt:
+        raise ValueError("The reaction prediction prompt must contain full instructions without a {conditions} placeholder")
+    return prompt
 
 
 def read_message_rows(path, limit=None):
@@ -100,19 +109,24 @@ def read_manual_rows(path, system_prompt, limit=None):
     return rows
 
 
-def render_prompt(row, tokenizer, prompt_style, short_prompt=None):
-    if prompt_style == "raw":
-        return row["text"]
-    if prompt_style == "short":
-        if short_prompt is None:
-            path = Path(__file__).resolve().parents[3] / "prompts/training/gptoss_short.txt"
-            short_prompt = path.read_text(encoding="utf-8")
-        return short_prompt.replace("{conditions}", row["text"])
-    if prompt_style == "instruction":
-        system = next(
-            (message.get("content", "") for message in row["messages"] if message.get("role") == "system"),
-            "Classify the reaction conditions as P or N.",
-        )
-        return f"{system.strip()}\n\nReaction conditions:\n{row['text']}\n\nLabel:"
-    prompt = tokenizer.apply_chat_template(row["messages"], tokenize=False, add_generation_prompt=True)
-    return prompt + "<|channel|>final<|message|>"
+def render_prompt(row, reaction_prompt=None):
+    """Use the same full instructions for training and inference; exclude the answer."""
+    if reaction_prompt is None:
+        reaction_prompt = read_reaction_prompt()
+    return f"{reaction_prompt.strip()}\n\nReaction conditions:\n{row['text']}\n\nLabel:"
+
+
+def tokenize_prompts(texts, tokenizer, max_length, indices=None):
+    """Reject overlength inputs rather than truncating their instructions or conditions."""
+    if type(max_length) is not int or max_length < 1:
+        raise ValueError("recipe.max_length must be a positive integer")
+    encoded = tokenizer(texts, truncation=False, padding=False)
+    for index, token_ids in enumerate(encoded["input_ids"]):
+        if len(token_ids) > max_length:
+            row_index = indices[index] if indices is not None else index
+            raise ValueError(
+                f"Reaction prediction input at row {row_index + 1} needs {len(token_ids)} tokens; "
+                f"recipe.max_length is {max_length}. Increase recipe.max_length and rebuild the bundle. "
+                "No prompt was truncated."
+            )
+    return encoded

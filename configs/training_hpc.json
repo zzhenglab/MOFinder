@@ -2,7 +2,7 @@
   "model_name": "gpt-oss-20b",
   "model_directory": null,
   "recipe": {
-    "max_length": 224,
+    "max_length": 512,
     "batch_size": 24,
     "eval_batch_size": 96,
     "gradient_accumulation": 1,
@@ -23,7 +23,7 @@
     "label_smoothing": 0.0,
     "gradient_checkpointing": false,
     "seed": 42,
-    "prompt_style": "short"
+    "prompt_style": "reaction_prediction"
   },
   "protocol": {
     "eval_start": 2500,

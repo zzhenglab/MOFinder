@@ -4,7 +4,7 @@
   "negative_csv": "results/curation/negative/mof_extraction_failures_enum_1_2_3_4_5_6.csv",
   "metadata_file": "data/metadata/publication_years.csv",
   "output_dir": "results/datasets/conditions",
-  "prompt_file": "prompts/dataset_classification.txt",
+  "prompt_file": "prompts/training/reaction_prediction.txt",
   "forced_questions_file": "configs/dataset_forced_questions.json",
   "rng_seed": 42,
   "holdout_frac": 0.1,

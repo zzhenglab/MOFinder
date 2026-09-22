@@ -8,6 +8,7 @@ from pathlib import Path
 import tempfile
 import traceback
 
+from mofinder.display import display_paths
 from .common import atomic_json, binary_metrics, export_predictions, now, sha256
 from .prepare import validate_bundle
 from .records import read_message_rows, read_manual_rows, render_prompt
@@ -60,18 +61,18 @@ def run(bundle, model_directory, output, save_adapter=False):
         if tokenizer.pad_token is None:
             tokenizer.pad_token = tokenizer.eos_token
         with tempfile.TemporaryDirectory(prefix="mofinder-training-") as temp:
+            reaction_prompt = (bundle / plan["reaction_prediction"]["path"]).read_text(encoding="utf-8")
             train_path = bundle / experiment["train"]["path"]
-            train_rows, prompt = read_message_rows(train_path)
+            train_rows, _ = read_message_rows(train_path)
             holdout_rows, _ = read_message_rows(bundle / experiment["holdout"]["path"])
-            manual_rows = read_manual_rows(bundle / experiment["manual22"]["path"], prompt)
+            manual_rows = read_manual_rows(bundle / experiment["manual22"]["path"], reaction_prompt)
             if len(manual_rows) != 22:
                 raise ValueError("Expected exactly 22 manual questions")
-            short_prompt = (bundle / plan["short_prompt"]["path"]).read_text(encoding="utf-8")
-            datasets = [base.make_dataset(rows, tokenizer, args.max_length, args.prompt_style, short_prompt)
+            datasets = [base.make_dataset(rows, tokenizer, args.max_length, reaction_prompt)
                         for rows in (train_rows, holdout_rows, manual_rows)]
             eval_rows = (holdout_rows, manual_rows)
             eval_sources = (experiment["holdout"], experiment["manual22"])
-            eval_prompts = [[render_prompt(row, tokenizer, args.prompt_style, short_prompt) for row in rows]
+            eval_prompts = [[render_prompt(row, reaction_prompt) for row in rows]
                             for rows in eval_rows]
             model = base.NativeLmClassifier(args, tokenizer)
             collator = base.PnDataCollator(tokenizer)
@@ -167,7 +168,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     manifest = validate_bundle(args.bundle)
     if args.validate_only:
-        print(json.dumps({"valid": True, "datasets": manifest["datasets"]}, indent=2))
+        print(json.dumps(display_paths({"valid": True, "datasets": manifest["datasets"]}), indent=2))
         return
     model_directory = args.model_directory or manifest.get("model_directory")
     if not model_directory:

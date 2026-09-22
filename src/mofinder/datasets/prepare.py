@@ -10,6 +10,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from mofinder.display import display_path, display_paths
+
 LABEL_POS = "P"
 LABEL_NEG = "N"
 
@@ -1074,15 +1076,15 @@ def main(argv=None):
             settings["output_dir"] = args.output_dir.expanduser().resolve()
         if args.command == "validate":
             result = validate_inputs(settings)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(display_paths(result), indent=2))
             return 0 if result["valid"] else 1
         for key, note in settings.get("input_provenance", {}).items():
-            print(f"Input provenance ({key}): {note}")
+            print(f"Input provenance ({key}): {display_path(note)}")
         result = prepare(settings)
-        print(json.dumps(result["summary"], ensure_ascii=False, indent=2))
+        print(json.dumps(display_paths(result["summary"]), ensure_ascii=False, indent=2))
         return 0
     except (ValueError, OSError) as exc:
-        parser.exit(2, f"Dataset preparation failed: {exc}\n")
+        parser.exit(2, f"Dataset preparation failed: {display_path(exc)}\n")
 
 
 if __name__ == "__main__":

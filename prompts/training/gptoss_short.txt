@@ -1,3 +1,0 @@
-Predict whether these reaction conditions yield a crystalline metal-organic framework. Answer P for likely success or N for likely failure.
-Conditions: {conditions}
-Answer:

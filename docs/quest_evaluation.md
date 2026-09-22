@@ -5,7 +5,7 @@ This stage evaluates a fixed panel of 22 reaction conditions with 11 positive an
 ## Inputs and model configuration
 
 - `benchmarks/mof_quest/questions.json` contains the fixed model panel, reference labels, reaction IDs, and difficulty metadata.
-- `prompts/dataset_classification.txt` is the exact classification prompt shared with dataset preparation.
+- `prompts/training/reaction_prediction.txt` is the full reaction-prediction prompt shared with dataset preparation and HPC training.
 - `configs/quest_evaluation.json` defines the model groups and output directory.
 
 Only the eight reaction-condition fields are sent to a model. Question numbers, reaction IDs, difficulty, and reference labels are used for analysis and are excluded from requests. Missing conditions remain JSON `null`.
@@ -42,7 +42,7 @@ python -m mofinder.evaluation.quest run --group latest_fine_tuned
 python -m mofinder.evaluation.quest run --group reasoning
 ```
 
-Each invocation creates a timestamped directory under `results/evaluation/mof_quest/<group>/`. An explicit `--output-dir` must be empty. The directory contains an input-hash manifest, a metrics summary, and one combined CSV per model. Each CSV contains all rounds. The workflow saves a model's predictions after completing all its rounds and does not resume interrupted runs.
+Each invocation creates a timestamped directory under `results/evaluation/mof_quest/<group>/`. An explicit `--output-dir` must be empty. The directory contains an input-hash manifest, a metrics summary, and one combined CSV per model. The manifest records `label_parser: standalone_pn_v1`. Each CSV contains all rounds. The workflow saves a model's predictions after completing all its rounds and does not resume interrupted runs.
 
 Saved CSVs can be analyzed without an API key:
 
@@ -54,7 +54,7 @@ python -m mofinder.evaluation.quest analyze path/to/mof_manual_eval_MODEL_reason
 
 Chat Completions requests use `temperature=0`, `top_p=1`, `max_tokens=2`, `logprobs=True`, `top_logprobs=5`, and `seed=7`. Responses requests combine the prompt and reaction JSON into one input string. A reasoning object is sent only when the configured effort differs from `none`; the Responses request does not send temperature, top-p, seed, or an output-token limit. The default concurrency is 25, with six attempts per request and capped exponential backoff.
 
-The label parser preserves the first `P` or `N` character in the uppercased response text. The prompt requests exactly one uppercase label. Keep the raw output when auditing responses because longer explanations can satisfy this permissive parser unintentionally. A response without any text is marked empty: response metadata is never parsed as an answer.
+New requests accept only a standalone `P` or `N` after stripping surrounding whitespace and normalizing case. Longer explanations, refusals, and strings such as `Label: P` remain invalid and unscored; raw output is retained. This corrects the earlier parser, which could treat letters embedded in ordinary prose as predictions. A response without any text is marked empty: response metadata is never parsed as an answer. Saved CSV analysis uses its recorded labels and does not reparse historical responses, so preserve the parsing protocol when comparing runs.
 
 Accuracy, precision, recall, and F1 are calculated only from rows with valid `P`/`N` reference and predicted labels. `P` is the positive class, with zero-division metrics set to zero. Reanalysis reports total, scored, and unscored counts for every round. Means and standard deviations summarize per-round metrics; standard deviations use `ddof=0`.
 

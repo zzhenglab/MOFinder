@@ -11,7 +11,9 @@ python tools/training/prepare_hpc.py --output results/local/hpc_training
 python tools/training/train_hpc.py --bundle results/local/hpc_training --validate-only
 ```
 
-The output contains `data/train.jsonl`, `data/holdout.jsonl`, `data/questions.jsonl`, `data/class_map.json`, and `manifest.json`. It also includes the short prompt in `prompts/gptoss_short.txt`. Training and holdout bytes remain unchanged. Each dataset manifest entry records the row count, class counts, file size, and SHA-256 hash; the prompt hash is recorded separately. The question file contains the eight reaction-condition fields and a separate reference label. Only the conditions enter the model prompt.
+The output contains `data/train.jsonl`, `data/holdout.jsonl`, `data/questions.jsonl`, `data/class_map.json`, and `manifest.json`. It also includes the full instructions in `prompts/reaction_prediction.txt`, copied from the shared [reaction-prediction prompt](../prompts/training/reaction_prediction.txt). Training and holdout bytes remain unchanged. Each dataset manifest entry records the row count, class counts, file size, and SHA-256 hash; the schema-version-2 manifest records the prompt path and hash under `reaction_prediction`. The question file contains the eight reaction-condition fields and a separate reference label. Training, holdout, and the 22-question panel use the same full instructions; only the conditions enter the model prompt.
+
+Rebuild older prepared bundles with `prepare_hpc.py` into a new output directory before using the current trainer. Preserve earlier bundles and run outputs as records of their original settings.
 
 To use another dataset, supply `--train PATH --holdout PATH`. Each JSONL record must contain a `messages` array with a user message holding the eight-field reaction-condition JSON object and an assistant answer of `P` or `N`. Use `--questions PATH` for a replacement 22-question JSON panel in the same format as the included panel. Select a new output directory for each prepared dataset.
 
@@ -50,17 +52,23 @@ Settings are stored in `configs/training_hpc.json` and copied into the prepared 
 | Optimizer and schedule | Fused AdamW; cosine decay |
 | Warmup ratio and weight decay | 0.03 and 0.01 |
 | Optimizer steps | 5,000 |
-| Maximum input length | 224 tokens; left truncation and left padding |
+| Prompt style | `reaction_prediction`; shared full instructions followed by condition JSON and `Label:` |
+| Maximum input length | 512 tokens; left padding; overlength inputs raise an error |
 | Precision | BF16; TF32 enabled |
 | Training and data seed | 42 |
 
-The positive `max_steps` value controls training duration and overrides the configured epoch count. The short prompt is stored in [`prompts/training/gptoss_short.txt`](../prompts/training/gptoss_short.txt):
+The positive `max_steps` value controls training duration and overrides the configured epoch count. The full prompt is stored in [`prompts/training/reaction_prediction.txt`](../prompts/training/reaction_prediction.txt):
 
 ```text
-Predict whether these reaction conditions yield a crystalline metal-organic framework. Answer P for likely success or N for likely failure.
-Conditions: {reaction-condition JSON}
-Answer:
+Act as an expert in reticular chemistry. You will receive reaction conditions as a JSON object with the fields:
+    metal_precursor, organic_linker, modulator, solvent, metal_concentration_mM, M_L_ratio, temperature_C, and time_h.
+    Based on these inputs, output exactly one uppercase label: 'P' if the conditions are likely to yield a crystalline
+    metal-organic framework under experimental conditions, or 'N' if not.
 ```
+
+The `reaction_prediction` renderer appends two newlines, `Reaction conditions:`, a newline, the eight-field condition JSON, two newlines, and `Label:`. The canonical prompt file contains only the instructions shown above. Reference labels remain separate from the rendered model input.
+
+Tokenization retains the complete instructions and conditions. If any input exceeds `max_length`, increase `max_length` in `configs/training_hpc.json` and rebuild the bundle into a new output directory. This setting can increase GPU memory use; the trainer never silently truncates a reaction input.
 
 Training labels are encoded as N = 0 and P = 1. P probability is the softmax probability over these two label logits. The classification threshold is fixed at 0.5. Both labels must correspond to single tokens in the model tokenizer.
 

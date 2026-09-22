@@ -371,7 +371,8 @@
   "provenance": {
     "notes": {
       "positive": "Archived positive stage 6 records with four local-path columns removed.",
-      "negative": "Archived negative stage 6_v3 records with four local-path columns removed."
+      "negative": "Archived negative stage 6_v3 records with four local-path columns removed.",
+      "prompt_relocation": "The unchanged classification prompt is now prompts/training/reaction_prediction.txt. Only its configuration path and associated file hashes were updated; the archived dataset bytes and all other preparation settings are unchanged."
     },
     "files": {
       "positive_csv": {
@@ -387,7 +388,7 @@
         "sha256": "a69ed672b2184f23a757bd5b8520e8378e931232ca1d09b63d79858eaa197e57"
       },
       "prompt_file": {
-        "path": "prompts/dataset_classification.txt",
+        "path": "prompts/training/reaction_prediction.txt",
         "sha256": "26dec7168e91ad13cb39dfb5e9782ac26f5b8fc0bcfc9e19fd239c8c61c435e6"
       },
       "forced_questions_file": {
@@ -396,7 +397,8 @@
       },
       "config_file": {
         "path": "configs/dataset_preparation_archived.json",
-        "sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a"
+        "sha256": "1959a2e14a00db4b6acfc04922dbcb946ec33113d17249b73287076083616ec9",
+        "previous_sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a"
       }
     },
     "versions": {
@@ -409,7 +411,7 @@
       "negative_csv": "data/processed/revised/negative_stage6_v3.csv",
       "metadata_file": "data/metadata/publication_years.csv",
       "output_dir": "results/datasets/archived_conditions",
-      "prompt_file": "prompts/dataset_classification.txt",
+      "prompt_file": "prompts/training/reaction_prediction.txt",
       "forced_questions_file": "configs/dataset_forced_questions.json",
       "rng_seed": 42,
       "holdout_frac": 0.1,

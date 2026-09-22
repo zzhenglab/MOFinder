@@ -25,9 +25,9 @@ Concurrent evaluation keeps `temperature=0`, `top_p=1`, `max_tokens=2`, `logprob
 
 ## Prediction and probability calculations
 
-The original parser takes the first P or N character found in the uppercase response. It is a permissive parser, so text containing one of these letters can produce a label even when the response is not exactly P or N. This behavior is retained for comparison with previous evaluations.
+New requests accept only a standalone `P` or `N` after stripping surrounding whitespace and normalizing case. Explanations, refusals, and strings such as `Label: P` are invalid answers and remain unscored. Raw response text is retained. This corrects the earlier parser, which could incorrectly turn letters embedded in ordinary prose into predictions. The parsing protocol is recorded as `standalone_pn_v1`.
 
-For token probabilities, the evaluator first finds a token whose normalized text equals the parsed label, then reads P and N log probabilities at that token position. When both are available, the reported probability is `exp(logprob_P) / (exp(logprob_P) + exp(logprob_N))`, calculated after subtracting the larger log probability for numerical stability. This is a probability normalized over the two label tokens. Missing P/N token alternatives produce missing probabilities. The original fallback to the first P/N token is also retained if the parsed label has no matching token.
+For token probabilities, the evaluator first finds a token whose normalized text equals the parsed label, then reads P and N log probabilities at that token position. When both are available, the reported probability is `exp(logprob_P) / (exp(logprob_P) + exp(logprob_N))`, calculated after subtracting the larger log probability for numerical stability. This is a probability normalized over the two label tokens. Missing P/N token alternatives produce missing probabilities. If the parsed label has no matching token, the fallback selects the first actual P/N token and attributes its log probability to that token's label; it does not relabel an emitted N token as P or vice versa.
 
 Accuracy, precision, recall, and F1 use only rows with valid P/N predictions and valid P/N references. P is the positive class, and undefined precision/recall/F1 values are zero. Coverage, error counts, and the number of unscored records are reported separately. Errors are saved as `no_choice_or_bad_label` following the source notebook. The progress display and invocation metrics summarize new rows; the saved metrics JSON summarizes the complete prediction CSV.
 
@@ -38,10 +38,12 @@ Each model writes three files under `results/evaluation/holdout/`:
 | File | Contents |
 | --- | --- |
 | `<output_name>.csv` | Reference and predicted labels, raw model text, aligned token probabilities, latency, and request status |
-| `<output_name>.manifest.json` | Model, input hashes, request settings, and total reference count |
+| `<output_name>.manifest.json` | Model, input hashes, request settings, parsing protocol, and total reference count |
 | `<output_name>.metrics.json` | Complete saved-row metrics and coverage |
 
 A single writer saves each completed request, so completed results remain available after interruption. Repeating a run skips all recorded indices, including recorded failures, as in the source notebook. Changed input files, model IDs, or request settings require a new output name. Existing CSV rows are also checked against the model, reference label, and exact system/user input before reuse. A CSV without its run manifest remains available for offline analysis but cannot be resumed because its original request settings cannot be verified.
+
+The manifest signature includes `label_parser: standalone_pn_v1`. Earlier runs without this value, or with a different parser, require a fresh output name so new requests cannot be mixed with the previous scoring protocol. Offline analysis continues to use labels already recorded in a saved CSV and does not reparse its historical raw answers. Scores calculated under different parsing protocols should retain that distinction in reported comparisons.
 
 For offline analysis:
 

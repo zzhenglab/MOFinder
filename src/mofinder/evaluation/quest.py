@@ -21,6 +21,10 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
+from mofinder.display import display_path, display_paths
+
+LABEL_PARSING_VERSION = "standalone_pn_v1"
+
 DEFAULT_MODEL_ID = "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:98test:EM0eHcxS"
 OUT_DIR_BASE = Path("results/evaluation/mof_quest")
 MAX_CONCURRENCY = 25
@@ -35,7 +39,7 @@ CONDITION_FIELDS = (
 
 
 def _default_prompt():
-    return (REPO_ROOT / "prompts/dataset_classification.txt").read_text(encoding="utf-8")
+    return (REPO_ROOT / "prompts/training/reaction_prediction.txt").read_text(encoding="utf-8")
 
 
 def build_messages_from_question(q: Dict[str, Any], system_prompt: Optional[str] = None) -> Tuple[str, str, List[Dict[str, str]]]:
@@ -89,8 +93,9 @@ def build_items_from_manual_questions(
     return items
 
 def parse_pred_label(text: str) -> str:
-    m = re.search(r"[PN]", (text or "").upper())
-    return m.group(0) if m else ""
+    """Accept only a standalone label; explanations and refusals remain unscored."""
+    label = (text or "").strip().upper()
+    return label if label in ("P", "N") else ""
 
 def running_metrics(rows: List[Dict[str, Any]]) -> Dict[str, float]:
     y_true, y_pred = [], []
@@ -166,8 +171,9 @@ def extract_logprobs_for_label_chat(
     pred_lp = getattr(target_item, "logprob", None)
     alts = getattr(target_item, "top_logprobs", None) or []
 
-    lp_P = pred_lp if chosen_label == "P" and pred_lp is not None else None
-    lp_N = pred_lp if chosen_label == "N" and pred_lp is not None else None
+    token_label = re.sub(r"\s+", "", getattr(target_item, "token", "")).upper()
+    lp_P = pred_lp if token_label == "P" and pred_lp is not None else None
+    lp_N = pred_lp if token_label == "N" and pred_lp is not None else None
 
     for alt in alts:
         a_tok = getattr(alt, "token", "")
@@ -226,8 +232,9 @@ def extract_logprobs_for_label_responses(
     pred_lp = getattr(target_item, "logprob", None)
     alts = getattr(target_item, "top_logprobs", None) or []
 
-    lp_P = pred_lp if chosen_label == "P" and pred_lp is not None else None
-    lp_N = pred_lp if chosen_label == "N" and pred_lp is not None else None
+    token_label = re.sub(r"\s+", "", getattr(target_item, "token", "")).upper()
+    lp_P = pred_lp if token_label == "P" and pred_lp is not None else None
+    lp_N = pred_lp if token_label == "N" and pred_lp is not None else None
 
     for alt in alts:
         a_tok = getattr(alt, "token", "")
@@ -384,7 +391,7 @@ async def call_model_responses_gpt5(
             await asyncio.sleep(min(60, 2**attempt))
 
     # All request attempts failed.
-    print(f"[gpt-5 responses] final error for model {model_id}: {last_error}")
+    print(f"[gpt-5 responses] final error for model {model_id}: {display_paths(str(last_error))}")
     return ""
 
 async def call_model_generic(
@@ -608,7 +615,7 @@ async def evaluate_mof_classifier(
         csv_path.parent.mkdir(parents=True, exist_ok=True)
 
         all_rounds_df.to_csv(str(csv_path), index=False, encoding="utf-8-sig")
-        print(f"Wrote all {rounds} rounds for model {model_id} to: {csv_path}")
+        print(f"Wrote all {rounds} rounds for model {model_id} to: {display_path(csv_path)}")
 
         # Aggregate over rounds
         metric_names = ["accuracy", "precision", "recall", "f1"]
@@ -747,7 +754,7 @@ async def run_evaluation(config, group=None, *, client=None, output_dir=None):
     if not selected_report["valid"]:
         raise ValueError("; ".join(selected_report["errors"]))
     for warning in selected_report["warnings"]:
-        print("Warning:", warning)
+        print("Warning:", display_paths(warning))
     selected = config["groups"][group]
     if client is None:
         from openai import AsyncOpenAI
@@ -761,6 +768,7 @@ async def run_evaluation(config, group=None, *, client=None, output_dir=None):
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest = {
         "group": group,
+        "label_parser": LABEL_PARSING_VERSION,
         "settings": dict(selected, max_concurrency=config["max_concurrency"],
                          retries=config["retries"], seed=config["seed"],
                          print_interval=config["print_interval"]),
@@ -850,7 +858,7 @@ def main(argv=None):
             result = validate_config(config, args.group)
         else:
             result = run(config, args.group, output_dir=args.output_dir)
-    print(json.dumps(result, indent=2, default=str))
+    print(json.dumps(display_paths(result), indent=2, default=str))
     return 0
 
 

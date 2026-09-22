@@ -9,14 +9,14 @@ from peft import LoraConfig, PeftModel, get_peft_model
 from transformers import AutoModelForCausalLM, DataCollatorWithPadding
 from transformers.modeling_outputs import SequenceClassifierOutput
 
-from .records import render_prompt
+from .records import render_prompt, tokenize_prompts
 
 
-def make_dataset(rows, tokenizer, max_length, prompt_style, short_prompt=None):
+def make_dataset(rows, tokenizer, max_length, reaction_prompt=None):
     rendered = []
     for row in rows:
         item = {
-            "text": render_prompt(row, tokenizer, prompt_style, short_prompt),
+            "text": render_prompt(row, reaction_prompt),
             "labels": row["labels"],
         }
         if "numeric_features" in row:
@@ -24,10 +24,10 @@ def make_dataset(rows, tokenizer, max_length, prompt_style, short_prompt=None):
         rendered.append(item)
     raw = Dataset.from_list(rendered)
 
-    def tokenize(batch):
-        return tokenizer(batch["text"], truncation=True, max_length=max_length, padding=False)
+    def tokenize(batch, indices):
+        return tokenize_prompts(batch["text"], tokenizer, max_length, indices)
 
-    return raw.map(tokenize, batched=True, batch_size=256, remove_columns=["text"])
+    return raw.map(tokenize, batched=True, with_indices=True, batch_size=256, remove_columns=["text"])
 
 
 class PnDataCollator:

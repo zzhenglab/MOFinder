@@ -68,8 +68,9 @@ class HoldoutEvaluationTests(unittest.TestCase):
         self.assertEqual(messages, [{"role": "system", "content": system}, {"role": "user", "content": user}])
         self.assertEqual([m["role"] for m in messages], ["system", "user"])
 
-    def test_original_first_pn_character_parser_is_preserved(self):
-        expected = {" P ": "P", "N": "N", "cannot determine": "N", "explanation": "P", "?": "", "": ""}
+    def test_only_standalone_pn_responses_are_accepted(self):
+        expected = {" P ": "P", " n\n": "N", "cannot determine": "", "explanation": "",
+                    "Label: P": "", "P or N": "", "N. More information needed": "", "?": "", "": ""}
         for text, label in expected.items():
             self.assertEqual(self.module.parse_pred_label(text), label)
         self.assertEqual(self.module.parse_pred_label(None), "")
@@ -87,10 +88,25 @@ class HoldoutEvaluationTests(unittest.TestCase):
         self.assertEqual(self.module.prob_from_pair(-.2, None), (None, None))
         self.assertEqual(self.module.prob_from_pair(-1000, -1000), (.5, .5))
 
-    def test_original_token_fallback_is_preserved(self):
-        # Check the probability calculation when the parsed label differs from the token.
+    def test_token_fallback_attributes_probability_to_actual_token(self):
+        # A fallback N token must not have its likelihood assigned to P.
         ch = choice("Explanation N", [token("N", -.2, [("P", -1.0), ("N", -.2)])])
-        self.assertEqual(self.module.extract_logprobs_for_label(ch, "P"), (-.2, -.2, True))
+        self.assertEqual(self.module.extract_logprobs_for_label(ch, "P"), (-1.0, -.2, False))
+        ch = choice("N", [token("N", -.2)])
+        self.assertEqual(self.module.extract_logprobs_for_label(ch, "P"), (None, -.2, None))
+
+    def test_nonanswers_are_saved_without_scoring_and_not_reparsed_offline(self):
+        result = self.run_mock(self.client([choice("explanation"), choice("cannot determine")]))
+        self.assertEqual(result["scored_records"], 0)
+        self.assertEqual(result["error_records"], 2)
+        path = self.root / "out/fixture.csv"
+        frame = self.module.pd.read_csv(path, keep_default_na=False)
+        self.assertEqual(frame["model_output"].tolist(), ["explanation", "cannot determine"])
+        self.assertEqual(frame["pred_label"].tolist(), ["", ""])
+        # Archived CSVs retain their recorded labels during analysis.
+        frame["pred_label"] = ["P", "N"]
+        frame.to_csv(path, index=False)
+        self.assertEqual(self.module.analyze_saved(path)["scored_records"], 2)
 
     def test_metric_denominator_and_unscored_coverage(self):
         rows = [dict(gold_label="P", pred_label="P", error=""),
@@ -145,6 +161,18 @@ class HoldoutEvaluationTests(unittest.TestCase):
             self.run_mock(self.client([]), seed=8)
         with self.assertRaisesRegex(ValueError, "inputs or request settings changed"):
             asyncio.run(self.module.evaluate_holdout("other", self.holdout, "fixture", self.root / "out", client=self.client([])))
+
+    def test_resume_rejects_prior_label_parsing_protocol(self):
+        self.run_mock(self.client([choice("P"), choice("N")]))
+        path = self.root / "out/fixture.manifest.json"
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["signature"]["label_parser"], "standalone_pn_v1")
+        del manifest["signature"]["label_parser"]
+        path.write_text(json.dumps(manifest), encoding="utf-8")
+        client = self.client([])
+        with self.assertRaisesRegex(ValueError, "inputs or request settings changed"):
+            self.run_mock(client)
+        client.chat.completions.create.assert_not_called()
 
     def test_resume_rejects_missing_manifest_and_duplicate_saved_rows(self):
         self.run_mock(self.client([choice("P"), choice("N")]))

@@ -23,6 +23,10 @@ from typing import Any, Dict, List, Optional, Tuple, Union, Sequence
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
+from mofinder.display import display_paths
+
+LABEL_PARSING_VERSION = "standalone_pn_v1"
+
 def get_msg(record: Dict[str, Any], role: str) -> str:
     for m in record.get("messages", []):
         if m.get("role") == role:
@@ -95,8 +99,9 @@ def gold_label_from_record(record: Dict[str, Any]) -> Optional[str]:
     return g if g in ("P","N") else None
 
 def parse_pred_label(text: str) -> str:
-    m = re.search(r"[PN]", (text or "").upper())
-    return m.group(0) if m else ""
+    """Accept only a standalone label; explanations and refusals remain unscored."""
+    label = (text or "").strip().upper()
+    return label if label in ("P", "N") else ""
 
 def running_metrics(rows: List[Dict[str, Any]]) -> Dict[str, float]:
     y_true, y_pred = [], []
@@ -153,8 +158,9 @@ def extract_logprobs_for_label(choice_obj, chosen_label: str) -> Tuple[Optional[
     alts     = getattr(target_item, "top_logprobs", None) or []
 
     # Initialize with predicted token's logprob
-    lp_P = pred_lp if chosen_label == "P" and pred_lp is not None else None
-    lp_N = pred_lp if chosen_label == "N" and pred_lp is not None else None
+    token_label = re.sub(r"\s+", "", pred_tok).upper()
+    lp_P = pred_lp if token_label == "P" and pred_lp is not None else None
+    lp_N = pred_lp if token_label == "N" and pred_lp is not None else None
 
     # Read alternatives at the same position
     for alt in alts:
@@ -392,7 +398,8 @@ async def evaluate_holdout(
     csv_path = out_dir / f"{output_name}.csv"
     manifest_path = out_dir / f"{output_name}.manifest.json"
     signature = {"model_id": model_id, "holdout_files": fingerprints,
-                 "request_parameters": {**REQUEST_PARAMETERS, "seed": seed}, "retries": retries}
+                 "request_parameters": {**REQUEST_PARAMETERS, "seed": seed}, "retries": retries,
+                 "label_parser": LABEL_PARSING_VERSION}
     if csv_path.exists() and not manifest_path.exists():
         raise ValueError("Saved prediction CSV has no run manifest. Choose a new output name; existing predictions remain available for offline analysis.")
     if manifest_path.exists():
@@ -572,7 +579,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             if args.test_mode:
                 settings["test_mode"] = True
             result = asyncio.run(run_config(settings, model_names=args.model))
-    print(json.dumps(result, indent=2, ensure_ascii=False))
+    print(json.dumps(display_paths(result), indent=2, ensure_ascii=False))
     return 0
 
 

@@ -1,7 +1,7 @@
 {
   "project_root": "..",
   "questions_file": "benchmarks/mof_quest/questions.json",
-  "prompt_file": "prompts/dataset_classification.txt",
+  "prompt_file": "prompts/training/reaction_prediction.txt",
   "output_root": "results/evaluation/mof_quest",
   "max_concurrency": 25,
   "print_interval": 5,
