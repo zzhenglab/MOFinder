@@ -31,6 +31,8 @@ Each run writes intermediate CSVs, compact raw and cleaned previews, and `demo_s
 
 The `has_main_document` and `has_supporting_document` flags preserve the original document-availability filter. The script supplies temporary presence values to the curation functions; it does not read the documents. Local PDF paths and raw model responses are omitted from the distributed tables.
 
+The bundled input uses uppercase `TRUE` document flags and explicitly records 72 hours for the first record's `48–72 h` duration. This produces the same cleaned result as the duration parser's upper-range rule. The source manifest distinguishes this demo input from its original source and retains the source row positions and hashes.
+
 Frequency and outlier filters are computed on the demo records. The supplied full-corpus reference and the regenerated demo output thus have separate roles: use `expected/` to verify this run. The current formula and linker-normalization rules are described in [the curation guide](../../docs/curation.md).
 
 ## Duration parsing

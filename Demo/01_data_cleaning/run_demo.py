@@ -11,6 +11,7 @@ import pandas as pd
 
 from mofinder.curation.pipeline import STAGES, run_stage
 from mofinder.curation.times import TIME_PARSER_VERSION
+from mofinder.display import display_path
 
 DEMO_DIR = Path(__file__).resolve().parent
 PRIVATE_COLUMNS = ("main_pdf", "si_pdf", "raw_output", "parsed_json")
@@ -87,7 +88,7 @@ def run(config_file=DEMO_DIR / "config.json", *, output_dir=None, check=False):
         pd.testing.assert_frame_equal(actual, expected, check_dtype=False, check_exact=False, rtol=1e-9, atol=1e-9)
         print("Expected cleaning output matches.")
     print(f"Cleaned {len(raw)} input rows to {len(cleaned)} stage 6 rows.")
-    print(f"Output: {output_dir}")
+    print(f"Output: {display_path(output_dir)}")
     return summary
 
 

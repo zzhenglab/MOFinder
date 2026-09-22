@@ -391,5 +391,27 @@
   "document_availability_columns": {
     "has_main_document": "main_pdf contains a nonempty value",
     "has_supporting_document": "si_pdf contains a nonempty value"
+  },
+  "bundled_input": {
+    "path": "mof_extraction.csv",
+    "sha256": "ef3acef49152e6e2bc6650aafd57cc11d62e47044284778d362475d4064f09ec",
+    "rows": 174,
+    "local_adjustments": [
+      {
+        "bundled_row_zero_based": 0,
+        "field": "time_h",
+        "value": 72,
+        "retained_time_text": "48?72 h",
+        "note": "The demo explicitly supplies the upper endpoint as its numeric duration; cleaning produces the same stage-6 duration."
+      },
+      {
+        "fields": [
+          "has_main_document",
+          "has_supporting_document"
+        ],
+        "note": "Boolean availability flags use uppercase TRUE in this CSV export."
+      }
+    ],
+    "source_hash_scope": "The sources entries identify the original full tables before row selection and local demo edits."
   }
 }

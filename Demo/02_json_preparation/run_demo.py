@@ -8,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 
 from mofinder.datasets.prepare import load_settings, prepare
+from mofinder.display import display_path
 
 DEMO_DIR = Path(__file__).resolve().parent
 
@@ -41,7 +42,7 @@ def run(config_file=DEMO_DIR / "config.json", *, positive_csv=None, output_dir=N
         print("Expected JSONL, labels, and split assignments match.")
     print(f"Training: {summary['counts']['train_rows']} records; holdout: {summary['counts']['holdout_rows']} records.")
     print(f"Shared clusters: {compact['shared_clusters']}")
-    print(f"Output: {out}")
+    print(f"Output: {display_path(out)}")
     return compact
 
 

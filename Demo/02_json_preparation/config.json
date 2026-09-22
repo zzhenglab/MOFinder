@@ -4,7 +4,7 @@
   "negative_csv": "input/negative_cleaned.csv",
   "metadata_file": "input/publication_years.csv",
   "output_dir": "outputs",
-  "prompt_file": "../../prompts/dataset_classification.txt",
+  "prompt_file": "../../prompts/training/reaction_prediction.txt",
   "forced_questions_file": "input/forced_questions.json",
   "rng_seed": 42,
   "holdout_frac": 0.1,

@@ -20,6 +20,8 @@ python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning
 
 The demo requires no API key, GPU, or model download and does not start a fine-tuning job. A typical run takes less than one minute. For a notebook walkthrough, install the `notebook` extra and open [demo.ipynb](demo.ipynb).
 
+The notebook previews holdout examples first, followed by training examples, with two P and two N records per split by default. Change `N_PER_LABEL` to adjust the sample size. Each example includes its source row, DOI, publication year, JSONL line number, eight reaction parameters, and expandable full JSON. Records are matched by normalized conditions and label because the JSONL files are shuffled.
+
 ## Inputs and settings
 
 | File | Contents |
@@ -29,7 +31,7 @@ The demo requires no API key, GPU, or model download and does not start a fine-t
 | [input/publication_years.csv](input/publication_years.csv) | DOI-to-year mapping for the selected publications |
 | [input/source_manifest.json](input/source_manifest.json) | Source table hash and original negative row positions |
 | [config.json](config.json) | Seed, split targets, paths, and balancing settings |
-| [classification prompt](../../prompts/dataset_classification.txt) | System message used in the JSONL records |
+| [reaction-prediction prompt](../../prompts/training/reaction_prediction.txt) | System message used in the JSONL records; shared with MOF Quest evaluation and HPC training |
 
 The seed is 42, with 10% row and cluster targets for holdout. Clusters combine the primary metal precursor, all linkers, and all solvents. The demo's reserved-question list is empty. The full dataset configuration is maintained separately in `configs/`.
 
