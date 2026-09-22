@@ -107,7 +107,7 @@ and flow references.
 
 The required `publisher_W_SI_1.png` entry template is included. The optional `publisher_S_SI_Accept2.png` cookie-button alternative remains absent. Image matching still requires a compatible local browser appearance.
 
-The [mining example](../Demo/05_data_mining/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
+The [mining example](../Demo/03_api_demo/inputs/mining/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
 
 ## Download articles
 
@@ -150,13 +150,14 @@ Browser sequences, file-naming rules, and download detection follow the source
 workflow. The SI test option limits execution to five pending rows; both
 applications support pointer-corner interruption.
 
-Research article and SI downloads remain local. The directories under
-[`Demo/04_literature_retrieval`](../Demo/04_literature_retrieval/README.md) contain placeholders
-and an input-table template. Document matching builds a DOI-to-file manifest from local documents before
+Research article and SI downloads remain local. The API demo's
+[literature input folder](../Demo/03_api_demo/literature_input/README.md)
+contains replaceable article/SI templates and a three-paper DOI inventory.
+Document matching builds a DOI-to-file manifest from local documents before
 positive extraction and negative reconstruction. The separate
-[mining example](../Demo/05_data_mining/README.md) contains demonstration PDFs.
+[mining example](../Demo/03_api_demo/inputs/mining/README.md) contains demonstration PDFs.
 
 Live Chrome literature retrieval remains to be validated on the configured desktop.
 Offline validation and its limits are recorded in
 [literature retrieval validation](literature_retrieval_validation.md). Remaining workflow tasks
-is listed in [next stages](next_stages.md).
+are listed in [next stages](next_stages.md).

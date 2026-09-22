@@ -40,9 +40,8 @@ Cell numbers below are zero-based positions in the source notebooks, including M
 | Abstract-screening prompt | [abstract_triage.txt](../prompts/abstract_triage.txt) |
 | Positive-extraction prompts | [positive_system.txt](../prompts/positive_system.txt), [positive_user.txt](../prompts/positive_user.txt) |
 | Negative-plan prompts | [negative_system.txt](../prompts/negative_system.txt), [negative_user.txt](../prompts/negative_user.txt) |
-| Reaction-classification prompt | [dataset_classification.txt](../prompts/dataset_classification.txt) |
+| Shared reaction-prediction prompt for datasets, MOF Quest, and HPC training | [reaction_prediction.txt](../prompts/training/reaction_prediction.txt) |
 | Publication-specific linker prime corrections | [linker_prime_corrections.json](../data/lookups/linker_prime_corrections.json) |
-| GPT-oss-20B training prompt | [gptoss_short.txt](../prompts/training/gptoss_short.txt) |
 | Paths, model groups, and run settings | [configs/](../configs/) |
 | Manual negative-enumeration rules | [negative_corrections.json](../configs/negative_corrections.json) |
 | MOF Quest condition records and human responses | [benchmarks/mof_quest/](../benchmarks/mof_quest/) |

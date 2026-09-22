@@ -56,8 +56,9 @@
       "source_description": "Human-adjudicated abstract triage reference workbook"
     },
     {
-      "path": "Demo/03_abstract_triage/",
+      "path": "Demo/03_api_demo/inputs/",
       "selection": "First 12 reference rows in source order, joined to metadata by normalized DOI.",
+      "demo_max_papers": 4,
       "rows": 12,
       "expected_validation": {
         "metadata_rows": 12,
@@ -109,7 +110,7 @@
   "related_manifests": {
     "literature_retrieval_inventories": "data/metadata/literature_retrieval/manifest.json",
     "literature_retrieval_templates": "data/literature_retrieval_assets/manifest.json",
-    "mining_examples": "Demo/05_data_mining/manifest.json",
+    "mining_examples": "Demo/03_api_demo/inputs/mining/manifest.json",
     "revised_cleaned_snapshots": "data/processed/revised/manifest.json",
     "training_and_validation": "data/training/manifest.json",
     "linker_molecular_weights": "data/lookups/manifest.json",

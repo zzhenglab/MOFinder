@@ -27,7 +27,7 @@ mining limit. Positive extraction reads all rows in the matched manifest.
 From the repository root, validate the filenames and document text:
 
 ```bash
-python Demo/additional_demo_api_needed/run_demo.py validate --config-dir Demo/additional_demo_api_needed/configs/local_papers
+python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
 ```
 
 Validation lists any remaining templates under `placeholder_documents`. A valid
@@ -38,8 +38,8 @@ extractable text, inspect the PDFs before continuing.
 Run positive extraction and then negative extraction:
 
 ```bash
-python Demo/additional_demo_api_needed/run_demo.py positive --config-dir Demo/additional_demo_api_needed/configs/local_papers --live
-python Demo/additional_demo_api_needed/run_demo.py negative --config-dir Demo/additional_demo_api_needed/configs/local_papers --live
+python Demo/03_api_demo/run_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/run_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
 ```
 
 An existing `OPENAI_API_KEY` is reused; otherwise the script requests the key
@@ -48,7 +48,7 @@ JSON files, selects documents with trial or failure evidence, and enumerates
 saved modification plans. It can return no negative records when the documents
 contain no eligible evidence.
 
-Outputs are saved under `results/examples/additional_demo_api_needed/local_papers/`.
+Outputs are saved under `results/examples/03_api_demo/local_papers/`.
 Positive records and synthesis JSON files are in `positive/`; negative plans,
 parent records, and enumerated conditions are in `negative/`. Keep these outputs
 together. The default one-pair demonstration has a separate output directory.

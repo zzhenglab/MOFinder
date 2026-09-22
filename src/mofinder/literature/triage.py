@@ -26,6 +26,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 from mofinder.config import load_triage_config
+from mofinder.display import display_path
 
 GT_COLUMNS = ["DOI", "Consensus GT", "Annotator 1", "Annotator 1 comment",
               "Annotator 2", "Annotator 2 comment", "Annotator 3", "Annotator 3 comment",
@@ -320,8 +321,8 @@ def human_agreement(ground_truth, *, bootstraps=50_000, seed=42):
 
 
 
-async def classify_one(client, paper, cfg, round_number, *, prompt, run_id, max_output_tokens):
-    """Request a single Y/N answer and preserve failures as unscored records."""
+def build_screening_request(paper, cfg, *, prompt, max_output_tokens):
+    """Build the API request for screening or preview, using bibliographic fields only."""
     text = prompt.format(
         **{
             k: paper[k]
@@ -334,6 +335,24 @@ async def classify_one(client, paper, cfg, round_number, *, prompt, run_id, max_
             ]
         }
     )
+    request = {
+        "model": cfg["model"],
+        "input": [{"role": "user", "content": text}],
+        "max_output_tokens": max_output_tokens,
+        "store": False,
+    }
+    # GPT-4o receives no reasoning argument.
+    if cfg["reasoning_effort"] is not None:
+        request["reasoning"] = {"effort": cfg["reasoning_effort"]}
+    return request
+
+
+async def classify_one(client, paper, cfg, round_number, *, prompt, run_id, max_output_tokens):
+    """Request a single Y/N answer and preserve failures as unscored records."""
+    request_kwargs = build_screening_request(
+        paper, cfg, prompt=prompt, max_output_tokens=max_output_tokens
+    )
+    text = request_kwargs["input"][0]["content"]
 
     record = {
         "Run ID": run_id,
@@ -364,25 +383,6 @@ async def classify_one(client, paper, cfg, round_number, *, prompt, run_id, max_
     started = time.monotonic()
 
     try:
-        request_kwargs = {
-            "model": cfg["model"],
-            "input": [
-                {
-                    "role": "user",
-                    "content": text,
-                }
-            ],
-            "max_output_tokens": max_output_tokens,
-            "store": False,
-        }
-
-        # Only reasoning-capable configurations receive the reasoning argument.
-        # GPT-4o receives no reasoning field at all.
-        if cfg["reasoning_effort"] is not None:
-            request_kwargs["reasoning"] = {
-                "effort": cfg["reasoning_effort"]
-            }
-
         response = await client.responses.create(
             **request_kwargs
         )
@@ -622,7 +622,7 @@ async def screen_all(client, run):
             first = await classify(paper, cfg, round_number)
             record_answer(first)
             if first["Status"] == "configuration_error":
-                print(f"Stopped {cfg['name']}: {first['Error']}")
+                print(f"Stopped {cfg['name']}: {display_path(first['Error'])}")
                 stopped.add(cfg["name"])
                 continue
             tasks = [asyncio.create_task(worker(paper, cfg, r)) for paper, r in pending[1:]]
@@ -662,7 +662,7 @@ async def screen(config_file, *, output_dir=None, resume=False, api_key=None, cl
         from openai import AsyncOpenAI
     run = prepare_screening(config_file, output_dir=output_dir, resume=resume)
     print(json.dumps(validation_summary(validated), indent=2))
-    print("Output folder:", run.output_dir)
+    print("Output folder:", display_path(run.output_dir))
     if client is not None:
         return await screen_all(client, run)
     async with AsyncOpenAI(api_key=api_key, timeout=config["request_timeout"], max_retries=2) as api_client:
@@ -709,7 +709,7 @@ def main(argv=None):
             if not args.no_plots:
                 from mofinder.plotting.triage import plot_results
                 plot_results(context)
-            print("Analysis folder:", context["output_dir"])
+            print("Analysis folder:", display_path(context["output_dir"]))
             return 0
         validated = validate_inputs(args.metadata, args.ground_truth,
                                     sheet=args.sheet, benchmark_only=not args.all_metadata)
@@ -732,7 +732,7 @@ def main(argv=None):
             return 1
         return 0
     except (ValueError, OSError, KeyError, zipfile.BadZipFile, ET.ParseError) as error:
-        parser.exit(2, f"Triage failed: {error}\n")
+        parser.exit(2, f"Triage failed: {display_path(error)}\n")
 
 
 if __name__ == "__main__":

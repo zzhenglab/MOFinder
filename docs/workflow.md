@@ -29,7 +29,7 @@ data/local/articles/10.1021_jacs.2c09756.pdf
 data/local/supporting_information/10.1021_jacs.2c09756_SI.pdf
 ```
 
-Use the DOI with `/` replaced by `_`; add `_SI` for supporting information. These local download directories are excluded from Git. The separately labelled [demonstration pair](../Demo/05_data_mining/README.md) is included for an offline matching check:
+Use the DOI with `/` replaced by `_`; add `_SI` for supporting information. These local download directories are excluded from Git. The separately labelled [demonstration pair](../Demo/03_api_demo/inputs/mining/README.md) is included for an offline matching check:
 
 ```bash
 python -m mofinder.literature.match_documents match --config configs/example_document_matching.json

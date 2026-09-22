@@ -51,6 +51,8 @@ copy of each table before resetting states for a new literature retrieval run.
 ## Local documents
 
 Article PDFs and supporting-information documents are not included. Store
-downloaded copies in the configured local directories. Examples of the table
-format and document-directory placeholders are in
-[`Demo/04_literature_retrieval`](../../../Demo/04_literature_retrieval/README.md).
+downloaded copies in the configured local directories. A small DOI table is
+available in the API demo's
+[`literature_input/inventory.csv`](../../../Demo/03_api_demo/literature_input/inventory.csv).
+The same [literature input folder](../../../Demo/03_api_demo/literature_input/README.md)
+contains replaceable article/SI templates for testing extraction with local documents.

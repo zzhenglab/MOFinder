@@ -11,17 +11,20 @@ from pathlib import Path
 DEMO_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = DEMO_DIR.parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
+from mofinder.display import display_path, display_paths
+
 CONFIG_DIR = DEMO_DIR / "configs"
 PLACEHOLDER_MARKER = "MOFINDER_DOCUMENT_PLACEHOLDER"
 
 
 def require_api_key():
     """Reuse an environment key or request it without displaying the input."""
-    if not os.environ.get("OPENAI_API_KEY", "").strip():
+    key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not key:
         key = getpass.getpass("Enter your OpenAI API key: ").strip()
-        if not key:
-            raise ValueError("An API key is required for live requests.")
-        os.environ["OPENAI_API_KEY"] = key
+    if not key:
+        raise ValueError("An API key is required for live requests.")
+    os.environ["OPENAI_API_KEY"] = key
 
 
 def validate_triage():
@@ -142,7 +145,7 @@ def run_negative(*, live=False, config_dir=CONFIG_DIR):
     problems = {
         key: report.get(key) for key in (
             "missing_inputs", "missing_documents", "missing_success_bases",
-            "yes_dois_without_notes",
+            "yes_dois_without_notes", "yes_dois_without_manifest",
         ) if report.get(key)
     }
     if problems:
@@ -188,9 +191,9 @@ def main(argv=None):
             result = run_positive(args.config_dir) if args.live else validate_positive(args.config_dir)
         else:
             result = run_negative(live=args.live, config_dir=args.config_dir)
-        print(json.dumps(result, indent=2, ensure_ascii=False, default=str))
+        print(json.dumps(display_paths(result), indent=2, ensure_ascii=False, default=str))
     except (ValueError, FileNotFoundError) as exc:
-        parser.exit(1, str(exc) + "\n")
+        parser.exit(1, display_path(exc) + "\n")
     return 0
 
 
