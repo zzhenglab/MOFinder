@@ -116,7 +116,7 @@ class SavedRunEvaluationTests(unittest.TestCase):
             **self.manifest, "completed": False, "created_utc": "2026-02-01T00:00:00+00:00"
         }), encoding="utf-8")
         (incomplete / "responses.jsonl").write_text(json.dumps(self.rows[0]) + "\n", encoding="utf-8")
-        self.assertEqual(select_saved_run(self.root / "runs"), self.run)
+        self.assertEqual(select_saved_run(self.root / "runs"), self.run.resolve())
 
 
 if __name__ == "__main__":

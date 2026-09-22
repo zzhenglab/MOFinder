@@ -88,7 +88,7 @@ class DocumentMatchingTests(unittest.TestCase):
         self.assertEqual(summary["main_present"], 1)
         self.assertEqual(source.read_bytes(), original)
         manifest = matching.read_table(config["manifest_file"])
-        self.assertEqual(manifest.at[0, "Main File"], str(self.articles / "10.0000_test.pdf"))
+        self.assertEqual(manifest.at[0, "Main File"], str((self.articles / "10.0000_test.pdf").resolve()))
         config["matched_inventory_file"] = source
         with self.assertRaisesRegex(ValueError, "read-only"):
             matching.run_matching(config)

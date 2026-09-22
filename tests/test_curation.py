@@ -311,8 +311,8 @@ class CurationTests(unittest.TestCase):
             "positive": {"input_csv": "positive.csv", "output_dir": "out/positive"},
             "negative": {"input_csv": "negative.csv", "output_dir": "out/negative"}}))
         settings = load_config(config)
-        self.assertEqual(settings["linker_mw_csv"], self.lookup)
-        self.assertEqual(settings["positive"]["output_dir"], self.root / "out/positive")
+        self.assertEqual(settings["linker_mw_csv"], self.lookup.resolve())
+        self.assertEqual(settings["positive"]["output_dir"], (self.root / "out/positive").resolve())
 
 
 if __name__ == "__main__":
