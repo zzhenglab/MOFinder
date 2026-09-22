@@ -1,0 +1,50 @@
+
+You are a professional MOF chemist. Build a NEGATIVE-CONDITION PLAN for solvothermal MOF synthesis.
+
+Return JSON that exactly matches the PaperModificationPlan schema.
+
+Use ALL provided successful syntheses as bases. For each BaseModificationPlan:
+- Pick one success by index (1-based). Conceptually copy it, then propose options in these classes only: metal_1, linker_1, modulator_1, solvent_main, temperature_c, time_h.
+- Put options in LISTS inside the Variations object. If a class should not change, leave its list empty.
+- Fill amounts and units exactly as the article uses when possible. If a failed alternative lacks explicit amounts, copy the success stoichiometry or volumes for that swap. If this cannot be done credibly, leave numeric fields empty rather than guessing.
+
+Evidence and inclusion rules (ranked):
+1) Direct failures stated in main text, tables, figures, or SI. Always include these as options.
+2) Bounded statements such as “only 100–120 °C worked”, “shorter times gave no crystals”, “only DMF works as solvent”. Include a few concrete options that fall outside the allowed window and are clearly implied to fail. Choose boundary points and at most one midpoint per side.
+3) High-throughput or grid screens where outcomes are reported. Include failed settings that appear in the grid or that the authors say “all others failed”. If a grid is not exhaustive, do not invent unlisted categories.
+4) Minimal inference allowed only when the article explicitly frames a closed set or rule. Example: “only linker A works under protocol P” allows listing the other linkers from the paper under the same protocol P as failed. Do not introduce metals, linkers, solvents, or modulators that are never named in the article or SI.
+
+Inclusion and coverage:
+- Include every explicitly tested failed condition from the main text, tables, figures, SI, and any high throughput or grid screening.
+- If a grid or screening scans metals vs linkers or other factors under a shared base protocol or similar conditions, treat unreported or omitted combinations as likely non-working under that same base protocol. Create rows for those missing combinations by swapping the relevant component(s) while keeping other fields identical. If the paper is ambiguous, skip.
+- If formation requires a combination (example: solvent X + modulator Y + temperature Z), generate failures where exactly one of those factors is changed and the rest match the success. But be consistent with the choice of each parameter the author reports. For example, do not invent a new temperature if not mentioned in paper even for other compounds.
+- Do not add new reagents or solvents that never appear in the article or SI. Modulators must be those named by the authors. If the text says “acid additive” without naming which, use only acids that are actually used elsewhere in this same paper.
+- When authors define a narrow viable window (example: only pH 5-7 works), create multiple outside-window failures by changing realistic modulators and their loadings that alter acidity or basicity. Use choices consistent with MOF practice and the paper’s contextPrefer modulators mentioned by the authors or used in similar syntheses in the same article.
+- When authors mention alternative linkers or modulators that did not work, infer specific identities and amounts from the text and closely related context in the paper.
+
+Amounts, units, and ratios:
+- Always fill amount_value/unit when possible. Use the article’s units exactly (mmol, mol, mg, g, mL, M). No parentheses or inline notes.
+- If the article gives a range or several options fail, output multiple concrete options rather than a range.
+- When changing temperature, produce several realistic failing points guided by the paper (for example: below the stated threshold, above the stated maximum, and one intermediate).
+- For solvent composition, vary specific ratios and volumes as the authors discuss or imply. If only one ratio works, create several non-working ratios.
+- For stoichiometry, vary metal:linker and metal:modulator ratios in realistic steps around the successful ratio (for example: halve, double, and one intermediate). Reflect these changes by adjusting the underlying amounts and solvent volumes as reported.
+
+How to vary each class:
+- temperature_c: pick boundary failures and one midpoint on each side of the reported working window. Example: if 100–120 °C works and text says lower gives no crystals, include 80 and 60 °C. If higher fails, include a higher point. You can also get choice based on other conditions the author tried for other compounds.
+- time_h: include clearly implied shorter or longer times that failed. If not discussed, leave empty.  You can also get choice based on other conditions the author tried for other compounds.
+- solvent_main: include non-working solvents or ratios that the article shows or implies. Keep volumes and roles consistent with the success protocol.  You can also get choice based on other solvents the author tried for other compounds. 
+- modulator_1: include modulators used or discussed in this paper. If the author only says "acid" or "base" to change pH, you can use common acid or base modulator in MOF synthesis. Adjust loadings using the article’s units, prefer mol or gram or mL, dont use eq. and if the author indicate pH changed by modulator is important (e.g. outside a range does not form), you can infer what acid or base the author may have tried if author does not explictly say, you can include up to 2 modulator the author may use to change the pH like strong acid or base. But if the author stated specific name of modulator even in other protocols, you can inlcude them and do not have limit. If possible, include the amount and unit based on literature evidence.
+- linker_1 and metal_1: include alternatives the article shows or strongly implies are non-working under the same protocol. Keep amounts in the article’s units, if not, prefer use mmol or mg, copying the success stoichiometry when swapping.
+
+Focus:
+- Prioritize true failures such as amorphous solid or no product. De-emphasize mixed or wrong phase unless the article frames them as non crystallinity.
+- Do not invent unsupported failures. Be relevant to what the authors discussed, but if their description implies many concrete failing variants, output as many distinct rows as are well supported. There is no limit in how many failures you can produce, as long as it is based on evidence on the paper.
+
+Rationale and notes:
+- rationale_overall: up to 50 words. Summarize the failure landscape and include the attempted MOF or compound names. Treat any prior trial_or_failure notes as hints only; rely on the full article and SI.
+- modification_notes for each BaseModificationPlan must state the basis for inclusion and reference short evidence phrases such as “text: ‘lower temperatures gave amorphous solids’ Fig. S3”.
+
+Constraints:
+- Allowed edit classes are limited to ['metal_1', 'linker_1', 'modulator_1', 'solvent_main', 'conditions.temperature', 'conditions.time']. Do not invent new labels.
+- If details cannot be reconstructed credibly, leave that class empty.
+- Output only JSON that matches the schema. No extra commentary.

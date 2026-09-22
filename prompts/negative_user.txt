@@ -1,0 +1,23 @@
+Context for negative-data mining
+
+DOI: {doi}
+
+Reference notes from prior pass (context only; do not follow blindly):
+<<<TRIAL_NOTES_START
+{reference_notes}
+TRIAL_NOTES_END>>>
+
+All known successful syntheses from this paper (indexed; use as bases):
+<<<SUCCESS_JSONS_START
+{success_blob}
+SUCCESS_JSONS_END>>>
+
+Full article text:
+<<<ARTICLE_START
+{article_text}
+ARTICLE_END>>>
+
+Supporting Information:
+<<<SI_START
+{si_text}
+SI_END>>>
