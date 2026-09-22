@@ -1,0 +1,121 @@
+{
+  "dataset_version": "triage-2026-09-21",
+  "base_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
+  "files": [
+    {
+      "path": "data/metadata/literature_metadata.csv",
+      "source_sha256": "fd7dd1fe93510031fc3d61195744bff4488d1e4c2b7262d404bd172cb27871f3",
+      "source_sheet": "Sheet1",
+      "export_sha256": "7105758d0e492d28e4eaa27575b8a00b0a9a94fd46c9c198cdc277869e608ba1",
+      "rows": 13773,
+      "columns": [
+        "DOI",
+        "Article Title",
+        "Source Title",
+        "Author Keywords",
+        "Keywords Plus",
+        "Abstract"
+      ],
+      "transformation": "Column selection only; source row order and cell text preserved.",
+      "normalized_unique_dois": 13770,
+      "conflicting_duplicate_dois": [
+        "10.1021/acs.chemmater.2c00846",
+        "10.1021/acs.inorgchem.2c04233",
+        "10.1039/c2sc20344h"
+      ],
+      "benchmark_conflicts": 0,
+      "source_id": "literature_bibliography",
+      "source_description": "Literature bibliography workbook"
+    },
+    {
+      "path": "benchmarks/abstract_triage/ground_truth.xlsx",
+      "sha256": "39c70b9ba165642a80ea5478201b67d1cadd809291af8d1948fcb3d58e783b9e",
+      "transformation": "Byte-identical copy under a descriptive filename.",
+      "rows": 478,
+      "consensus_counts": {
+        "Y": 293,
+        "N": 185
+      },
+      "columns": [
+        "DOI",
+        "Consensus GT",
+        "Annotator 1",
+        "Annotator 1 comment",
+        "Annotator 2",
+        "Annotator 2 comment",
+        "Annotator 3",
+        "Annotator 3 comment",
+        "Annotator 4",
+        "Annotator 4 comment",
+        "Vote pattern",
+        "Resolution method",
+        "Rule/reason"
+      ],
+      "reference_abstracts_present": 478,
+      "source_id": "abstract_triage_human_reference",
+      "source_description": "Human-adjudicated abstract triage reference workbook"
+    },
+    {
+      "path": "Demo/03_abstract_triage/",
+      "selection": "First 12 reference rows in source order, joined to metadata by normalized DOI.",
+      "rows": 12,
+      "expected_validation": {
+        "metadata_rows": 12,
+        "reference_publications": 12,
+        "consensus_counts": {
+          "Y": 9,
+          "N": 3
+        },
+        "scheduled_publications": 12,
+        "missing_reference_publications": 0,
+        "identical_duplicates_collapsed": 0
+      }
+    },
+    {
+      "path": "data/metadata/publication_years.csv",
+      "source_sha256": "fd7dd1fe93510031fc3d61195744bff4488d1e4c2b7262d404bd172cb27871f3",
+      "source_sheet": "Sheet1",
+      "export_sha256": "a69ed672b2184f23a757bd5b8520e8378e931232ca1d09b63d79858eaa197e57",
+      "rows": 13773,
+      "columns": [
+        "DOI",
+        "Publication Year"
+      ],
+      "transformation": "Column selection only; source order, DOI values, and publication years preserved. Duplicate DOI handling is defined by the dataset preparation configuration.",
+      "source_id": "literature_bibliography",
+      "source_description": "Literature bibliography workbook"
+    },
+    {
+      "path": "data/name_SMILES_mappers/name2smiles_1222.json",
+      "source_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
+      "sha256": "e2955039c4c1ccdfc9cef73629b2df2dd73d32977f6509d7659748121b62ae58",
+      "entries": 3734,
+      "transformation": "Byte-identical copy of the original mapping dictionary."
+    },
+    {
+      "path": "data/name_SMILES_mappers/smiles2name_1222.json",
+      "source_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
+      "sha256": "3a5e1db062cce138e5bbaa4783ad1da0cd555da96f7b11714e858814e8c829fa",
+      "entries": 2290,
+      "transformation": "Byte-identical copy of the original mapping dictionary."
+    }
+  ],
+  "workflow_source": {
+    "sha256": "aeb92f27e5a4ec9c133ed299fc52996558c10f1f4ca05cccb25ac94ccc32ae76",
+    "integrated_notebook": "notebooks/01_abstract_triage.ipynb",
+    "source_id": "abstract_triage_source",
+    "source_description": "Consolidated abstract triage notebook"
+  },
+  "related_manifests": {
+    "literature_retrieval_inventories": "data/metadata/literature_retrieval/manifest.json",
+    "literature_retrieval_templates": "data/literature_retrieval_assets/manifest.json",
+    "mining_examples": "Demo/05_data_mining/manifest.json",
+    "revised_cleaned_snapshots": "data/processed/revised/manifest.json",
+    "training_and_validation": "data/training/manifest.json",
+    "linker_molecular_weights": "data/lookups/manifest.json",
+    "human_mof_quest": "benchmarks/mof_quest/human_manifest.json",
+    "cleaning_demo": "Demo/01_data_cleaning/input/source_manifest.json",
+    "json_preparation_demo": "Demo/02_json_preparation/input/source_manifest.json",
+    "corrected_linker_records": "data/processed/corrected/manifest.json"
+  }
+}

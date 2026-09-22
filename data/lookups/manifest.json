@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "path": "data/lookups/linker_molecular_weights.csv",
+      "sha256": "c97d21a12c8e333d2ecafdd3e75464567009b2cfab4f7da9d8bb15e46e7633e5",
+      "transformation": "Byte-identical copy under a descriptive filename.",
+      "header": false,
+      "columns": [
+        "linker_name",
+        "molecular_weight_g_mol"
+      ],
+      "rows": 591,
+      "known_weight_rows": 217,
+      "unknown_weight_rows": 374,
+      "unique_names_case_insensitive": 582,
+      "known_weight_names": 210,
+      "unknown_weight_names": 372,
+      "blank_weight_policy": "Leave unresolved; do not estimate a value.",
+      "source_id": "linker_molecular_weights",
+      "source_description": "Linker molecular-weight lookup"
+    },
+    {
+      "path": "data/lookups/linker_prime_corrections.json",
+      "sha256": "a3ca86bfb5ef957a3a8f95498f44b7ee0bbea724447d95bae7618089338a3834",
+      "rules": 167,
+      "revision": "same-doi-linker-primes-v1",
+      "scope": "Exact DOI and complete linker-name or abbreviation pairs; prime glyphs only."
+    }
+  ]
+}

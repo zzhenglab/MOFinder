@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "description": "Fine-tuning training and validation datasets.",
+  "files": [
+    {
+      "path": "data/training/train.jsonl",
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "size_bytes": 19352940,
+      "rows": 23528,
+      "labels": {
+        "P": 11968,
+        "N": 11560
+      },
+      "transformation": "Original JSONL bytes preserved.",
+      "dataset_id": "reaction_condition_training"
+    },
+    {
+      "path": "data/training/holdout.jsonl",
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "size_bytes": 2130342,
+      "rows": 2595,
+      "labels": {
+        "P": 1320,
+        "N": 1275
+      },
+      "transformation": "Original JSONL bytes preserved.",
+      "dataset_id": "reaction_condition_holdout"
+    }
+  ],
+  "split_assignments": "data/splits/split_assignments.csv",
+  "split_summary": "data/splits/split_summary.json"
+}

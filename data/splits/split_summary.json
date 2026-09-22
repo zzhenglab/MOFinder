@@ -1,0 +1,455 @@
+{
+  "counts_before_pn_enforcement": {
+    "train": {
+      "P": 11975,
+      "N": 11564
+    },
+    "holdout": {
+      "P": 1331,
+      "N": 1285
+    }
+  },
+  "balance": {
+    "exact_ratio_units": {
+      "P": 88,
+      "N": 85
+    },
+    "rows_removed_from_train_for_exact_ratio": 11,
+    "rows_removed_from_holdout_for_exact_ratio": 21
+  },
+  "forced_holdout": {
+    "questions": [
+      {
+        "question": "Q1",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q2",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q3",
+        "reference_label": "P",
+        "matched_rows": 0
+      },
+      {
+        "question": "Q4",
+        "reference_label": "P",
+        "matched_rows": 0
+      },
+      {
+        "question": "Q5",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q6",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q7",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q8",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q9",
+        "reference_label": "P",
+        "matched_rows": 0
+      },
+      {
+        "question": "Q10",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q11",
+        "reference_label": "P",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q12",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q13",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q14",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q15",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q16",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q17",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q18",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q19",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q20",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q21",
+        "reference_label": "N",
+        "matched_rows": 1
+      },
+      {
+        "question": "Q22",
+        "reference_label": "N",
+        "matched_rows": 1
+      }
+    ],
+    "rows_matching_forced_questions": 19,
+    "questions_not_found_after_filters": [
+      "Q3",
+      "Q4",
+      "Q9"
+    ]
+  },
+  "config": {
+    "rng_seed": 42,
+    "holdout_frac": 0.1,
+    "holdout_cluster_frac": 0.1,
+    "pn_mode": "equal",
+    "raw_pn_relative_tolerance": null,
+    "holdout_search_trials": 64,
+    "holdout_search_swaps": 1200,
+    "cluster_metal_mode": "precursor",
+    "cluster_definition": "primary metal + all linkers + all solvents",
+    "drop_input_label_conflicts": true,
+    "dedup_exact_input_within_label": true
+  },
+  "counts": {
+    "input_rows_total": 30403,
+    "rows_after_required_field_checks": 29857,
+    "rows_skipped_required": 546,
+    "rows_with_conflicting_input_labels": 1295,
+    "rows_after_conflict_filter": 29221,
+    "rows_deduped_exact_input_within_label": 3066,
+    "rows_final": 26123,
+    "rows_with_publication_year_final": 26122,
+    "train_rows": 23528,
+    "holdout_rows": 2595,
+    "train_missing_publication_year_rows": 0,
+    "holdout_missing_publication_year_rows": 1
+  },
+  "labels": {
+    "input": {
+      "P": 15340,
+      "N": 15063
+    },
+    "after_required_field_checks": {
+      "P": 15109,
+      "N": 14748
+    },
+    "after_conflict_filter": {
+      "P": 15109,
+      "N": 14112
+    },
+    "after_all_drops": {
+      "P": 13288,
+      "N": 12835
+    },
+    "train": {
+      "P": 11968,
+      "N": 11560
+    },
+    "holdout": {
+      "P": 1320,
+      "N": 1275
+    }
+  },
+  "clusters": {
+    "unique_clusters_final": 12388,
+    "holdout_clusters": 1231,
+    "train_clusters": 11157
+  },
+  "outputs": {
+    "train": "data/training/train.jsonl",
+    "holdout": "data/training/holdout.jsonl",
+    "class_map": "data/splits/class_map.json",
+    "year_outputs": [
+      {
+        "type": "single_bin",
+        "bin": 1,
+        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2012.jsonl",
+        "start_year": 1999,
+        "end_year": 2012,
+        "rows": 6006,
+        "labels": {
+          "P": 2719,
+          "N": 3287
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 2,
+        "path": "results/datasets/archived_conditions/mof_cls_train_2013to2015.jsonl",
+        "start_year": 2013,
+        "end_year": 2015,
+        "rows": 5302,
+        "labels": {
+          "P": 2378,
+          "N": 2924
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 3,
+        "path": "results/datasets/archived_conditions/mof_cls_train_2016to2019.jsonl",
+        "start_year": 2016,
+        "end_year": 2019,
+        "rows": 5746,
+        "labels": {
+          "P": 3137,
+          "N": 2609
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 4,
+        "path": "results/datasets/archived_conditions/mof_cls_train_2020to2025.jsonl",
+        "start_year": 2020,
+        "end_year": 2025,
+        "rows": 6474,
+        "labels": {
+          "P": 3734,
+          "N": 2740
+        }
+      },
+      {
+        "type": "cumulative_1to2",
+        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2015.jsonl",
+        "start_year": 1999,
+        "end_year": 2015,
+        "rows": 11308,
+        "labels": {
+          "P": 5097,
+          "N": 6211
+        }
+      },
+      {
+        "type": "cumulative_1to3",
+        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2019.jsonl",
+        "start_year": 1999,
+        "end_year": 2019,
+        "rows": 17054,
+        "labels": {
+          "P": 8234,
+          "N": 8820
+        }
+      }
+    ],
+    "year_outputs_5periods": [
+      {
+        "type": "single_bin",
+        "bin": 1,
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2011.jsonl",
+        "start_year": 1999,
+        "end_year": 2011,
+        "rows": 4352,
+        "labels": {
+          "P": 1944,
+          "N": 2408
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 2,
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2012to2014.jsonl",
+        "start_year": 2012,
+        "end_year": 2014,
+        "rows": 4623,
+        "labels": {
+          "P": 2259,
+          "N": 2364
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 3,
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2015to2017.jsonl",
+        "start_year": 2015,
+        "end_year": 2017,
+        "rows": 5226,
+        "labels": {
+          "P": 2512,
+          "N": 2714
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 4,
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2018to2020.jsonl",
+        "start_year": 2018,
+        "end_year": 2020,
+        "rows": 4154,
+        "labels": {
+          "P": 2232,
+          "N": 1922
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 5,
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2021to2025.jsonl",
+        "start_year": 2021,
+        "end_year": 2025,
+        "rows": 5173,
+        "labels": {
+          "P": 3021,
+          "N": 2152
+        }
+      },
+      {
+        "type": "cumulative_1to2",
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2014.jsonl",
+        "start_year": 1999,
+        "end_year": 2014,
+        "rows": 8975,
+        "labels": {
+          "P": 4203,
+          "N": 4772
+        }
+      },
+      {
+        "type": "cumulative_1to3",
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2017.jsonl",
+        "start_year": 1999,
+        "end_year": 2017,
+        "rows": 14201,
+        "labels": {
+          "P": 6715,
+          "N": 7486
+        }
+      },
+      {
+        "type": "cumulative_1to4",
+        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2020.jsonl",
+        "start_year": 1999,
+        "end_year": 2020,
+        "rows": 18355,
+        "labels": {
+          "P": 8947,
+          "N": 9408
+        }
+      }
+    ],
+    "split_assignments": "data/splits/split_assignments.csv"
+  },
+  "provenance": {
+    "notes": {
+      "positive": "Archived positive stage 6 records with four local-path columns removed.",
+      "negative": "Archived negative stage 6_v3 records with four local-path columns removed."
+    },
+    "files": {
+      "positive_csv": {
+        "path": "data/processed/revised/positive_stage6.csv",
+        "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5"
+      },
+      "negative_csv": {
+        "path": "data/processed/revised/negative_stage6_v3.csv",
+        "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06"
+      },
+      "metadata_file": {
+        "path": "data/metadata/publication_years.csv",
+        "sha256": "a69ed672b2184f23a757bd5b8520e8378e931232ca1d09b63d79858eaa197e57"
+      },
+      "prompt_file": {
+        "path": "prompts/dataset_classification.txt",
+        "sha256": "26dec7168e91ad13cb39dfb5e9782ac26f5b8fc0bcfc9e19fd239c8c61c435e6"
+      },
+      "forced_questions_file": {
+        "path": "configs/dataset_forced_questions.json",
+        "sha256": "1b68f8aef77f2a11711d3c96336b3615a732e12afd62f1e60625ba649cf17751"
+      },
+      "config_file": {
+        "path": "configs/dataset_preparation_archived.json",
+        "sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a"
+      }
+    },
+    "versions": {
+      "pandas": "2.2.3",
+      "numpy": "2.3.5"
+    },
+    "effective_settings": {
+      "project_root": ".",
+      "positive_csv": "data/processed/revised/positive_stage6.csv",
+      "negative_csv": "data/processed/revised/negative_stage6_v3.csv",
+      "metadata_file": "data/metadata/publication_years.csv",
+      "output_dir": "results/datasets/archived_conditions",
+      "prompt_file": "prompts/dataset_classification.txt",
+      "forced_questions_file": "configs/dataset_forced_questions.json",
+      "rng_seed": 42,
+      "holdout_frac": 0.1,
+      "holdout_cluster_frac": 0.1,
+      "pn_mode": "equal",
+      "raw_pn_relative_tolerance": 0.1,
+      "cluster_metal_mode": "precursor",
+      "include_modulator_in_cluster": false,
+      "year_bins": 4,
+      "year_bins_5": 5,
+      "drop_input_label_conflicts": true,
+      "dedup_exact_input_within_label": true,
+      "shuffle_output": true,
+      "holdout_search_trials": 64,
+      "holdout_search_swaps": 1200,
+      "input_provenance": {
+        "positive": "Archived positive stage 6 records with four local-path columns removed.",
+        "negative": "Archived negative stage 6_v3 records with four local-path columns removed."
+      },
+      "config_file": "configs/dataset_preparation_archived.json"
+    }
+  },
+  "output_path_base": "repository_root",
+  "year_subset_files": "Generated by the archived preparation command under results/datasets/archived_conditions; not included in the archived training directory.",
+  "archived_jsonl_verification": {
+    "data/training/train.jsonl": {
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "size_bytes": 19352940,
+      "regenerated_exact_match": true
+    },
+    "data/training/holdout.jsonl": {
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "size_bytes": 2130342,
+      "regenerated_exact_match": true
+    }
+  },
+  "split_assignment_file": {
+    "path": "data/splits/split_assignments.csv",
+    "encoding": "utf-8-sig",
+    "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa",
+    "rows": 26123
+  }
+}

@@ -1,0 +1,1224 @@
+{
+  "schema_version": 1,
+  "revision": "same-doi-linker-primes-v1",
+  "description": "Prime glyphs restored from intact linker names or abbreviations in records from the same publication. Each rule requires an exact DOI and complete field value.",
+  "fields": [
+    "linker_1",
+    "linker_1_abbr",
+    "linker_2",
+    "linker_2_abbr",
+    "linker_3",
+    "linker_3_abbr"
+  ],
+  "corrections": [
+    {
+      "source_name": "(1,1?,2?,1?-terphenyl)-4,4?,4?,5?-tetracarboxylic acid",
+      "corrected_name": "(1,1′,2′,1″-terphenyl)-4,4′,4″,5′-tetracarboxylic acid",
+      "dois": [
+        "10.1016/j.molstruc.2016.01.003"
+      ]
+    },
+    {
+      "source_name": "(E,E)-3,3?-(2,5-furandiyl)bis-2-propenoic acid",
+      "corrected_name": "(E,E)-3,3′-(2,5-furandiyl)bis-2-propenoic acid",
+      "dois": [
+        "10.1021/jacs.3c11947"
+      ]
+    },
+    {
+      "source_name": "(R,R)-2,2?-((5-(methoxycarbonyl)-1,3-phenylene)bis(oxy))dipropanoic acid",
+      "corrected_name": "(R,R)-2,2′-((5-(methoxycarbonyl)-1,3-phenylene)bis(oxy))dipropanoic acid",
+      "dois": [
+        "10.1021/acs.cgd.6b01763"
+      ]
+    },
+    {
+      "source_name": "(S,S)-2,2?-((5-(methoxycarbonyl)-1,3-phenylene)bis(oxy))dipropanoic acid",
+      "corrected_name": "(S,S)-2,2′-((5-(methoxycarbonyl)-1,3-phenylene)bis(oxy))dipropanoic acid",
+      "dois": [
+        "10.1021/acs.cgd.6b01763"
+      ]
+    },
+    {
+      "source_name": "(Z)-4,4?-stilbene dicarboxylic acid",
+      "corrected_name": "(Z)-4,4′-stilbene dicarboxylic acid",
+      "dois": [
+        "10.1039/d3ce00138e"
+      ]
+    },
+    {
+      "source_name": "1,1?-(1,2-ethyl)bis(imidazole)",
+      "corrected_name": "1,1′-(1,2-ethyl)bis(imidazole)",
+      "dois": [
+        "10.1021/cg500197v"
+      ]
+    },
+    {
+      "source_name": "1,1?-(1,4-butanediyl)bis(imidazole)",
+      "corrected_name": "1,1′-(1,4-butanediyl)bis(imidazole)",
+      "dois": [
+        "10.1021/cg700758c"
+      ]
+    },
+    {
+      "source_name": "1,1?-(1,4-hexanediyl)bis(imidazole)",
+      "corrected_name": "1,1′-(1,4-hexanediyl)bis(imidazole)",
+      "dois": [
+        "10.1021/cg700758c"
+      ]
+    },
+    {
+      "source_name": "1,1?-(2-(trifluoromethyl)-1,4-phenylene)bis(1H-imidazole)",
+      "corrected_name": "1,1′-(2-(trifluoromethyl)-1,4-phenylene)bis(1H-imidazole)",
+      "dois": [
+        "10.1039/d5ce00247h"
+      ]
+    },
+    {
+      "source_name": "1,1?-(5-methyl-1,3-phenylene)bis(1H-imidazole)",
+      "corrected_name": "1,1′-(5-methyl-1,3-phenylene)bis(1H-imidazole)",
+      "dois": [
+        "10.1021/acs.cgd.6b01768"
+      ]
+    },
+    {
+      "source_name": "1,1?-(oxybis(1,4-phenylene))bis(1H-1,2,4-triazole)",
+      "corrected_name": "1,1′-(oxybis(1,4-phenylene))bis(1H-1,2,4-triazole)",
+      "dois": [
+        "10.1039/d1ce00780g"
+      ]
+    },
+    {
+      "source_name": "1,1?-biphenyl-2,2?-dicarboxylate acid",
+      "corrected_name": "1,1′-biphenyl-2,2′-dicarboxylate acid",
+      "dois": [
+        "10.1039/d3ce00166k"
+      ]
+    },
+    {
+      "source_name": "1,1?-ferrocenedicarboxylic acid",
+      "corrected_name": "1,1′-ferrocenedicarboxylic acid",
+      "dois": [
+        "10.1039/c9dt01406c",
+        "10.1039/c9dt03489g"
+      ]
+    },
+    {
+      "source_name": "1,1?:3,1??-terphenyl-4,4??,5?-tricarboxylic acid",
+      "corrected_name": "1,1′:3,1′′-terphenyl-4,4′′,5′-tricarboxylic acid",
+      "dois": [
+        "10.1039/c5dt02636a"
+      ]
+    },
+    {
+      "source_name": "1,1?:4?,1?-terphenyl-3,3?,5,5?-tetracarboxylic acid",
+      "corrected_name": "1,1′:4′,1″-terphenyl-3,3″,5,5″-tetracarboxylic acid",
+      "dois": [
+        "10.1021/ja3085884"
+      ]
+    },
+    {
+      "source_name": "1,2,3,4,5,6-hexakis[4,4?-dicarboxy-(1,1?:3?,1?-terphenyl)]benzene",
+      "corrected_name": "1,2,3,4,5,6-hexakis[4,4″-dicarboxy-(1,1′:3′,1″-terphenyl)]benzene",
+      "dois": [
+        "10.1021/jacs.5c06012"
+      ]
+    },
+    {
+      "source_name": "1,5-dihydrobenzo[1,2-d:4,5-d?]bis([1,2,3]triazole)",
+      "corrected_name": "1,5-dihydrobenzo[1,2-d:4,5-d′]bis([1,2,3]triazole)",
+      "dois": [
+        "10.1021/jacs.3c06393"
+      ]
+    },
+    {
+      "source_name": "1H,1?H-[2,4?-biimidazole]-4,5-dicarboxylic acid",
+      "corrected_name": "1H,1′H-[2,4′-biimidazole]-4,5-dicarboxylic acid",
+      "dois": [
+        "10.1016/j.inoche.2018.02.003"
+      ]
+    },
+    {
+      "source_name": "1H,5H-benzo(1,2-d:4,5-d?)bistriazole",
+      "corrected_name": "1H,5H-benzo(1,2-d:4,5-d′)bistriazole",
+      "dois": [
+        "10.1021/acs.cgd.6b00038"
+      ]
+    },
+    {
+      "source_name": "2,2?,3,3?-benzophenone tetracarboxylic acid",
+      "corrected_name": "2,2′,3,3′-benzophenone tetracarboxylic acid",
+      "dois": [
+        "10.1039/c0dt00374c"
+      ]
+    },
+    {
+      "source_name": "2,2?,3,3?-tdpda",
+      "corrected_name": "2,2′,3,3′-tdpda",
+      "dois": [
+        "10.1021/cg060343u"
+      ]
+    },
+    {
+      "source_name": "2,2?,3,3?-thiodiphthalic dianhydride",
+      "corrected_name": "2,2′,3,3′-thiodiphthalic dianhydride",
+      "dois": [
+        "10.1021/cg060343u"
+      ]
+    },
+    {
+      "source_name": "2,2?,4,4?-biphenyltetracarboxylic acid",
+      "corrected_name": "2,2′,4,4′-biphenyltetracarboxylic acid",
+      "dois": [
+        "10.1039/c5dt00412h"
+      ]
+    },
+    {
+      "source_name": "2,2?-azodibenzoic acid",
+      "corrected_name": "2,2′-azodibenzoic acid",
+      "dois": [
+        "10.1039/c4ce01856g"
+      ]
+    },
+    {
+      "source_name": "2,2?-biimidazole",
+      "corrected_name": "2,2′-biimidazole",
+      "dois": [
+        "10.1039/c5ra13582f"
+      ]
+    },
+    {
+      "source_name": "2,2?-biphenyldicarboxylic acid",
+      "corrected_name": "2,2′-biphenyldicarboxylic acid",
+      "dois": [
+        "10.1021/acs.cgd.5b01772"
+      ]
+    },
+    {
+      "source_name": "2,2?-bipy",
+      "corrected_name": "2,2′-bipy",
+      "dois": [
+        "10.1021/ic050644d",
+        "10.1039/b710209g",
+        "10.1039/b806297h",
+        "10.1039/d0nj03628e"
+      ]
+    },
+    {
+      "source_name": "2,2?-bipyridine",
+      "corrected_name": "2,2′-bipyridine",
+      "dois": [
+        "10.1016/j.molstruc.2010.04.026",
+        "10.1021/cg070407g",
+        "10.1021/ic050644d",
+        "10.1039/b710209g",
+        "10.1039/b806297h",
+        "10.1039/c3ce41728j",
+        "10.1039/c5dt02147b",
+        "10.1039/d0nj03628e"
+      ]
+    },
+    {
+      "source_name": "2,2?-bipyridine-3,3?-dicarboxylic acid",
+      "corrected_name": "2,2′-bipyridine-3,3′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b02324"
+      ]
+    },
+    {
+      "source_name": "2,2?-bipyridine-5,5?-dicarboxylic acid",
+      "corrected_name": "2,2′-bipyridine-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acsami.7b06041",
+        "10.1021/cg500815v",
+        "10.1021/cm504362j",
+        "10.1039/c7ta09699b"
+      ]
+    },
+    {
+      "source_name": "2,2?-bipyrimidine",
+      "corrected_name": "2,2′-bipyrimidine",
+      "dois": [
+        "10.1021/ic901133k"
+      ]
+    },
+    {
+      "source_name": "2,2?-biselenophene-5,5?-dicarboxylic acid",
+      "corrected_name": "2,2′-biselenophene-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.0c02297"
+      ]
+    },
+    {
+      "source_name": "2,2?-bithiazole-5,5?-dicarboxylic acid",
+      "corrected_name": "2,2′-bithiazole-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.0c02297"
+      ]
+    },
+    {
+      "source_name": "2,2?-bithiophene-5,5?-dicarboxylic acid",
+      "corrected_name": "2,2′-bithiophene-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.0c02297"
+      ]
+    },
+    {
+      "source_name": "2,2?-diamino[1,1?-biphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "2,2′-diamino[1,1′-biphenyl]-4,4′-dicarboxylic acid",
+      "dois": [
+        "10.1021/ic502316v"
+      ]
+    },
+    {
+      "source_name": "2,2?-diethoxy-1,1?-binaphthalene-6,6?-bisphosphonic acid",
+      "corrected_name": "2,2′-diethoxy-1,1′-binaphthalene-6,6′-bisphosphonic acid",
+      "dois": [
+        "10.1021/cm0202714"
+      ]
+    },
+    {
+      "source_name": "2,2?-dinitro-[1,1?-biphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "2,2′-dinitro-[1,1′-biphenyl]-4,4′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.cgd.8b01347"
+      ]
+    },
+    {
+      "source_name": "2,2?-dipyridylamine",
+      "corrected_name": "2,2′-dipyridylamine",
+      "dois": [
+        "10.1039/c3ce41728j"
+      ]
+    },
+    {
+      "source_name": "2,2?-dpa",
+      "corrected_name": "2,2′-dpa",
+      "dois": [
+        "10.1039/c3ce41728j"
+      ]
+    },
+    {
+      "source_name": "2,2?:5?,2?-terthiophene-5,5?-dicarboxylic acid",
+      "corrected_name": "2,2′:5′,2″-terthiophene-5,5″-dicarboxylic acid",
+      "dois": [
+        "10.1021/ic401305c"
+      ]
+    },
+    {
+      "source_name": "2,3?,4,4?-diphenyl ether tetracarboxylic acid",
+      "corrected_name": "2,3′,4,4′-diphenyl ether tetracarboxylic acid",
+      "dois": [
+        "10.1039/d0nj03628e"
+      ]
+    },
+    {
+      "source_name": "2,4-bis(4?-carboxy-biphenyl-4-yl)-6-(4?-carboxy-2-methoxy-biphenyl-4-yl)-1,3,5-triazine",
+      "corrected_name": "2,4-bis(4′-carboxy-biphenyl-4-yl)-6-(4′-carboxy-2-methoxy-biphenyl-4-yl)-1,3,5-triazine",
+      "dois": [
+        "10.1039/c7qm00263g"
+      ]
+    },
+    {
+      "source_name": "2,6-bis(2?,4?-dicarboxylphenyl)pyridine",
+      "corrected_name": "2,6-bis(2′,4′-dicarboxylphenyl)pyridine",
+      "dois": [
+        "10.1016/j.ica.2019.119296"
+      ]
+    },
+    {
+      "source_name": "2-amine-4,4?-bis(1-imidazolyl)-bibenzene",
+      "corrected_name": "2-amine-4,4′-bis(1-imidazolyl)-bibenzene",
+      "dois": [
+        "10.1016/j.inoche.2013.11.045"
+      ]
+    },
+    {
+      "source_name": "2?,5?-dimethyl-[1,1?:4?,1?-terphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "2′,5′-dimethyl-[1,1′:4′,1″-terphenyl]-4,4″-dicarboxylic acid",
+      "dois": [
+        "10.1021/jacs.3c02787"
+      ]
+    },
+    {
+      "source_name": "3,3?,4,4?-benzophenonetetracarboxylic acid dianhydride",
+      "corrected_name": "3,3′,4,4′-benzophenonetetracarboxylic acid dianhydride",
+      "dois": [
+        "10.1016/j.jorganchem.2011.12.017"
+      ]
+    },
+    {
+      "source_name": "3,3?,4,4?-diphenylsulfonetetracarboxylic dianhydride",
+      "corrected_name": "3,3′,4,4′-diphenylsulfonetetracarboxylic dianhydride",
+      "dois": [
+        "10.1021/ic502242j"
+      ]
+    },
+    {
+      "source_name": "3,3?,4,4?-oxydiphthalic acid",
+      "corrected_name": "3,3′,4,4′-oxydiphthalic acid",
+      "dois": [
+        "10.1039/b707159k"
+      ]
+    },
+    {
+      "source_name": "3,3?,4?,4?-diphenyl-sulfonetetracarboxylic acid",
+      "corrected_name": "3,3′,4′,4″-diphenyl-sulfonetetracarboxylic acid",
+      "dois": [
+        "10.1039/b806297h"
+      ]
+    },
+    {
+      "source_name": "3,3?,5,5?-Tetramethyl-4,4?-bipyrazole",
+      "corrected_name": "3,3′,5,5′-Tetramethyl-4,4′-bipyrazole",
+      "dois": [
+        "10.1021/ic401765r"
+      ]
+    },
+    {
+      "source_name": "3,3?,5,5?-azobenzenetetracarboxylic acid",
+      "corrected_name": "3,3′,5,5′-azobenzenetetracarboxylic acid",
+      "dois": [
+        "10.1002/zaac.201300117",
+        "10.1039/c5ce01864a",
+        "10.1039/c6cc04525a"
+      ]
+    },
+    {
+      "source_name": "3,3?,5,5?-biphenyltetracarboxylic acid",
+      "corrected_name": "3,3′,5,5′-biphenyltetracarboxylic acid",
+      "dois": [
+        "10.1039/d0dt01558j"
+      ]
+    },
+    {
+      "source_name": "3,3?,5,5?-tetra(1H-imidazol-1-yl)-1,1?-biphenyl",
+      "corrected_name": "3,3′,5,5′-tetra(1H-imidazol-1-yl)-1,1′-biphenyl",
+      "dois": [
+        "10.1039/c3ce41056k"
+      ]
+    },
+    {
+      "source_name": "3,3?,5,5?-tetramethyl-4,4?-bipyrazole",
+      "corrected_name": "3,3′,5,5′-tetramethyl-4,4′-bipyrazole",
+      "dois": [
+        "10.1039/c4dt03868a"
+      ]
+    },
+    {
+      "source_name": "3,3?-((5-carboxy-1,3-phenylene)bis(oxy))dibenzoic acid",
+      "corrected_name": "3,3′-((5-carboxy-1,3-phenylene)bis(oxy))dibenzoic acid",
+      "dois": [
+        "10.1039/d0ce01383h"
+      ]
+    },
+    {
+      "source_name": "3,3?-dihexyl-2,2?-bithiophene-5,5?-dicarboxylic acid",
+      "corrected_name": "3,3′-dihexyl-2,2′-bithiophene-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/ic401305c"
+      ]
+    },
+    {
+      "source_name": "3,3?-dihydroxy-[1,1?-biphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "3,3′-dihydroxy-[1,1′-biphenyl]-4,4′-dicarboxylic acid",
+      "dois": [
+        "10.1039/d1dt01945g"
+      ]
+    },
+    {
+      "source_name": "3,3?-diphenyl-2,2?-bithiophene-5,5?-dicarboxylic acid",
+      "corrected_name": "3,3′-diphenyl-2,2′-bithiophene-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1021/ic401305c"
+      ]
+    },
+    {
+      "source_name": "3,4-dihydro-[1,1?-biphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "3,4-dihydro-[1,1′-biphenyl]-4,4′-dicarboxylic acid",
+      "dois": [
+        "10.1039/d4ce00691g"
+      ]
+    },
+    {
+      "source_name": "3,5-dimethyl-4-(4?-pyridyl)pyrazole",
+      "corrected_name": "3,5-dimethyl-4-(4′-pyridyl)pyrazole",
+      "dois": [
+        "10.1021/ic401092j"
+      ]
+    },
+    {
+      "source_name": "3-(2?-pyridyl)-5-(4??-pyridyl)-1,2,4-triazole",
+      "corrected_name": "3-(2′-pyridyl)-5-(4′′-pyridyl)-1,2,4-triazole",
+      "dois": [
+        "10.1021/ic902548f"
+      ]
+    },
+    {
+      "source_name": "3?,4?-diphenyl-2,2?:5?,2?-terthiophene-5,5?-dicarboxylic acid",
+      "corrected_name": "3′,4′-diphenyl-2,2′:5′,2″-terthiophene-5,5″-dicarboxylic acid",
+      "dois": [
+        "10.1021/ic401305c"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4?-((9,10-dioxo-9,10-dihydroanthracene-2,6-diyl)bis(azanetriyl))tetrabenzoic acid",
+      "corrected_name": "4,4′,4″,4‴-((9,10-dioxo-9,10-dihydroanthracene-2,6-diyl)bis(azanetriyl))tetrabenzoic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.2c01643"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4?-((ethene-1,1,2,2-tetrayltetrakis(benzene-4,1-diyl))tetrakis(ethyne-2,1-diyl))tetrabenzoic acid",
+      "corrected_name": "4,4′,4″,4‴-((ethene-1,1,2,2-tetrayltetrakis(benzene-4,1-diyl))tetrakis(ethyne-2,1-diyl))tetrabenzoic acid",
+      "dois": [
+        "10.1039/d3ce00228d"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4?-(5,10,15,20-porphyrintetrayl)-tetrabenzoic acid",
+      "corrected_name": "4,4′,4″,4‴-(5,10,15,20-porphyrintetrayl)-tetrabenzoic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.6b00221"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4?-(Porphine-5,10,15,20-tetrayl)tetrakis(benzoic acid)",
+      "corrected_name": "4,4′,4″,4‴-(Porphine-5,10,15,20-tetrayl)tetrakis(benzoic acid)",
+      "dois": [
+        "10.1016/j.matchemphys.2023.128448"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4?-(porphyrin-5,10,15,20-tetrayl)tetrakis(benzenesulfonic) acid",
+      "corrected_name": "4,4′,4″,4‴-(porphyrin-5,10,15,20-tetrayl)tetrakis(benzenesulfonic) acid",
+      "dois": [
+        "10.1021/acsomega.1c03327"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?,4???-pyrazine-2,3,5,6-tetrayl-tetrabenzoate",
+      "corrected_name": "4,4′,4″,4′′′-pyrazine-2,3,5,6-tetrayl-tetrabenzoate",
+      "dois": [
+        "10.1039/d2qi00214k"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-(1,3,5-triazine-2,4,6-triyl)tribenzoic acid",
+      "corrected_name": "4,4′,4″-(1,3,5-triazine-2,4,6-triyl)tribenzoic acid",
+      "dois": [
+        "10.1039/c7qm00263g"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-(2,4,6-trimethylbenzene-1,3,5-triyl)tribenzoate",
+      "corrected_name": "4,4′,4″-(2,4,6-trimethylbenzene-1,3,5-triyl)tribenzoate",
+      "dois": [
+        "10.1021/acsmaterialslett.4c01720"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-(nitrilotris(methylene))tribenzoic acid",
+      "corrected_name": "4,4′,4″-(nitrilotris(methylene))tribenzoic acid",
+      "dois": [
+        "10.1039/c5cc01072a"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-[benzene-1,3,5-triyltris(carbonylimino)]trisbenzoic acid",
+      "corrected_name": "4,4′,4′-[benzene-1,3,5-triyltris(carbonylimino)]trisbenzoic acid",
+      "dois": [
+        "10.1021/ic502380q"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-benzene-1,3,5-triyl-tribenzoic acid",
+      "corrected_name": "4,4′,4″-benzene-1,3,5-triyl-tribenzoic acid",
+      "dois": [
+        "10.1021/acs.cgd.9b00611",
+        "10.1021/ic200381f"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-benzene-1,3,5-triyl-tris(benzoic acid)",
+      "corrected_name": "4,4′,4″-benzene-1,3,5-triyl-tris(benzoic acid)",
+      "dois": [
+        "10.1039/c0ce00530d"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-benzene-1,3,5-triyltribenzoic acid",
+      "corrected_name": "4,4′,4″-benzene-1,3,5-triyltribenzoic acid",
+      "dois": [
+        "10.1021/acs.cgd.1c00766"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-nitrilotribenzoic acid",
+      "corrected_name": "4,4′,4″-nitrilotribenzoic acid",
+      "dois": [
+        "10.1021/acs.cgd.7b00153"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-s-triazine-2,4,6-triyl-tribenzoic acid",
+      "corrected_name": "4,4′,4″-s-triazine-2,4,6-triyl-tribenzoic acid",
+      "dois": [
+        "10.1021/acsomega.3c09256"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-s-triazine-2,4,6-triyltribenzoic acid",
+      "corrected_name": "4,4′,4″-s-triazine-2,4,6-triyltribenzoic acid",
+      "dois": [
+        "10.1021/acsami.2c03607"
+      ]
+    },
+    {
+      "source_name": "4,4?,4?-{[(2,4,6-trimethylbenzene-1,3,5-triyl)tris(methylene)]tris(oxy)}tribenzoic acid",
+      "corrected_name": "4,4′,4″-{[(2,4,6-trimethylbenzene-1,3,5-triyl)tris(methylene)]tris(oxy)}tribenzoic acid",
+      "dois": [
+        "10.1021/cg301161c"
+      ]
+    },
+    {
+      "source_name": "4,4?,4??-(2,4,6-trimethylbenzene-1,3,5-triyl)tribenzoic acid",
+      "corrected_name": "4,4′,4′′-(2,4,6-trimethylbenzene-1,3,5-triyl)tribenzoic acid",
+      "dois": [
+        "10.1002/anie.202311983"
+      ]
+    },
+    {
+      "source_name": "4,4?,4??-benzene-1,3,5-triyl-benzoic acid",
+      "corrected_name": "4,4′,4′′-benzene-1,3,5-triyl-benzoic acid",
+      "dois": [
+        "10.1039/c2dt12088g"
+      ]
+    },
+    {
+      "source_name": "4,4?-((5-carboxy-1,3-phenylene)bis(oxy))dibenzoic acid",
+      "corrected_name": "4,4′-((5-carboxy-1,3-phenylene)bis(oxy))dibenzoic acid",
+      "dois": [
+        "10.1021/cg301146u"
+      ]
+    },
+    {
+      "source_name": "4,4?-(1,2,4,5-tetrazine-3,6-diyl)dibenzoic acid",
+      "corrected_name": "4,4′-(1,2,4,5-tetrazine-3,6-diyl)dibenzoic acid",
+      "dois": [
+        "10.1002/ejic.201901230",
+        "10.1021/jacs.0c09015"
+      ]
+    },
+    {
+      "source_name": "4,4?-(2,5-dibutoxy-1,4-phenylene)dipyridine",
+      "corrected_name": "4,4′-(2,5-dibutoxy-1,4-phenylene)dipyridine",
+      "dois": [
+        "10.1039/c5cc01072a"
+      ]
+    },
+    {
+      "source_name": "4,4?-(hexafluoroisopropylidene)bis(benzoic acid)",
+      "corrected_name": "4,4′-(hexafluoroisopropylidene)bis(benzoic acid)",
+      "dois": [
+        "10.1021/acs.inorgchem.3c01862",
+        "10.1039/c0dt00352b",
+        "10.1039/c1cc16147d"
+      ]
+    },
+    {
+      "source_name": "4,4?-(hexafluoroisopropylidene)diphthalic acid",
+      "corrected_name": "4,4′-(hexafluoroisopropylidene)diphthalic acid",
+      "dois": [
+        "10.1039/b806297h"
+      ]
+    },
+    {
+      "source_name": "4,4?-Bis(benzimidazol-1-ylmethyl) biphenyl",
+      "corrected_name": "4,4′-Bis(benzimidazol-1-ylmethyl) biphenyl",
+      "dois": [
+        "10.1016/j.molstruc.2023.137051"
+      ]
+    },
+    {
+      "source_name": "4,4?-H2BPDB",
+      "corrected_name": "4,4′-H2BPDB",
+      "dois": [
+        "10.1039/c2ce25482d"
+      ]
+    },
+    {
+      "source_name": "4,4?-H2DTBA",
+      "corrected_name": "4,4′-H2DTBA",
+      "dois": [
+        "10.1039/d0dt02411b"
+      ]
+    },
+    {
+      "source_name": "4,4?-azobenzenedicarboxylic acid",
+      "corrected_name": "4,4′-azobenzenedicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b01801"
+      ]
+    },
+    {
+      "source_name": "4,4?-azobipyridine",
+      "corrected_name": "4,4′-azobipyridine",
+      "dois": [
+        "10.1021/ic500234r"
+      ]
+    },
+    {
+      "source_name": "4,4?-azobispyridine",
+      "corrected_name": "4,4′-azobispyridine",
+      "dois": [
+        "10.1021/acs.cgd.7b00967"
+      ]
+    },
+    {
+      "source_name": "4,4?-azopyridine",
+      "corrected_name": "4,4′-azopyridine",
+      "dois": [
+        "10.1021/cg900659r"
+      ]
+    },
+    {
+      "source_name": "4,4?-benzophenonedicarboxylic acid",
+      "corrected_name": "4,4′-benzophenonedicarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b00202"
+      ]
+    },
+    {
+      "source_name": "4,4?-bi-3,5-dimethylpyrazole",
+      "corrected_name": "4,4′-bi-3,5-dimethylpyrazole",
+      "dois": [
+        "10.1021/cg300440t"
+      ]
+    },
+    {
+      "source_name": "4,4?-biphenyl dicarboxylic acid",
+      "corrected_name": "4,4′-biphenyl dicarboxylic acid",
+      "dois": [
+        "10.1021/cm504362j"
+      ]
+    },
+    {
+      "source_name": "4,4?-bipy",
+      "corrected_name": "4,4′-bipy",
+      "dois": [
+        "10.1016/j.ica.2008.04.044",
+        "10.1021/acs.cgd.5b00791",
+        "10.1021/acs.inorgchem.2c01488",
+        "10.1021/cg500197v",
+        "10.1021/cg8000398",
+        "10.1021/cm9032308",
+        "10.1039/b710209g",
+        "10.1039/b806297h",
+        "10.1039/c3dt51747k",
+        "10.1039/c9dt01253b",
+        "10.1039/d0nj03628e"
+      ]
+    },
+    {
+      "source_name": "4,4?-bipyridyl",
+      "corrected_name": "4,4′-bipyridyl",
+      "dois": [
+        "10.1021/cg201059d"
+      ]
+    },
+    {
+      "source_name": "4,4?-bis(imidazol-1-yl)diphenyl ether",
+      "corrected_name": "4,4′-bis(imidazol-1-yl)diphenyl ether",
+      "dois": [
+        "10.1021/cg1008208"
+      ]
+    },
+    {
+      "source_name": "4,4?-bis(imidazol-1-ylmethyl)biphenyl",
+      "corrected_name": "4,4′-bis(imidazol-1-ylmethyl)biphenyl",
+      "dois": [
+        "10.1039/b913942g"
+      ]
+    },
+    {
+      "source_name": "4,4?-bp",
+      "corrected_name": "4,4′-bp",
+      "dois": [
+        "10.1021/acs.inorgchem.8b01631"
+      ]
+    },
+    {
+      "source_name": "4,4?-bpy",
+      "corrected_name": "4,4′-bpy",
+      "dois": [
+        "10.1021/acsami.9b00908",
+        "10.1021/cg201059d",
+        "10.1021/cg900788h",
+        "10.1039/c7ce01919j",
+        "10.1039/c8ce00947c"
+      ]
+    },
+    {
+      "source_name": "4,4?-di(1H-imidazol-1-yl)biphenyl",
+      "corrected_name": "4,4′-di(1H-imidazol-1-yl)biphenyl",
+      "dois": [
+        "10.1021/cg501787m"
+      ]
+    },
+    {
+      "source_name": "4,4?-dicarboxybiphenyl sulfone",
+      "corrected_name": "4,4′-dicarboxybiphenyl sulfone",
+      "dois": [
+        "10.1039/b913942g"
+      ]
+    },
+    {
+      "source_name": "4,4?-dicarboxydiphenyl sulfone",
+      "corrected_name": "4,4′-dicarboxydiphenyl sulfone",
+      "dois": [
+        "10.1021/jacs.6b03263"
+      ]
+    },
+    {
+      "source_name": "4,4?-dihydroxy-(1,1?-biphenyl)-3,3?-dicarboxylic acid",
+      "corrected_name": "4,4′-dihydroxy-(1,1′-biphenyl)-3,3′-dicarboxylic acid",
+      "dois": [
+        "10.1021/acs.chemmater.6b00494",
+        "10.1021/acs.inorgchem.2c01488"
+      ]
+    },
+    {
+      "source_name": "4,4?-dioxidobiphenyl-3,3?-dicarboxylic acid",
+      "corrected_name": "4,4′-dioxidobiphenyl-3,3′-dicarboxylic acid",
+      "dois": [
+        "10.1021/jacs.7b09983"
+      ]
+    },
+    {
+      "source_name": "4,4?-dithiodibenzoic acid",
+      "corrected_name": "4,4′-dithiodibenzoic acid",
+      "dois": [
+        "10.1039/d0dt02411b"
+      ]
+    },
+    {
+      "source_name": "4,4?-oxybisbenzoic acid",
+      "corrected_name": "4,4′-oxybisbenzoic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b00074",
+        "10.1039/c6ce00006a"
+      ]
+    },
+    {
+      "source_name": "4,4?-oxydibenzoic acid",
+      "corrected_name": "4,4′-oxydibenzoic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b00202",
+        "10.1039/c9dt00941h"
+      ]
+    },
+    {
+      "source_name": "4,4?-sulfanediyldipyridine",
+      "corrected_name": "4,4′-sulfanediyldipyridine",
+      "dois": [
+        "10.1039/c5dt02147b"
+      ]
+    },
+    {
+      "source_name": "4,4?-trimethylene dipyridine",
+      "corrected_name": "4,4′-trimethylene dipyridine",
+      "dois": [
+        "10.1002/zaac.200800143"
+      ]
+    },
+    {
+      "source_name": "4?,4?,4??,4??-(ethene-1,1,2,2-tetrayl)tetrakis([1,1?-biphenyl]-4-carboxylic acid)",
+      "corrected_name": "4′,4‴,4⁗′,4⁗‴-(ethene-1,1,2,2-tetrayl)tetrakis([1,1′-biphenyl]-4-carboxylic acid)",
+      "dois": [
+        "10.1021/acs.cgd.6b00622"
+      ]
+    },
+    {
+      "source_name": "4?-(2,4-disulfophenyl)-4,2?:6?,4?-terpyridine",
+      "corrected_name": "4′-(2,4-disulfophenyl)-4,2′:6′,4″-terpyridine",
+      "dois": [
+        "10.1039/c5ce00767d"
+      ]
+    },
+    {
+      "source_name": "4?-(2-carboxyphenyl)-4,2?:6?,4?-terpyridine",
+      "corrected_name": "4′-(2-carboxyphenyl)-4,2′:6′,4″-terpyridine",
+      "dois": [
+        "10.1039/c6ce00681g"
+      ]
+    },
+    {
+      "source_name": "4?-(4-(3,5-dicarboxylphenoxy)phenyl)-4,2?:6?,4?-terpyridine",
+      "corrected_name": "4′-(4-(3,5-dicarboxylphenoxy)phenyl)-4,2′:6′,4″-terpyridine",
+      "dois": [
+        "10.1039/c7dt03433d"
+      ]
+    },
+    {
+      "source_name": "4?-(4-pyridyl)-2,2?:6?,2?-terpyridine",
+      "corrected_name": "4′-(4-pyridyl)-2,2′:6′,2″-terpyridine",
+      "dois": [
+        "10.1021/cg300770b"
+      ]
+    },
+    {
+      "source_name": "4?-carboxy-4,2?:6?,4?-terpyridine",
+      "corrected_name": "4′-carboxy-4,2′:6′,4″-terpyridine",
+      "dois": [
+        "10.1039/c2ce26171e"
+      ]
+    },
+    {
+      "source_name": "5,5?-(1,2-phenylenebis(methoxy))diisophthalic acid",
+      "corrected_name": "5,5′-(1,2-phenylenebis(methoxy))diisophthalic acid",
+      "dois": [
+        "10.1016/j.ica.2018.05.002"
+      ]
+    },
+    {
+      "source_name": "5,5?-(1,3-phenylenebis(methylene))bis(oxy)diisophthalic acid",
+      "corrected_name": "5,5′-(1,3-phenylenebis(methylene))bis(oxy)diisophthalic acid",
+      "dois": [
+        "10.1016/j.micromeso.2015.07.001"
+      ]
+    },
+    {
+      "source_name": "5,5?-(1,4-phenylene)bis(1H-tetrazole)",
+      "corrected_name": "5,5′-(1,4-phenylene)bis(1H-tetrazole)",
+      "dois": [
+        "10.1021/ic300546z"
+      ]
+    },
+    {
+      "source_name": "5,5?-(6-(4-carboxyphenylamino)-1,3,5-triazine-2,4-diyldiimino)diisophthalic acid",
+      "corrected_name": "5,5′-(6-(4-carboxyphenylamino)-1,3,5-triazine-2,4-diyldiimino)diisophthalic acid",
+      "dois": [
+        "10.1039/c3ce40599k"
+      ]
+    },
+    {
+      "source_name": "5,5?-(carbonylbis(azanediyl))-diisophthalic acid",
+      "corrected_name": "5,5′-(carbonylbis(azanediyl))-diisophthalic acid",
+      "dois": [
+        "10.1021/acs.cgd.9b00477"
+      ]
+    },
+    {
+      "source_name": "5,5?-(pentane-1,2-diyl)-bis(oxy)diisophthalic acid",
+      "corrected_name": "5,5′-(pentane-1,2-diyl)-bis(oxy)diisophthalic acid",
+      "dois": [
+        "10.1021/ic502369y"
+      ]
+    },
+    {
+      "source_name": "5-(3?4?-dicarboxylphenoxy)isophthalic acid",
+      "corrected_name": "5-(3′4′-dicarboxylphenoxy)isophthalic acid",
+      "dois": [
+        "10.1039/c9ce01186b"
+      ]
+    },
+    {
+      "source_name": "5-(4?-carboxylphenyl)nicotinic acid",
+      "corrected_name": "5-(4′-carboxylphenyl)nicotinic acid",
+      "dois": [
+        "10.1021/acs.cgd.5b00791"
+      ]
+    },
+    {
+      "source_name": "H2L6?",
+      "corrected_name": "H2L6′",
+      "dois": [
+        "10.1039/c9sc00178f"
+      ]
+    },
+    {
+      "source_name": "H3BBC (4,4?,4?-(benzene-1,3,5-triyl-tris(benzene-4,1-diyl))tribenzoic acid)",
+      "corrected_name": "H3BBC (4,4′,4″-(benzene-1,3,5-triyl-tris(benzene-4,1-diyl))tribenzoic acid)",
+      "dois": [
+        "10.1016/j.molstruc.2016.03.075"
+      ]
+    },
+    {
+      "source_name": "H4tcbpe (4?,4???,4?????,4???????-(ethene-1,1,2,2-tetrayl)tetrakis([1,1?-biphenyl]-4-carboxylic acid))",
+      "corrected_name": "H4tcbpe (4′,4′′′,4′′′′′,4′′′′′′′-(ethene-1,1,2,2-tetrayl)tetrakis([1,1′-biphenyl]-4-carboxylic acid))",
+      "dois": [
+        "10.1039/d2tc03819f"
+      ]
+    },
+    {
+      "source_name": "L8??",
+      "corrected_name": "L8′′",
+      "dois": [
+        "10.1039/c9sc00178f"
+      ]
+    },
+    {
+      "source_name": "N,N,N?,N?-tetra(2-pyridyl)-2,6-pyridinediamine",
+      "corrected_name": "N,N,N′,N′-tetra(2-pyridyl)-2,6-pyridinediamine",
+      "dois": [
+        "10.1039/c2dt12032a"
+      ]
+    },
+    {
+      "source_name": "N,N,N?,N?-tetra(2-pyridyl)biphenyl-4,4?-diamine",
+      "corrected_name": "N,N,N′,N′-tetra(2-pyridyl)biphenyl-4,4′-diamine",
+      "dois": [
+        "10.1039/c2dt12032a"
+      ]
+    },
+    {
+      "source_name": "N,N?-4,4?-bipiperidinebis(methylenephosphonic acid) hydrobromide adduct",
+      "corrected_name": "N,N′-4,4′-bipiperidinebis(methylenephosphonic acid) hydrobromide adduct",
+      "dois": [
+        "10.1021/acs.chemmater.9b03453"
+      ]
+    },
+    {
+      "source_name": "N,N?-4,4?-bipiperidinebis(methylenephosphonic acid) hydrochloride adduct",
+      "corrected_name": "N,N′-4,4′-bipiperidinebis(methylenephosphonic acid) hydrochloride adduct",
+      "dois": [
+        "10.1021/acs.chemmater.9b03453"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(2-pyrazinecarboxamide)-1,4-butane",
+      "corrected_name": "N,N′-bis(2-pyrazinecarboxamide)-1,4-butane",
+      "dois": [
+        "10.1039/c8dt04698k"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(2-pyrazinecarboxamide)-1,6-hexane",
+      "corrected_name": "N,N′-bis(2-pyrazinecarboxamide)-1,6-hexane",
+      "dois": [
+        "10.1039/c8dt04698k"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(3-pyridinecarboxamide)-1,4-butane",
+      "corrected_name": "N,N′-bis(3-pyridinecarboxamide)-1,4-butane",
+      "dois": [
+        "10.1039/c6dt02216b"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(3-pyridinecarboxamide)-1,6-hexane",
+      "corrected_name": "N,N′-bis(3-pyridinecarboxamide)-1,6-hexane",
+      "dois": [
+        "10.1039/c6dt02216b"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(3-pyridinecarboxamide)-piperazine",
+      "corrected_name": "N,N′-bis(3-pyridinecarboxamide)-piperazine",
+      "dois": [
+        "10.1039/c9dt00499h"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(4-carboxyphenyl)urea",
+      "corrected_name": "N,N′-bis(4-carboxyphenyl)urea",
+      "dois": [
+        "10.1039/d2dt02421g"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(4-picolinoyl)hydrazine",
+      "corrected_name": "N,N′-bis(4-picolinoyl)hydrazine",
+      "dois": [
+        "10.1039/d1ce00888a"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(4-pyridinecarboxamide)-1,2-ethane",
+      "corrected_name": "N,N′-bis(4-pyridinecarboxamide)-1,2-ethane",
+      "dois": [
+        "10.1039/c6ra22836d"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis(5-isophthalic acid)-1,4,5,8-naphthalenediimide",
+      "corrected_name": "N,N′-bis(5-isophthalic acid)-1,4,5,8-naphthalenediimide",
+      "dois": [
+        "10.1021/jacs.4c01040"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis-(1-pyridine-3-yl-ethylidene)-hydrazine",
+      "corrected_name": "N,N′-bis-(1-pyridine-3-yl-ethylidene)-hydrazine",
+      "dois": [
+        "10.1021/acsami.8b03561"
+      ]
+    },
+    {
+      "source_name": "N,N?-bis-pyridin-4-ylmethylene-naphthalene-1,5-diamine",
+      "corrected_name": "N,N′-bis-pyridin-4-ylmethylene-naphthalene-1,5-diamine",
+      "dois": [
+        "10.1016/j.molstruc.2006.11.065"
+      ]
+    },
+    {
+      "source_name": "N,N?-piperazinebis(methylenephosphonic acid) hydrochloride",
+      "corrected_name": "N,N′-piperazinebis(methylenephosphonic acid) hydrochloride",
+      "dois": [
+        "10.1002/anie.202303561"
+      ]
+    },
+    {
+      "source_name": "PBPTTBA (4,4?,4?,4?-(1,4-phenylenebis(pyridine-4,2,6-triyl))tetrabenzoic acid)",
+      "corrected_name": "PBPTTBA (4,4′,4″,4‴-(1,4-phenylenebis(pyridine-4,2,6-triyl))tetrabenzoic acid)",
+      "dois": [
+        "10.1021/acs.inorgchem.9b03316"
+      ]
+    },
+    {
+      "source_name": "[1,1':4?,1?:4?,1?-quaterphenyl]-3,3?,5,5?-tetracarboxylic acid",
+      "corrected_name": "[1,1':4′,1″:4″,1‴-quaterphenyl]-3,3‴,5,5‴-tetracarboxylic acid",
+      "dois": [
+        "10.1016/j.micromeso.2018.06.051"
+      ]
+    },
+    {
+      "source_name": "[1,1?-biphenyl]-3,3?,5,5?-tetracarboxylic acid",
+      "corrected_name": "[1,1′-biphenyl]-3,3′,5,5′-tetracarboxylic acid",
+      "dois": [
+        "10.1021/acs.cgd.8b01433"
+      ]
+    },
+    {
+      "source_name": "[1,1?-biphenyl]-3,4?,5-tricarboxylic acid",
+      "corrected_name": "[1,1′-biphenyl]-3,4′,5-tricarboxylic acid",
+      "dois": [
+        "10.1039/d1ce00112d"
+      ]
+    },
+    {
+      "source_name": "[1,1?:3?,1?-terphenyl]-4,4?,5?-tricarboxylic acid",
+      "corrected_name": "[1,1′:3′,1″-terphenyl]-4,4″,5′-tricarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.7b02235"
+      ]
+    },
+    {
+      "source_name": "[1,1?:4?,1?-terphenyl]-4,4?-dicarboxylic acid",
+      "corrected_name": "[1,1′:4′,1″-terphenyl]-4,4″-dicarboxylic acid",
+      "dois": [
+        "10.1021/jacs.0c09015"
+      ]
+    },
+    {
+      "source_name": "[1,1?:4?,1?]terphenyl-3,3?,5,5?-tetracarboxylic acid",
+      "corrected_name": "[1,1′:4′,1″]terphenyl-3,3″,5,5″-tetracarboxylic acid",
+      "dois": [
+        "10.1016/j.matchemphys.2023.128448"
+      ]
+    },
+    {
+      "source_name": "[1,1?;4?,1?]terphenyl-3,5,2?,5?,3?,5?-hexacarboxylic acid",
+      "corrected_name": "[1,1′;4′,1″]terphenyl-3,5,2′,5′,3″,5″-hexacarboxylic acid",
+      "dois": [
+        "10.1021/cg501828u"
+      ]
+    },
+    {
+      "source_name": "[2,2?-bithiazole]-5,5?-dicarboxylic acid",
+      "corrected_name": "[2,2′-bithiazole]-5,5′-dicarboxylic acid",
+      "dois": [
+        "10.1039/c9me00062c"
+      ]
+    },
+    {
+      "source_name": "biphenyl-2,4?-dicarboxylic acid",
+      "corrected_name": "biphenyl-2,4′-dicarboxylic acid",
+      "dois": [
+        "10.1039/c9dt02278c"
+      ]
+    },
+    {
+      "source_name": "biphenyl-3,3?,5,5?-tetracarboxylic acid",
+      "corrected_name": "biphenyl-3,3′,5,5′-tetracarboxylic acid",
+      "dois": [
+        "10.1021/acs.inorgchem.5b02108"
+      ]
+    },
+    {
+      "source_name": "biphenyl-3,4?,5-tricarboxylate",
+      "corrected_name": "biphenyl-3,4′,5-tricarboxylate",
+      "dois": [
+        "10.1021/ja209643b"
+      ]
+    },
+    {
+      "source_name": "biphenyl-3,4?,5-tricarboxylic acid",
+      "corrected_name": "biphenyl-3,4′,5-tricarboxylic acid",
+      "dois": [
+        "10.1016/j.dyepig.2015.09.024",
+        "10.1039/c5dt04953a",
+        "10.1039/c9dt02278c"
+      ]
+    },
+    {
+      "source_name": "biphenyl-3,5,5?-tricarboxylic acid",
+      "corrected_name": "biphenyl-3,5,5′-tricarboxylic acid",
+      "dois": [
+        "10.1021/cg4003803"
+      ]
+    },
+    {
+      "source_name": "biphenyl-3?-nitro-3,4?,5-tricarboxylic acid",
+      "corrected_name": "biphenyl-3′-nitro-3,4′,5-tricarboxylic acid",
+      "dois": [
+        "10.1039/c9ce01245a"
+      ]
+    },
+    {
+      "source_name": "potassium 4?-furyl-2,2?:6?,2?-terpyridine-4,4?-dicarboxylate",
+      "corrected_name": "potassium 4′-furyl-2,2′:6′,2″-terpyridine-4,4″-dicarboxylate",
+      "dois": [
+        "10.1021/acs.cgd.5b01481"
+      ]
+    },
+    {
+      "source_name": "quaterphenyl-2,5,2?,5?-tetracarboxylic acid",
+      "corrected_name": "quaterphenyl-2,5,2′,5′-tetracarboxylic acid",
+      "dois": [
+        "10.1039/c2ce06329h"
+      ]
+    },
+    {
+      "source_name": "tetrafluoro-substituted 4,4?-[1,4-phenylene-bis(ethyne-2,1-diyl)]-dibenzoic acid",
+      "corrected_name": "tetrafluoro-substituted 4,4′-[1,4-phenylene-bis(ethyne-2,1-diyl)]-dibenzoic acid",
+      "dois": [
+        "10.1021/jacs.7b02184"
+      ]
+    },
+    {
+      "source_name": "trans-4,4?-azobis(pyridine)",
+      "corrected_name": "trans-4,4′-azobis(pyridine)",
+      "dois": [
+        "10.1021/cg100645p"
+      ]
+    },
+    {
+      "source_name": "tris(4?-carboxybiphenyl)amine",
+      "corrected_name": "tris(4′-carboxybiphenyl)amine",
+      "dois": [
+        "10.1021/acs.cgd.6b00795",
+        "10.1021/ic202624e"
+      ]
+    },
+    {
+      "source_name": "tris-[4-(2,2?-dipyridylamino)-phenyl]amine",
+      "corrected_name": "tris-[4-(2,2′-dipyridylamino)-phenyl]amine",
+      "dois": [
+        "10.1039/c2dt12032a"
+      ]
+    }
+  ]
+}

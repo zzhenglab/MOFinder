@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "exports": [
+    {
+      "file": "papers.csv",
+      "source_sha256": "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
+      "source_sheet": "Sheet1",
+      "sha256": "997d96ff0013f4da43e0b09d5738eeda6582d20b2b0d5c394d9e11f5015b31bc",
+      "row_count": 7437,
+      "columns": [
+        "DOI",
+        "Publisher",
+        "DOI Link",
+        "Downloaded"
+      ],
+      "publisher_id_counts": {
+        "publisher_A": 1770,
+        "publisher_E": 1714,
+        "publisher_R": 2038,
+        "publisher_S": 262,
+        "publisher_W": 989,
+        "unmapped": 664
+      },
+      "status_counts": {
+        "Downloaded": {
+          "": 422,
+          "0": 851,
+          "1": 6164
+        }
+      },
+      "publisher_resolution": "Original paper prefix resolver, followed by neutral identifier replacement.",
+      "unsupported_value": "unmapped",
+      "missing_doi_count": 0,
+      "unique_doi_count": 7435,
+      "source_id": "article_retrieval_inventory",
+      "source_description": "Article retrieval inventory workbook"
+    },
+    {
+      "file": "supporting_information.csv",
+      "source_sha256": "01d6c0bb6a118da50c5c9a35954f099c75d0c23620aee21a5ecab753a91c3024",
+      "source_sheet": "Sheet1",
+      "sha256": "975b8dae32f89738e6cdc9b99d62f01194b0f776ed3c0907d0963d07fc6f29cb",
+      "row_count": 7437,
+      "columns": [
+        "DOI",
+        "Publisher",
+        "DOI Link",
+        "Downloaded",
+        "SI Downloaded"
+      ],
+      "publisher_id_counts": {
+        "publisher_A": 1770,
+        "publisher_E": 2345,
+        "publisher_R": 2038,
+        "publisher_S": 292,
+        "publisher_W": 989,
+        "unmapped": 3
+      },
+      "status_counts": {
+        "Downloaded": {
+          "": 7140,
+          "0": 3,
+          "1": 294
+        },
+        "SI Downloaded": {
+          "": 475,
+          "0": 1255,
+          "1": 5707
+        }
+      },
+      "publisher_resolution": "Original SI alias resolver and canonical contains fallback, followed by neutral identifier replacement.",
+      "unsupported_value": "unmapped",
+      "missing_doi_count": 0,
+      "unique_doi_count": 7435,
+      "source_id": "si_retrieval_inventory",
+      "source_description": "Supporting-information retrieval inventory workbook"
+    }
+  ],
+  "transformations": [
+    "Select literature retrieval columns only.",
+    "Replace resolved publisher keys with neutral identifiers.",
+    "Retain all rows in their original order.",
+    "Represent empty cells as empty CSV fields.",
+    "Retain download status values without merging stages."
+  ]
+}
