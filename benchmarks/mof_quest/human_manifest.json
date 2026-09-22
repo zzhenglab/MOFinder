@@ -1,0 +1,25 @@
+{
+  "source_sha256": "ea2f20efbe883d31f83648d4e45b1e4005bf22e8e2a1616372a9771e0bb08ece",
+  "participants": 98,
+  "questions": 22,
+  "responses": 2156,
+  "participant_id_rule": "Sequential P001 identifiers in source response-row order; no contact fields exported.",
+  "question_source": "Sheet1 columns O:T; response mapping uses the reaction ID in column Q.",
+  "response_source": "Sheet1.1 Responses column C JSON; stored score from column B.",
+  "response_labels": {
+    "Very Confident Success": "P",
+    "Likely Success": "P",
+    "Likely Fail": "N",
+    "Very Confident Fail": "N"
+  },
+  "files": {
+    "human_questions.csv": {
+      "sha256": "0522e00bd5fb6aef050dce7d488fe29e24fb566ad3dd3a1e984b86f05f38a5ab"
+    },
+    "human_responses.csv": {
+      "sha256": "231c757f4b78eea92df433dca28aec24e2d8c7713e6c0d4829a7dde998b6b26a"
+    }
+  },
+  "source_id": "mof_quest_human_reference",
+  "source_description": "Human MOF Quest question and response workbook"
+}

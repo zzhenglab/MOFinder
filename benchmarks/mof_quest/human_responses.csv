@@ -1,0 +1,2157 @@
+participant_id,experience,reaction_id,response,stored_score
+P001,1-3 years,rxn_2083c62f,Very Confident Fail,16
+P001,1-3 years,rxn_b6b99f4,Likely Success,16
+P001,1-3 years,rxn_4554078e,Likely Fail,16
+P001,1-3 years,rxn_6659b2fe,Likely Success,16
+P001,1-3 years,rxn_357323cd,Likely Success,16
+P001,1-3 years,rxn_5aa127f8,Very Confident Fail,16
+P001,1-3 years,rxn_b3881e1,Very Confident Success,16
+P001,1-3 years,rxn_2729a0f3,Likely Success,16
+P001,1-3 years,rxn_5335b01f,Likely Fail,16
+P001,1-3 years,rxn_50d39625,Likely Success,16
+P001,1-3 years,rxn_d877775,Likely Fail,16
+P001,1-3 years,rxn_48e522db,Likely Success,16
+P001,1-3 years,rxn_2bf177c8,Likely Fail,16
+P001,1-3 years,rxn_6802459b,Likely Success,16
+P001,1-3 years,rxn_1c19902e,Likely Success,16
+P001,1-3 years,rxn_4d24ea4c,Likely Fail,16
+P001,1-3 years,rxn_db77c1a,Very Confident Success,16
+P001,1-3 years,rxn_58c417f4,Likely Fail,16
+P001,1-3 years,rxn_6451802d,Likely Success,16
+P001,1-3 years,rxn_1d526b97,Very Confident Fail,16
+P001,1-3 years,rxn_540add03,Likely Success,16
+P001,1-3 years,rxn_64b265f7,Likely Success,16
+P002,>3 years,rxn_db77c1a,Likely Success,9
+P002,>3 years,rxn_58c417f4,Likely Fail,9
+P002,>3 years,rxn_b6b99f4,Likely Success,9
+P002,>3 years,rxn_6659b2fe,Likely Fail,9
+P002,>3 years,rxn_6802459b,Likely Fail,9
+P002,>3 years,rxn_50d39625,Likely Success,9
+P002,>3 years,rxn_4554078e,Likely Success,9
+P002,>3 years,rxn_48e522db,Likely Success,9
+P002,>3 years,rxn_5aa127f8,Likely Fail,9
+P002,>3 years,rxn_540add03,Likely Success,9
+P002,>3 years,rxn_d877775,Likely Fail,9
+P002,>3 years,rxn_64b265f7,Likely Success,9
+P002,>3 years,rxn_1d526b97,Likely Fail,9
+P002,>3 years,rxn_6451802d,Likely Fail,9
+P002,>3 years,rxn_1c19902e,Likely Success,9
+P002,>3 years,rxn_357323cd,Likely Success,9
+P002,>3 years,rxn_2729a0f3,Likely Success,9
+P002,>3 years,rxn_2bf177c8,Likely Success,9
+P002,>3 years,rxn_b3881e1,Likely Fail,9
+P002,>3 years,rxn_2083c62f,Likely Success,9
+P002,>3 years,rxn_4d24ea4c,Likely Success,9
+P002,>3 years,rxn_5335b01f,Likely Success,9
+P003,1-3 years,rxn_4d24ea4c,Likely Fail,14
+P003,1-3 years,rxn_db77c1a,Likely Fail,14
+P003,1-3 years,rxn_540add03,Very Confident Fail,14
+P003,1-3 years,rxn_b6b99f4,Likely Success,14
+P003,1-3 years,rxn_58c417f4,Likely Fail,14
+P003,1-3 years,rxn_d877775,Very Confident Fail,14
+P003,1-3 years,rxn_4554078e,Likely Success,14
+P003,1-3 years,rxn_5aa127f8,Very Confident Fail,14
+P003,1-3 years,rxn_357323cd,Likely Fail,14
+P003,1-3 years,rxn_6659b2fe,Likely Success,14
+P003,1-3 years,rxn_6451802d,Likely Success,14
+P003,1-3 years,rxn_48e522db,Very Confident Success,14
+P003,1-3 years,rxn_2083c62f,Likely Fail,14
+P003,1-3 years,rxn_b3881e1,Likely Success,14
+P003,1-3 years,rxn_1c19902e,Likely Success,14
+P003,1-3 years,rxn_50d39625,Likely Success,14
+P003,1-3 years,rxn_5335b01f,Likely Fail,14
+P003,1-3 years,rxn_2bf177c8,Likely Fail,14
+P003,1-3 years,rxn_2729a0f3,Likely Success,14
+P003,1-3 years,rxn_1d526b97,Likely Success,14
+P003,1-3 years,rxn_6802459b,Likely Success,14
+P003,1-3 years,rxn_64b265f7,Likely Fail,14
+P004,1-3 years,rxn_4d24ea4c,Likely Success,12
+P004,1-3 years,rxn_b6b99f4,Likely Success,12
+P004,1-3 years,rxn_5335b01f,Likely Success,12
+P004,1-3 years,rxn_2729a0f3,Very Confident Success,12
+P004,1-3 years,rxn_5aa127f8,Likely Success,12
+P004,1-3 years,rxn_2083c62f,Very Confident Fail,12
+P004,1-3 years,rxn_64b265f7,Very Confident Success,12
+P004,1-3 years,rxn_d877775,Very Confident Success,12
+P004,1-3 years,rxn_2bf177c8,Likely Success,12
+P004,1-3 years,rxn_540add03,Very Confident Success,12
+P004,1-3 years,rxn_6451802d,Very Confident Success,12
+P004,1-3 years,rxn_6659b2fe,Likely Success,12
+P004,1-3 years,rxn_4554078e,Likely Fail,12
+P004,1-3 years,rxn_357323cd,Very Confident Success,12
+P004,1-3 years,rxn_b3881e1,Very Confident Fail,12
+P004,1-3 years,rxn_48e522db,Very Confident Success,12
+P004,1-3 years,rxn_50d39625,Likely Success,12
+P004,1-3 years,rxn_db77c1a,Likely Success,12
+P004,1-3 years,rxn_6802459b,Likely Fail,12
+P004,1-3 years,rxn_1d526b97,Very Confident Fail,12
+P004,1-3 years,rxn_1c19902e,Very Confident Fail,12
+P004,1-3 years,rxn_58c417f4,Very Confident Fail,12
+P005,<1 year,rxn_357323cd,Likely Success,7
+P005,<1 year,rxn_48e522db,Very Confident Success,7
+P005,<1 year,rxn_50d39625,Likely Success,7
+P005,<1 year,rxn_58c417f4,Likely Success,7
+P005,<1 year,rxn_1d526b97,Likely Success,7
+P005,<1 year,rxn_6802459b,Likely Success,7
+P005,<1 year,rxn_6451802d,Likely Fail,7
+P005,<1 year,rxn_6659b2fe,Likely Success,7
+P005,<1 year,rxn_db77c1a,Likely Success,7
+P005,<1 year,rxn_b3881e1,Likely Fail,7
+P005,<1 year,rxn_2083c62f,Likely Success,7
+P005,<1 year,rxn_540add03,Very Confident Success,7
+P005,<1 year,rxn_2729a0f3,Likely Success,7
+P005,<1 year,rxn_5335b01f,Likely Fail,7
+P005,<1 year,rxn_64b265f7,Likely Success,7
+P005,<1 year,rxn_1c19902e,Likely Success,7
+P005,<1 year,rxn_d877775,Likely Success,7
+P005,<1 year,rxn_b6b99f4,Likely Fail,7
+P005,<1 year,rxn_4554078e,Likely Success,7
+P005,<1 year,rxn_5aa127f8,Likely Success,7
+P005,<1 year,rxn_2bf177c8,Likely Success,7
+P005,<1 year,rxn_4d24ea4c,Likely Success,7
+P006,>3 years,rxn_b3881e1,Likely Success,15
+P006,>3 years,rxn_540add03,Very Confident Success,15
+P006,>3 years,rxn_2083c62f,Very Confident Fail,15
+P006,>3 years,rxn_58c417f4,Very Confident Fail,15
+P006,>3 years,rxn_5335b01f,Likely Success,15
+P006,>3 years,rxn_64b265f7,Very Confident Fail,15
+P006,>3 years,rxn_2729a0f3,Likely Success,15
+P006,>3 years,rxn_5aa127f8,Likely Success,15
+P006,>3 years,rxn_4554078e,Very Confident Success,15
+P006,>3 years,rxn_6659b2fe,Likely Success,15
+P006,>3 years,rxn_50d39625,Very Confident Success,15
+P006,>3 years,rxn_6802459b,Likely Success,15
+P006,>3 years,rxn_2bf177c8,Likely Success,15
+P006,>3 years,rxn_1d526b97,Very Confident Fail,15
+P006,>3 years,rxn_357323cd,Likely Success,15
+P006,>3 years,rxn_db77c1a,Likely Success,15
+P006,>3 years,rxn_4d24ea4c,Very Confident Success,15
+P006,>3 years,rxn_1c19902e,Very Confident Fail,15
+P006,>3 years,rxn_6451802d,Very Confident Success,15
+P006,>3 years,rxn_48e522db,Very Confident Success,15
+P006,>3 years,rxn_b6b99f4,Very Confident Success,15
+P006,>3 years,rxn_d877775,Very Confident Fail,15
+P007,1-3 years,rxn_b6b99f4,Likely Success,16
+P007,1-3 years,rxn_db77c1a,Likely Success,16
+P007,1-3 years,rxn_5aa127f8,Likely Fail,16
+P007,1-3 years,rxn_1c19902e,Likely Success,16
+P007,1-3 years,rxn_6451802d,Likely Success,16
+P007,1-3 years,rxn_2bf177c8,Likely Fail,16
+P007,1-3 years,rxn_5335b01f,Likely Fail,16
+P007,1-3 years,rxn_357323cd,Likely Success,16
+P007,1-3 years,rxn_50d39625,Likely Success,16
+P007,1-3 years,rxn_b3881e1,Likely Success,16
+P007,1-3 years,rxn_1d526b97,Likely Fail,16
+P007,1-3 years,rxn_d877775,Likely Fail,16
+P007,1-3 years,rxn_58c417f4,Likely Success,16
+P007,1-3 years,rxn_4554078e,Likely Fail,16
+P007,1-3 years,rxn_48e522db,Very Confident Fail,16
+P007,1-3 years,rxn_64b265f7,Likely Success,16
+P007,1-3 years,rxn_6659b2fe,Likely Success,16
+P007,1-3 years,rxn_540add03,Likely Success,16
+P007,1-3 years,rxn_2729a0f3,Likely Success,16
+P007,1-3 years,rxn_6802459b,Likely Success,16
+P007,1-3 years,rxn_2083c62f,Likely Fail,16
+P007,1-3 years,rxn_4d24ea4c,Likely Fail,16
+P008,<1 year,rxn_58c417f4,Likely Fail,11
+P008,<1 year,rxn_6802459b,Likely Success,11
+P008,<1 year,rxn_b3881e1,Likely Success,11
+P008,<1 year,rxn_2729a0f3,Likely Success,11
+P008,<1 year,rxn_48e522db,Likely Fail,11
+P008,<1 year,rxn_2083c62f,Likely Fail,11
+P008,<1 year,rxn_50d39625,Likely Success,11
+P008,<1 year,rxn_357323cd,Likely Success,11
+P008,<1 year,rxn_5aa127f8,Likely Fail,11
+P008,<1 year,rxn_b6b99f4,Likely Fail,11
+P008,<1 year,rxn_6451802d,Likely Success,11
+P008,<1 year,rxn_1d526b97,Likely Success,11
+P008,<1 year,rxn_540add03,Likely Fail,11
+P008,<1 year,rxn_5335b01f,Likely Success,11
+P008,<1 year,rxn_64b265f7,Likely Success,11
+P008,<1 year,rxn_1c19902e,Likely Success,11
+P008,<1 year,rxn_2bf177c8,Likely Fail,11
+P008,<1 year,rxn_4554078e,Likely Success,11
+P008,<1 year,rxn_db77c1a,Likely Success,11
+P008,<1 year,rxn_4d24ea4c,Likely Success,11
+P008,<1 year,rxn_6659b2fe,Likely Success,11
+P008,<1 year,rxn_d877775,Likely Fail,11
+P009,<1 year,rxn_2bf177c8,Likely Success,13
+P009,<1 year,rxn_6659b2fe,Likely Success,13
+P009,<1 year,rxn_6802459b,Likely Fail,13
+P009,<1 year,rxn_2729a0f3,Likely Success,13
+P009,<1 year,rxn_4554078e,Likely Fail,13
+P009,<1 year,rxn_1c19902e,Likely Success,13
+P009,<1 year,rxn_6451802d,Likely Success,13
+P009,<1 year,rxn_540add03,Likely Success,13
+P009,<1 year,rxn_357323cd,Likely Fail,13
+P009,<1 year,rxn_48e522db,Likely Success,13
+P009,<1 year,rxn_64b265f7,Likely Success,13
+P009,<1 year,rxn_2083c62f,Very Confident Fail,13
+P009,<1 year,rxn_50d39625,Likely Success,13
+P009,<1 year,rxn_1d526b97,Likely Fail,13
+P009,<1 year,rxn_58c417f4,Likely Fail,13
+P009,<1 year,rxn_4d24ea4c,Likely Fail,13
+P009,<1 year,rxn_db77c1a,Likely Fail,13
+P009,<1 year,rxn_d877775,Very Confident Fail,13
+P009,<1 year,rxn_b6b99f4,Very Confident Fail,13
+P009,<1 year,rxn_b3881e1,Very Confident Fail,13
+P009,<1 year,rxn_5aa127f8,Very Confident Fail,13
+P009,<1 year,rxn_5335b01f,Likely Success,13
+P010,>3 years,rxn_48e522db,Very Confident Fail,9
+P010,>3 years,rxn_4554078e,Very Confident Success,9
+P010,>3 years,rxn_6802459b,Likely Success,9
+P010,>3 years,rxn_db77c1a,Likely Fail,9
+P010,>3 years,rxn_50d39625,Very Confident Success,9
+P010,>3 years,rxn_6451802d,Very Confident Success,9
+P010,>3 years,rxn_6659b2fe,Very Confident Success,9
+P010,>3 years,rxn_5335b01f,Likely Fail,9
+P010,>3 years,rxn_4d24ea4c,Likely Success,9
+P010,>3 years,rxn_2729a0f3,Very Confident Success,9
+P010,>3 years,rxn_540add03,Likely Success,9
+P010,>3 years,rxn_58c417f4,Likely Fail,9
+P010,>3 years,rxn_64b265f7,Likely Fail,9
+P010,>3 years,rxn_b3881e1,Likely Success,9
+P010,>3 years,rxn_1d526b97,Likely Success,9
+P010,>3 years,rxn_b6b99f4,Very Confident Success,9
+P010,>3 years,rxn_5aa127f8,Very Confident Success,9
+P010,>3 years,rxn_1c19902e,Very Confident Success,9
+P010,>3 years,rxn_2083c62f,Likely Success,9
+P010,>3 years,rxn_2bf177c8,Likely Success,9
+P010,>3 years,rxn_d877775,Very Confident Fail,9
+P010,>3 years,rxn_357323cd,Very Confident Success,9
+P011,>3 years,rxn_6802459b,Likely Success,11
+P011,>3 years,rxn_1c19902e,Likely Success,11
+P011,>3 years,rxn_58c417f4,Likely Success,11
+P011,>3 years,rxn_50d39625,Likely Success,11
+P011,>3 years,rxn_b3881e1,Likely Success,11
+P011,>3 years,rxn_6451802d,Likely Success,11
+P011,>3 years,rxn_540add03,Likely Success,11
+P011,>3 years,rxn_357323cd,Likely Success,11
+P011,>3 years,rxn_48e522db,Likely Success,11
+P011,>3 years,rxn_2083c62f,Likely Success,11
+P011,>3 years,rxn_b6b99f4,Likely Success,11
+P011,>3 years,rxn_2bf177c8,Likely Success,11
+P011,>3 years,rxn_64b265f7,Likely Success,11
+P011,>3 years,rxn_5aa127f8,Likely Success,11
+P011,>3 years,rxn_d877775,Likely Success,11
+P011,>3 years,rxn_4554078e,Very Confident Success,11
+P011,>3 years,rxn_2729a0f3,Very Confident Success,11
+P011,>3 years,rxn_6659b2fe,Very Confident Success,11
+P011,>3 years,rxn_5335b01f,Likely Fail,11
+P011,>3 years,rxn_db77c1a,Likely Success,11
+P011,>3 years,rxn_1d526b97,Very Confident Fail,11
+P011,>3 years,rxn_4d24ea4c,Likely Success,11
+P012,>3 years,rxn_d877775,Likely Fail,11
+P012,>3 years,rxn_48e522db,Likely Success,11
+P012,>3 years,rxn_5335b01f,Likely Fail,11
+P012,>3 years,rxn_2083c62f,Likely Fail,11
+P012,>3 years,rxn_540add03,Likely Fail,11
+P012,>3 years,rxn_1d526b97,Likely Success,11
+P012,>3 years,rxn_50d39625,Likely Success,11
+P012,>3 years,rxn_db77c1a,Likely Fail,11
+P012,>3 years,rxn_64b265f7,Likely Fail,11
+P012,>3 years,rxn_6451802d,Likely Success,11
+P012,>3 years,rxn_357323cd,Likely Success,11
+P012,>3 years,rxn_2729a0f3,Likely Success,11
+P012,>3 years,rxn_b6b99f4,Likely Success,11
+P012,>3 years,rxn_5aa127f8,Likely Fail,11
+P012,>3 years,rxn_b3881e1,Likely Fail,11
+P012,>3 years,rxn_6802459b,Likely Fail,11
+P012,>3 years,rxn_1c19902e,Very Confident Success,11
+P012,>3 years,rxn_6659b2fe,Likely Success,11
+P012,>3 years,rxn_4d24ea4c,Likely Fail,11
+P012,>3 years,rxn_2bf177c8,Likely Fail,11
+P012,>3 years,rxn_4554078e,Likely Success,11
+P012,>3 years,rxn_58c417f4,Likely Fail,11
+P013,<1 year,rxn_1c19902e,Likely Fail,14
+P013,<1 year,rxn_2729a0f3,Likely Success,14
+P013,<1 year,rxn_64b265f7,Likely Fail,14
+P013,<1 year,rxn_50d39625,Likely Success,14
+P013,<1 year,rxn_db77c1a,Likely Success,14
+P013,<1 year,rxn_2083c62f,Likely Fail,14
+P013,<1 year,rxn_6802459b,Likely Success,14
+P013,<1 year,rxn_2bf177c8,Likely Fail,14
+P013,<1 year,rxn_b6b99f4,Likely Success,14
+P013,<1 year,rxn_4554078e,Likely Success,14
+P013,<1 year,rxn_1d526b97,Likely Fail,14
+P013,<1 year,rxn_d877775,Likely Fail,14
+P013,<1 year,rxn_48e522db,Likely Fail,14
+P013,<1 year,rxn_5335b01f,Likely Fail,14
+P013,<1 year,rxn_540add03,Likely Fail,14
+P013,<1 year,rxn_5aa127f8,Likely Success,14
+P013,<1 year,rxn_357323cd,Likely Success,14
+P013,<1 year,rxn_b3881e1,Likely Success,14
+P013,<1 year,rxn_58c417f4,Likely Success,14
+P013,<1 year,rxn_4d24ea4c,Likely Fail,14
+P013,<1 year,rxn_6659b2fe,Likely Success,14
+P013,<1 year,rxn_6451802d,Likely Fail,14
+P014,1-3 years,rxn_b3881e1,Likely Fail,8
+P014,1-3 years,rxn_540add03,Likely Fail,8
+P014,1-3 years,rxn_5aa127f8,Likely Success,8
+P014,1-3 years,rxn_58c417f4,Likely Fail,8
+P014,1-3 years,rxn_2729a0f3,Likely Fail,8
+P014,1-3 years,rxn_db77c1a,Likely Success,8
+P014,1-3 years,rxn_d877775,Likely Fail,8
+P014,1-3 years,rxn_6659b2fe,Likely Success,8
+P014,1-3 years,rxn_64b265f7,Likely Success,8
+P014,1-3 years,rxn_2083c62f,Likely Fail,8
+P014,1-3 years,rxn_357323cd,Likely Success,8
+P014,1-3 years,rxn_6451802d,Likely Fail,8
+P014,1-3 years,rxn_50d39625,Likely Success,8
+P014,1-3 years,rxn_6802459b,Likely Fail,8
+P014,1-3 years,rxn_48e522db,Likely Fail,8
+P014,1-3 years,rxn_4554078e,Likely Fail,8
+P014,1-3 years,rxn_1c19902e,Likely Success,8
+P014,1-3 years,rxn_1d526b97,Likely Success,8
+P014,1-3 years,rxn_b6b99f4,Likely Success,8
+P014,1-3 years,rxn_2bf177c8,Likely Success,8
+P014,1-3 years,rxn_5335b01f,Likely Fail,8
+P014,1-3 years,rxn_4d24ea4c,Likely Success,8
+P015,<1 year,rxn_6659b2fe,Likely Success,12
+P015,<1 year,rxn_1c19902e,Very Confident Success,12
+P015,<1 year,rxn_2083c62f,Likely Fail,12
+P015,<1 year,rxn_d877775,Likely Success,12
+P015,<1 year,rxn_50d39625,Likely Fail,12
+P015,<1 year,rxn_58c417f4,Very Confident Success,12
+P015,<1 year,rxn_6451802d,Very Confident Success,12
+P015,<1 year,rxn_4554078e,Very Confident Success,12
+P015,<1 year,rxn_5335b01f,Likely Fail,12
+P015,<1 year,rxn_48e522db,Very Confident Fail,12
+P015,<1 year,rxn_5aa127f8,Likely Success,12
+P015,<1 year,rxn_6802459b,Very Confident Success,12
+P015,<1 year,rxn_b6b99f4,Very Confident Success,12
+P015,<1 year,rxn_db77c1a,Very Confident Success,12
+P015,<1 year,rxn_4d24ea4c,Very Confident Success,12
+P015,<1 year,rxn_357323cd,Likely Fail,12
+P015,<1 year,rxn_2bf177c8,Likely Fail,12
+P015,<1 year,rxn_540add03,Likely Fail,12
+P015,<1 year,rxn_b3881e1,Likely Success,12
+P015,<1 year,rxn_64b265f7,Likely Success,12
+P015,<1 year,rxn_1d526b97,Likely Fail,12
+P015,<1 year,rxn_2729a0f3,Likely Fail,12
+P016,<1 year,rxn_d877775,Likely Success,11
+P016,<1 year,rxn_6802459b,Likely Success,11
+P016,<1 year,rxn_5335b01f,Likely Success,11
+P016,<1 year,rxn_357323cd,Likely Success,11
+P016,<1 year,rxn_1d526b97,Likely Success,11
+P016,<1 year,rxn_b3881e1,Likely Success,11
+P016,<1 year,rxn_5aa127f8,Likely Success,11
+P016,<1 year,rxn_4554078e,Likely Success,11
+P016,<1 year,rxn_50d39625,Likely Success,11
+P016,<1 year,rxn_1c19902e,Likely Success,11
+P016,<1 year,rxn_48e522db,Likely Success,11
+P016,<1 year,rxn_db77c1a,Likely Success,11
+P016,<1 year,rxn_2083c62f,Likely Success,11
+P016,<1 year,rxn_b6b99f4,Likely Success,11
+P016,<1 year,rxn_64b265f7,Likely Success,11
+P016,<1 year,rxn_2bf177c8,Likely Success,11
+P016,<1 year,rxn_540add03,Likely Success,11
+P016,<1 year,rxn_2729a0f3,Likely Success,11
+P016,<1 year,rxn_58c417f4,Likely Success,11
+P016,<1 year,rxn_4d24ea4c,Likely Success,11
+P016,<1 year,rxn_6451802d,Likely Success,11
+P016,<1 year,rxn_6659b2fe,Likely Success,11
+P017,<1 year,rxn_1c19902e,Likely Success,11
+P017,<1 year,rxn_b3881e1,Likely Success,11
+P017,<1 year,rxn_db77c1a,Likely Success,11
+P017,<1 year,rxn_6451802d,Likely Success,11
+P017,<1 year,rxn_4d24ea4c,Likely Fail,11
+P017,<1 year,rxn_2729a0f3,Likely Success,11
+P017,<1 year,rxn_4554078e,Likely Success,11
+P017,<1 year,rxn_2bf177c8,Likely Success,11
+P017,<1 year,rxn_d877775,Likely Success,11
+P017,<1 year,rxn_6802459b,Likely Success,11
+P017,<1 year,rxn_6659b2fe,Likely Success,11
+P017,<1 year,rxn_5aa127f8,Likely Success,11
+P017,<1 year,rxn_58c417f4,Likely Fail,11
+P017,<1 year,rxn_540add03,Likely Success,11
+P017,<1 year,rxn_b6b99f4,Likely Fail,11
+P017,<1 year,rxn_64b265f7,Likely Success,11
+P017,<1 year,rxn_5335b01f,Likely Success,11
+P017,<1 year,rxn_2083c62f,Likely Success,11
+P017,<1 year,rxn_48e522db,Likely Success,11
+P017,<1 year,rxn_357323cd,Likely Fail,11
+P017,<1 year,rxn_50d39625,Likely Success,11
+P017,<1 year,rxn_1d526b97,Likely Success,11
+P018,>3 years,rxn_4554078e,Likely Success,10
+P018,>3 years,rxn_5aa127f8,Very Confident Fail,10
+P018,>3 years,rxn_6659b2fe,Likely Success,10
+P018,>3 years,rxn_58c417f4,Likely Fail,10
+P018,>3 years,rxn_2083c62f,Very Confident Fail,10
+P018,>3 years,rxn_64b265f7,Likely Success,10
+P018,>3 years,rxn_d877775,Very Confident Fail,10
+P018,>3 years,rxn_4d24ea4c,Likely Success,10
+P018,>3 years,rxn_48e522db,Likely Fail,10
+P018,>3 years,rxn_6802459b,Likely Success,10
+P018,>3 years,rxn_db77c1a,Likely Success,10
+P018,>3 years,rxn_b6b99f4,Very Confident Success,10
+P018,>3 years,rxn_2bf177c8,Likely Success,10
+P018,>3 years,rxn_2729a0f3,Likely Success,10
+P018,>3 years,rxn_5335b01f,Likely Fail,10
+P018,>3 years,rxn_357323cd,Likely Success,10
+P018,>3 years,rxn_6451802d,Very Confident Fail,10
+P018,>3 years,rxn_1d526b97,Likely Fail,10
+P018,>3 years,rxn_50d39625,Likely Success,10
+P018,>3 years,rxn_1c19902e,Likely Success,10
+P018,>3 years,rxn_540add03,Likely Fail,10
+P018,>3 years,rxn_b3881e1,Likely Success,10
+P019,<1 year,rxn_357323cd,Likely Fail,14
+P019,<1 year,rxn_b3881e1,Likely Success,14
+P019,<1 year,rxn_2bf177c8,Very Confident Fail,14
+P019,<1 year,rxn_4d24ea4c,Likely Fail,14
+P019,<1 year,rxn_5aa127f8,Likely Success,14
+P019,<1 year,rxn_b6b99f4,Likely Success,14
+P019,<1 year,rxn_2083c62f,Very Confident Success,14
+P019,<1 year,rxn_1c19902e,Likely Success,14
+P019,<1 year,rxn_db77c1a,Likely Success,14
+P019,<1 year,rxn_d877775,Very Confident Fail,14
+P019,<1 year,rxn_6659b2fe,Very Confident Success,14
+P019,<1 year,rxn_58c417f4,Likely Fail,14
+P019,<1 year,rxn_1d526b97,Likely Fail,14
+P019,<1 year,rxn_50d39625,Very Confident Success,14
+P019,<1 year,rxn_2729a0f3,Likely Fail,14
+P019,<1 year,rxn_5335b01f,Likely Fail,14
+P019,<1 year,rxn_48e522db,Likely Success,14
+P019,<1 year,rxn_64b265f7,Likely Fail,14
+P019,<1 year,rxn_4554078e,Likely Fail,14
+P019,<1 year,rxn_6451802d,Likely Fail,14
+P019,<1 year,rxn_6802459b,Likely Fail,14
+P019,<1 year,rxn_540add03,Likely Fail,14
+P020,>3 years,rxn_50d39625,Likely Success,19
+P020,>3 years,rxn_6659b2fe,Very Confident Success,19
+P020,>3 years,rxn_2083c62f,Likely Fail,19
+P020,>3 years,rxn_1c19902e,Likely Fail,19
+P020,>3 years,rxn_2729a0f3,Likely Fail,19
+P020,>3 years,rxn_5aa127f8,Likely Fail,19
+P020,>3 years,rxn_d877775,Very Confident Fail,19
+P020,>3 years,rxn_2bf177c8,Likely Fail,19
+P020,>3 years,rxn_1d526b97,Very Confident Fail,19
+P020,>3 years,rxn_4d24ea4c,Very Confident Fail,19
+P020,>3 years,rxn_357323cd,Likely Fail,19
+P020,>3 years,rxn_db77c1a,Likely Success,19
+P020,>3 years,rxn_58c417f4,Likely Fail,19
+P020,>3 years,rxn_b6b99f4,Likely Success,19
+P020,>3 years,rxn_b3881e1,Likely Fail,19
+P020,>3 years,rxn_5335b01f,Likely Success,19
+P020,>3 years,rxn_6802459b,Likely Success,19
+P020,>3 years,rxn_64b265f7,Likely Fail,19
+P020,>3 years,rxn_6451802d,Likely Fail,19
+P020,>3 years,rxn_48e522db,Likely Success,19
+P020,>3 years,rxn_540add03,Likely Success,19
+P020,>3 years,rxn_4554078e,Likely Fail,19
+P021,1-3 years,rxn_4554078e,Very Confident Fail,12
+P021,1-3 years,rxn_48e522db,Very Confident Fail,12
+P021,1-3 years,rxn_540add03,Likely Success,12
+P021,1-3 years,rxn_4d24ea4c,Likely Fail,12
+P021,1-3 years,rxn_6451802d,Very Confident Fail,12
+P021,1-3 years,rxn_6659b2fe,Very Confident Success,12
+P021,1-3 years,rxn_64b265f7,Likely Success,12
+P021,1-3 years,rxn_6802459b,Likely Success,12
+P021,1-3 years,rxn_1d526b97,Likely Success,12
+P021,1-3 years,rxn_2bf177c8,Very Confident Fail,12
+P021,1-3 years,rxn_5aa127f8,Likely Success,12
+P021,1-3 years,rxn_58c417f4,Likely Success,12
+P021,1-3 years,rxn_2729a0f3,Likely Success,12
+P021,1-3 years,rxn_b3881e1,Likely Success,12
+P021,1-3 years,rxn_db77c1a,Likely Success,12
+P021,1-3 years,rxn_357323cd,Very Confident Success,12
+P021,1-3 years,rxn_1c19902e,Likely Success,12
+P021,1-3 years,rxn_2083c62f,Likely Fail,12
+P021,1-3 years,rxn_b6b99f4,Likely Success,12
+P021,1-3 years,rxn_5335b01f,Likely Fail,12
+P021,1-3 years,rxn_50d39625,Likely Success,12
+P021,1-3 years,rxn_d877775,Likely Success,12
+P022,<1 year,rxn_64b265f7,Likely Fail,13
+P022,<1 year,rxn_48e522db,Likely Success,13
+P022,<1 year,rxn_2bf177c8,Likely Success,13
+P022,<1 year,rxn_5335b01f,Likely Success,13
+P022,<1 year,rxn_1d526b97,Likely Success,13
+P022,<1 year,rxn_1c19902e,Likely Fail,13
+P022,<1 year,rxn_2729a0f3,Likely Fail,13
+P022,<1 year,rxn_5aa127f8,Likely Success,13
+P022,<1 year,rxn_4554078e,Likely Fail,13
+P022,<1 year,rxn_58c417f4,Likely Success,13
+P022,<1 year,rxn_50d39625,Likely Success,13
+P022,<1 year,rxn_6659b2fe,Likely Fail,13
+P022,<1 year,rxn_357323cd,Likely Success,13
+P022,<1 year,rxn_6802459b,Likely Fail,13
+P022,<1 year,rxn_2083c62f,Likely Success,13
+P022,<1 year,rxn_540add03,Likely Success,13
+P022,<1 year,rxn_6451802d,Likely Success,13
+P022,<1 year,rxn_b6b99f4,Likely Success,13
+P022,<1 year,rxn_d877775,Likely Success,13
+P022,<1 year,rxn_db77c1a,Likely Success,13
+P022,<1 year,rxn_b3881e1,Likely Success,13
+P022,<1 year,rxn_4d24ea4c,Likely Success,13
+P023,1-3 years,rxn_357323cd,Likely Fail,12
+P023,1-3 years,rxn_4d24ea4c,Very Confident Fail,12
+P023,1-3 years,rxn_6451802d,Likely Fail,12
+P023,1-3 years,rxn_2729a0f3,Very Confident Success,12
+P023,1-3 years,rxn_5335b01f,Likely Fail,12
+P023,1-3 years,rxn_48e522db,Very Confident Success,12
+P023,1-3 years,rxn_6659b2fe,Very Confident Success,12
+P023,1-3 years,rxn_b3881e1,Likely Success,12
+P023,1-3 years,rxn_d877775,Very Confident Success,12
+P023,1-3 years,rxn_5aa127f8,Very Confident Success,12
+P023,1-3 years,rxn_64b265f7,Likely Fail,12
+P023,1-3 years,rxn_db77c1a,Likely Fail,12
+P023,1-3 years,rxn_2083c62f,Very Confident Success,12
+P023,1-3 years,rxn_6802459b,Likely Success,12
+P023,1-3 years,rxn_4554078e,Very Confident Success,12
+P023,1-3 years,rxn_540add03,Likely Success,12
+P023,1-3 years,rxn_b6b99f4,Very Confident Success,12
+P023,1-3 years,rxn_50d39625,Very Confident Success,12
+P023,1-3 years,rxn_58c417f4,Very Confident Success,12
+P023,1-3 years,rxn_1c19902e,Very Confident Success,12
+P023,1-3 years,rxn_1d526b97,Very Confident Fail,12
+P023,1-3 years,rxn_2bf177c8,Very Confident Success,12
+P024,<1 year,rxn_2729a0f3,Likely Fail,12
+P024,<1 year,rxn_357323cd,Likely Success,12
+P024,<1 year,rxn_6451802d,Likely Success,12
+P024,<1 year,rxn_64b265f7,Likely Fail,12
+P024,<1 year,rxn_db77c1a,Likely Fail,12
+P024,<1 year,rxn_58c417f4,Likely Success,12
+P024,<1 year,rxn_d877775,Likely Fail,12
+P024,<1 year,rxn_540add03,Likely Success,12
+P024,<1 year,rxn_50d39625,Likely Success,12
+P024,<1 year,rxn_4554078e,Very Confident Success,12
+P024,<1 year,rxn_48e522db,Likely Fail,12
+P024,<1 year,rxn_2bf177c8,Likely Success,12
+P024,<1 year,rxn_1d526b97,Likely Success,12
+P024,<1 year,rxn_2083c62f,Likely Fail,12
+P024,<1 year,rxn_b6b99f4,Likely Success,12
+P024,<1 year,rxn_5aa127f8,Likely Success,12
+P024,<1 year,rxn_4d24ea4c,Likely Success,12
+P024,<1 year,rxn_b3881e1,Likely Success,12
+P024,<1 year,rxn_6659b2fe,Very Confident Success,12
+P024,<1 year,rxn_5335b01f,Likely Fail,12
+P024,<1 year,rxn_6802459b,Likely Success,12
+P024,<1 year,rxn_1c19902e,Likely Success,12
+P025,1-3 years,rxn_2083c62f,Likely Fail,10
+P025,1-3 years,rxn_5335b01f,Likely Fail,10
+P025,1-3 years,rxn_48e522db,Likely Fail,10
+P025,1-3 years,rxn_d877775,Likely Success,10
+P025,1-3 years,rxn_b3881e1,Likely Success,10
+P025,1-3 years,rxn_50d39625,Likely Success,10
+P025,1-3 years,rxn_58c417f4,Likely Success,10
+P025,1-3 years,rxn_540add03,Likely Fail,10
+P025,1-3 years,rxn_b6b99f4,Likely Success,10
+P025,1-3 years,rxn_6659b2fe,Likely Fail,10
+P025,1-3 years,rxn_2bf177c8,Likely Fail,10
+P025,1-3 years,rxn_db77c1a,Likely Fail,10
+P025,1-3 years,rxn_6451802d,Likely Success,10
+P025,1-3 years,rxn_4554078e,Likely Success,10
+P025,1-3 years,rxn_64b265f7,Likely Fail,10
+P025,1-3 years,rxn_5aa127f8,Likely Success,10
+P025,1-3 years,rxn_1c19902e,Likely Success,10
+P025,1-3 years,rxn_1d526b97,Likely Fail,10
+P025,1-3 years,rxn_357323cd,Likely Success,10
+P025,1-3 years,rxn_2729a0f3,Likely Success,10
+P025,1-3 years,rxn_4d24ea4c,Likely Success,10
+P025,1-3 years,rxn_6802459b,Likely Success,10
+P026,>3 years,rxn_2bf177c8,Likely Fail,13
+P026,>3 years,rxn_d877775,Likely Fail,13
+P026,>3 years,rxn_357323cd,Very Confident Success,13
+P026,>3 years,rxn_4d24ea4c,Likely Success,13
+P026,>3 years,rxn_4554078e,Very Confident Success,13
+P026,>3 years,rxn_50d39625,Very Confident Success,13
+P026,>3 years,rxn_1c19902e,Likely Fail,13
+P026,>3 years,rxn_5335b01f,Likely Fail,13
+P026,>3 years,rxn_5aa127f8,Likely Fail,13
+P026,>3 years,rxn_48e522db,Likely Fail,13
+P026,>3 years,rxn_2083c62f,Likely Success,13
+P026,>3 years,rxn_2729a0f3,Likely Success,13
+P026,>3 years,rxn_6451802d,Likely Fail,13
+P026,>3 years,rxn_1d526b97,Likely Fail,13
+P026,>3 years,rxn_64b265f7,Likely Fail,13
+P026,>3 years,rxn_58c417f4,Likely Fail,13
+P026,>3 years,rxn_db77c1a,Likely Success,13
+P026,>3 years,rxn_540add03,Likely Success,13
+P026,>3 years,rxn_b3881e1,Likely Success,13
+P026,>3 years,rxn_6802459b,Likely Success,13
+P026,>3 years,rxn_6659b2fe,Likely Success,13
+P026,>3 years,rxn_b6b99f4,Likely Success,13
+P027,>3 years,rxn_4554078e,Likely Success,15
+P027,>3 years,rxn_48e522db,Likely Success,15
+P027,>3 years,rxn_2729a0f3,Likely Success,15
+P027,>3 years,rxn_5aa127f8,Likely Success,15
+P027,>3 years,rxn_58c417f4,Likely Success,15
+P027,>3 years,rxn_1d526b97,Very Confident Fail,15
+P027,>3 years,rxn_db77c1a,Very Confident Success,15
+P027,>3 years,rxn_5335b01f,Very Confident Success,15
+P027,>3 years,rxn_4d24ea4c,Likely Fail,15
+P027,>3 years,rxn_64b265f7,Very Confident Success,15
+P027,>3 years,rxn_6451802d,Very Confident Success,15
+P027,>3 years,rxn_2bf177c8,Very Confident Fail,15
+P027,>3 years,rxn_1c19902e,Very Confident Fail,15
+P027,>3 years,rxn_6659b2fe,Very Confident Success,15
+P027,>3 years,rxn_50d39625,Very Confident Success,15
+P027,>3 years,rxn_2083c62f,Very Confident Success,15
+P027,>3 years,rxn_6802459b,Very Confident Success,15
+P027,>3 years,rxn_b6b99f4,Very Confident Success,15
+P027,>3 years,rxn_540add03,Very Confident Success,15
+P027,>3 years,rxn_357323cd,Very Confident Success,15
+P027,>3 years,rxn_d877775,Very Confident Success,15
+P027,>3 years,rxn_b3881e1,Very Confident Success,15
+P028,>3 years,rxn_540add03,Likely Fail,9
+P028,>3 years,rxn_b3881e1,Likely Success,9
+P028,>3 years,rxn_6802459b,Likely Success,9
+P028,>3 years,rxn_6659b2fe,Likely Success,9
+P028,>3 years,rxn_58c417f4,Likely Success,9
+P028,>3 years,rxn_6451802d,Likely Success,9
+P028,>3 years,rxn_4d24ea4c,Likely Success,9
+P028,>3 years,rxn_5335b01f,Likely Success,9
+P028,>3 years,rxn_4554078e,Likely Success,9
+P028,>3 years,rxn_2083c62f,Likely Fail,9
+P028,>3 years,rxn_db77c1a,Likely Fail,9
+P028,>3 years,rxn_d877775,Likely Success,9
+P028,>3 years,rxn_b6b99f4,Likely Success,9
+P028,>3 years,rxn_2bf177c8,Likely Success,9
+P028,>3 years,rxn_5aa127f8,Likely Success,9
+P028,>3 years,rxn_64b265f7,Likely Success,9
+P028,>3 years,rxn_50d39625,Likely Success,9
+P028,>3 years,rxn_2729a0f3,Likely Success,9
+P028,>3 years,rxn_1d526b97,Likely Success,9
+P028,>3 years,rxn_48e522db,Likely Fail,9
+P028,>3 years,rxn_1c19902e,Likely Success,9
+P028,>3 years,rxn_357323cd,Likely Success,9
+P029,1-3 years,rxn_2bf177c8,Likely Fail,14
+P029,1-3 years,rxn_50d39625,Very Confident Success,14
+P029,1-3 years,rxn_48e522db,Likely Success,14
+P029,1-3 years,rxn_6659b2fe,Likely Fail,14
+P029,1-3 years,rxn_4554078e,Very Confident Success,14
+P029,1-3 years,rxn_1d526b97,Very Confident Fail,14
+P029,1-3 years,rxn_2729a0f3,Likely Success,14
+P029,1-3 years,rxn_2083c62f,Likely Success,14
+P029,1-3 years,rxn_6802459b,Likely Success,14
+P029,1-3 years,rxn_1c19902e,Likely Success,14
+P029,1-3 years,rxn_db77c1a,Likely Success,14
+P029,1-3 years,rxn_5aa127f8,Likely Success,14
+P029,1-3 years,rxn_64b265f7,Likely Fail,14
+P029,1-3 years,rxn_b3881e1,Likely Success,14
+P029,1-3 years,rxn_540add03,Likely Success,14
+P029,1-3 years,rxn_6451802d,Likely Success,14
+P029,1-3 years,rxn_58c417f4,Likely Success,14
+P029,1-3 years,rxn_5335b01f,Likely Success,14
+P029,1-3 years,rxn_357323cd,Likely Success,14
+P029,1-3 years,rxn_b6b99f4,Likely Success,14
+P029,1-3 years,rxn_d877775,Likely Success,14
+P029,1-3 years,rxn_4d24ea4c,Likely Fail,14
+P030,<1 year,rxn_2bf177c8,Likely Success,9
+P030,<1 year,rxn_2083c62f,Likely Fail,9
+P030,<1 year,rxn_2729a0f3,Likely Success,9
+P030,<1 year,rxn_6451802d,Likely Fail,9
+P030,<1 year,rxn_5335b01f,Likely Fail,9
+P030,<1 year,rxn_4d24ea4c,Likely Success,9
+P030,<1 year,rxn_58c417f4,Likely Success,9
+P030,<1 year,rxn_357323cd,Likely Fail,9
+P030,<1 year,rxn_6659b2fe,Likely Success,9
+P030,<1 year,rxn_db77c1a,Likely Fail,9
+P030,<1 year,rxn_1c19902e,Likely Success,9
+P030,<1 year,rxn_64b265f7,Likely Fail,9
+P030,<1 year,rxn_b3881e1,Likely Fail,9
+P030,<1 year,rxn_b6b99f4,Likely Success,9
+P030,<1 year,rxn_540add03,Likely Fail,9
+P030,<1 year,rxn_d877775,Likely Fail,9
+P030,<1 year,rxn_1d526b97,Likely Success,9
+P030,<1 year,rxn_48e522db,Likely Success,9
+P030,<1 year,rxn_6802459b,Likely Fail,9
+P030,<1 year,rxn_4554078e,Likely Success,9
+P030,<1 year,rxn_5aa127f8,Likely Success,9
+P030,<1 year,rxn_50d39625,Likely Success,9
+P031,1-3 years,rxn_2083c62f,Likely Fail,13
+P031,1-3 years,rxn_1d526b97,Likely Fail,13
+P031,1-3 years,rxn_1c19902e,Likely Success,13
+P031,1-3 years,rxn_4554078e,Very Confident Success,13
+P031,1-3 years,rxn_2bf177c8,Very Confident Fail,13
+P031,1-3 years,rxn_4d24ea4c,Likely Success,13
+P031,1-3 years,rxn_2729a0f3,Very Confident Success,13
+P031,1-3 years,rxn_b6b99f4,Very Confident Success,13
+P031,1-3 years,rxn_48e522db,Very Confident Success,13
+P031,1-3 years,rxn_64b265f7,Very Confident Success,13
+P031,1-3 years,rxn_5335b01f,Very Confident Success,13
+P031,1-3 years,rxn_58c417f4,Likely Success,13
+P031,1-3 years,rxn_6451802d,Very Confident Success,13
+P031,1-3 years,rxn_5aa127f8,Very Confident Success,13
+P031,1-3 years,rxn_50d39625,Likely Success,13
+P031,1-3 years,rxn_357323cd,Very Confident Success,13
+P031,1-3 years,rxn_6659b2fe,Very Confident Fail,13
+P031,1-3 years,rxn_b3881e1,Very Confident Success,13
+P031,1-3 years,rxn_540add03,Likely Success,13
+P031,1-3 years,rxn_6802459b,Very Confident Success,13
+P031,1-3 years,rxn_db77c1a,Very Confident Success,13
+P031,1-3 years,rxn_d877775,Likely Success,13
+P032,>3 years,rxn_1d526b97,Very Confident Fail,13
+P032,>3 years,rxn_50d39625,Likely Success,13
+P032,>3 years,rxn_b6b99f4,Very Confident Success,13
+P032,>3 years,rxn_5aa127f8,Very Confident Success,13
+P032,>3 years,rxn_540add03,Very Confident Success,13
+P032,>3 years,rxn_4d24ea4c,Very Confident Success,13
+P032,>3 years,rxn_2729a0f3,Very Confident Success,13
+P032,>3 years,rxn_b3881e1,Very Confident Success,13
+P032,>3 years,rxn_d877775,Very Confident Success,13
+P032,>3 years,rxn_2bf177c8,Very Confident Success,13
+P032,>3 years,rxn_6802459b,Very Confident Success,13
+P032,>3 years,rxn_2083c62f,Very Confident Fail,13
+P032,>3 years,rxn_4554078e,Very Confident Success,13
+P032,>3 years,rxn_db77c1a,Very Confident Success,13
+P032,>3 years,rxn_6451802d,Very Confident Success,13
+P032,>3 years,rxn_5335b01f,Likely Fail,13
+P032,>3 years,rxn_1c19902e,Very Confident Fail,13
+P032,>3 years,rxn_6659b2fe,Very Confident Success,13
+P032,>3 years,rxn_58c417f4,Very Confident Success,13
+P032,>3 years,rxn_64b265f7,Very Confident Success,13
+P032,>3 years,rxn_48e522db,Very Confident Success,13
+P032,>3 years,rxn_357323cd,Very Confident Success,13
+P033,>3 years,rxn_1d526b97,Likely Fail,9
+P033,>3 years,rxn_6802459b,Likely Fail,9
+P033,>3 years,rxn_d877775,Likely Fail,9
+P033,>3 years,rxn_6451802d,Likely Fail,9
+P033,>3 years,rxn_64b265f7,Likely Success,9
+P033,>3 years,rxn_5335b01f,Likely Fail,9
+P033,>3 years,rxn_50d39625,Likely Success,9
+P033,>3 years,rxn_2bf177c8,Likely Fail,9
+P033,>3 years,rxn_2729a0f3,Likely Success,9
+P033,>3 years,rxn_357323cd,Likely Success,9
+P033,>3 years,rxn_5aa127f8,Very Confident Success,9
+P033,>3 years,rxn_2083c62f,Likely Success,9
+P033,>3 years,rxn_4d24ea4c,Likely Fail,9
+P033,>3 years,rxn_1c19902e,Very Confident Fail,9
+P033,>3 years,rxn_db77c1a,Very Confident Fail,9
+P033,>3 years,rxn_58c417f4,Likely Fail,9
+P033,>3 years,rxn_4554078e,Likely Success,9
+P033,>3 years,rxn_48e522db,Very Confident Fail,9
+P033,>3 years,rxn_b6b99f4,Very Confident Success,9
+P033,>3 years,rxn_6659b2fe,Very Confident Success,9
+P033,>3 years,rxn_540add03,Likely Success,9
+P033,>3 years,rxn_b3881e1,Likely Fail,9
+P034,1-3 years,rxn_540add03,Likely Fail,6
+P034,1-3 years,rxn_b3881e1,Likely Fail,6
+P034,1-3 years,rxn_db77c1a,Very Confident Fail,6
+P034,1-3 years,rxn_1d526b97,Likely Success,6
+P034,1-3 years,rxn_4d24ea4c,Very Confident Success,6
+P034,1-3 years,rxn_58c417f4,Likely Fail,6
+P034,1-3 years,rxn_6659b2fe,Likely Success,6
+P034,1-3 years,rxn_5335b01f,Likely Success,6
+P034,1-3 years,rxn_48e522db,Likely Success,6
+P034,1-3 years,rxn_2bf177c8,Likely Success,6
+P034,1-3 years,rxn_1c19902e,Very Confident Success,6
+P034,1-3 years,rxn_4554078e,Likely Success,6
+P034,1-3 years,rxn_6802459b,Very Confident Fail,6
+P034,1-3 years,rxn_64b265f7,Likely Fail,6
+P034,1-3 years,rxn_b6b99f4,Very Confident Success,6
+P034,1-3 years,rxn_2083c62f,Likely Success,6
+P034,1-3 years,rxn_6451802d,Likely Fail,6
+P034,1-3 years,rxn_357323cd,Likely Success,6
+P034,1-3 years,rxn_2729a0f3,Likely Success,6
+P034,1-3 years,rxn_d877775,Likely Success,6
+P034,1-3 years,rxn_5aa127f8,Likely Success,6
+P034,1-3 years,rxn_50d39625,Likely Success,6
+P035,>3 years,rxn_db77c1a,Very Confident Success,14
+P035,>3 years,rxn_64b265f7,Very Confident Fail,14
+P035,>3 years,rxn_5335b01f,Very Confident Success,14
+P035,>3 years,rxn_4554078e,Very Confident Success,14
+P035,>3 years,rxn_5aa127f8,Likely Fail,14
+P035,>3 years,rxn_2083c62f,Likely Success,14
+P035,>3 years,rxn_4d24ea4c,Very Confident Fail,14
+P035,>3 years,rxn_b3881e1,Very Confident Success,14
+P035,>3 years,rxn_2bf177c8,Very Confident Success,14
+P035,>3 years,rxn_2729a0f3,Likely Success,14
+P035,>3 years,rxn_6802459b,Very Confident Success,14
+P035,>3 years,rxn_540add03,Likely Success,14
+P035,>3 years,rxn_1c19902e,Likely Success,14
+P035,>3 years,rxn_357323cd,Very Confident Success,14
+P035,>3 years,rxn_6659b2fe,Very Confident Success,14
+P035,>3 years,rxn_48e522db,Very Confident Success,14
+P035,>3 years,rxn_50d39625,Very Confident Success,14
+P035,>3 years,rxn_1d526b97,Very Confident Fail,14
+P035,>3 years,rxn_d877775,Likely Success,14
+P035,>3 years,rxn_58c417f4,Very Confident Fail,14
+P035,>3 years,rxn_6451802d,Likely Success,14
+P035,>3 years,rxn_b6b99f4,Likely Success,14
+P036,>3 years,rxn_1c19902e,Likely Fail,12
+P036,>3 years,rxn_5aa127f8,Likely Success,12
+P036,>3 years,rxn_2bf177c8,Likely Success,12
+P036,>3 years,rxn_4d24ea4c,Likely Success,12
+P036,>3 years,rxn_5335b01f,Likely Fail,12
+P036,>3 years,rxn_6802459b,Likely Fail,12
+P036,>3 years,rxn_2729a0f3,Likely Fail,12
+P036,>3 years,rxn_50d39625,Very Confident Success,12
+P036,>3 years,rxn_58c417f4,Very Confident Fail,12
+P036,>3 years,rxn_540add03,Likely Fail,12
+P036,>3 years,rxn_48e522db,Very Confident Success,12
+P036,>3 years,rxn_1d526b97,Very Confident Success,12
+P036,>3 years,rxn_d877775,Likely Success,12
+P036,>3 years,rxn_db77c1a,Likely Success,12
+P036,>3 years,rxn_b3881e1,Likely Success,12
+P036,>3 years,rxn_b6b99f4,Very Confident Success,12
+P036,>3 years,rxn_6451802d,Likely Success,12
+P036,>3 years,rxn_6659b2fe,Likely Success,12
+P036,>3 years,rxn_2083c62f,Very Confident Fail,12
+P036,>3 years,rxn_64b265f7,Very Confident Fail,12
+P036,>3 years,rxn_4554078e,Very Confident Fail,12
+P036,>3 years,rxn_357323cd,Likely Success,12
+P037,1-3 years,rxn_1d526b97,Likely Fail,11
+P037,1-3 years,rxn_b3881e1,Likely Fail,11
+P037,1-3 years,rxn_357323cd,Likely Success,11
+P037,1-3 years,rxn_5aa127f8,Very Confident Fail,11
+P037,1-3 years,rxn_2083c62f,Very Confident Fail,11
+P037,1-3 years,rxn_50d39625,Likely Success,11
+P037,1-3 years,rxn_6451802d,Likely Fail,11
+P037,1-3 years,rxn_d877775,Likely Fail,11
+P037,1-3 years,rxn_4d24ea4c,Likely Fail,11
+P037,1-3 years,rxn_6802459b,Likely Fail,11
+P037,1-3 years,rxn_2729a0f3,Likely Success,11
+P037,1-3 years,rxn_db77c1a,Likely Fail,11
+P037,1-3 years,rxn_1c19902e,Likely Fail,11
+P037,1-3 years,rxn_64b265f7,Likely Fail,11
+P037,1-3 years,rxn_540add03,Likely Fail,11
+P037,1-3 years,rxn_5335b01f,Likely Fail,11
+P037,1-3 years,rxn_2bf177c8,Likely Fail,11
+P037,1-3 years,rxn_58c417f4,Likely Fail,11
+P037,1-3 years,rxn_b6b99f4,Likely Fail,11
+P037,1-3 years,rxn_6659b2fe,Likely Success,11
+P037,1-3 years,rxn_48e522db,Likely Success,11
+P037,1-3 years,rxn_4554078e,Likely Success,11
+P038,1-3 years,rxn_5335b01f,Likely Fail,9
+P038,1-3 years,rxn_6659b2fe,Likely Success,9
+P038,1-3 years,rxn_b3881e1,Likely Success,9
+P038,1-3 years,rxn_db77c1a,Likely Fail,9
+P038,1-3 years,rxn_d877775,Likely Success,9
+P038,1-3 years,rxn_4554078e,Likely Success,9
+P038,1-3 years,rxn_2729a0f3,Likely Success,9
+P038,1-3 years,rxn_1d526b97,Likely Success,9
+P038,1-3 years,rxn_b6b99f4,Likely Success,9
+P038,1-3 years,rxn_2083c62f,Likely Fail,9
+P038,1-3 years,rxn_6802459b,Likely Success,9
+P038,1-3 years,rxn_2bf177c8,Likely Success,9
+P038,1-3 years,rxn_4d24ea4c,Likely Success,9
+P038,1-3 years,rxn_5aa127f8,Likely Success,9
+P038,1-3 years,rxn_64b265f7,Likely Success,9
+P038,1-3 years,rxn_357323cd,Likely Success,9
+P038,1-3 years,rxn_1c19902e,Likely Success,9
+P038,1-3 years,rxn_6451802d,Likely Success,9
+P038,1-3 years,rxn_48e522db,Likely Success,9
+P038,1-3 years,rxn_58c417f4,Likely Success,9
+P038,1-3 years,rxn_50d39625,Likely Success,9
+P038,1-3 years,rxn_540add03,Likely Fail,9
+P039,<1 year,rxn_2bf177c8,Very Confident Fail,6
+P039,<1 year,rxn_50d39625,Likely Fail,6
+P039,<1 year,rxn_48e522db,Very Confident Success,6
+P039,<1 year,rxn_6659b2fe,Very Confident Success,6
+P039,<1 year,rxn_4554078e,Very Confident Success,6
+P039,<1 year,rxn_1d526b97,Very Confident Success,6
+P039,<1 year,rxn_2729a0f3,Very Confident Success,6
+P039,<1 year,rxn_2083c62f,Very Confident Success,6
+P039,<1 year,rxn_6802459b,Very Confident Success,6
+P039,<1 year,rxn_1c19902e,Very Confident Success,6
+P039,<1 year,rxn_db77c1a,Likely Fail,6
+P039,<1 year,rxn_5aa127f8,Very Confident Success,6
+P039,<1 year,rxn_64b265f7,Very Confident Success,6
+P039,<1 year,rxn_b3881e1,Very Confident Fail,6
+P039,<1 year,rxn_540add03,Very Confident Fail,6
+P039,<1 year,rxn_6451802d,Likely Fail,6
+P039,<1 year,rxn_58c417f4,Very Confident Fail,6
+P039,<1 year,rxn_5335b01f,Very Confident Fail,6
+P039,<1 year,rxn_357323cd,Very Confident Success,6
+P039,<1 year,rxn_b6b99f4,Very Confident Success,6
+P039,<1 year,rxn_d877775,Very Confident Fail,6
+P039,<1 year,rxn_4d24ea4c,Very Confident Success,6
+P040,1-3 years,rxn_2bf177c8,Likely Success,14
+P040,1-3 years,rxn_2083c62f,Very Confident Fail,14
+P040,1-3 years,rxn_2729a0f3,Likely Fail,14
+P040,1-3 years,rxn_6451802d,Likely Fail,14
+P040,1-3 years,rxn_5335b01f,Very Confident Success,14
+P040,1-3 years,rxn_4d24ea4c,Very Confident Success,14
+P040,1-3 years,rxn_58c417f4,Very Confident Success,14
+P040,1-3 years,rxn_357323cd,Very Confident Success,14
+P040,1-3 years,rxn_6659b2fe,Likely Success,14
+P040,1-3 years,rxn_db77c1a,Likely Success,14
+P040,1-3 years,rxn_1c19902e,Very Confident Fail,14
+P040,1-3 years,rxn_64b265f7,Likely Fail,14
+P040,1-3 years,rxn_b3881e1,Very Confident Fail,14
+P040,1-3 years,rxn_b6b99f4,Very Confident Success,14
+P040,1-3 years,rxn_540add03,Likely Fail,14
+P040,1-3 years,rxn_d877775,Likely Success,14
+P040,1-3 years,rxn_1d526b97,Likely Fail,14
+P040,1-3 years,rxn_48e522db,Very Confident Success,14
+P040,1-3 years,rxn_6802459b,Very Confident Success,14
+P040,1-3 years,rxn_4554078e,Likely Fail,14
+P040,1-3 years,rxn_5aa127f8,Very Confident Success,14
+P040,1-3 years,rxn_50d39625,Likely Success,14
+P041,1-3 years,rxn_1d526b97,Likely Fail,10
+P041,1-3 years,rxn_50d39625,Likely Success,10
+P041,1-3 years,rxn_b6b99f4,Likely Success,10
+P041,1-3 years,rxn_5aa127f8,Likely Fail,10
+P041,1-3 years,rxn_540add03,Likely Fail,10
+P041,1-3 years,rxn_4d24ea4c,Likely Success,10
+P041,1-3 years,rxn_2729a0f3,Likely Fail,10
+P041,1-3 years,rxn_b3881e1,Likely Fail,10
+P041,1-3 years,rxn_d877775,Likely Fail,10
+P041,1-3 years,rxn_2bf177c8,Likely Success,10
+P041,1-3 years,rxn_6802459b,Likely Fail,10
+P041,1-3 years,rxn_2083c62f,Likely Fail,10
+P041,1-3 years,rxn_4554078e,Likely Success,10
+P041,1-3 years,rxn_db77c1a,Likely Success,10
+P041,1-3 years,rxn_6451802d,Likely Fail,10
+P041,1-3 years,rxn_5335b01f,Likely Fail,10
+P041,1-3 years,rxn_1c19902e,Likely Success,10
+P041,1-3 years,rxn_6659b2fe,Likely Fail,10
+P041,1-3 years,rxn_58c417f4,Likely Fail,10
+P041,1-3 years,rxn_64b265f7,Likely Fail,10
+P041,1-3 years,rxn_48e522db,Likely Fail,10
+P041,1-3 years,rxn_357323cd,Likely Fail,10
+P042,>3 years,rxn_1d526b97,Very Confident Fail,11
+P042,>3 years,rxn_6802459b,Very Confident Success,11
+P042,>3 years,rxn_d877775,Likely Success,11
+P042,>3 years,rxn_6451802d,Very Confident Fail,11
+P042,>3 years,rxn_64b265f7,Likely Success,11
+P042,>3 years,rxn_5335b01f,Likely Fail,11
+P042,>3 years,rxn_50d39625,Very Confident Fail,11
+P042,>3 years,rxn_2bf177c8,Likely Success,11
+P042,>3 years,rxn_2729a0f3,Very Confident Success,11
+P042,>3 years,rxn_357323cd,Very Confident Fail,11
+P042,>3 years,rxn_5aa127f8,Likely Fail,11
+P042,>3 years,rxn_2083c62f,Likely Success,11
+P042,>3 years,rxn_4d24ea4c,Very Confident Fail,11
+P042,>3 years,rxn_1c19902e,Very Confident Success,11
+P042,>3 years,rxn_db77c1a,Very Confident Success,11
+P042,>3 years,rxn_58c417f4,Very Confident Success,11
+P042,>3 years,rxn_4554078e,Very Confident Success,11
+P042,>3 years,rxn_48e522db,Very Confident Success,11
+P042,>3 years,rxn_b6b99f4,Very Confident Success,11
+P042,>3 years,rxn_6659b2fe,Very Confident Success,11
+P042,>3 years,rxn_540add03,Likely Success,11
+P042,>3 years,rxn_b3881e1,Very Confident Fail,11
+P043,1-3 years,rxn_540add03,Very Confident Fail,8
+P043,1-3 years,rxn_b3881e1,Likely Fail,8
+P043,1-3 years,rxn_db77c1a,Likely Success,8
+P043,1-3 years,rxn_1d526b97,Likely Fail,8
+P043,1-3 years,rxn_4d24ea4c,Likely Success,8
+P043,1-3 years,rxn_58c417f4,Likely Fail,8
+P043,1-3 years,rxn_6659b2fe,Likely Success,8
+P043,1-3 years,rxn_5335b01f,Very Confident Fail,8
+P043,1-3 years,rxn_48e522db,Likely Success,8
+P043,1-3 years,rxn_2bf177c8,Likely Fail,8
+P043,1-3 years,rxn_1c19902e,Very Confident Success,8
+P043,1-3 years,rxn_4554078e,Very Confident Success,8
+P043,1-3 years,rxn_6802459b,Likely Fail,8
+P043,1-3 years,rxn_64b265f7,Likely Success,8
+P043,1-3 years,rxn_b6b99f4,Likely Success,8
+P043,1-3 years,rxn_2083c62f,Likely Fail,8
+P043,1-3 years,rxn_6451802d,Likely Fail,8
+P043,1-3 years,rxn_357323cd,Likely Success,8
+P043,1-3 years,rxn_2729a0f3,Likely Success,8
+P043,1-3 years,rxn_d877775,Very Confident Fail,8
+P043,1-3 years,rxn_5aa127f8,Very Confident Success,8
+P043,1-3 years,rxn_50d39625,Very Confident Fail,8
+P044,>3 years,rxn_db77c1a,Likely Fail,10
+P044,>3 years,rxn_64b265f7,Likely Fail,10
+P044,>3 years,rxn_5335b01f,Likely Fail,10
+P044,>3 years,rxn_4554078e,Likely Success,10
+P044,>3 years,rxn_5aa127f8,Very Confident Success,10
+P044,>3 years,rxn_2083c62f,Likely Fail,10
+P044,>3 years,rxn_4d24ea4c,Likely Fail,10
+P044,>3 years,rxn_b3881e1,Very Confident Success,10
+P044,>3 years,rxn_2bf177c8,Likely Fail,10
+P044,>3 years,rxn_2729a0f3,Likely Success,10
+P044,>3 years,rxn_6802459b,Likely Fail,10
+P044,>3 years,rxn_540add03,Very Confident Fail,10
+P044,>3 years,rxn_1c19902e,Likely Success,10
+P044,>3 years,rxn_357323cd,Likely Fail,10
+P044,>3 years,rxn_6659b2fe,Very Confident Fail,10
+P044,>3 years,rxn_48e522db,Likely Fail,10
+P044,>3 years,rxn_50d39625,Likely Success,10
+P044,>3 years,rxn_1d526b97,Likely Success,10
+P044,>3 years,rxn_d877775,Likely Fail,10
+P044,>3 years,rxn_58c417f4,Likely Success,10
+P044,>3 years,rxn_6451802d,Likely Fail,10
+P044,>3 years,rxn_b6b99f4,Likely Success,10
+P045,>3 years,rxn_1c19902e,Likely Success,11
+P045,>3 years,rxn_5aa127f8,Likely Fail,11
+P045,>3 years,rxn_2bf177c8,Likely Fail,11
+P045,>3 years,rxn_4d24ea4c,Likely Fail,11
+P045,>3 years,rxn_5335b01f,Likely Fail,11
+P045,>3 years,rxn_6802459b,Likely Success,11
+P045,>3 years,rxn_2729a0f3,Very Confident Success,11
+P045,>3 years,rxn_50d39625,Likely Success,11
+P045,>3 years,rxn_58c417f4,Likely Fail,11
+P045,>3 years,rxn_540add03,Likely Success,11
+P045,>3 years,rxn_48e522db,Likely Success,11
+P045,>3 years,rxn_1d526b97,Likely Success,11
+P045,>3 years,rxn_d877775,Likely Fail,11
+P045,>3 years,rxn_db77c1a,Likely Fail,11
+P045,>3 years,rxn_b3881e1,Likely Success,11
+P045,>3 years,rxn_b6b99f4,Very Confident Fail,11
+P045,>3 years,rxn_6451802d,Likely Fail,11
+P045,>3 years,rxn_6659b2fe,Likely Fail,11
+P045,>3 years,rxn_2083c62f,Likely Success,11
+P045,>3 years,rxn_64b265f7,Likely Fail,11
+P045,>3 years,rxn_4554078e,Very Confident Success,11
+P045,>3 years,rxn_357323cd,Likely Fail,11
+P046,<1 year,rxn_1d526b97,Likely Success,8
+P046,<1 year,rxn_b3881e1,Likely Success,8
+P046,<1 year,rxn_357323cd,Likely Success,8
+P046,<1 year,rxn_5aa127f8,Likely Success,8
+P046,<1 year,rxn_2083c62f,Likely Fail,8
+P046,<1 year,rxn_50d39625,Likely Fail,8
+P046,<1 year,rxn_6451802d,Likely Fail,8
+P046,<1 year,rxn_d877775,Likely Success,8
+P046,<1 year,rxn_4d24ea4c,Likely Success,8
+P046,<1 year,rxn_6802459b,Likely Success,8
+P046,<1 year,rxn_2729a0f3,Likely Success,8
+P046,<1 year,rxn_db77c1a,Likely Success,8
+P046,<1 year,rxn_1c19902e,Likely Fail,8
+P046,<1 year,rxn_64b265f7,Likely Success,8
+P046,<1 year,rxn_540add03,Likely Fail,8
+P046,<1 year,rxn_5335b01f,Likely Success,8
+P046,<1 year,rxn_2bf177c8,Likely Success,8
+P046,<1 year,rxn_58c417f4,Likely Success,8
+P046,<1 year,rxn_b6b99f4,Likely Success,8
+P046,<1 year,rxn_6659b2fe,Likely Fail,8
+P046,<1 year,rxn_48e522db,Likely Fail,8
+P046,<1 year,rxn_4554078e,Likely Success,8
+P047,<1 year,rxn_5335b01f,Likely Fail,9
+P047,<1 year,rxn_6659b2fe,Likely Success,9
+P047,<1 year,rxn_b3881e1,Likely Success,9
+P047,<1 year,rxn_db77c1a,Likely Fail,9
+P047,<1 year,rxn_d877775,Likely Success,9
+P047,<1 year,rxn_4554078e,Likely Success,9
+P047,<1 year,rxn_2729a0f3,Likely Success,9
+P047,<1 year,rxn_1d526b97,Likely Success,9
+P047,<1 year,rxn_b6b99f4,Likely Success,9
+P047,<1 year,rxn_2083c62f,Likely Fail,9
+P047,<1 year,rxn_6802459b,Likely Success,9
+P047,<1 year,rxn_2bf177c8,Likely Success,9
+P047,<1 year,rxn_4d24ea4c,Likely Success,9
+P047,<1 year,rxn_5aa127f8,Likely Success,9
+P047,<1 year,rxn_64b265f7,Likely Success,9
+P047,<1 year,rxn_357323cd,Likely Success,9
+P047,<1 year,rxn_1c19902e,Likely Success,9
+P047,<1 year,rxn_6451802d,Likely Success,9
+P047,<1 year,rxn_48e522db,Likely Success,9
+P047,<1 year,rxn_58c417f4,Likely Success,9
+P047,<1 year,rxn_50d39625,Likely Success,9
+P047,<1 year,rxn_540add03,Likely Fail,9
+P048,1-3 years,rxn_2bf177c8,Likely Success,13
+P048,1-3 years,rxn_50d39625,Very Confident Success,13
+P048,1-3 years,rxn_48e522db,Likely Success,13
+P048,1-3 years,rxn_6659b2fe,Likely Success,13
+P048,1-3 years,rxn_4554078e,Likely Success,13
+P048,1-3 years,rxn_1d526b97,Likely Fail,13
+P048,1-3 years,rxn_2729a0f3,Likely Fail,13
+P048,1-3 years,rxn_2083c62f,Very Confident Success,13
+P048,1-3 years,rxn_6802459b,Likely Success,13
+P048,1-3 years,rxn_1c19902e,Likely Success,13
+P048,1-3 years,rxn_db77c1a,Likely Success,13
+P048,1-3 years,rxn_5aa127f8,Very Confident Fail,13
+P048,1-3 years,rxn_64b265f7,Very Confident Fail,13
+P048,1-3 years,rxn_b3881e1,Likely Success,13
+P048,1-3 years,rxn_540add03,Likely Success,13
+P048,1-3 years,rxn_6451802d,Likely Success,13
+P048,1-3 years,rxn_58c417f4,Likely Fail,13
+P048,1-3 years,rxn_5335b01f,Very Confident Fail,13
+P048,1-3 years,rxn_357323cd,Likely Success,13
+P048,1-3 years,rxn_b6b99f4,Likely Success,13
+P048,1-3 years,rxn_d877775,Likely Success,13
+P048,1-3 years,rxn_4d24ea4c,Likely Success,13
+P049,<1 year,rxn_2729a0f3,Likely Success,9
+P049,<1 year,rxn_58c417f4,Likely Success,9
+P049,<1 year,rxn_db77c1a,Likely Fail,9
+P049,<1 year,rxn_4d24ea4c,Likely Success,9
+P049,<1 year,rxn_6659b2fe,Likely Success,9
+P049,<1 year,rxn_2083c62f,Likely Fail,9
+P049,<1 year,rxn_1c19902e,Likely Success,9
+P049,<1 year,rxn_b3881e1,Likely Success,9
+P049,<1 year,rxn_540add03,Likely Fail,9
+P049,<1 year,rxn_4554078e,Likely Success,9
+P049,<1 year,rxn_5aa127f8,Likely Success,9
+P049,<1 year,rxn_357323cd,Likely Success,9
+P049,<1 year,rxn_50d39625,Likely Success,9
+P049,<1 year,rxn_1d526b97,Likely Success,9
+P049,<1 year,rxn_5335b01f,Likely Fail,9
+P049,<1 year,rxn_6802459b,Likely Success,9
+P049,<1 year,rxn_6451802d,Likely Success,9
+P049,<1 year,rxn_2bf177c8,Likely Success,9
+P049,<1 year,rxn_d877775,Likely Success,9
+P049,<1 year,rxn_64b265f7,Likely Success,9
+P049,<1 year,rxn_b6b99f4,Likely Success,9
+P049,<1 year,rxn_48e522db,Likely Success,9
+P050,1-3 years,rxn_2083c62f,Very Confident Fail,11
+P050,1-3 years,rxn_1d526b97,Likely Fail,11
+P050,1-3 years,rxn_1c19902e,Very Confident Success,11
+P050,1-3 years,rxn_4554078e,Likely Success,11
+P050,1-3 years,rxn_2bf177c8,Very Confident Success,11
+P050,1-3 years,rxn_4d24ea4c,Very Confident Fail,11
+P050,1-3 years,rxn_2729a0f3,Very Confident Fail,11
+P050,1-3 years,rxn_b6b99f4,Very Confident Success,11
+P050,1-3 years,rxn_48e522db,Likely Success,11
+P050,1-3 years,rxn_64b265f7,Likely Success,11
+P050,1-3 years,rxn_5335b01f,Likely Success,11
+P050,1-3 years,rxn_58c417f4,Likely Fail,11
+P050,1-3 years,rxn_6451802d,Likely Success,11
+P050,1-3 years,rxn_5aa127f8,Likely Fail,11
+P050,1-3 years,rxn_50d39625,Likely Success,11
+P050,1-3 years,rxn_357323cd,Likely Success,11
+P050,1-3 years,rxn_6659b2fe,Likely Fail,11
+P050,1-3 years,rxn_b3881e1,Very Confident Fail,11
+P050,1-3 years,rxn_540add03,Likely Fail,11
+P050,1-3 years,rxn_6802459b,Very Confident Success,11
+P050,1-3 years,rxn_db77c1a,Likely Fail,11
+P050,1-3 years,rxn_d877775,Very Confident Success,11
+P051,>3 years,rxn_1d526b97,Very Confident Success,10
+P051,>3 years,rxn_50d39625,Very Confident Success,10
+P051,>3 years,rxn_b6b99f4,Very Confident Success,10
+P051,>3 years,rxn_5aa127f8,Likely Success,10
+P051,>3 years,rxn_540add03,Likely Fail,10
+P051,>3 years,rxn_4d24ea4c,Likely Fail,10
+P051,>3 years,rxn_2729a0f3,Likely Success,10
+P051,>3 years,rxn_b3881e1,Likely Fail,10
+P051,>3 years,rxn_d877775,Likely Fail,10
+P051,>3 years,rxn_2bf177c8,Likely Success,10
+P051,>3 years,rxn_6802459b,Likely Success,10
+P051,>3 years,rxn_2083c62f,Likely Success,10
+P051,>3 years,rxn_4554078e,Likely Success,10
+P051,>3 years,rxn_db77c1a,Likely Success,10
+P051,>3 years,rxn_6451802d,Likely Fail,10
+P051,>3 years,rxn_5335b01f,Likely Success,10
+P051,>3 years,rxn_1c19902e,Very Confident Success,10
+P051,>3 years,rxn_6659b2fe,Very Confident Success,10
+P051,>3 years,rxn_58c417f4,Likely Success,10
+P051,>3 years,rxn_64b265f7,Very Confident Success,10
+P051,>3 years,rxn_48e522db,Likely Success,10
+P051,>3 years,rxn_357323cd,Very Confident Success,10
+P052,>3 years,rxn_1d526b97,Likely Fail,12
+P052,>3 years,rxn_6802459b,Very Confident Fail,12
+P052,>3 years,rxn_d877775,Likely Fail,12
+P052,>3 years,rxn_6451802d,Very Confident Fail,12
+P052,>3 years,rxn_64b265f7,Very Confident Fail,12
+P052,>3 years,rxn_5335b01f,Very Confident Fail,12
+P052,>3 years,rxn_50d39625,Likely Success,12
+P052,>3 years,rxn_2bf177c8,Very Confident Fail,12
+P052,>3 years,rxn_2729a0f3,Likely Fail,12
+P052,>3 years,rxn_357323cd,Likely Success,12
+P052,>3 years,rxn_5aa127f8,Likely Fail,12
+P052,>3 years,rxn_2083c62f,Likely Success,12
+P052,>3 years,rxn_4d24ea4c,Likely Fail,12
+P052,>3 years,rxn_1c19902e,Likely Success,12
+P052,>3 years,rxn_db77c1a,Very Confident Fail,12
+P052,>3 years,rxn_58c417f4,Likely Fail,12
+P052,>3 years,rxn_4554078e,Likely Fail,12
+P052,>3 years,rxn_48e522db,Likely Success,12
+P052,>3 years,rxn_b6b99f4,Very Confident Success,12
+P052,>3 years,rxn_6659b2fe,Likely Fail,12
+P052,>3 years,rxn_540add03,Likely Fail,12
+P052,>3 years,rxn_b3881e1,Likely Success,12
+P053,1-3 years,rxn_540add03,Very Confident Fail,13
+P053,1-3 years,rxn_b3881e1,Likely Success,13
+P053,1-3 years,rxn_db77c1a,Likely Fail,13
+P053,1-3 years,rxn_1d526b97,Very Confident Fail,13
+P053,1-3 years,rxn_4d24ea4c,Likely Fail,13
+P053,1-3 years,rxn_58c417f4,Likely Fail,13
+P053,1-3 years,rxn_6659b2fe,Likely Success,13
+P053,1-3 years,rxn_5335b01f,Very Confident Success,13
+P053,1-3 years,rxn_48e522db,Likely Success,13
+P053,1-3 years,rxn_2bf177c8,Very Confident Fail,13
+P053,1-3 years,rxn_1c19902e,Very Confident Success,13
+P053,1-3 years,rxn_4554078e,Likely Success,13
+P053,1-3 years,rxn_6802459b,Likely Fail,13
+P053,1-3 years,rxn_64b265f7,Very Confident Fail,13
+P053,1-3 years,rxn_b6b99f4,Likely Success,13
+P053,1-3 years,rxn_2083c62f,Very Confident Fail,13
+P053,1-3 years,rxn_6451802d,Likely Fail,13
+P053,1-3 years,rxn_357323cd,Likely Fail,13
+P053,1-3 years,rxn_2729a0f3,Likely Success,13
+P053,1-3 years,rxn_d877775,Likely Fail,13
+P053,1-3 years,rxn_5aa127f8,Likely Success,13
+P053,1-3 years,rxn_50d39625,Very Confident Success,13
+P054,>3 years,rxn_db77c1a,Likely Fail,13
+P054,>3 years,rxn_64b265f7,Likely Success,13
+P054,>3 years,rxn_5335b01f,Very Confident Success,13
+P054,>3 years,rxn_4554078e,Likely Success,13
+P054,>3 years,rxn_5aa127f8,Likely Fail,13
+P054,>3 years,rxn_2083c62f,Likely Fail,13
+P054,>3 years,rxn_4d24ea4c,Very Confident Success,13
+P054,>3 years,rxn_b3881e1,Very Confident Fail,13
+P054,>3 years,rxn_2bf177c8,Likely Fail,13
+P054,>3 years,rxn_2729a0f3,Very Confident Success,13
+P054,>3 years,rxn_6802459b,Likely Success,13
+P054,>3 years,rxn_540add03,Very Confident Fail,13
+P054,>3 years,rxn_1c19902e,Very Confident Fail,13
+P054,>3 years,rxn_357323cd,Very Confident Success,13
+P054,>3 years,rxn_6659b2fe,Very Confident Success,13
+P054,>3 years,rxn_48e522db,Very Confident Success,13
+P054,>3 years,rxn_50d39625,Likely Success,13
+P054,>3 years,rxn_1d526b97,Likely Success,13
+P054,>3 years,rxn_d877775,Likely Fail,13
+P054,>3 years,rxn_58c417f4,Very Confident Success,13
+P054,>3 years,rxn_6451802d,Very Confident Success,13
+P054,>3 years,rxn_b6b99f4,Very Confident Success,13
+P055,>3 years,rxn_1c19902e,Likely Success,11
+P055,>3 years,rxn_5aa127f8,Likely Fail,11
+P055,>3 years,rxn_2bf177c8,Likely Success,11
+P055,>3 years,rxn_4d24ea4c,Likely Success,11
+P055,>3 years,rxn_5335b01f,Likely Success,11
+P055,>3 years,rxn_6802459b,Likely Success,11
+P055,>3 years,rxn_2729a0f3,Likely Success,11
+P055,>3 years,rxn_50d39625,Likely Success,11
+P055,>3 years,rxn_58c417f4,Likely Success,11
+P055,>3 years,rxn_540add03,Likely Fail,11
+P055,>3 years,rxn_48e522db,Likely Success,11
+P055,>3 years,rxn_1d526b97,Likely Fail,11
+P055,>3 years,rxn_d877775,Likely Fail,11
+P055,>3 years,rxn_db77c1a,Likely Success,11
+P055,>3 years,rxn_b3881e1,Likely Success,11
+P055,>3 years,rxn_b6b99f4,Very Confident Success,11
+P055,>3 years,rxn_6451802d,Likely Fail,11
+P055,>3 years,rxn_6659b2fe,Likely Fail,11
+P055,>3 years,rxn_2083c62f,Likely Success,11
+P055,>3 years,rxn_64b265f7,Likely Success,11
+P055,>3 years,rxn_4554078e,Likely Success,11
+P055,>3 years,rxn_357323cd,Likely Success,11
+P056,>3 years,rxn_1d526b97,Likely Success,14
+P056,>3 years,rxn_b3881e1,Likely Success,14
+P056,>3 years,rxn_357323cd,Likely Success,14
+P056,>3 years,rxn_5aa127f8,Likely Fail,14
+P056,>3 years,rxn_2083c62f,Very Confident Success,14
+P056,>3 years,rxn_50d39625,Very Confident Success,14
+P056,>3 years,rxn_6451802d,Likely Success,14
+P056,>3 years,rxn_d877775,Likely Fail,14
+P056,>3 years,rxn_4d24ea4c,Very Confident Success,14
+P056,>3 years,rxn_6802459b,Likely Success,14
+P056,>3 years,rxn_2729a0f3,Likely Success,14
+P056,>3 years,rxn_db77c1a,Likely Success,14
+P056,>3 years,rxn_1c19902e,Likely Fail,14
+P056,>3 years,rxn_64b265f7,Likely Success,14
+P056,>3 years,rxn_540add03,Very Confident Success,14
+P056,>3 years,rxn_5335b01f,Likely Success,14
+P056,>3 years,rxn_2bf177c8,Likely Success,14
+P056,>3 years,rxn_58c417f4,Likely Success,14
+P056,>3 years,rxn_b6b99f4,Very Confident Success,14
+P056,>3 years,rxn_6659b2fe,Likely Success,14
+P056,>3 years,rxn_48e522db,Likely Success,14
+P056,>3 years,rxn_4554078e,Very Confident Success,14
+P057,<1 year,rxn_2729a0f3,Likely Fail,9
+P057,<1 year,rxn_b6b99f4,Likely Fail,9
+P057,<1 year,rxn_6802459b,Likely Fail,9
+P057,<1 year,rxn_48e522db,Likely Fail,9
+P057,<1 year,rxn_db77c1a,Likely Fail,9
+P057,<1 year,rxn_4554078e,Very Confident Fail,9
+P057,<1 year,rxn_64b265f7,Likely Success,9
+P057,<1 year,rxn_2083c62f,Likely Fail,9
+P057,<1 year,rxn_5aa127f8,Very Confident Fail,9
+P057,<1 year,rxn_4d24ea4c,Very Confident Fail,9
+P057,<1 year,rxn_540add03,Very Confident Fail,9
+P057,<1 year,rxn_357323cd,Likely Success,9
+P057,<1 year,rxn_6659b2fe,Likely Success,9
+P057,<1 year,rxn_d877775,Very Confident Fail,9
+P057,<1 year,rxn_58c417f4,Likely Fail,9
+P057,<1 year,rxn_b3881e1,Very Confident Fail,9
+P057,<1 year,rxn_1c19902e,Very Confident Success,9
+P057,<1 year,rxn_1d526b97,Likely Fail,9
+P057,<1 year,rxn_5335b01f,Very Confident Fail,9
+P057,<1 year,rxn_50d39625,Likely Fail,9
+P057,<1 year,rxn_2bf177c8,Likely Fail,9
+P057,<1 year,rxn_6451802d,Very Confident Fail,9
+P058,>3 years,rxn_6659b2fe,Very Confident Fail,11
+P058,>3 years,rxn_db77c1a,Likely Success,11
+P058,>3 years,rxn_50d39625,Likely Fail,11
+P058,>3 years,rxn_2bf177c8,Likely Success,11
+P058,>3 years,rxn_b6b99f4,Likely Fail,11
+P058,>3 years,rxn_540add03,Very Confident Fail,11
+P058,>3 years,rxn_5335b01f,Likely Success,11
+P058,>3 years,rxn_1d526b97,Likely Success,11
+P058,>3 years,rxn_48e522db,Likely Success,11
+P058,>3 years,rxn_357323cd,Likely Fail,11
+P058,>3 years,rxn_d877775,Likely Fail,11
+P058,>3 years,rxn_64b265f7,Likely Success,11
+P058,>3 years,rxn_b3881e1,Likely Fail,11
+P058,>3 years,rxn_6451802d,Likely Success,11
+P058,>3 years,rxn_5aa127f8,Very Confident Fail,11
+P058,>3 years,rxn_2083c62f,Very Confident Fail,11
+P058,>3 years,rxn_58c417f4,Likely Fail,11
+P058,>3 years,rxn_6802459b,Likely Fail,11
+P058,>3 years,rxn_2729a0f3,Likely Success,11
+P058,>3 years,rxn_4554078e,Very Confident Fail,11
+P058,>3 years,rxn_4d24ea4c,Very Confident Fail,11
+P058,>3 years,rxn_1c19902e,Likely Fail,11
+P059,1-3 years,rxn_6659b2fe,Likely Success,12
+P059,1-3 years,rxn_6451802d,Likely Success,12
+P059,1-3 years,rxn_58c417f4,Likely Success,12
+P059,1-3 years,rxn_357323cd,Likely Success,12
+P059,1-3 years,rxn_6802459b,Very Confident Fail,12
+P059,1-3 years,rxn_540add03,Likely Success,12
+P059,1-3 years,rxn_2083c62f,Likely Success,12
+P059,1-3 years,rxn_4554078e,Likely Success,12
+P059,1-3 years,rxn_64b265f7,Likely Fail,12
+P059,1-3 years,rxn_1d526b97,Very Confident Fail,12
+P059,1-3 years,rxn_5335b01f,Likely Fail,12
+P059,1-3 years,rxn_4d24ea4c,Likely Success,12
+P059,1-3 years,rxn_b3881e1,Likely Success,12
+P059,1-3 years,rxn_2729a0f3,Likely Success,12
+P059,1-3 years,rxn_48e522db,Likely Success,12
+P059,1-3 years,rxn_1c19902e,Very Confident Fail,12
+P059,1-3 years,rxn_b6b99f4,Very Confident Fail,12
+P059,1-3 years,rxn_5aa127f8,Likely Fail,12
+P059,1-3 years,rxn_50d39625,Likely Success,12
+P059,1-3 years,rxn_2bf177c8,Likely Success,12
+P059,1-3 years,rxn_db77c1a,Likely Success,12
+P059,1-3 years,rxn_d877775,Likely Success,12
+P060,>3 years,rxn_4554078e,Likely Success,19
+P060,>3 years,rxn_6659b2fe,Likely Success,19
+P060,>3 years,rxn_db77c1a,Likely Fail,19
+P060,>3 years,rxn_58c417f4,Likely Success,19
+P060,>3 years,rxn_5aa127f8,Likely Fail,19
+P060,>3 years,rxn_1d526b97,Likely Fail,19
+P060,>3 years,rxn_d877775,Likely Fail,19
+P060,>3 years,rxn_6802459b,Likely Success,19
+P060,>3 years,rxn_5335b01f,Likely Success,19
+P060,>3 years,rxn_2083c62f,Likely Fail,19
+P060,>3 years,rxn_4d24ea4c,Likely Fail,19
+P060,>3 years,rxn_540add03,Likely Success,19
+P060,>3 years,rxn_b6b99f4,Very Confident Success,19
+P060,>3 years,rxn_50d39625,Likely Success,19
+P060,>3 years,rxn_6451802d,Likely Success,19
+P060,>3 years,rxn_48e522db,Very Confident Success,19
+P060,>3 years,rxn_357323cd,Likely Fail,19
+P060,>3 years,rxn_b3881e1,Likely Success,19
+P060,>3 years,rxn_64b265f7,Very Confident Fail,19
+P060,>3 years,rxn_1c19902e,Likely Success,19
+P060,>3 years,rxn_2729a0f3,Likely Fail,19
+P060,>3 years,rxn_2bf177c8,Likely Fail,19
+P061,<1 year,rxn_2bf177c8,Very Confident Success,8
+P061,<1 year,rxn_6802459b,Likely Fail,8
+P061,<1 year,rxn_4d24ea4c,Likely Fail,8
+P061,<1 year,rxn_48e522db,Likely Success,8
+P061,<1 year,rxn_6451802d,Likely Fail,8
+P061,<1 year,rxn_db77c1a,Very Confident Success,8
+P061,<1 year,rxn_d877775,Very Confident Success,8
+P061,<1 year,rxn_b3881e1,Very Confident Fail,8
+P061,<1 year,rxn_2083c62f,Very Confident Success,8
+P061,<1 year,rxn_b6b99f4,Very Confident Success,8
+P061,<1 year,rxn_1c19902e,Very Confident Fail,8
+P061,<1 year,rxn_58c417f4,Very Confident Fail,8
+P061,<1 year,rxn_357323cd,Very Confident Success,8
+P061,<1 year,rxn_1d526b97,Very Confident Success,8
+P061,<1 year,rxn_540add03,Very Confident Success,8
+P061,<1 year,rxn_5335b01f,Very Confident Fail,8
+P061,<1 year,rxn_5aa127f8,Very Confident Fail,8
+P061,<1 year,rxn_4554078e,Very Confident Success,8
+P061,<1 year,rxn_64b265f7,Very Confident Success,8
+P061,<1 year,rxn_50d39625,Very Confident Fail,8
+P061,<1 year,rxn_2729a0f3,Very Confident Fail,8
+P061,<1 year,rxn_6659b2fe,Very Confident Fail,8
+P062,>3 years,rxn_6659b2fe,Likely Success,10
+P062,>3 years,rxn_6451802d,Likely Fail,10
+P062,>3 years,rxn_b3881e1,Very Confident Fail,10
+P062,>3 years,rxn_1c19902e,Very Confident Fail,10
+P062,>3 years,rxn_4d24ea4c,Likely Fail,10
+P062,>3 years,rxn_50d39625,Likely Fail,10
+P062,>3 years,rxn_5335b01f,Very Confident Fail,10
+P062,>3 years,rxn_540add03,Very Confident Fail,10
+P062,>3 years,rxn_b6b99f4,Likely Fail,10
+P062,>3 years,rxn_357323cd,Very Confident Fail,10
+P062,>3 years,rxn_5aa127f8,Likely Fail,10
+P062,>3 years,rxn_48e522db,Likely Success,10
+P062,>3 years,rxn_db77c1a,Likely Fail,10
+P062,>3 years,rxn_6802459b,Likely Fail,10
+P062,>3 years,rxn_2bf177c8,Likely Success,10
+P062,>3 years,rxn_1d526b97,Likely Fail,10
+P062,>3 years,rxn_4554078e,Likely Success,10
+P062,>3 years,rxn_64b265f7,Likely Success,10
+P062,>3 years,rxn_58c417f4,Likely Fail,10
+P062,>3 years,rxn_2729a0f3,Very Confident Fail,10
+P062,>3 years,rxn_2083c62f,Very Confident Fail,10
+P062,>3 years,rxn_d877775,Very Confident Fail,10
+P063,>3 years,rxn_58c417f4,Very Confident Fail,14
+P063,>3 years,rxn_64b265f7,Very Confident Fail,14
+P063,>3 years,rxn_48e522db,Very Confident Success,14
+P063,>3 years,rxn_5aa127f8,Very Confident Fail,14
+P063,>3 years,rxn_5335b01f,Likely Success,14
+P063,>3 years,rxn_1d526b97,Very Confident Fail,14
+P063,>3 years,rxn_2bf177c8,Very Confident Fail,14
+P063,>3 years,rxn_4d24ea4c,Likely Success,14
+P063,>3 years,rxn_db77c1a,Very Confident Success,14
+P063,>3 years,rxn_2083c62f,Likely Success,14
+P063,>3 years,rxn_6451802d,Likely Success,14
+P063,>3 years,rxn_2729a0f3,Very Confident Success,14
+P063,>3 years,rxn_b6b99f4,Very Confident Success,14
+P063,>3 years,rxn_50d39625,Very Confident Success,14
+P063,>3 years,rxn_6659b2fe,Likely Fail,14
+P063,>3 years,rxn_6802459b,Likely Success,14
+P063,>3 years,rxn_d877775,Very Confident Success,14
+P063,>3 years,rxn_1c19902e,Very Confident Fail,14
+P063,>3 years,rxn_4554078e,Very Confident Success,14
+P063,>3 years,rxn_b3881e1,Likely Success,14
+P063,>3 years,rxn_540add03,Very Confident Success,14
+P063,>3 years,rxn_357323cd,Very Confident Success,14
+P064,>3 years,rxn_4554078e,Likely Success,13
+P064,>3 years,rxn_6659b2fe,Likely Fail,13
+P064,>3 years,rxn_db77c1a,Likely Success,13
+P064,>3 years,rxn_58c417f4,Likely Success,13
+P064,>3 years,rxn_5aa127f8,Likely Success,13
+P064,>3 years,rxn_1d526b97,Likely Fail,13
+P064,>3 years,rxn_d877775,Likely Success,13
+P064,>3 years,rxn_6802459b,Likely Success,13
+P064,>3 years,rxn_5335b01f,Likely Success,13
+P064,>3 years,rxn_2083c62f,Very Confident Fail,13
+P064,>3 years,rxn_4d24ea4c,Very Confident Fail,13
+P064,>3 years,rxn_540add03,Likely Fail,13
+P064,>3 years,rxn_b6b99f4,Likely Success,13
+P064,>3 years,rxn_50d39625,Likely Success,13
+P064,>3 years,rxn_6451802d,Likely Success,13
+P064,>3 years,rxn_48e522db,Likely Success,13
+P064,>3 years,rxn_357323cd,Likely Success,13
+P064,>3 years,rxn_b3881e1,Likely Success,13
+P064,>3 years,rxn_64b265f7,Likely Success,13
+P064,>3 years,rxn_1c19902e,Likely Fail,13
+P064,>3 years,rxn_2729a0f3,Likely Success,13
+P064,>3 years,rxn_2bf177c8,Very Confident Success,13
+P065,1-3 years,rxn_2bf177c8,Likely Success,12
+P065,1-3 years,rxn_6802459b,Likely Fail,12
+P065,1-3 years,rxn_4d24ea4c,Likely Fail,12
+P065,1-3 years,rxn_48e522db,Likely Fail,12
+P065,1-3 years,rxn_6451802d,Likely Success,12
+P065,1-3 years,rxn_db77c1a,Likely Success,12
+P065,1-3 years,rxn_d877775,Likely Success,12
+P065,1-3 years,rxn_b3881e1,Likely Success,12
+P065,1-3 years,rxn_2083c62f,Likely Success,12
+P065,1-3 years,rxn_b6b99f4,Likely Success,12
+P065,1-3 years,rxn_1c19902e,Likely Fail,12
+P065,1-3 years,rxn_58c417f4,Likely Success,12
+P065,1-3 years,rxn_357323cd,Likely Success,12
+P065,1-3 years,rxn_1d526b97,Likely Success,12
+P065,1-3 years,rxn_540add03,Very Confident Fail,12
+P065,1-3 years,rxn_5335b01f,Likely Success,12
+P065,1-3 years,rxn_5aa127f8,Likely Fail,12
+P065,1-3 years,rxn_4554078e,Likely Fail,12
+P065,1-3 years,rxn_64b265f7,Very Confident Fail,12
+P065,1-3 years,rxn_50d39625,Likely Success,12
+P065,1-3 years,rxn_2729a0f3,Likely Success,12
+P065,1-3 years,rxn_6659b2fe,Likely Fail,12
+P066,<1 year,rxn_6659b2fe,Likely Fail,4
+P066,<1 year,rxn_50d39625,Likely Fail,4
+P066,<1 year,rxn_b6b99f4,Likely Fail,4
+P066,<1 year,rxn_48e522db,Likely Fail,4
+P066,<1 year,rxn_58c417f4,Likely Success,4
+P066,<1 year,rxn_2bf177c8,Likely Success,4
+P066,<1 year,rxn_540add03,Likely Fail,4
+P066,<1 year,rxn_1c19902e,Likely Success,4
+P066,<1 year,rxn_5aa127f8,Likely Success,4
+P066,<1 year,rxn_d877775,Likely Fail,4
+P066,<1 year,rxn_2729a0f3,Likely Success,4
+P066,<1 year,rxn_db77c1a,Likely Fail,4
+P066,<1 year,rxn_64b265f7,Likely Success,4
+P066,<1 year,rxn_6802459b,Likely Fail,4
+P066,<1 year,rxn_357323cd,Likely Fail,4
+P066,<1 year,rxn_6451802d,Likely Fail,4
+P066,<1 year,rxn_5335b01f,Likely Fail,4
+P066,<1 year,rxn_b3881e1,Likely Fail,4
+P066,<1 year,rxn_4554078e,Likely Fail,4
+P066,<1 year,rxn_4d24ea4c,Likely Success,4
+P066,<1 year,rxn_1d526b97,Likely Success,4
+P066,<1 year,rxn_2083c62f,Likely Success,4
+P067,1-3 years,rxn_6659b2fe,Likely Fail,9
+P067,1-3 years,rxn_6451802d,Likely Success,9
+P067,1-3 years,rxn_b3881e1,Likely Success,9
+P067,1-3 years,rxn_1c19902e,Likely Success,9
+P067,1-3 years,rxn_4d24ea4c,Likely Fail,9
+P067,1-3 years,rxn_50d39625,Likely Fail,9
+P067,1-3 years,rxn_5335b01f,Likely Success,9
+P067,1-3 years,rxn_540add03,Likely Fail,9
+P067,1-3 years,rxn_b6b99f4,Likely Fail,9
+P067,1-3 years,rxn_357323cd,Likely Success,9
+P067,1-3 years,rxn_5aa127f8,Likely Success,9
+P067,1-3 years,rxn_48e522db,Likely Success,9
+P067,1-3 years,rxn_db77c1a,Likely Success,9
+P067,1-3 years,rxn_6802459b,Likely Fail,9
+P067,1-3 years,rxn_2bf177c8,Likely Success,9
+P067,1-3 years,rxn_1d526b97,Likely Fail,9
+P067,1-3 years,rxn_4554078e,Likely Success,9
+P067,1-3 years,rxn_64b265f7,Likely Fail,9
+P067,1-3 years,rxn_58c417f4,Likely Success,9
+P067,1-3 years,rxn_2729a0f3,Likely Success,9
+P067,1-3 years,rxn_2083c62f,Likely Success,9
+P067,1-3 years,rxn_d877775,Likely Success,9
+P068,>3 years,rxn_6659b2fe,Likely Success,11
+P068,>3 years,rxn_4554078e,Likely Fail,11
+P068,>3 years,rxn_2bf177c8,Likely Success,11
+P068,>3 years,rxn_2729a0f3,Likely Success,11
+P068,>3 years,rxn_6451802d,Very Confident Success,11
+P068,>3 years,rxn_d877775,Likely Fail,11
+P068,>3 years,rxn_5aa127f8,Likely Success,11
+P068,>3 years,rxn_4d24ea4c,Likely Fail,11
+P068,>3 years,rxn_2083c62f,Likely Success,11
+P068,>3 years,rxn_50d39625,Likely Success,11
+P068,>3 years,rxn_48e522db,Very Confident Success,11
+P068,>3 years,rxn_db77c1a,Likely Success,11
+P068,>3 years,rxn_64b265f7,Likely Success,11
+P068,>3 years,rxn_5335b01f,Likely Fail,11
+P068,>3 years,rxn_357323cd,Likely Success,11
+P068,>3 years,rxn_b6b99f4,Very Confident Fail,11
+P068,>3 years,rxn_58c417f4,Very Confident Fail,11
+P068,>3 years,rxn_b3881e1,Likely Success,11
+P068,>3 years,rxn_6802459b,Likely Success,11
+P068,>3 years,rxn_540add03,Likely Success,11
+P068,>3 years,rxn_1d526b97,Likely Success,11
+P068,>3 years,rxn_1c19902e,Likely Success,11
+P069,<1 year,rxn_6451802d,Likely Fail,7
+P069,<1 year,rxn_357323cd,Likely Success,7
+P069,<1 year,rxn_4d24ea4c,Likely Success,7
+P069,<1 year,rxn_6802459b,Likely Success,7
+P069,<1 year,rxn_540add03,Likely Success,7
+P069,<1 year,rxn_1c19902e,Likely Success,7
+P069,<1 year,rxn_64b265f7,Likely Success,7
+P069,<1 year,rxn_50d39625,Likely Fail,7
+P069,<1 year,rxn_b6b99f4,Likely Fail,7
+P069,<1 year,rxn_5335b01f,Likely Success,7
+P069,<1 year,rxn_d877775,Likely Fail,7
+P069,<1 year,rxn_58c417f4,Likely Fail,7
+P069,<1 year,rxn_2729a0f3,Likely Success,7
+P069,<1 year,rxn_db77c1a,Likely Fail,7
+P069,<1 year,rxn_1d526b97,Likely Success,7
+P069,<1 year,rxn_b3881e1,Likely Fail,7
+P069,<1 year,rxn_2bf177c8,Likely Success,7
+P069,<1 year,rxn_6659b2fe,Likely Fail,7
+P069,<1 year,rxn_48e522db,Likely Fail,7
+P069,<1 year,rxn_4554078e,Likely Fail,7
+P069,<1 year,rxn_5aa127f8,Likely Fail,7
+P069,<1 year,rxn_2083c62f,Likely Fail,7
+P070,<1 year,rxn_357323cd,Likely Fail,14
+P070,<1 year,rxn_6659b2fe,Likely Success,14
+P070,<1 year,rxn_48e522db,Likely Fail,14
+P070,<1 year,rxn_2729a0f3,Likely Success,14
+P070,<1 year,rxn_50d39625,Likely Success,14
+P070,<1 year,rxn_4554078e,Likely Success,14
+P070,<1 year,rxn_1c19902e,Likely Success,14
+P070,<1 year,rxn_2083c62f,Likely Fail,14
+P070,<1 year,rxn_6802459b,Likely Success,14
+P070,<1 year,rxn_4d24ea4c,Likely Fail,14
+P070,<1 year,rxn_db77c1a,Likely Success,14
+P070,<1 year,rxn_b6b99f4,Likely Success,14
+P070,<1 year,rxn_64b265f7,Likely Fail,14
+P070,<1 year,rxn_58c417f4,Likely Fail,14
+P070,<1 year,rxn_1d526b97,Likely Success,14
+P070,<1 year,rxn_6451802d,Likely Success,14
+P070,<1 year,rxn_5aa127f8,Likely Fail,14
+P070,<1 year,rxn_d877775,Likely Fail,14
+P070,<1 year,rxn_b3881e1,Likely Success,14
+P070,<1 year,rxn_540add03,Likely Fail,14
+P070,<1 year,rxn_2bf177c8,Likely Fail,14
+P070,<1 year,rxn_5335b01f,Likely Fail,14
+P071,>3 years,rxn_b6b99f4,Likely Success,13
+P071,>3 years,rxn_2bf177c8,Likely Fail,13
+P071,>3 years,rxn_6659b2fe,Very Confident Success,13
+P071,>3 years,rxn_64b265f7,Likely Success,13
+P071,>3 years,rxn_5335b01f,Likely Fail,13
+P071,>3 years,rxn_4554078e,Likely Success,13
+P071,>3 years,rxn_48e522db,Likely Fail,13
+P071,>3 years,rxn_6802459b,Likely Success,13
+P071,>3 years,rxn_b3881e1,Likely Fail,13
+P071,>3 years,rxn_4d24ea4c,Likely Fail,13
+P071,>3 years,rxn_5aa127f8,Likely Fail,13
+P071,>3 years,rxn_6451802d,Likely Fail,13
+P071,>3 years,rxn_540add03,Likely Success,13
+P071,>3 years,rxn_357323cd,Likely Success,13
+P071,>3 years,rxn_2729a0f3,Likely Fail,13
+P071,>3 years,rxn_50d39625,Likely Success,13
+P071,>3 years,rxn_db77c1a,Likely Fail,13
+P071,>3 years,rxn_2083c62f,Likely Fail,13
+P071,>3 years,rxn_1c19902e,Likely Success,13
+P071,>3 years,rxn_d877775,Likely Fail,13
+P071,>3 years,rxn_58c417f4,Likely Success,13
+P071,>3 years,rxn_1d526b97,Likely Fail,13
+P072,1-3 years,rxn_d877775,Likely Fail,8
+P072,1-3 years,rxn_50d39625,Likely Success,8
+P072,1-3 years,rxn_2729a0f3,Likely Success,8
+P072,1-3 years,rxn_4554078e,Very Confident Success,8
+P072,1-3 years,rxn_6659b2fe,Likely Fail,8
+P072,1-3 years,rxn_6802459b,Likely Success,8
+P072,1-3 years,rxn_58c417f4,Likely Fail,8
+P072,1-3 years,rxn_b3881e1,Very Confident Fail,8
+P072,1-3 years,rxn_2bf177c8,Very Confident Success,8
+P072,1-3 years,rxn_64b265f7,Very Confident Success,8
+P072,1-3 years,rxn_1d526b97,Likely Success,8
+P072,1-3 years,rxn_4d24ea4c,Likely Fail,8
+P072,1-3 years,rxn_b6b99f4,Very Confident Fail,8
+P072,1-3 years,rxn_540add03,Likely Success,8
+P072,1-3 years,rxn_db77c1a,Likely Fail,8
+P072,1-3 years,rxn_5335b01f,Likely Success,8
+P072,1-3 years,rxn_357323cd,Likely Success,8
+P072,1-3 years,rxn_5aa127f8,Likely Fail,8
+P072,1-3 years,rxn_1c19902e,Very Confident Success,8
+P072,1-3 years,rxn_6451802d,Likely Success,8
+P072,1-3 years,rxn_2083c62f,Likely Success,8
+P072,1-3 years,rxn_48e522db,Likely Fail,8
+P073,<1 year,rxn_4554078e,Likely Success,7
+P073,<1 year,rxn_1c19902e,Likely Success,7
+P073,<1 year,rxn_6451802d,Likely Success,7
+P073,<1 year,rxn_2729a0f3,Likely Fail,7
+P073,<1 year,rxn_64b265f7,Likely Success,7
+P073,<1 year,rxn_db77c1a,Likely Fail,7
+P073,<1 year,rxn_48e522db,Likely Fail,7
+P073,<1 year,rxn_357323cd,Likely Fail,7
+P073,<1 year,rxn_5335b01f,Likely Fail,7
+P073,<1 year,rxn_1d526b97,Likely Success,7
+P073,<1 year,rxn_4d24ea4c,Likely Success,7
+P073,<1 year,rxn_50d39625,Likely Fail,7
+P073,<1 year,rxn_5aa127f8,Likely Success,7
+P073,<1 year,rxn_6659b2fe,Likely Success,7
+P073,<1 year,rxn_2083c62f,Likely Fail,7
+P073,<1 year,rxn_58c417f4,Likely Fail,7
+P073,<1 year,rxn_b6b99f4,Likely Success,7
+P073,<1 year,rxn_2bf177c8,Likely Success,7
+P073,<1 year,rxn_d877775,Likely Success,7
+P073,<1 year,rxn_540add03,Likely Success,7
+P073,<1 year,rxn_b3881e1,Likely Fail,7
+P073,<1 year,rxn_6802459b,Likely Fail,7
+P074,1-3 years,rxn_6451802d,Likely Fail,12
+P074,1-3 years,rxn_2083c62f,Very Confident Fail,12
+P074,1-3 years,rxn_1d526b97,Likely Fail,12
+P074,1-3 years,rxn_4d24ea4c,Likely Success,12
+P074,1-3 years,rxn_357323cd,Likely Success,12
+P074,1-3 years,rxn_50d39625,Likely Success,12
+P074,1-3 years,rxn_4554078e,Likely Success,12
+P074,1-3 years,rxn_540add03,Very Confident Fail,12
+P074,1-3 years,rxn_6802459b,Likely Success,12
+P074,1-3 years,rxn_64b265f7,Likely Success,12
+P074,1-3 years,rxn_58c417f4,Likely Fail,12
+P074,1-3 years,rxn_d877775,Likely Success,12
+P074,1-3 years,rxn_db77c1a,Likely Success,12
+P074,1-3 years,rxn_5335b01f,Very Confident Success,12
+P074,1-3 years,rxn_2729a0f3,Very Confident Fail,12
+P074,1-3 years,rxn_2bf177c8,Likely Fail,12
+P074,1-3 years,rxn_5aa127f8,Likely Success,12
+P074,1-3 years,rxn_b6b99f4,Likely Success,12
+P074,1-3 years,rxn_6659b2fe,Likely Success,12
+P074,1-3 years,rxn_b3881e1,Very Confident Fail,12
+P074,1-3 years,rxn_48e522db,Likely Success,12
+P074,1-3 years,rxn_1c19902e,Likely Fail,12
+P075,<1 year,rxn_4554078e,Likely Fail,14
+P075,<1 year,rxn_b3881e1,Very Confident Fail,14
+P075,<1 year,rxn_58c417f4,Likely Success,14
+P075,<1 year,rxn_5335b01f,Very Confident Success,14
+P075,<1 year,rxn_6451802d,Likely Success,14
+P075,<1 year,rxn_b6b99f4,Likely Success,14
+P075,<1 year,rxn_4d24ea4c,Likely Fail,14
+P075,<1 year,rxn_50d39625,Likely Success,14
+P075,<1 year,rxn_64b265f7,Likely Success,14
+P075,<1 year,rxn_540add03,Likely Fail,14
+P075,<1 year,rxn_1d526b97,Likely Success,14
+P075,<1 year,rxn_6802459b,Likely Success,14
+P075,<1 year,rxn_357323cd,Likely Success,14
+P075,<1 year,rxn_2bf177c8,Likely Success,14
+P075,<1 year,rxn_5aa127f8,Likely Fail,14
+P075,<1 year,rxn_48e522db,Likely Fail,14
+P075,<1 year,rxn_6659b2fe,Likely Success,14
+P075,<1 year,rxn_1c19902e,Likely Fail,14
+P075,<1 year,rxn_2083c62f,Likely Success,14
+P075,<1 year,rxn_db77c1a,Likely Success,14
+P075,<1 year,rxn_d877775,Likely Fail,14
+P075,<1 year,rxn_2729a0f3,Likely Fail,14
+P076,>3 years,rxn_b3881e1,Likely Fail,9
+P076,>3 years,rxn_540add03,Likely Fail,9
+P076,>3 years,rxn_50d39625,Likely Success,9
+P076,>3 years,rxn_5335b01f,Likely Success,9
+P076,>3 years,rxn_48e522db,Likely Success,9
+P076,>3 years,rxn_6451802d,Likely Fail,9
+P076,>3 years,rxn_2083c62f,Likely Success,9
+P076,>3 years,rxn_d877775,Likely Success,9
+P076,>3 years,rxn_2bf177c8,Likely Fail,9
+P076,>3 years,rxn_5aa127f8,Likely Fail,9
+P076,>3 years,rxn_64b265f7,Likely Fail,9
+P076,>3 years,rxn_1c19902e,Likely Success,9
+P076,>3 years,rxn_4d24ea4c,Likely Fail,9
+P076,>3 years,rxn_58c417f4,Likely Fail,9
+P076,>3 years,rxn_357323cd,Likely Success,9
+P076,>3 years,rxn_1d526b97,Likely Success,9
+P076,>3 years,rxn_db77c1a,Likely Fail,9
+P076,>3 years,rxn_b6b99f4,Likely Success,9
+P076,>3 years,rxn_6659b2fe,Likely Success,9
+P076,>3 years,rxn_4554078e,Likely Success,9
+P076,>3 years,rxn_6802459b,Likely Fail,9
+P076,>3 years,rxn_2729a0f3,Likely Success,9
+P077,>3 years,rxn_b3881e1,Likely Success,11
+P077,>3 years,rxn_540add03,Likely Success,11
+P077,>3 years,rxn_50d39625,Likely Fail,11
+P077,>3 years,rxn_5335b01f,Likely Fail,11
+P077,>3 years,rxn_48e522db,Likely Success,11
+P077,>3 years,rxn_6451802d,Likely Success,11
+P077,>3 years,rxn_2083c62f,Likely Success,11
+P077,>3 years,rxn_d877775,Very Confident Success,11
+P077,>3 years,rxn_2bf177c8,Likely Success,11
+P077,>3 years,rxn_5aa127f8,Likely Fail,11
+P077,>3 years,rxn_64b265f7,Likely Fail,11
+P077,>3 years,rxn_1c19902e,Likely Success,11
+P077,>3 years,rxn_4d24ea4c,Likely Success,11
+P077,>3 years,rxn_58c417f4,Very Confident Success,11
+P077,>3 years,rxn_357323cd,Very Confident Success,11
+P077,>3 years,rxn_1d526b97,Likely Success,11
+P077,>3 years,rxn_db77c1a,Likely Success,11
+P077,>3 years,rxn_b6b99f4,Very Confident Success,11
+P077,>3 years,rxn_6659b2fe,Likely Success,11
+P077,>3 years,rxn_4554078e,Likely Success,11
+P077,>3 years,rxn_6802459b,Likely Success,11
+P077,>3 years,rxn_2729a0f3,Likely Success,11
+P078,>3 years,rxn_b3881e1,Likely Success,11
+P078,>3 years,rxn_540add03,Very Confident Fail,11
+P078,>3 years,rxn_50d39625,Likely Success,11
+P078,>3 years,rxn_5335b01f,Likely Success,11
+P078,>3 years,rxn_48e522db,Very Confident Success,11
+P078,>3 years,rxn_6451802d,Likely Success,11
+P078,>3 years,rxn_2083c62f,Likely Fail,11
+P078,>3 years,rxn_d877775,Likely Success,11
+P078,>3 years,rxn_2bf177c8,Very Confident Success,11
+P078,>3 years,rxn_5aa127f8,Likely Success,11
+P078,>3 years,rxn_64b265f7,Likely Fail,11
+P078,>3 years,rxn_1c19902e,Very Confident Success,11
+P078,>3 years,rxn_4d24ea4c,Likely Success,11
+P078,>3 years,rxn_58c417f4,Likely Success,11
+P078,>3 years,rxn_357323cd,Likely Success,11
+P078,>3 years,rxn_1d526b97,Likely Success,11
+P078,>3 years,rxn_db77c1a,Likely Success,11
+P078,>3 years,rxn_b6b99f4,Very Confident Success,11
+P078,>3 years,rxn_6659b2fe,Likely Fail,11
+P078,>3 years,rxn_4554078e,Likely Success,11
+P078,>3 years,rxn_6802459b,Likely Success,11
+P078,>3 years,rxn_2729a0f3,Likely Success,11
+P079,>3 years,rxn_b3881e1,Likely Success,13
+P079,>3 years,rxn_540add03,Likely Success,13
+P079,>3 years,rxn_50d39625,Likely Success,13
+P079,>3 years,rxn_5335b01f,Likely Fail,13
+P079,>3 years,rxn_48e522db,Likely Success,13
+P079,>3 years,rxn_6451802d,Likely Fail,13
+P079,>3 years,rxn_2083c62f,Likely Success,13
+P079,>3 years,rxn_d877775,Likely Fail,13
+P079,>3 years,rxn_2bf177c8,Likely Fail,13
+P079,>3 years,rxn_5aa127f8,Likely Fail,13
+P079,>3 years,rxn_64b265f7,Likely Success,13
+P079,>3 years,rxn_1c19902e,Likely Success,13
+P079,>3 years,rxn_4d24ea4c,Likely Success,13
+P079,>3 years,rxn_58c417f4,Likely Fail,13
+P079,>3 years,rxn_357323cd,Likely Success,13
+P079,>3 years,rxn_1d526b97,Likely Fail,13
+P079,>3 years,rxn_db77c1a,Very Confident Success,13
+P079,>3 years,rxn_b6b99f4,Likely Success,13
+P079,>3 years,rxn_6659b2fe,Very Confident Success,13
+P079,>3 years,rxn_4554078e,Likely Fail,13
+P079,>3 years,rxn_6802459b,Likely Success,13
+P079,>3 years,rxn_2729a0f3,Likely Success,13
+P080,>3 years,rxn_b3881e1,Likely Fail,12
+P080,>3 years,rxn_540add03,Likely Success,12
+P080,>3 years,rxn_50d39625,Likely Success,12
+P080,>3 years,rxn_5335b01f,Likely Fail,12
+P080,>3 years,rxn_48e522db,Likely Fail,12
+P080,>3 years,rxn_6451802d,Likely Fail,12
+P080,>3 years,rxn_2083c62f,Likely Fail,12
+P080,>3 years,rxn_d877775,Very Confident Fail,12
+P080,>3 years,rxn_2bf177c8,Likely Success,12
+P080,>3 years,rxn_5aa127f8,Likely Success,12
+P080,>3 years,rxn_64b265f7,Likely Success,12
+P080,>3 years,rxn_1c19902e,Likely Success,12
+P080,>3 years,rxn_4d24ea4c,Likely Fail,12
+P080,>3 years,rxn_58c417f4,Likely Success,12
+P080,>3 years,rxn_357323cd,Likely Success,12
+P080,>3 years,rxn_1d526b97,Likely Fail,12
+P080,>3 years,rxn_db77c1a,Likely Success,12
+P080,>3 years,rxn_b6b99f4,Likely Success,12
+P080,>3 years,rxn_6659b2fe,Likely Fail,12
+P080,>3 years,rxn_4554078e,Likely Fail,12
+P080,>3 years,rxn_6802459b,Likely Success,12
+P080,>3 years,rxn_2729a0f3,Likely Fail,12
+P081,>3 years,rxn_b3881e1,Likely Fail,12
+P081,>3 years,rxn_540add03,Likely Fail,12
+P081,>3 years,rxn_50d39625,Likely Success,12
+P081,>3 years,rxn_5335b01f,Likely Success,12
+P081,>3 years,rxn_48e522db,Likely Success,12
+P081,>3 years,rxn_6451802d,Likely Fail,12
+P081,>3 years,rxn_2083c62f,Likely Fail,12
+P081,>3 years,rxn_d877775,Likely Success,12
+P081,>3 years,rxn_2bf177c8,Likely Fail,12
+P081,>3 years,rxn_5aa127f8,Likely Fail,12
+P081,>3 years,rxn_64b265f7,Likely Fail,12
+P081,>3 years,rxn_1c19902e,Likely Success,12
+P081,>3 years,rxn_4d24ea4c,Likely Success,12
+P081,>3 years,rxn_58c417f4,Likely Fail,12
+P081,>3 years,rxn_357323cd,Likely Fail,12
+P081,>3 years,rxn_1d526b97,Likely Fail,12
+P081,>3 years,rxn_db77c1a,Likely Success,12
+P081,>3 years,rxn_b6b99f4,Likely Fail,12
+P081,>3 years,rxn_6659b2fe,Likely Success,12
+P081,>3 years,rxn_4554078e,Likely Success,12
+P081,>3 years,rxn_6802459b,Likely Fail,12
+P081,>3 years,rxn_2729a0f3,Likely Fail,12
+P082,>3 years,rxn_b3881e1,Likely Success,11
+P082,>3 years,rxn_540add03,Likely Fail,11
+P082,>3 years,rxn_50d39625,Likely Success,11
+P082,>3 years,rxn_5335b01f,Likely Success,11
+P082,>3 years,rxn_48e522db,Likely Fail,11
+P082,>3 years,rxn_6451802d,Likely Fail,11
+P082,>3 years,rxn_2083c62f,Very Confident Fail,11
+P082,>3 years,rxn_d877775,Likely Fail,11
+P082,>3 years,rxn_2bf177c8,Likely Success,11
+P082,>3 years,rxn_5aa127f8,Likely Success,11
+P082,>3 years,rxn_64b265f7,Likely Success,11
+P082,>3 years,rxn_1c19902e,Very Confident Success,11
+P082,>3 years,rxn_4d24ea4c,Likely Fail,11
+P082,>3 years,rxn_58c417f4,Likely Fail,11
+P082,>3 years,rxn_357323cd,Very Confident Success,11
+P082,>3 years,rxn_1d526b97,Very Confident Fail,11
+P082,>3 years,rxn_db77c1a,Likely Success,11
+P082,>3 years,rxn_b6b99f4,Likely Success,11
+P082,>3 years,rxn_6659b2fe,Likely Success,11
+P082,>3 years,rxn_4554078e,Likely Fail,11
+P082,>3 years,rxn_6802459b,Likely Fail,11
+P082,>3 years,rxn_2729a0f3,Likely Success,11
+P083,>3 years,rxn_b3881e1,Likely Fail,11
+P083,>3 years,rxn_540add03,Likely Success,11
+P083,>3 years,rxn_50d39625,Likely Fail,11
+P083,>3 years,rxn_5335b01f,Likely Success,11
+P083,>3 years,rxn_48e522db,Likely Success,11
+P083,>3 years,rxn_6451802d,Very Confident Fail,11
+P083,>3 years,rxn_2083c62f,Likely Success,11
+P083,>3 years,rxn_d877775,Likely Fail,11
+P083,>3 years,rxn_2bf177c8,Likely Success,11
+P083,>3 years,rxn_5aa127f8,Likely Fail,11
+P083,>3 years,rxn_64b265f7,Very Confident Success,11
+P083,>3 years,rxn_1c19902e,Likely Success,11
+P083,>3 years,rxn_4d24ea4c,Likely Success,11
+P083,>3 years,rxn_58c417f4,Likely Success,11
+P083,>3 years,rxn_357323cd,Very Confident Success,11
+P083,>3 years,rxn_1d526b97,Likely Fail,11
+P083,>3 years,rxn_db77c1a,Likely Success,11
+P083,>3 years,rxn_b6b99f4,Very Confident Success,11
+P083,>3 years,rxn_6659b2fe,Very Confident Success,11
+P083,>3 years,rxn_4554078e,Very Confident Success,11
+P083,>3 years,rxn_6802459b,Likely Success,11
+P083,>3 years,rxn_2729a0f3,Very Confident Success,11
+P084,<1 year,rxn_4554078e,Likely Fail,12
+P084,<1 year,rxn_5aa127f8,Likely Fail,12
+P084,<1 year,rxn_64b265f7,Likely Fail,12
+P084,<1 year,rxn_58c417f4,Likely Fail,12
+P084,<1 year,rxn_357323cd,Likely Success,12
+P084,<1 year,rxn_d877775,Likely Success,12
+P084,<1 year,rxn_6659b2fe,Likely Success,12
+P084,<1 year,rxn_540add03,Likely Fail,12
+P084,<1 year,rxn_2bf177c8,Likely Success,12
+P084,<1 year,rxn_4d24ea4c,Likely Success,12
+P084,<1 year,rxn_6802459b,Likely Fail,12
+P084,<1 year,rxn_2729a0f3,Likely Success,12
+P084,<1 year,rxn_b3881e1,Likely Fail,12
+P084,<1 year,rxn_db77c1a,Likely Success,12
+P084,<1 year,rxn_48e522db,Likely Success,12
+P084,<1 year,rxn_b6b99f4,Likely Success,12
+P084,<1 year,rxn_1c19902e,Likely Fail,12
+P084,<1 year,rxn_50d39625,Likely Success,12
+P084,<1 year,rxn_5335b01f,Likely Success,12
+P084,<1 year,rxn_6451802d,Likely Success,12
+P084,<1 year,rxn_2083c62f,Likely Fail,12
+P084,<1 year,rxn_1d526b97,Likely Success,12
+P085,1-3 years,rxn_b6b99f4,Likely Fail,10
+P085,1-3 years,rxn_4554078e,Very Confident Fail,10
+P085,1-3 years,rxn_5335b01f,Very Confident Fail,10
+P085,1-3 years,rxn_5aa127f8,Likely Fail,10
+P085,1-3 years,rxn_2bf177c8,Likely Success,10
+P085,1-3 years,rxn_357323cd,Likely Success,10
+P085,1-3 years,rxn_50d39625,Likely Fail,10
+P085,1-3 years,rxn_b3881e1,Likely Success,10
+P085,1-3 years,rxn_2729a0f3,Likely Fail,10
+P085,1-3 years,rxn_d877775,Likely Success,10
+P085,1-3 years,rxn_6659b2fe,Likely Fail,10
+P085,1-3 years,rxn_1c19902e,Likely Fail,10
+P085,1-3 years,rxn_6451802d,Likely Fail,10
+P085,1-3 years,rxn_4d24ea4c,Likely Success,10
+P085,1-3 years,rxn_2083c62f,Likely Success,10
+P085,1-3 years,rxn_540add03,Likely Success,10
+P085,1-3 years,rxn_58c417f4,Likely Success,10
+P085,1-3 years,rxn_db77c1a,Likely Success,10
+P085,1-3 years,rxn_64b265f7,Likely Success,10
+P085,1-3 years,rxn_48e522db,Likely Success,10
+P085,1-3 years,rxn_6802459b,Likely Success,10
+P085,1-3 years,rxn_1d526b97,Likely Success,10
+P086,>3 years,rxn_1d526b97,Likely Fail,11
+P086,>3 years,rxn_6802459b,Likely Fail,11
+P086,>3 years,rxn_1c19902e,Likely Success,11
+P086,>3 years,rxn_b3881e1,Likely Success,11
+P086,>3 years,rxn_6451802d,Likely Fail,11
+P086,>3 years,rxn_2083c62f,Very Confident Fail,11
+P086,>3 years,rxn_db77c1a,Likely Success,11
+P086,>3 years,rxn_540add03,Very Confident Fail,11
+P086,>3 years,rxn_b6b99f4,Very Confident Success,11
+P086,>3 years,rxn_d877775,Very Confident Fail,11
+P086,>3 years,rxn_50d39625,Very Confident Success,11
+P086,>3 years,rxn_357323cd,Very Confident Success,11
+P086,>3 years,rxn_2bf177c8,Likely Success,11
+P086,>3 years,rxn_64b265f7,Likely Success,11
+P086,>3 years,rxn_4d24ea4c,Very Confident Fail,11
+P086,>3 years,rxn_2729a0f3,Likely Success,11
+P086,>3 years,rxn_48e522db,Very Confident Fail,11
+P086,>3 years,rxn_4554078e,Likely Fail,11
+P086,>3 years,rxn_58c417f4,Likely Success,11
+P086,>3 years,rxn_5aa127f8,Likely Success,11
+P086,>3 years,rxn_5335b01f,Likely Fail,11
+P086,>3 years,rxn_6659b2fe,Very Confident Success,11
+P087,1-3 years,rxn_1d526b97,Likely Success,15
+P087,1-3 years,rxn_58c417f4,Likely Fail,15
+P087,1-3 years,rxn_6451802d,Very Confident Fail,15
+P087,1-3 years,rxn_4d24ea4c,Likely Success,15
+P087,1-3 years,rxn_540add03,Likely Success,15
+P087,1-3 years,rxn_6659b2fe,Likely Success,15
+P087,1-3 years,rxn_64b265f7,Likely Fail,15
+P087,1-3 years,rxn_b6b99f4,Likely Success,15
+P087,1-3 years,rxn_2bf177c8,Likely Success,15
+P087,1-3 years,rxn_5aa127f8,Likely Fail,15
+P087,1-3 years,rxn_1c19902e,Likely Fail,15
+P087,1-3 years,rxn_db77c1a,Likely Success,15
+P087,1-3 years,rxn_50d39625,Likely Success,15
+P087,1-3 years,rxn_2083c62f,Likely Fail,15
+P087,1-3 years,rxn_b3881e1,Likely Fail,15
+P087,1-3 years,rxn_4554078e,Likely Fail,15
+P087,1-3 years,rxn_6802459b,Likely Success,15
+P087,1-3 years,rxn_5335b01f,Likely Success,15
+P087,1-3 years,rxn_d877775,Likely Fail,15
+P087,1-3 years,rxn_357323cd,Likely Success,15
+P087,1-3 years,rxn_48e522db,Likely Success,15
+P087,1-3 years,rxn_2729a0f3,Likely Fail,15
+P088,1-3 years,rxn_d877775,Likely Success,12
+P088,1-3 years,rxn_2bf177c8,Likely Fail,12
+P088,1-3 years,rxn_50d39625,Likely Success,12
+P088,1-3 years,rxn_b3881e1,Likely Success,12
+P088,1-3 years,rxn_64b265f7,Likely Success,12
+P088,1-3 years,rxn_48e522db,Very Confident Success,12
+P088,1-3 years,rxn_5aa127f8,Very Confident Fail,12
+P088,1-3 years,rxn_1c19902e,Likely Fail,12
+P088,1-3 years,rxn_4554078e,Likely Success,12
+P088,1-3 years,rxn_540add03,Very Confident Success,12
+P088,1-3 years,rxn_b6b99f4,Likely Fail,12
+P088,1-3 years,rxn_2083c62f,Likely Success,12
+P088,1-3 years,rxn_1d526b97,Likely Success,12
+P088,1-3 years,rxn_4d24ea4c,Very Confident Fail,12
+P088,1-3 years,rxn_6659b2fe,Likely Success,12
+P088,1-3 years,rxn_db77c1a,Likely Fail,12
+P088,1-3 years,rxn_357323cd,Likely Success,12
+P088,1-3 years,rxn_5335b01f,Very Confident Fail,12
+P088,1-3 years,rxn_58c417f4,Likely Success,12
+P088,1-3 years,rxn_2729a0f3,Very Confident Fail,12
+P088,1-3 years,rxn_6802459b,Likely Success,12
+P088,1-3 years,rxn_6451802d,Likely Fail,12
+P089,1-3 years,rxn_db77c1a,Likely Success,12
+P089,1-3 years,rxn_64b265f7,Likely Fail,12
+P089,1-3 years,rxn_2729a0f3,Very Confident Fail,12
+P089,1-3 years,rxn_1d526b97,Likely Fail,12
+P089,1-3 years,rxn_5335b01f,Likely Fail,12
+P089,1-3 years,rxn_50d39625,Likely Fail,12
+P089,1-3 years,rxn_6451802d,Likely Fail,12
+P089,1-3 years,rxn_4d24ea4c,Likely Fail,12
+P089,1-3 years,rxn_6802459b,Likely Fail,12
+P089,1-3 years,rxn_5aa127f8,Likely Fail,12
+P089,1-3 years,rxn_58c417f4,Likely Fail,12
+P089,1-3 years,rxn_b6b99f4,Likely Fail,12
+P089,1-3 years,rxn_2bf177c8,Likely Fail,12
+P089,1-3 years,rxn_6659b2fe,Likely Fail,12
+P089,1-3 years,rxn_b3881e1,Likely Fail,12
+P089,1-3 years,rxn_4554078e,Likely Fail,12
+P089,1-3 years,rxn_2083c62f,Likely Fail,12
+P089,1-3 years,rxn_540add03,Likely Fail,12
+P089,1-3 years,rxn_d877775,Likely Fail,12
+P089,1-3 years,rxn_1c19902e,Likely Fail,12
+P089,1-3 years,rxn_48e522db,Likely Fail,12
+P089,1-3 years,rxn_357323cd,Likely Fail,12
+P090,<1 year,rxn_48e522db,Likely Success,11
+P090,<1 year,rxn_2bf177c8,Likely Success,11
+P090,<1 year,rxn_6802459b,Likely Success,11
+P090,<1 year,rxn_1d526b97,Likely Success,11
+P090,<1 year,rxn_d877775,Likely Success,11
+P090,<1 year,rxn_5335b01f,Likely Success,11
+P090,<1 year,rxn_58c417f4,Likely Success,11
+P090,<1 year,rxn_64b265f7,Likely Success,11
+P090,<1 year,rxn_db77c1a,Likely Success,11
+P090,<1 year,rxn_4d24ea4c,Likely Success,11
+P090,<1 year,rxn_5aa127f8,Likely Success,11
+P090,<1 year,rxn_b3881e1,Likely Success,11
+P090,<1 year,rxn_2083c62f,Likely Success,11
+P090,<1 year,rxn_b6b99f4,Likely Success,11
+P090,<1 year,rxn_4554078e,Likely Success,11
+P090,<1 year,rxn_540add03,Likely Success,11
+P090,<1 year,rxn_6451802d,Likely Success,11
+P090,<1 year,rxn_357323cd,Likely Success,11
+P090,<1 year,rxn_6659b2fe,Likely Success,11
+P090,<1 year,rxn_1c19902e,Likely Success,11
+P090,<1 year,rxn_2729a0f3,Likely Success,11
+P090,<1 year,rxn_50d39625,Likely Success,11
+P091,<1 year,rxn_357323cd,Likely Success,13
+P091,<1 year,rxn_4554078e,Likely Fail,13
+P091,<1 year,rxn_1d526b97,Very Confident Fail,13
+P091,<1 year,rxn_6451802d,Very Confident Success,13
+P091,<1 year,rxn_2bf177c8,Likely Success,13
+P091,<1 year,rxn_64b265f7,Likely Fail,13
+P091,<1 year,rxn_2729a0f3,Likely Success,13
+P091,<1 year,rxn_58c417f4,Very Confident Success,13
+P091,<1 year,rxn_4d24ea4c,Likely Fail,13
+P091,<1 year,rxn_5aa127f8,Likely Success,13
+P091,<1 year,rxn_1c19902e,Likely Success,13
+P091,<1 year,rxn_b6b99f4,Very Confident Success,13
+P091,<1 year,rxn_50d39625,Likely Fail,13
+P091,<1 year,rxn_5335b01f,Very Confident Fail,13
+P091,<1 year,rxn_d877775,Likely Success,13
+P091,<1 year,rxn_6802459b,Likely Fail,13
+P091,<1 year,rxn_540add03,Very Confident Success,13
+P091,<1 year,rxn_6659b2fe,Likely Success,13
+P091,<1 year,rxn_2083c62f,Likely Fail,13
+P091,<1 year,rxn_b3881e1,Likely Success,13
+P091,<1 year,rxn_48e522db,Very Confident Success,13
+P091,<1 year,rxn_db77c1a,Likely Success,13
+P092,<1 year,rxn_2bf177c8,Likely Success,12
+P092,<1 year,rxn_6659b2fe,Very Confident Success,12
+P092,<1 year,rxn_4d24ea4c,Likely Fail,12
+P092,<1 year,rxn_1d526b97,Likely Fail,12
+P092,<1 year,rxn_540add03,Likely Fail,12
+P092,<1 year,rxn_50d39625,Likely Success,12
+P092,<1 year,rxn_2729a0f3,Likely Success,12
+P092,<1 year,rxn_1c19902e,Likely Fail,12
+P092,<1 year,rxn_5aa127f8,Likely Fail,12
+P092,<1 year,rxn_6802459b,Likely Success,12
+P092,<1 year,rxn_b6b99f4,Very Confident Success,12
+P092,<1 year,rxn_d877775,Likely Fail,12
+P092,<1 year,rxn_2083c62f,Likely Fail,12
+P092,<1 year,rxn_4554078e,Likely Fail,12
+P092,<1 year,rxn_db77c1a,Likely Fail,12
+P092,<1 year,rxn_6451802d,Likely Fail,12
+P092,<1 year,rxn_48e522db,Likely Fail,12
+P092,<1 year,rxn_64b265f7,Likely Success,12
+P092,<1 year,rxn_b3881e1,Likely Success,12
+P092,<1 year,rxn_5335b01f,Likely Fail,12
+P092,<1 year,rxn_58c417f4,Likely Fail,12
+P092,<1 year,rxn_357323cd,Likely Success,12
+P093,<1 year,rxn_58c417f4,Very Confident Fail,12
+P093,<1 year,rxn_d877775,Likely Fail,12
+P093,<1 year,rxn_2083c62f,Likely Success,12
+P093,<1 year,rxn_b6b99f4,Very Confident Success,12
+P093,<1 year,rxn_1d526b97,Likely Fail,12
+P093,<1 year,rxn_6659b2fe,Likely Success,12
+P093,<1 year,rxn_5335b01f,Likely Fail,12
+P093,<1 year,rxn_5aa127f8,Very Confident Success,12
+P093,<1 year,rxn_4d24ea4c,Likely Fail,12
+P093,<1 year,rxn_1c19902e,Likely Success,12
+P093,<1 year,rxn_2729a0f3,Likely Success,12
+P093,<1 year,rxn_b3881e1,Likely Success,12
+P093,<1 year,rxn_48e522db,Likely Success,12
+P093,<1 year,rxn_540add03,Likely Fail,12
+P093,<1 year,rxn_6451802d,Likely Success,12
+P093,<1 year,rxn_50d39625,Likely Success,12
+P093,<1 year,rxn_357323cd,Likely Success,12
+P093,<1 year,rxn_4554078e,Likely Fail,12
+P093,<1 year,rxn_db77c1a,Likely Success,12
+P093,<1 year,rxn_6802459b,Likely Fail,12
+P093,<1 year,rxn_2bf177c8,Likely Fail,12
+P093,<1 year,rxn_64b265f7,Likely Success,12
+P094,<1 year,rxn_4554078e,Likely Fail,10
+P094,<1 year,rxn_b3881e1,Very Confident Success,10
+P094,<1 year,rxn_6802459b,Very Confident Fail,10
+P094,<1 year,rxn_2bf177c8,Very Confident Success,10
+P094,<1 year,rxn_4d24ea4c,Likely Success,10
+P094,<1 year,rxn_2083c62f,Likely Success,10
+P094,<1 year,rxn_6659b2fe,Likely Success,10
+P094,<1 year,rxn_d877775,Very Confident Success,10
+P094,<1 year,rxn_357323cd,Likely Success,10
+P094,<1 year,rxn_2729a0f3,Very Confident Fail,10
+P094,<1 year,rxn_50d39625,Likely Success,10
+P094,<1 year,rxn_db77c1a,Very Confident Success,10
+P094,<1 year,rxn_1d526b97,Likely Success,10
+P094,<1 year,rxn_5335b01f,Likely Success,10
+P094,<1 year,rxn_6451802d,Likely Fail,10
+P094,<1 year,rxn_540add03,Likely Success,10
+P094,<1 year,rxn_48e522db,Very Confident Fail,10
+P094,<1 year,rxn_b6b99f4,Very Confident Success,10
+P094,<1 year,rxn_58c417f4,Likely Fail,10
+P094,<1 year,rxn_1c19902e,Likely Fail,10
+P094,<1 year,rxn_5aa127f8,Likely Success,10
+P094,<1 year,rxn_64b265f7,Likely Success,10
+P095,<1 year,rxn_357323cd,Likely Success,11
+P095,<1 year,rxn_5335b01f,Likely Success,11
+P095,<1 year,rxn_4d24ea4c,Likely Success,11
+P095,<1 year,rxn_6451802d,Likely Success,11
+P095,<1 year,rxn_6659b2fe,Likely Success,11
+P095,<1 year,rxn_b6b99f4,Likely Success,11
+P095,<1 year,rxn_1d526b97,Likely Success,11
+P095,<1 year,rxn_50d39625,Likely Success,11
+P095,<1 year,rxn_4554078e,Likely Success,11
+P095,<1 year,rxn_db77c1a,Likely Success,11
+P095,<1 year,rxn_6802459b,Likely Success,11
+P095,<1 year,rxn_5aa127f8,Likely Success,11
+P095,<1 year,rxn_540add03,Likely Success,11
+P095,<1 year,rxn_2bf177c8,Likely Success,11
+P095,<1 year,rxn_2729a0f3,Likely Success,11
+P095,<1 year,rxn_58c417f4,Likely Success,11
+P095,<1 year,rxn_1c19902e,Likely Success,11
+P095,<1 year,rxn_48e522db,Likely Success,11
+P095,<1 year,rxn_d877775,Likely Success,11
+P095,<1 year,rxn_b3881e1,Likely Success,11
+P095,<1 year,rxn_2083c62f,Likely Success,11
+P095,<1 year,rxn_64b265f7,Likely Success,11
+P096,<1 year,rxn_540add03,Very Confident Fail,10
+P096,<1 year,rxn_d877775,Likely Fail,10
+P096,<1 year,rxn_6451802d,Likely Success,10
+P096,<1 year,rxn_5aa127f8,Likely Fail,10
+P096,<1 year,rxn_2bf177c8,Very Confident Success,10
+P096,<1 year,rxn_58c417f4,Likely Success,10
+P096,<1 year,rxn_48e522db,Very Confident Success,10
+P096,<1 year,rxn_4d24ea4c,Likely Fail,10
+P096,<1 year,rxn_b6b99f4,Very Confident Fail,10
+P096,<1 year,rxn_b3881e1,Very Confident Fail,10
+P096,<1 year,rxn_6802459b,Very Confident Fail,10
+P096,<1 year,rxn_5335b01f,Likely Success,10
+P096,<1 year,rxn_50d39625,Very Confident Success,10
+P096,<1 year,rxn_357323cd,Likely Success,10
+P096,<1 year,rxn_64b265f7,Very Confident Fail,10
+P096,<1 year,rxn_6659b2fe,Likely Fail,10
+P096,<1 year,rxn_2729a0f3,Likely Success,10
+P096,<1 year,rxn_4554078e,Very Confident Success,10
+P096,<1 year,rxn_2083c62f,Likely Success,10
+P096,<1 year,rxn_1c19902e,Likely Success,10
+P096,<1 year,rxn_db77c1a,Very Confident Success,10
+P096,<1 year,rxn_1d526b97,Very Confident Success,10
+P097,>3 years,rxn_2083c62f,Likely Fail,15
+P097,>3 years,rxn_6451802d,Very Confident Fail,15
+P097,>3 years,rxn_b6b99f4,Very Confident Success,15
+P097,>3 years,rxn_540add03,Very Confident Success,15
+P097,>3 years,rxn_d877775,Likely Fail,15
+P097,>3 years,rxn_4d24ea4c,Likely Fail,15
+P097,>3 years,rxn_4554078e,Likely Fail,15
+P097,>3 years,rxn_6659b2fe,Very Confident Success,15
+P097,>3 years,rxn_2729a0f3,Very Confident Success,15
+P097,>3 years,rxn_1d526b97,Very Confident Fail,15
+P097,>3 years,rxn_58c417f4,Very Confident Fail,15
+P097,>3 years,rxn_1c19902e,Likely Fail,15
+P097,>3 years,rxn_db77c1a,Very Confident Success,15
+P097,>3 years,rxn_48e522db,Likely Success,15
+P097,>3 years,rxn_b3881e1,Very Confident Success,15
+P097,>3 years,rxn_2bf177c8,Likely Fail,15
+P097,>3 years,rxn_50d39625,Likely Success,15
+P097,>3 years,rxn_5335b01f,Likely Fail,15
+P097,>3 years,rxn_64b265f7,Very Confident Fail,15
+P097,>3 years,rxn_6802459b,Very Confident Fail,15
+P097,>3 years,rxn_357323cd,Very Confident Success,15
+P097,>3 years,rxn_5aa127f8,Very Confident Success,15
+P098,1-3 years,rxn_1c19902e,Likely Fail,13
+P098,1-3 years,rxn_b6b99f4,Likely Fail,13
+P098,1-3 years,rxn_b3881e1,Likely Success,13
+P098,1-3 years,rxn_2729a0f3,Likely Success,13
+P098,1-3 years,rxn_4554078e,Likely Success,13
+P098,1-3 years,rxn_2bf177c8,Likely Fail,13
+P098,1-3 years,rxn_d877775,Likely Success,13
+P098,1-3 years,rxn_357323cd,Very Confident Fail,13
+P098,1-3 years,rxn_540add03,Very Confident Fail,13
+P098,1-3 years,rxn_48e522db,Likely Success,13
+P098,1-3 years,rxn_5aa127f8,Likely Fail,13
+P098,1-3 years,rxn_2083c62f,Likely Fail,13
+P098,1-3 years,rxn_64b265f7,Very Confident Fail,13
+P098,1-3 years,rxn_58c417f4,Very Confident Fail,13
+P098,1-3 years,rxn_5335b01f,Likely Success,13
+P098,1-3 years,rxn_4d24ea4c,Likely Fail,13
+P098,1-3 years,rxn_6451802d,Likely Fail,13
+P098,1-3 years,rxn_1d526b97,Likely Success,13
+P098,1-3 years,rxn_db77c1a,Likely Fail,13
+P098,1-3 years,rxn_50d39625,Likely Success,13
+P098,1-3 years,rxn_6802459b,Likely Success,13
+P098,1-3 years,rxn_6659b2fe,Likely Success,13
