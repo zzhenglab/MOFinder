@@ -1,0 +1,27 @@
+{
+  "project_root": ".",
+  "positive_csv": "input/positive_cleaned.csv",
+  "negative_csv": "input/negative_cleaned.csv",
+  "metadata_file": "input/publication_years.csv",
+  "output_dir": "outputs",
+  "prompt_file": "../../prompts/dataset_classification.txt",
+  "forced_questions_file": "input/forced_questions.json",
+  "rng_seed": 42,
+  "holdout_frac": 0.1,
+  "holdout_cluster_frac": 0.1,
+  "pn_mode": "equal",
+  "raw_pn_relative_tolerance": 0.1,
+  "cluster_metal_mode": "precursor",
+  "include_modulator_in_cluster": false,
+  "year_bins": 4,
+  "year_bins_5": 5,
+  "drop_input_label_conflicts": true,
+  "dedup_exact_input_within_label": true,
+  "shuffle_output": true,
+  "holdout_search_trials": 64,
+  "holdout_search_swaps": 1200,
+  "input_provenance": {
+    "positive": "Stage 6 output from the companion cleaning demo.",
+    "negative": "Curated negative records from the selected publications."
+  }
+}

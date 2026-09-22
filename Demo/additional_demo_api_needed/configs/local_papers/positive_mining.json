@@ -1,0 +1,14 @@
+{
+  "project_root": "../../../..",
+  "manifest_file": "results/examples/additional_demo_api_needed/local_papers/document_manifest.csv",
+  "article_dir": "Demo/additional_demo_api_needed/literature_input/main",
+  "si_dir": "Demo/additional_demo_api_needed/literature_input/si",
+  "csv_out": "results/examples/additional_demo_api_needed/local_papers/positive/mof_extraction.csv",
+  "json_out_dir": "results/examples/additional_demo_api_needed/local_papers/positive/mof_json_store",
+  "system_prompt_file": "prompts/positive_system.txt",
+  "user_prompt_file": "prompts/positive_user.txt",
+  "model": "gpt-5",
+  "start_row": 0,
+  "concurrency": 1,
+  "flush_every": 1
+}

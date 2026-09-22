@@ -1,0 +1,56 @@
+# JSON preparation demo
+
+Prepare condition-classification training and holdout files from 146 cleaned positive records and 175 curated negative records. This demo calls `mofinder.datasets.prepare`, including the same condition builder, conflict handling, cluster split, class balancing, and JSONL writer used for the full dataset.
+
+## Run
+
+From the repository root, with Python 3.10 or later:
+
+```bash
+python -m pip install -e ".[curation,datasets]"
+python Demo/02_json_preparation/run_demo.py --check
+```
+
+The bundled positive input matches the expected output of the [cleaning demo](../01_data_cleaning/README.md). To use a freshly generated cleaning result:
+
+```bash
+python Demo/01_data_cleaning/run_demo.py --check
+python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
+```
+
+The demo requires no API key, GPU, or model download and does not start a fine-tuning job. A typical run takes less than one minute. For a notebook walkthrough, install the `notebook` extra and open [demo.ipynb](demo.ipynb).
+
+## Inputs and settings
+
+| File | Contents |
+| --- | --- |
+| [input/positive_cleaned.csv](input/positive_cleaned.csv) | Stage 6 records from the cleaning demo |
+| [input/negative_cleaned.csv](input/negative_cleaned.csv) | Up to ten archived negative records per selected publication |
+| [input/publication_years.csv](input/publication_years.csv) | DOI-to-year mapping for the selected publications |
+| [input/source_manifest.json](input/source_manifest.json) | Source table hash and original negative row positions |
+| [config.json](config.json) | Seed, split targets, paths, and balancing settings |
+| [classification prompt](../../prompts/dataset_classification.txt) | System message used in the JSONL records |
+
+The seed is 42, with 10% row and cluster targets for holdout. Clusters combine the primary metal precursor, all linkers, and all solvents. The demo's reserved-question list is empty. The full dataset configuration is maintained separately in `configs/`.
+
+## Expected output
+
+| Partition | P | N | Total |
+| --- | ---: | ---: | ---: |
+| Training | 108 | 144 | 252 |
+| Holdout | 12 | 16 | 28 |
+
+Training and holdout share no clusters and have the same 3:4 P:N ratio. All 321 input records pass the required-field check; conflict handling, exact-input deduplication, and balancing leave 280 records. The [dataset guide](../../docs/datasets.md) describes these rules and their scope.
+
+Each run writes the following files to `outputs/`:
+
+- `mof_ft_train.jsonl` and `mof_ft_holdout.jsonl`: system/user/assistant message records with `P` or `N` labels.
+- `mof_ft_class_map.json`: label definitions.
+- `mof_ft_split_assignments.csv`: source row, DOI, condition key, cluster, and partition.
+- `mof_ft_split_summary.json`: filtering counts, split settings, input hashes, and generated file locations.
+- `mof_cls_train_*.jsonl`: publication-year training subsets.
+- `demo_summary.json`: compact counts and cluster checks.
+
+The [expected](expected/) folder contains the training and holdout JSONL, class map, split assignments, and compact summary. `--check` compares these files with the new run. These small datasets demonstrate the preparation workflow and are separate from the full training and validation datasets.
+
+To run another dataset, supply a separate `--config` file and use `--output-dir` for its outputs. The expected-output check applies to the bundled demo inputs.

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "doi_label": "10.1021/jacs.2c09756",
+  "document_type": "Sample article and supporting information for text-mining demonstrations.",
+  "files": [
+    {
+      "file": "articles/10.1021_jacs.2c09756.pdf",
+      "size_bytes": 139540,
+      "sha256": "e7f8ebb00a387bf6611710e7e368469c2b4ad6fa875285dd6dbad02343848217",
+      "source_id": "sample_article",
+      "source_description": "Illustrative MOF synthesis article"
+    },
+    {
+      "file": "supporting_information/10.1021_jacs.2c09756_SI.pdf",
+      "size_bytes": 136418,
+      "sha256": "e94a44c1b55a430936940619729fe3493f2d5f943d2a8e8313b11172d560d017",
+      "source_id": "sample_supporting_information",
+      "source_description": "Illustrative MOF synthesis supporting information"
+    }
+  ]
+}

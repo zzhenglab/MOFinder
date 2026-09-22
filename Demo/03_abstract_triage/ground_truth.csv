@@ -1,0 +1,32 @@
+﻿DOI,Consensus GT,Annotator 1,Annotator 1 comment,Annotator 2,Annotator 2 comment,Annotator 3,Annotator 3 comment,Annotator 4,Annotator 4 comment,Vote pattern,Resolution method,Rule/reason
+10.1002/adfm.202307369,Y,Y,"Thus, in the present work, we report a linker-directed synthe-
+sis approach that enables the direct integration of two to eight
+rare-earth metal elements into a single structure.",Y,this work demonstrates the synthesis of a multi-metallic MTV RE MOF,Y,MTV-MOF described,Y,The SI gives an explicit solvothermal synthesis using metal salts and linker in DMF/methanol/water at 95 °C for 48 h.,4Y / 0N,unanimous (4/4),
+10.1002/adfm.202410751,Y,Y,"Acquiring the detailed synthetic protocols of potentially up-
+scaled synthesis of each MOFs from the literature (detailed in
+Schemes S1�S36, Supporting Information",Y,different synthetic methods of each MOFs has been analyzed in detail,Y,describe synthesis of well establised MOFs,N,The authors collect protocols from the literature and computationally scale them for LCA; they do not perform an original MOF synthesis.,3Y / 1N,majority vote (3-1),Synthesis in Citation
+10.1002/adfm.202501344,Y,Y,Synthesis shown in SI,Y,The green synthesis pathway of MOFs is shown in Figure S1 (Supporting Information),Y,supporting information solvothermal,Y,Ni-TBAPy-EF crystals are directly synthesized in water with nickel acetate at 120 °C for 72 h and confirmed crystallographically.,4Y / 0N,unanimous (4/4),
+10.1002/adfm.202504117,N,Y,"Zr-PTB was synthesized according to the modi-
+fied procedure[41] by addition of ZrCl4 (0.108 mmol; 25.40 mg) and PTB
+(0.0725 mmol; 31.86 mg) to a 20 mL screw-cap glass vial. After the addi-
+tion of 12.5 mL DMF, the mixture was ultrasonically dissolved to obtain
+a clear solution.",N,We report the synthesis of a Zr6O8 cluster-based tricarboxylate MON,N,MON,Y,"I believe this is a boundary case because the authors call Zr-PTB a 2D MON, but it is an extended crystalline Zr-cluster/organic framework produced solvothermally and characterized by PXRD.",2Y / 2N,rubric rule,sonochemical
+10.1002/adma.201907063,Y,Y,"An in-
+depth characterization and analysis of the material�s structure has
+confirmed the high-quality polycrystalline nature of as-prepared
+Fe3(THT)2(NH4)3 MOF films as reported in our previous work
+(ref. [17]",Y,The Fe3(THT)2(NH4)3 MOF films are synthesized by an interfacial reaction/SI,Y,in Si  interfacial,Y,"The Fe₃(THT)₂(NH₄)₃ film is formed at a CHCl₃/water interface at room temperature, which I interpret as an accepted solution-phase layering/interfacial route.",4Y / 0N,unanimous (4/4),
+10.1002/adma.202103316,N,N,"not solution phase synthesis
+holder and subsequently sprayed with 1 � 10?3 m Cu(OAc)2 ethanolic
+solution for 15 s and with a 0.2 � 10?3 m 1,4-benzene dicarboxylic acid
+(BDC) ethanol solution for 25 s at room temperature. Between both the
+steps, the sample was thoroughly rinsed with pure ethanol to remove
+undercoordinated metal-nodes or organic linker molecules. This
+procedure was repeated (in total) 35 times to grow a nominally 100 nm
+thick layer",Y,The SURMOF layer was grown by the layer-bylayer synthesis as described by Liu et al.,Y,SURMOF described by Liu et al.,Y,Room-temperature liquid-phase layer-by-layer SURMOF growth is performed by repeatedly spraying ethanolic Cu(OAc)2 and BDC solutions onto the substrate. Spray delivery and layer-by-layer deposition count as qualifying MOF synthesis under the project rubric.,3Y / 1N,rubric rule,aerosol/spray
+10.1002/adma.202304832,Y,Y,Synthesis Briefly Described,Y,we explore the synthetic reproducibility of the Zr�porphyrin MOFs PCN-222 and PCN-224 by performing the first-ever round robin study of MOF synthesis.,Y,PCN-222 and 224 described in SI solvothermal,Y,"Ten laboratories performed solvothermal PCN-222/PCN-224 syntheses, followed by XRD, TGA, SEM, IR, and physisorption.",4Y / 0N,unanimous (4/4),
+10.1002/adma.202500370,Y,Y,Synthesis described in SI,Y,"Synthesis mentioned in the SI, (not conventional synthesis)",Y,synthesis in SI,Y,"mesoporous ZIF single crystals were synthesized in a THF–methanol–water system using micelle assembly, with XRD and nitrogen-sorption confirmation.",4Y / 0N,unanimous (4/4),
+10.1002/admi.202201771,N,N,Non Solution Phase,Y,Synthesis mentioned in the the experimental section of the manuscript,Y,losely described,Y,HKUST-1 SURMOF films were synthesized by robotic liquid-phase layer-by-layer dipping. Automation does not change its classification as an accepted solution-phase layering method.,3Y / 1N,rubric rule,film-only/SURMOF/interfacial/LbL
+10.1002/admi.202300075,Y,Y,PXRD and TGA are discussed,Y,Synthesis mentioned in the the experimental section of the manuscript,Y,outlined by Rowsell and Yaghi,Y,Cu-BTC was synthesized from copper nitrate and BTC in DMF/ethanol/water at 85 °C for 24 hours and characterized by PXRD and gas sorption.,4Y / 0N,unanimous (4/4),
+10.1002/adom.202200213,Y,Y,Synthesis descibed fully,Y,Synthesis mentioned in the the experimental section of the manuscript,Y,In results and discussions,Y,"GTUB3 is directly synthesized from zinc nitrate and a porphyrin-phosphonate linker in DMF/H₂O at 80 °C, with crystallographic and PXRD confirmation.",4Y / 0N,unanimous (4/4),
+10.1002/adom.202200484,Y,Y,Synthesis Described in Prior Work,Y,Synthesis mentioned in the the experimental section of the manuscript,Y,synthesis described in sample preparation,Y,"The pristine EuTb-NBDC MOF is prepared following a published procedure, which the rubric explicitly accepts; the authors also conduct detailed solution-phase single-crystal ligand exchange.",4Y / 0N,unanimous (4/4),

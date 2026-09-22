@@ -1,0 +1,11 @@
+{
+  "metadata_rows": 12,
+  "reference_publications": 12,
+  "consensus_counts": {
+    "Y": 9,
+    "N": 3
+  },
+  "scheduled_publications": 12,
+  "missing_reference_publications": 0,
+  "identical_duplicates_collapsed": 0
+}
