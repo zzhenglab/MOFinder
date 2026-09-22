@@ -21,6 +21,8 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field
 
+from mofinder.display import display_path, display_paths
+
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "negative_extraction.json"
 NEG_SYSTEM_PROMPT = (PROJECT_ROOT / "prompts" / "negative_system.txt").read_text(encoding="utf-8")
@@ -226,7 +228,7 @@ def summarize_trials_yes(
     out_csv_yes_7: str = "mof_trials_yes_7.csv"
 ) -> Tuple[pd.DataFrame, int, int, float]:
     if not os.path.exists(in_csv):
-        print(f"[INFO] Input CSV not found: {in_csv}")
+        print(f"[INFO] Input CSV not found: {display_path(in_csv)}")
         return pd.DataFrame(), 0, 0, 0.0
 
     df = pd.read_csv(in_csv, encoding="utf-8-sig")
@@ -248,7 +250,7 @@ def summarize_trials_yes(
     pct = 100.0 * yes_unique / total_unique if total_unique else 0.0
 
     print(f"Unique DOIs with 'yes': {yes_unique} of {total_unique} ({pct:.1f}%)")
-    print(f"Wrote 7-column deduped list to: {out_csv_yes_7}")
+    print(f"Wrote 7-column deduped list to: {display_path(out_csv_yes_7)}")
     return yes_merged, yes_unique, total_unique, pct
 
 
@@ -550,13 +552,13 @@ def _plan_json_exists_for_doi(doi: str, json_out_dir: str = "mof_negative_plan_s
 
 
 def _load_done_dois_from_csv(csv_path: str) -> Set[str]:
-    if not os.path.exists(csv_path):
+    if not os.path.exists(csv_path) or os.path.getsize(csv_path) == 0:
         return set()
     try:
-        df = pd.read_csv(csv_path, encoding="utf-8-sig", usecols=["doi"])
+        df = pd.read_csv(csv_path, encoding="utf-8-sig", usecols=["doi"], dtype=str, keep_default_na=False)
         return set(df["doi"].astype(str))
-    except Exception:
-        return set()
+    except Exception as error:
+        raise ValueError(f"Cannot resume from the existing negative-plan CSV: {csv_path}") from error
 
 
 def _load_yes_dois(positive_csv: str) -> Set[str]:
@@ -566,7 +568,7 @@ def _load_yes_dois(positive_csv: str) -> Set[str]:
     """
     yes = set()
     if not os.path.exists(positive_csv):
-        print(f"[WARN] positive_csv not found: {positive_csv}. No DOIs will run.")
+        print(f"[WARN] positive_csv not found: {display_path(positive_csv)}. No DOIs will run.")
         return yes
     try:
         df = pd.read_csv(positive_csv, encoding="utf-8-sig",
@@ -574,7 +576,7 @@ def _load_yes_dois(positive_csv: str) -> Set[str]:
         m = df["article_trial_or_failure"].fillna("").str.strip().str.lower() == "yes"
         yes = set(df.loc[m, "doi"].astype(str))
     except Exception as e:
-        print(f"[WARN] could not parse positive_csv: {e}. No DOIs will run.")
+        print(f"[WARN] could not parse positive_csv: {display_paths(str(e))}. No DOIs will run.")
     return yes
 
 
@@ -639,7 +641,7 @@ def process_negative_item_yes(
         return {"doi": doi, "rows": rows, "status": "ok", "error": "", "elapsed": dt}
     except Exception as e:
         dt = time.perf_counter() - t0
-        print(f"[NEG-PLAN ERROR] {doi}: {e}")
+        print(f"[NEG-PLAN ERROR] {doi}: {display_paths(str(e))}")
         rows = [{
             "doi": doi, "main_pdf": main_file, "si_pdf": si_file,
             "raw_output": "", "parsed_json": "",
@@ -705,7 +707,8 @@ def run_negative(
         candidates.append({"doi": doi, "main_pdf": main_file, "si_pdf": si_file})
 
     # Skip by plan artifacts (CSV, JSON)
-    done_csv = _load_done_dois_from_csv(csv_out) if (resume_mode == "csv" and skip_if_plan_csv_exists) else set()
+    needs_existing_rows = skip_if_plan_csv_exists or (force_rerun and update_in_place)
+    done_csv = _load_done_dois_from_csv(csv_out) if (resume_mode == "csv" and needs_existing_rows) else set()
     items = []
     for it in candidates:
         doi = it["doi"]
@@ -757,7 +760,7 @@ def run_negative(
         dois_to_update = {it["doi"] for it in items if it["doi"] in done_csv}
         if dois_to_update:
             removed = drop_rows_for_dois(csv_out, dois_to_update)
-            print(f"[UPDATE] Removed {removed} old row(s) for {len(dois_to_update)} DOI(s) from {csv_out}")
+            print(f"[UPDATE] Removed {removed} old row(s) for {len(dois_to_update)} DOI(s) from {display_path(csv_out)}")
 
     buffer = []
     processed = 0
@@ -785,11 +788,11 @@ def run_negative(
             if len(buffer) >= 25:
                 written, skipped = append_rows(csv_out, buffer)
                 buffer = []
-                print(f"[FLUSH] wrote {written} rows to {csv_out}, skipped {skipped}")
+                print(f"[FLUSH] wrote {written} rows to {display_path(csv_out)}, skipped {skipped}")
 
     if buffer:
         written, skipped = append_rows(csv_out, buffer)
-        print(f"[FINAL FLUSH] wrote {written} rows to {csv_out}, skipped {skipped}")
+        print(f"[FINAL FLUSH] wrote {written} rows to {display_path(csv_out)}, skipped {skipped}")
 
     print(f"Finished. Processed {processed}/{total} DOIs.")
     return {"processed_dois": processed, "selected_dois": total, "csv_out": csv_out}
@@ -947,7 +950,7 @@ def main(argv=None) -> int:
     settings = load_config(args.config)
     if args.command == "validate":
         report = validate_config(settings)
-        print(json.dumps(report, indent=2, ensure_ascii=False))
+        print(json.dumps(display_paths(report), indent=2, ensure_ascii=False))
         return int(bool(report["missing_inputs"]))
     if args.command == "mine":
         run_from_config(settings, dry_run=args.dry_run)

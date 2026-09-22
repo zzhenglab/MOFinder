@@ -118,7 +118,9 @@ without the manual corrections.
 Default mining resume behavior skips a DOI present in either its plan CSV or
 plan JSON artifacts, including recorded failures. Explicit reruns use
 `force_rerun` and `update_in_place`; the selected DOI's old CSV rows are removed
-before rerunning. Enumeration skips any DOI/base pair already present in the
+before rerunning, including when `skip_if_plan_csv_exists` is disabled. An
+unreadable existing plan CSV stops mining before any model requests; it is not
+treated as an empty history. Enumeration skips any DOI/base pair already present in the
 output CSV, and retains the source default of ignoring existing combination JSON
 files for this decision. This is artifact-based resume behavior: a pair found in
 a partially written CSV is not independently checked for complete enumeration.

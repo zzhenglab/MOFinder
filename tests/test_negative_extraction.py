@@ -283,6 +283,37 @@ class NegativeExtractionTests(unittest.TestCase):
         self.assertEqual(result["rows"][0]["error"], "missing credentials")
         self.assertFalse(self.plan_dir.exists())
 
+    def test_invalid_resume_csv_stops_before_dispatch(self):
+        manifest = self.root / "manifest.csv"
+        pd.DataFrame([{"DOI": self.doi, "Main File": "main.pdf", "SI File": ""}]).to_csv(manifest, index=False)
+        positive = self.root / "positive.csv"
+        pd.DataFrame([{"doi": self.doi, "article_trial_or_failure": "yes"}]).to_csv(positive, index=False)
+        self.plan_csv.write_text("unexpected,columns\none,two\n", encoding="utf-8")
+        previous = self.plan_csv.read_bytes()
+        with patch.object(neg, "process_negative_item_yes") as worker, contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaisesRegex(ValueError, "Cannot resume from the existing negative-plan CSV"):
+                neg.run_negative(str(manifest), str(positive), str(self.plan_csv), json_out_dir=str(self.plan_dir))
+        worker.assert_not_called()
+        self.assertEqual(self.plan_csv.read_bytes(), previous)
+        self.assertFalse(self.plan_dir.exists())
+
+    def test_forced_replacement_does_not_duplicate_rows_when_skip_is_disabled(self):
+        manifest = self.root / "manifest.csv"
+        pd.DataFrame([{"DOI": self.doi, "Main File": "main.pdf", "SI File": ""}]).to_csv(manifest, index=False)
+        positive = self.root / "positive.csv"
+        pd.DataFrame([{"doi": self.doi, "article_trial_or_failure": "yes"}]).to_csv(positive, index=False)
+        old_rows = self.plan_rows(temperature_c=[60])
+        self.write_plans(old_rows)
+        new_rows = self.plan_rows(temperature_c=[80])
+        result = {"doi": self.doi, "rows": new_rows}
+        with patch.object(neg, "process_negative_item_yes", return_value=result) as worker, contextlib.redirect_stdout(io.StringIO()):
+            neg.run_negative(str(manifest), str(positive), str(self.plan_csv), json_out_dir=str(self.plan_dir),
+                             force_rerun=True, update_in_place=True, skip_if_plan_csv_exists=False)
+        self.assertEqual(worker.call_count, 1)
+        saved = pd.read_csv(self.plan_csv, keep_default_na=False)
+        self.assertEqual(len(saved), 1)
+        self.assertEqual(json.loads(saved.loc[0, "temperature_c_options"]), [80])
+
 
 if __name__ == "__main__":
     unittest.main()
