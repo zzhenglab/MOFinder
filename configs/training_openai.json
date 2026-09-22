@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "recipe_type": "manual_dashboard",
+  "description": "GPT-4.1 supervised fine-tuning settings for entry in the OpenAI dashboard.",
+  "dashboard_url": "https://platform.openai.com/finetune",
+  "training_input": "data/training/train.jsonl",
+  "holdout_input": "data/training/holdout.jsonl",
+  "dataset_manifest": "data/training/manifest.json",
+  "epoch_options": {
+    "two_epoch_run": 2,
+    "one_epoch_run": 1
+  },
+  "job_settings": {
+    "model": "gpt-4.1-2025-04-14",
+    "method": {
+      "type": "supervised",
+      "supervised": {
+        "hyperparameters": {
+          "n_epochs": 2,
+          "batch_size": 15,
+          "learning_rate_multiplier": 2
+        }
+      }
+    },
+    "seed": 42
+  },
+  "job_record_fields": [
+    "job_id",
+    "base_model",
+    "training_file_id",
+    "training_file_sha256",
+    "validation_file_id_or_null",
+    "validation_file_sha256_or_null",
+    "resolved_hyperparameters",
+    "seed",
+    "reported_training_steps",
+    "result_files",
+    "output_model_id"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "project_root": "..",
+  "icon_dir": "data/literature_retrieval_assets/icons",
+  "papers": {
+    "workbook": "data/metadata/literature_retrieval/papers.csv",
+    "working_dir": "results/literature_retrieval/papers/inventories",
+    "calibration_file": "results/literature_retrieval/papers/calibration.json",
+    "app_settings_file": "results/literature_retrieval/papers/app_settings.json",
+    "download_dir": "data/local/articles",
+    "sample_urls": {},
+    "tuning": {
+      "BROWSER_OPEN_WAIT": 2.0,
+      "WAIT_AFTER_NAV": 4.0,
+      "INTER_CLICK_DELAY": 5.0,
+      "WAIT_AFTER_PDF": 5.0,
+      "STEP_PAUSE": 0.5,
+      "ICON_ACTION_PAUSE": 1.0,
+      "ICON_WAIT_AFTER_FIRST_CLICK": 6.0,
+      "DESKTOP_RESET_PAUSE": 0.5,
+      "SAVE_EVERY": 4,
+      "MAX_RETRIES": 2,
+      "ICON_CONFIDENCE": 0.87,
+      "ICON_SEARCH_DELAY": 0.7,
+      "MAX_ICON_SEARCH_TIME": 10.0,
+      "ICON_GAP_BEFORE_NEXT": 5.0,
+      "ICON_BEFORE_RENAME_WAIT": 2.0,
+      "MAX_JOURNAL_FAILS": 20
+    }
+  },
+  "si": {
+    "workbook": "data/metadata/literature_retrieval/supporting_information.csv",
+    "working_dir": "results/literature_retrieval/si/inventories",
+    "calibration_file": "results/literature_retrieval/si/calibration.json",
+    "app_settings_file": "results/literature_retrieval/si/app_settings.json",
+    "download_dir": "data/local/supporting_information",
+    "sample_urls": {},
+    "tuning": {
+      "BROWSER_OPEN_WAIT": 2.0,
+      "WAIT_AFTER_NAV": 4.0,
+      "ICON_CONFIDENCE": 0.87,
+      "ICON_SEARCH_TICK": 0.6,
+      "PUBLISHER_W_SCROLL_TOTAL_SEC": 10.0,
+      "PUBLISHER_W_SCROLL_STEP_SEC": 0.03,
+      "PUBLISHER_W_SCROLL_UP_COUNT": 5,
+      "MAX_RETRIES_PER_ROW": 2,
+      "SAVE_EVERY_PENDING": 20,
+      "DESKTOP_RESET_PAUSE": 0.5,
+      "STEP_PAUSE": 0.35,
+      "ICON_BEFORE_RENAME_WAIT": 2.0,
+      "POST_ENTER_WAIT": 0.7,
+      "ACCEPT_COOKIE_WAIT": 5.0,
+      "MAX_JOURNAL_FAILS_BASE": 5,
+      "JOURNAL_SUCCESS_THRESHOLD_FOR_BOOST": 2,
+      "JOURNAL_SUCCESS_BOOST_MULTIPLIER": 2,
+      "ANTI_IDLE_SECONDS": 170,
+      "ANTI_IDLE_PIXELS": 2,
+      "APPLY_HYPERLINKS_ON_FINAL_SAVE": true
+    }
+  }
+}

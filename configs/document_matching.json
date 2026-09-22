@@ -1,0 +1,14 @@
+{
+  "project_root": "..",
+  "input_file": "data/metadata/literature_retrieval/supporting_information.csv",
+  "article_dir": "data/local/articles",
+  "si_dir": "data/local/supporting_information",
+  "manifest_file": "results/extraction/document_manifest.csv",
+  "matched_inventory_file": "results/extraction/matched_inventory.csv",
+  "summary_file": "results/extraction/document_matching_summary.json",
+  "counts_file": "results/extraction/document_counts.csv",
+  "counts_summary_file": "results/extraction/document_counts_summary.json",
+  "plots_dir": "results/extraction/document_count_plots",
+  "tokenizer_model": "gpt-4o",
+  "tokenizer_fallback": "cl100k_base"
+}

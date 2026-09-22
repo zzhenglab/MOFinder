@@ -1,0 +1,14 @@
+{
+  "project_root": "..",
+  "manifest_file": "results/examples/mining/document_manifest.csv",
+  "article_dir": "Demo/05_data_mining/articles",
+  "si_dir": "Demo/05_data_mining/supporting_information",
+  "csv_out": "results/examples/mining/positive/mof_extraction.csv",
+  "json_out_dir": "results/examples/mining/positive/mof_json_store",
+  "system_prompt_file": "prompts/positive_system.txt",
+  "user_prompt_file": "prompts/positive_user.txt",
+  "model": "gpt-5",
+  "start_row": 0,
+  "concurrency": 2,
+  "flush_every": 1
+}

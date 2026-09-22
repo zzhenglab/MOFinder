@@ -1,0 +1,22 @@
+{
+  "project_root": "..",
+  "holdout_paths": ["data/training/holdout.jsonl"],
+  "training_path": "data/training/train.jsonl",
+  "output_dir": "results/evaluation/holdout",
+  "models": [
+    {
+      "model_id": "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:v5:EQbU8qAf",
+      "output_name": "holdout_v5"
+    },
+    {
+      "model_id": "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:mofinder:EQZC0ryA",
+      "output_name": "holdout_mofinder"
+    }
+  ],
+  "sanity_model_id": "gpt-4.1",
+  "max_concurrency": 100,
+  "print_interval": 5,
+  "test_mode": false,
+  "retries": 6,
+  "seed": 7
+}

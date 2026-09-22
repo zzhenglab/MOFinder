@@ -1,0 +1,39 @@
+{
+  "project_root": "..",
+  "prompt_file": "prompts/abstract_triage.txt",
+  "output_root": "results/abstract_triage",
+  "input_file": "data/metadata/literature_metadata.csv",
+  "input_sheet": null,
+  "ground_truth_file": "benchmarks/abstract_triage/ground_truth.xlsx",
+  "models": [
+    {
+      "name": "GPT-4o",
+      "model": "gpt-4o",
+      "reasoning_effort": null
+    },
+    {
+      "name": "GPT-5",
+      "model": "gpt-5",
+      "reasoning_effort": "minimal"
+    },
+    {
+      "name": "GPT-5 high",
+      "model": "gpt-5",
+      "reasoning_effort": "high"
+    },
+    {
+      "name": "GPT-6 high",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high"
+    }
+  ],
+  "n_rounds": 1,
+  "benchmark_only": true,
+  "max_papers": null,
+  "max_concurrent": 4,
+  "max_output_tokens": 8192,
+  "request_timeout": 180,
+  "save_every": 10,
+  "bootstraps": 50000,
+  "statistics_seed": 42
+}

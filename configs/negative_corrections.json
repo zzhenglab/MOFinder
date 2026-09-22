@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "source_cell_index": 3,
+    "description": "Manual exclusions and parameter overrides for negative reaction reconstruction.",
+    "source_id": "negative_extraction_source",
+    "source_description": "Negative condition reconstruction notebook"
+  },
+  "rules": [
+    {
+      "id": "missing_synthesis_information",
+      "doi": "10.1021/acsmaterialslett.0c00456",
+      "action": "exclude",
+      "reason": "Missing synthesis information."
+    },
+    {
+      "id": "exclude_second_success",
+      "doi": "10.1002/chem.201802189",
+      "base_indices": [
+        2
+      ],
+      "action": "exclude",
+      "reason": "Exclude synthesis record 2."
+    },
+    {
+      "id": "temperature_override_b713705b",
+      "doi": "10.1039/b713705b",
+      "base_indices": [
+        1,
+        2
+      ],
+      "action": "replace_options",
+      "field": "temperature_c",
+      "values": [
+        100
+      ],
+      "reason": "Set temperature options to 100 °C for synthesis records 1 and 2."
+    },
+    {
+      "id": "reduce_metal_options",
+      "doi": "10.1002/chem.201802189",
+      "action": "keep_first_half",
+      "field": "metal_1",
+      "reason": "Retain the first half of metal options, rounded up."
+    },
+    {
+      "id": "reduce_linker_options",
+      "doi": "10.1002/chem.201802189",
+      "action": "keep_first_half",
+      "field": "linker_1",
+      "reason": "Retain the first half of linker options, rounded up."
+    },
+    {
+      "id": "temperature_override_chem201802189",
+      "doi": "10.1002/chem.201802189",
+      "base_indices": [
+        1
+      ],
+      "action": "replace_options",
+      "field": "temperature_c",
+      "values": [
+        80,
+        140
+      ],
+      "reason": "Set temperature options to 80 and 140 °C for synthesis record 1."
+    },
+    {
+      "id": "time_override_chem201802189",
+      "doi": "10.1002/chem.201802189",
+      "base_indices": [
+        1
+      ],
+      "action": "replace_options",
+      "field": "time_h",
+      "values": [
+        12
+      ],
+      "reason": "Set the reaction time to 12 h for synthesis record 1."
+    }
+  ]
+}

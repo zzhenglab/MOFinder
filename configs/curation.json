@@ -1,0 +1,17 @@
+{
+  "project_root": "..",
+  "linker_mw_csv": "data/lookups/linker_molecular_weights.csv",
+  "linker_prime_corrections": "data/lookups/linker_prime_corrections.json",
+  "positive": {
+    "input_csv": "results/extraction/positive/mof_extraction.csv",
+    "output_dir": "results/curation/positive"
+  },
+  "negative": {
+    "input_csv": "results/extraction/negative/mof_extraction_failures_enum.csv",
+    "output_dir": "results/curation/negative"
+  },
+  "trimming": {
+    "top_n": 10,
+    "yield_bottom_frac": 0.10
+  }
+}

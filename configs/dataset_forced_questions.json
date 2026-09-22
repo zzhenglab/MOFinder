@@ -1,0 +1,310 @@
+[
+  {
+    "question": "Q1",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "ZrOCl2·8H2O",
+      "organic_linker": "1H-pyrazole-3,5-dicarboxylic acid",
+      "modulator": "formic acid",
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 26.0,
+      "M_L_ratio": 0.87,
+      "temperature_C": 130.0,
+      "time_h": 72.0
+    }
+  },
+  {
+    "question": "Q2",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "ZrOCl2·8H2O",
+      "organic_linker": "fumaric acid",
+      "modulator": "formic acid",
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 312.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 130.0,
+      "time_h": 6.0
+    }
+  },
+  {
+    "question": "Q3",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "ZrCl4",
+      "organic_linker": "tetrakis(4-carboxyphenyl)porphyrin",
+      "modulator": "benzoic acid",
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 71.0,
+      "M_L_ratio": 11.28,
+      "temperature_C": 120.0,
+      "time_h": 24.0
+    }
+  },
+  {
+    "question": "Q4",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Fe powder",
+      "organic_linker": "benzene-1,3,5-tricarboxylic acid",
+      "modulator": "hydrofluoric acid (HF)",
+      "solvent": "water",
+      "metal_concentration_mM": 200.0,
+      "M_L_ratio": 1.52,
+      "temperature_C": 150.0,
+      "time_h": 144.0
+    }
+  },
+  {
+    "question": "Q5",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Co(NO3)2·6H2O",
+      "organic_linker": "trans,trans-muconic acid and 4,4′-bisazobipyridine",
+      "modulator": null,
+      "solvent": "water and dimethylformamide",
+      "metal_concentration_mM": 62.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 115.0,
+      "time_h": 48.0
+    }
+  },
+  {
+    "question": "Q6",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Cu(NO3)2·5/2H2O",
+      "organic_linker": "bis(4-(4-carboxyphenyl)-1H-pyrazolyl)methane",
+      "modulator": "nitric acid (70%)",
+      "solvent": "dimethylformamide and water",
+      "metal_concentration_mM": 80.0,
+      "M_L_ratio": 1.45,
+      "temperature_C": 85.0,
+      "time_h": 16.0
+    }
+  },
+  {
+    "question": "Q7",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Zn(NO3)2·6H2O",
+      "organic_linker": "2-nitroterephthalic acid and 4,4′-azobis(pyridine)",
+      "modulator": null,
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 20.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 25.0,
+      "time_h": 360.0
+    }
+  },
+  {
+    "question": "Q8",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Mg(NO3)2·6H2O",
+      "organic_linker": "4,4'-dioxidobiphenyl-3,3'-dicarboxylic acid",
+      "modulator": "D-panthenol",
+      "solvent": "dimethylformamide and methanol",
+      "metal_concentration_mM": 802.0,
+      "M_L_ratio": 1.31,
+      "temperature_C": 120.0,
+      "time_h": 20.0
+    }
+  },
+  {
+    "question": "Q9",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Co(CH3COO)2·4H2O",
+      "organic_linker": "5-(2-carboxybenzyloxy) isophthalic acid and 1,10-(1,3-propanediyl)bis(imidazole)",
+      "modulator": "sodium hydroxide",
+      "solvent": "water",
+      "metal_concentration_mM": 12.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 150.0,
+      "time_h": 72.0
+    }
+  },
+  {
+    "question": "Q10",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Eu(NO3)3·6H2O",
+      "organic_linker": "5-(isonicotinamido)isophthalic acid",
+      "modulator": "sodium hydroxide",
+      "solvent": "water",
+      "metal_concentration_mM": 6.0,
+      "M_L_ratio": 0.5,
+      "temperature_C": 160.0,
+      "time_h": 72.0
+    }
+  },
+  {
+    "question": "Q11",
+    "label": "P",
+    "conditions": {
+      "metal_precursor": "Cu(NO3)2·3H2O",
+      "organic_linker": "benzene-1,3,5-tricarboxylic acid",
+      "modulator": "polyvinylpyrrolidone",
+      "solvent": "ethanol",
+      "metal_concentration_mM": 33.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 100.0,
+      "time_h": 20.0
+    }
+  },
+  {
+    "question": "Q12",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "CdCl2·5/2H2O",
+      "organic_linker": "5-hydroxyisophthalic acid and 4,4′-bis(1-imidazolyl)bibenzene",
+      "modulator": "no modulator",
+      "solvent": "water",
+      "metal_concentration_mM": 33.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 170.0,
+      "time_h": 24.0
+    }
+  },
+  {
+    "question": "Q13",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "Ni(CH3COO)2·4H2O",
+      "organic_linker": "2,5-dihydroxyterephthalic acid",
+      "modulator": null,
+      "solvent": "water and tetrahydrofuran",
+      "metal_concentration_mM": 167.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 25.0,
+      "time_h": 24.0
+    }
+  },
+  {
+    "question": "Q14",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "FeCl3·6H2O",
+      "organic_linker": "fumaric acid",
+      "modulator": "sodium hydroxide",
+      "solvent": "ethanol",
+      "metal_concentration_mM": 200.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 100.0,
+      "time_h": 24.0
+    }
+  },
+  {
+    "question": "Q15",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "Al(ClO4)3·9H2O",
+      "organic_linker": "2-nitroterephthalic acid",
+      "modulator": null,
+      "solvent": "methanol",
+      "metal_concentration_mM": 79.0,
+      "M_L_ratio": 0.91,
+      "temperature_C": 170.0,
+      "time_h": 12.0
+    }
+  },
+  {
+    "question": "Q16",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "Ce(NO3)3·6H2O",
+      "organic_linker": "1,2,4,5-benzenetetracarboxylic acid",
+      "modulator": null,
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 7.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 120.0,
+      "time_h": 0.5
+    }
+  },
+  {
+    "question": "Q17",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "In(NO3)3",
+      "organic_linker": "tetrakis(4-carboxyphenyl)porphyrin",
+      "modulator": "cetyltrimethylammonium bromide",
+      "solvent": "water",
+      "metal_concentration_mM": 37.0,
+      "M_L_ratio": 2.13,
+      "temperature_C": 80.0,
+      "time_h": 16.0
+    }
+  },
+  {
+    "question": "Q18",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "AlCl3",
+      "organic_linker": "1H-pyrazole-3,5-dicarboxylic acid monohydrate and 2,5-thiophenedicarboxylic acid",
+      "modulator": "sodium hydroxide (NaOH)",
+      "solvent": "water",
+      "metal_concentration_mM": 50.0,
+      "M_L_ratio": 4.0,
+      "temperature_C": 100.0,
+      "time_h": 96.0
+    }
+  },
+  {
+    "question": "Q19",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "ZrOCl2·8H2O",
+      "organic_linker": "benzene-1,3,5-tricarboxylic acid",
+      "modulator": "formic acid",
+      "solvent": "dimethylformamide",
+      "metal_concentration_mM": 100.0,
+      "M_L_ratio": 3.0,
+      "temperature_C": 50.0,
+      "time_h": 24.0
+    }
+  },
+  {
+    "question": "Q20",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "Cr(NO3)3·9H2O",
+      "organic_linker": "terephthalic acid",
+      "modulator": "acetic acid",
+      "solvent": "water",
+      "metal_concentration_mM": 200.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 160.0,
+      "time_h": 8.0
+    }
+  },
+  {
+    "question": "Q21",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "AlCl3·6H2O",
+      "organic_linker": "isophthalic acid",
+      "modulator": null,
+      "solvent": "water and dimethylformamide",
+      "metal_concentration_mM": 600.0,
+      "M_L_ratio": 2.0,
+      "temperature_C": 135.0,
+      "time_h": 12.0
+    }
+  },
+  {
+    "question": "Q22",
+    "label": "N",
+    "conditions": {
+      "metal_precursor": "ZrO(NO3)2",
+      "organic_linker": "trans,trans-muconic acid",
+      "modulator": "formic acid",
+      "solvent": "N,N-diethylformamide",
+      "metal_concentration_mM": 143.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 150.0,
+      "time_h": 24.0
+    }
+  }
+]

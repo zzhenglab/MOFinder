@@ -1,0 +1,70 @@
+{
+  "project_root": "..",
+  "questions_file": "benchmarks/mof_quest/questions.json",
+  "prompt_file": "prompts/dataset_classification.txt",
+  "output_root": "results/evaluation/mof_quest",
+  "max_concurrency": 25,
+  "print_interval": 5,
+  "retries": 6,
+  "seed": 7,
+  "default_model_id": "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:98test:EM0eHcxS",
+  "default_group": "latest_fine_tuned",
+  "groups": {
+    "fine_tuned_comparison": {
+      "model_ids": [
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:mofinder:EQZC0ryA",
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:v5:EQbU8qAf",
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab::EQDeSoPH",
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab::EPz0Mhln"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "none",
+      "use_web_search": false
+    },
+    "latest_fine_tuned": {
+      "model_ids": [
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:mofinder-re:EQdimPJB"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "none",
+      "use_web_search": false
+    },
+    "fine_tuned_baseline": {
+      "model_ids": [
+        "ft:gpt-4.1-2025-04-14:deep-synthesis-lab:mofinder:EQZC0ryA"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "none",
+      "use_web_search": false
+    },
+    "nonreasoning": {
+      "model_ids": [
+        "gpt-4.1",
+        "gpt-4.1-mini",
+        "gpt-4o"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "none",
+      "use_web_search": false
+    },
+    "nonreasoning_web": {
+      "model_ids": [
+        "gpt-4.1",
+        "gpt-4.1-mini",
+        "gpt-4o"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "none",
+      "use_web_search": true
+    },
+    "reasoning": {
+      "model_ids": [
+        "gpt-6-astra",
+        "gpt-5"
+      ],
+      "rounds": 20,
+      "reasoning_effort": "high",
+      "use_web_search": false
+    }
+  }
+}
