@@ -12,6 +12,7 @@ from pathlib import Path
 import sys
 
 from .times import TIME_PARSER_VERSION
+from mofinder.display import display_path, display_paths
 
 STAGES = ("initial", "metals", "linkers", "solvents", "features", "connectivity", "descriptions", "trimming")
 PREFIXES = {"positive": "mof_extraction", "negative": "mof_extraction_failures_enum"}
@@ -248,7 +249,7 @@ def main(argv=None):
         settings = load_config(args.config)
         if args.command == "validate-inputs":
             result = validate_inputs(settings, args.mode, args.stage)
-            print(json.dumps(result, indent=2))
+            print(json.dumps(display_paths(result), indent=2))
             return 0 if result["valid"] else 1
         if args.command == "report":
             modes = tuple(PREFIXES) if args.mode == "both" else (args.mode,)
@@ -258,8 +259,8 @@ def main(argv=None):
         else:
             modes = tuple(PREFIXES) if args.mode == "both" else (args.mode,)
             result = {mode: run_stage(settings, mode, args.stage, reports=not args.no_reports, plots=args.plots) for mode in modes}
-        print(json.dumps(result, indent=2))
+        print(json.dumps(display_paths(result), indent=2))
         return 0
     except (OSError, ValueError, KeyError) as error:
-        print(f"Curation error: {error}", file=sys.stderr)
+        print(f"Curation error: {display_path(error)}", file=sys.stderr)
         return 1

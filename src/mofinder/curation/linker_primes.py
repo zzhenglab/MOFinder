@@ -7,6 +7,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from mofinder.display import display_paths
+
 FIELDS = tuple(f"linker_{i}{suffix}" for i in (1, 2, 3) for suffix in ("", "_abbr"))
 PRIME_GLYPHS = frozenset("′″‴⁗")
 
@@ -97,7 +99,7 @@ def main(argv=None):
     parser.add_argument("output_csv", type=Path)
     parser.add_argument("--lookup", required=True, type=Path)
     args = parser.parse_args(argv)
-    print(json.dumps(correct_csv(args.input_csv, args.output_csv, args.lookup), indent=2))
+    print(json.dumps(display_paths(correct_csv(args.input_csv, args.output_csv, args.lookup)), indent=2))
     return 0
 
 

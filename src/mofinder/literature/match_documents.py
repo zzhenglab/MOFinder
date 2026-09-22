@@ -8,6 +8,8 @@ from pathlib import Path
 import re
 import warnings
 
+from mofinder.display import display_path, display_paths
+
 
 MANIFEST_COLUMNS = ["DOI", "Main File", "SI File"]
 COUNT_COLUMNS = [
@@ -104,7 +106,7 @@ def match_documents(frame, article_dir, si_dir):
     if not si_dir.is_dir():
         raise FileNotFoundError(f"SI folder not found: {si_dir}")
     if not article_dir.is_dir():
-        warnings.warn(f"Main article folder not found; matching skipped: {article_dir}", stacklevel=2)
+        warnings.warn(f"Main article folder not found; matching skipped: {display_path(article_dir)}", stacklevel=2)
 
     updated = frame.copy(deep=True)
     updated.columns = [str(column).strip() for column in updated.columns]
@@ -353,7 +355,7 @@ def main(argv=None):
         if getattr(args, key):
             config[key] = Path(getattr(args, key)).expanduser().resolve()
     summary = run_matching(config) if args.action == "match" else run_counting(config, plots=args.plots)
-    print(json.dumps(summary, indent=2))
+    print(json.dumps(display_paths(summary), indent=2))
 
 
 if __name__ == "__main__":

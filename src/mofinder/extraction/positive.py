@@ -17,6 +17,7 @@ import zipfile
 import xml.etree.ElementTree as ET
 import pandas as pd
 
+from mofinder.display import display_path, display_paths
 from .schemas import ArticleExtraction, Reagent, Solvent
 
 DEFAULT_CONFIG = Path(__file__).resolve().parents[3] / "configs/positive_extraction.json"
@@ -51,7 +52,7 @@ def read_pdf_text(path: str) -> str:
     if not path or not os.path.exists(path):
         return ""
     if not _is_pdf(path):
-        print(f"[SKIP NON-PDF] {path}")
+        print(f"[SKIP NON-PDF] {display_path(path)}")
         return ""
     try:
         from pypdf import PdfReader
@@ -70,7 +71,7 @@ def read_docx_text(path: str) -> str:
     if not path or not os.path.exists(path):
         return ""
     if not _is_docx(path):
-        print(f"[SKIP NON-DOCX] {path}")
+        print(f"[SKIP NON-DOCX] {display_path(path)}")
         return ""
     try:
         with zipfile.ZipFile(path) as z:
@@ -86,14 +87,14 @@ def read_docx_text(path: str) -> str:
                 paras.append(line)
         return "\n".join(paras)
     except Exception:
-        print(f"[SKIP BAD DOCX] {path}")
+        print(f"[SKIP BAD DOCX] {display_path(path)}")
         return ""
 
 def read_doc_text(path: str) -> str:
     if not path or not os.path.exists(path):
         return ""
     if not _is_doc_binary(path):
-        print(f"[SKIP NON-DOC] {path}")
+        print(f"[SKIP NON-DOC] {display_path(path)}")
         return ""
     # Try textract if installed
     try:
@@ -101,7 +102,7 @@ def read_doc_text(path: str) -> str:
         b = textract.process(path)  # may need antiword/catdoc installed
         return b.decode("utf-8", errors="ignore")
     except Exception:
-        print(f"[SKIP .doc needs textract or antiword] {path}")
+        print(f"[SKIP .doc needs textract or antiword] {display_path(path)}")
         return ""
 
 def read_any_text(path: str) -> str:
@@ -114,7 +115,7 @@ def read_any_text(path: str) -> str:
         return read_docx_text(path)
     if ext == ".doc" or _is_doc_binary(path):
         return read_doc_text(path)
-    print(f"[SKIP UNSUPPORTED] {path}")
+    print(f"[SKIP UNSUPPORTED] {display_path(path)}")
     return ""
 
 def safe_truncate(txt: str, max_chars: int = 400000) -> str:
@@ -531,7 +532,7 @@ def _process_item(item: Dict[str, str], model: str, json_out_dir: str,
         }
     except Exception as e:
         row_dt = time.perf_counter() - row_t0
-        print(f"[ERROR] {doi}: {e}")
+        print(f"[ERROR] {doi}: {display_paths(str(e))}")
         rows = [{
             "doi": doi, "main_pdf": main_pdf, "si_pdf": si_pdf,
             "raw_output": "", "parsed_json": "",
@@ -735,9 +736,9 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     if args.command == "validate":
         report = validate_inputs(load_config(args.config))
-        print(json.dumps(report, indent=2))
+        print(json.dumps(display_paths(report), indent=2))
         return int(bool(report["missing_files"] or report["dois_without_text"]))
-    print(json.dumps(run_from_config(args.config), indent=2))
+    print(json.dumps(display_paths(run_from_config(args.config)), indent=2))
     return 0
 
 

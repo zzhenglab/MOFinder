@@ -19,6 +19,7 @@ import uuid
 import numpy as np
 from scipy.stats import binomtest
 
+from mofinder.display import display_path, display_paths
 from mofinder.literature.triage import (
     GT_COLUMNS, read_table, doi_key, digest, save_csv, votes,
     divide, metric_values, confusion, interval, wilson, human_agreement,
@@ -94,13 +95,13 @@ def select_saved_run(results_root):
                             ["responses.jsonl", "predictions.csv"] if (folder / n).is_file())
         candidates.append((timestamp, folder.name, folder.resolve(), manifest))
     for warning in ignored:
-        print("Not auto-selected:", warning)
+        print("Not auto-selected:", display_paths(warning))
     if not candidates:
         raise FileNotFoundError("No completed screening run with saved results was found. No API calls were made.")
     candidates.sort(reverse=True, key=lambda item: (item[0], item[1]))
     print(f"Found {len(candidates)} completed run(s). Selecting the newest screening run.")
     for _, _, folder, _ in candidates[:5]:
-        print("  ", folder)
+        print("  ", display_path(folder))
     return candidates[0][2]
 
 

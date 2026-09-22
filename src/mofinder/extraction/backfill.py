@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 import argparse
 import json
 
+from mofinder.display import display_paths
 from .positive import (
     DEFAULT_CONFIG, already_done_dois, append_rows, load_config,
     read_manifest, sanitize_for_path,
@@ -262,7 +263,7 @@ def main(argv=None) -> int:
                                 config["csv_out"], flush_every=config["flush_every"],
                                 article_dir=config["article_dir"], si_dir=config["si_dir"],
                                 project_root=config["project_root"])
-    print(json.dumps(report, indent=2))
+    print(json.dumps(display_paths(report), indent=2))
     return int(bool(report["invalid_json_dois"] or report["rows_skipped"]))
 
 

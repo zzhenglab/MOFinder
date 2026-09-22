@@ -64,6 +64,8 @@ import webbrowser
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional, Dict, Tuple, List
 
+from mofinder.display import display_path, display_paths
+
 if TYPE_CHECKING:
     import pandas as pd
 from .common import (
@@ -126,7 +128,7 @@ def _stop_on_failsafe(error):
 
 def log(*args):
     ts = time.strftime("[%H:%M:%S]")
-    print(ts, *args, flush=True)
+    print(ts, *(display_paths(str(arg)) for arg in args), flush=True)
 
 # ---------- helpers ----------
 def doi_to_link(doi: str) -> str:
@@ -736,12 +738,12 @@ class App:
             messagebox.showerror("Error", "Pick an inventory file first."); return
         excel_path = Path(p)
         if not excel_path.exists():
-            messagebox.showerror("Error", f"File not found:\n{excel_path}"); return
+            messagebox.showerror("Error", f"File not found:\n{display_path(excel_path)}"); return
 
         try:
             excel_path = self._working_inventory_path(excel_path)
         except (OSError, ValueError) as error:
-            messagebox.showerror("Inventory", str(error)); return
+            messagebox.showerror("Inventory", display_paths(str(error))); return
         df = load_and_prepare_excel(excel_path)
         si_dir = ensure_si_download_dir(excel_path)
 
@@ -803,7 +805,7 @@ class App:
             messagebox.showerror("Error", "Pick an inventory file first."); return
         excel_path = Path(p)
         if not excel_path.exists():
-            messagebox.showerror("Error", f"File not found:\n{excel_path}"); return
+            messagebox.showerror("Error", f"File not found:\n{display_path(excel_path)}"); return
 
         coords_save = load_calibration().get("GLOBAL_SAVE", {}).get("save_xy")
         if not coords_save or len(coords_save) != 2:
@@ -812,7 +814,7 @@ class App:
         try:
             excel_path = self._working_inventory_path(excel_path)
         except (OSError, ValueError) as error:
-            messagebox.showerror("Inventory", str(error)); return
+            messagebox.showerror("Inventory", display_paths(str(error))); return
         df_main = load_and_prepare_excel(excel_path)
 
         work = df_main[["DOI", "DOI Link", "SI Downloaded"]].copy()
@@ -1109,11 +1111,11 @@ def main(argv=None):
             settings["workbook"] = Path(args.workbook).expanduser().resolve()
         if args.validate:
             report = audit_inventory(settings["workbook"], mode="si", icon_dir=settings["icon_dir"])
-            print(json.dumps(report, indent=2, default=str))
+            print(json.dumps(display_paths(report), indent=2, default=str))
             return 0
         launch(settings)
     except (OSError, ValueError, RuntimeError, ImportError) as error:
-        parser.exit(1, f"SI literature retrieval: {error}\n")
+        parser.exit(1, f"SI literature retrieval: {display_paths(str(error))}\n")
     return 0
 
 

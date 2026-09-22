@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 
+from mofinder.display import display_path
 from mofinder.literature.triage import read_table, save_csv
 
 FIELDS = ["DOI", "Article Title", "Source Title", "Author Keywords", "Keywords Plus", "Abstract"]
@@ -21,7 +22,7 @@ def main():
     if missing:
         parser.error(f"Missing metadata columns: {sorted(missing)}")
     if args.destination.exists():
-        parser.error(f"Destination already exists: {args.destination}")
+        parser.error(f"Destination already exists: {display_path(args.destination)}")
     args.destination.parent.mkdir(parents=True, exist_ok=True)
     save_csv(rows, args.destination, FIELDS)
     print(json.dumps({

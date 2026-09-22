@@ -60,6 +60,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import TYPE_CHECKING, Optional, Dict, Set
 
+from mofinder.display import display_path, display_paths
+
 if TYPE_CHECKING:
     import pandas as pd
 
@@ -129,7 +131,7 @@ def _local_inventory(path):
 
 def log(*args):
     ts = time.strftime("[%H:%M:%S]")
-    print(ts, *args, flush=True)
+    print(ts, *(display_paths(str(arg)) for arg in args), flush=True)
 
 # ---------- helpers ----------
 def doi_to_link(doi: str) -> str:
@@ -604,7 +606,7 @@ class App:
             try:
                 working = _local_inventory(path)
             except (OSError, ValueError, RuntimeError) as exc:
-                messagebox.showerror("Inventory", str(exc)); return
+                messagebox.showerror("Inventory", display_paths(str(exc))); return
             self.excel_path_var.set(str(working)); self._save_last_excel(str(working)); self.refresh_icon_availability()
 
     # samples + calibration
@@ -617,7 +619,7 @@ class App:
                 links = [doi_to_link(value) for value in matches["DOI"]]
                 url = next((link for link in links if link), None)
             except Exception as exc:
-                messagebox.showerror("Sample page", str(exc)); return
+                messagebox.showerror("Sample page", display_paths(str(exc))); return
         if not url:
             messagebox.showwarning("Sample page", f"No sample URL or inventory DOI is available for {name}."); return
         open_in_chrome("about:blank", new_window=True); time.sleep(BROWSER_OPEN_WAIT)
@@ -677,7 +679,7 @@ class App:
         p = self.excel_path_var.get().strip()
         if not p: messagebox.showerror("Error", "Pick an inventory file first."); return
         excel_path = Path(p)
-        if not excel_path.exists(): messagebox.showerror("Error", f"File not found:\n{excel_path}"); return
+        if not excel_path.exists(): messagebox.showerror("Error", f"File not found:\n{display_path(excel_path)}"); return
         if not self.cal_data.get("GLOBAL_SAVE", {}).get("save_xy"):
             messagebox.showerror("Calibration", "Set the Save dialog filename box position before starting."); return
         try:
@@ -687,7 +689,7 @@ class App:
             df = load_and_prepare_excel(excel_path)
         except Exception as e:
             _stop_on_failsafe(e)
-            messagebox.showerror("Error", str(e)); return
+            messagebox.showerror("Error", display_paths(str(e))); return
 
         self.refresh_icon_availability()
 
@@ -933,11 +935,11 @@ def main(argv=None):
             settings["workbook"] = args.workbook.expanduser().resolve()
         if args.validate:
             report = audit_inventory(settings["workbook"], "papers", icon_dir=settings["icon_dir"])
-            print(json.dumps(report, indent=2, ensure_ascii=False))
+            print(json.dumps(display_paths(report), indent=2, ensure_ascii=False))
             return 0
         launch(settings)
     except (OSError, ValueError, RuntimeError, ImportError) as exc:
-        parser.exit(1, f"Article literature retrieval: {exc}\n")
+        parser.exit(1, f"Article literature retrieval: {display_paths(str(exc))}\n")
     return 0
 
 

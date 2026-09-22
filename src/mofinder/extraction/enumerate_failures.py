@@ -16,6 +16,8 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 import pandas as pd
 
+from mofinder.display import display_path
+
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CORRECTIONS = PROJECT_ROOT / "configs" / "negative_corrections.json"
 
@@ -587,12 +589,12 @@ def enumerate_failures(
                 written, _ = append_rows(out_csv, buffer)
                 total_written += written
                 buffer = []
-                print(f"[FLUSH] wrote {written} rows to {out_csv}. Total so far: {total_written}")
+                print(f"[FLUSH] wrote {written} rows to {display_path(out_csv)}. Total so far: {total_written}")
 
     if buffer:
         written, _ = append_rows(out_csv, buffer)
         total_written += written
-        print(f"[FINAL FLUSH] wrote {written} rows to {out_csv}. Total: {total_written}")
+        print(f"[FINAL FLUSH] wrote {written} rows to {display_path(out_csv)}. Total: {total_written}")
 
     # Print per-paper counts
     print("\nPer-DOI enumerated failures:")

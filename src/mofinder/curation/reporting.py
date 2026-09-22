@@ -1,5 +1,7 @@
 """Descriptive summaries and metal-linker coverage reports."""
 
+from mofinder.display import display_path
+
 def summarize(input_path, report_dir, *, top_n_metals=None, top_n_linkers=None):
     from pathlib import Path
     Path(report_dir).mkdir(parents=True, exist_ok=True)
@@ -412,14 +414,14 @@ def summarize(input_path, report_dir, *, top_n_metals=None, top_n_linkers=None):
         print(f"Observed pairs (any row, DOI may be missing): {observed_in_grid}")
         print(f"Pairs with at least one DOI listed: {with_doi_in_grid}")
         print(f"Missing pairs: {missing_in_grid}")
-        print(f"\nWrote pair report CSV: {out_name}")
+        print(f"\nWrote pair report CSV: {display_path(out_name)}")
 
         # optional missing list CSV
         missing_pairs_df = pair_df.loc[~pair_df["_observed"], ["metal","linker"]]
         if not missing_pairs_df.empty:
             miss_name = out_name.replace(".csv", "_missing.csv")
             missing_pairs_df.to_csv(miss_name, index=False, encoding="utf-8-sig")
-            print(f"Wrote missing pairs CSV: {miss_name}")
+            print(f"Wrote missing pairs CSV: {display_path(miss_name)}")
     else:
         print_header("Pair table could not be built: no metals or no linkers detected")
 
