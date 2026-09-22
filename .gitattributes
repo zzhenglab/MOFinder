@@ -1,0 +1,5 @@
+# Preserve dataset bytes across platforms so recorded file hashes remain stable.
+*.csv -text
+*.xlsx binary
+*.jsonl -text
+prompts/*.txt -text
