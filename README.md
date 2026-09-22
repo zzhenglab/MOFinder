@@ -1,671 +1,180 @@
-MOFinder
-========
+# MOFinder
 
-MOFinder is a research codebase for mining metal-organic framework (MOF) synthesis recipes from the chemistry literature, reconstructing positive and negative reaction records, and assembling datasets for LLM-based MOF synthesis prediction.
+MOFinder extracts MOF synthesis information from the literature, reconstructs evidence-supported negative reaction records, and prepares datasets for synthesis-outcome prediction.
 
 <p align="center">
-  <img src="data/mofinder.png" alt="MOFinder overview figure" width="750">
+  <img src="data/mofinder.png" alt="MOFinder web application" width="750">
 </p>
 
+[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demo](Demo/README.md) · [Triage workflow](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Mining and datasets](docs/workflow.md) · [Evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
 
-Checked-in data
----------------
+## Quick start
 
-The current repository includes raw extraction tables, cleaned extraction tables, SMILES caches, inferred negative records, and assembled JSONL datasets.
-
-### Positive extraction tables and caches
-
-| File | Description |
-| --- | --- |
-| `data/mof_extraction.csv` | Raw positive synthesis extraction table from Step 3.2. This is also the starting input for the offline demo. |
-| `data/mof_extraction_1.csv` ... `data/mof_extraction_1_2_3_4_5_6.csv` | Successive Step 4 cleaning outputs. The final positive cleaned table contains 15,340 rows before required-field filtering for classifier assembly. |
-| `data/name_SMILES_mappers/*.json` | Persistent name-to-SMILES caches generated and used by `SMILESearcher`. |
-
-### Negative extraction table
-
-| File | Description |
-| --- | --- |
-| `data/mof_extraction_failures_enum_1_2_3_4_5_6.csv` | Cleaned inferred negative reaction table used with the cleaned positive table to assemble the positive/negative classifier dataset. In the classifier assembly demo, required-field filtering and conflict removal yield 18,371 negative records. |
-
-### Assembled JSONL datasets ready for LLM use
-
-These files are already assembled for fine-tuning, preference optimization, or downstream evaluation.
-
-| File | Description |
-| --- | --- |
-| `data/mof_cls_train.jsonl` | Binary P/N reaction-outcome classifier training set, 28,388 records. Labels: 11,854 positive (`P`) and 16,534 negative (`N`). |
-| `data/mof_cls_holdout.jsonl` | Clustered binary P/N classifier holdout set, 3,154 records. Labels: 1,317 positive (`P`) and 1,837 negative (`N`). |
-| `data/mof_sft_train.jsonl` | SFT training set for condition prediction or instruction-tuning experiments, 28,388 records. |
-| `data/mof_sft_holdout.jsonl` | SFT holdout set for condition prediction or instruction-tuning experiments, 2,034 records. |
-| `data/mof_sft_train_pos_only.jsonl` | SFT training set restricted to successful syntheses. |
-
-The classifier JSONL records follow a chat fine-tuning style:
-
-```json
-{"messages": [{"role": "system", "content": "..."}, {"role": "user", "content": "..."}, {"role": "assistant", "content": "P"}]}
-```
-
-The classifier user message contains a compact reaction-condition JSON object with fields such as:
-
-```json
-{
-  "metal_precursor": "ZrCl4",
-  "organic_linker": "terephthalic acid",
-  "modulator": "acetic acid",
-  "solvent": "dimethylformamide",
-  "metal_concentration_mM": 25.0,
-  "M_L_ratio": 1.0,
-  "temperature_C": 120.0,
-  "time_h": 12.0
-}
-```
-
-
-
-System requirements
--------------------
-
-### Operating systems and Python versions
-
-Python 3.10 or newer is required. The package metadata declares support for Python 3.10, 3.11, and 3.12.
-
-Tested systems for the Nature demo:
-
-| System | Python | Status |
-| --- | --- | --- |
-| Windows desktop, exact version: `Windows 11` | `Python 3.11.9` | Core install tested. `pip install -e .` completed in 5.8 seconds in the tested environment. |
-
-Before submission, replace the `TODO` entries with exact tested operating-system and Python version numbers.
-
-### Core Python dependencies
-
-Core runtime dependencies are declared in `pyproject.toml`:
-
-| Dependency | Minimum version |
-| --- | --- |
-| `pandas` | `>=1.5` |
-| `numpy` | `>=1.23` |
-| `matplotlib` | `>=3.6` |
-| `scikit-learn` | `>=1.2` |
-| `openai` | `>=1.40` |
-| `pydantic` | `>=2.0` |
-| `tiktoken` | `>=0.5` |
-| `pypdf` | `>=4.0` |
-| `openpyxl` | `>=3.1` |
-| `requests` | `>=2.28` |
-| `tqdm` | `>=4.64` |
-| `rich` | `>=13.0` |
-| `python-dotenv` | `>=1.0` |
-| `ipywidgets` | `>=8.0` |
-| `nest_asyncio` | `>=1.5` |
-
-### Optional dependency groups
-
-| Extra | Purpose | Dependencies |
-| --- | --- | --- |
-| `fetch-gui` | Desktop PDF and SI downloader tools | `pyautogui>=0.9.54`, `pyperclip>=1.8`, `pynput>=1.7`, `opencv-python>=4.7` |
-| `fetch-web` | Selenium-backed web resolvers | `selenium>=4.10`, `webdriver-manager>=4.0` |
-| `chem` | RDKit-backed SMILES validation | `rdkit>=2023.3` |
-| `notebook` | JupyterLab or notebook interface | `jupyterlab>=4.0`, `notebook>=7.0` |
-| `all` | Full research environment | all optional dependencies above |
-
-For command-line notebook execution, install notebook support and `nbconvert`:
-
-```bash
-pip install -e ".[notebook]" nbconvert ipykernel
-```
-
-### External services
-
-| Service | Required for | Not required for |
-| --- | --- | --- |
-| OpenAI API key | Step 1 LLM classification, Step 3 LLM extraction, API-based evaluation, optional gpt-4.1 JSON runs | Offline demo |
-| Publisher or institutional access | Step 2 article and Supporting Information download | Offline demo |
-| Hugging Face model weights | Optional local inference with the trained open-weight model | Offline demo and JSONL preparation |
-
-### Hardware requirements
-
-No GPU is required for the offline demo or for deterministic data processing.
-
-A normal laptop or desktop computer with CPU and standard memory is sufficient for:
-
-- Installing the core package
-- Running `demo_01_clean_data.ipynb`
-- Running `demo_02_prepare_json_for_fine_tuning.ipynb`
-- Reading and validating the checked-in JSONL files
-
-Optional local inference with `StarLiu714/GPT-oss-MOF` requires hardware suitable for a 20B-parameter language model. This is not part of the required Nature demo.
-
-
-### Demo Files
-
-For user testing, use the offline demo in `Demo/`. The demo runs from the checked-in extraction table to cleaned reaction records and then prepares model-ready positive/negative JSONL files for fine-tuning.
-
-The demo does **not** require:
-
-- OpenAI API access
-- Hugging Face model weights
-- GPU hardware
-- Chrome automation
-- Publisher access
-
-From the repository root:
-
-```bash
-pip install -e ".[notebook]"
-cd demo
-python -m jupyter nbconvert --to notebook --execute demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb
-python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
-cd ..
-```
-
-Expected main outputs:
-
-```text
-Demo/mof_extraction_1_2_3_4_5_6.csv
-Demo/out/mof_cls_train.jsonl
-Demo/out/mof_cls_holdout.jsonl
-Demo/out/mof_cls_class_map.json
-Demo/out/mof_cls_split_summary.json
-```
-
-Measured runtime on the tested Windows desktop: 9.6 seconds for Demo 01 and 105 seconds for Demo 02, approximately 1 minute 55 seconds total excluding installation.
-
-
-### Demo-generated classifier files
-
-`demo_02_prepare_json_for_fine_tuning.ipynb` writes the following files under `Demo/out/`:
-
-| File | Description |
-| --- | --- |
-| `Demo/out/mof_cls_train.jsonl` | Main P/N classifier training set, 28,388 records. |
-| `Demo/out/mof_cls_holdout.jsonl` | Main clustered holdout set, 3,154 records. |
-| `Demo/out/mof_cls_class_map.json` | Class map for `P` and `N`. |
-| `Demo/out/mof_cls_split_summary.json` | Summary of filtering, conflict removal, cluster split, label counts, and year subsets. |
-| `Demo/out/mof_cls_train_1999to2012.jsonl` | Year-bin training subset, 6,521 records. Labels: 2,571 `P`, 3,950 `N`. |
-| `Demo/out/mof_cls_train_2013to2016.jsonl` | Year-bin training subset, 7,679 records. Labels: 3,094 `P`, 4,585 `N`. |
-| `Demo/out/mof_cls_train_2017to2020.jsonl` | Year-bin training subset, 7,547 records. Labels: 3,081 `P`, 4,466 `N`. |
-| `Demo/out/mof_cls_train_2021to2025.jsonl` | Year-bin training subset, 6,640 records. Labels: 3,107 `P`, 3,533 `N`. |
-| `Demo/out/mof_cls_train_1999to2016.jsonl` | Cumulative year subset, 14,200 records. Labels: 5,665 `P`, 8,535 `N`. |
-| `Demo/out/mof_cls_train_1999to2020.jsonl` | Cumulative year subset, 21,747 records. Labels: 8,746 `P`, 13,001 `N`. |
-
-Installation guide
-------------------
-
-### Clone the repository
+The workflow runs through Python commands. Python 3.10 or newer is required. Clone the repository and initialize its related applications:
 
 ```bash
 git clone --recurse-submodules https://github.com/zzhenglab/MOFinder.git
 cd MOFinder
 ```
 
-If the repository was cloned without submodules, initialize `SMILESearcher`:
+First validate the small offline example:
+
+```bash
+python -m pip install -e .
+python Demo/03_abstract_triage/validate_example.py
+```
+
+Expected output: 12 reference papers, 12 scheduled abstracts, 9 Y and 3 N consensus labels, and zero missing reference abstracts. This example makes no model requests.
+
+Install the API and plotting dependencies, then validate the full triage inputs:
+
+```bash
+python -m pip install -e ".[api,plotting]"
+python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+```
+
+With `OPENAI_API_KEY` set and the model settings checked, screen the 478-paper reference:
+
+```bash
+python -m mofinder.literature.triage screen --config configs/abstract_triage.json --output-dir results/abstract_triage/benchmark_run
+```
+
+Analyze that saved run locally:
+
+```bash
+python -m mofinder.literature.triage analyze --run-dir results/abstract_triage/benchmark_run --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+```
+
+The [optional notebook](notebooks/01_abstract_triage.ipynb) calls the same Python functions to walk through screening and inspect results. See [installation](docs/installation.md) and [triage](docs/triage.md) for credentials, resuming interrupted runs, and analysis options. Live screening requires API access; validation, saved-run analysis, and human-agreement calculations do not.
+
+## Development status
+
+The core workflow and reaction evaluation routines are implemented in Python. Short notebooks call those modules. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive and negative extraction-evaluation workflows are pending.
+
+| Component | Completed | Next work |
+| --- | --- | --- |
+| Repository structure | Python package, configurations, prompts, benchmarks, guides, examples, and tests | Complete paper-associated release metadata |
+| Demonstrations | Offline raw-data cleaning and JSON preparation with expected outputs; API examples for triage and positive/negative mining | Check the live examples with the configured model access |
+| Abstract triage | Python screening, saved-run analysis, plotting, and command-line entry points; optional notebook; preserved prompt and model settings | Add complete saved prediction runs and verify live configurations |
+| Human reference | 478-paper workbook included unchanged; 293 Y and 185 N labels | Archive the model comparisons associated with this reference |
+| Bibliographic input | Six-field export of 13,773 records; all 478 reference abstracts present | Reconcile three conflicting duplicate DOI groups before whole-corpus screening |
+| Offline validation | Input checks, human-agreement calculations, examples, and regression tests | Run Windows/Linux CI on the release commit and verify packaged commands with live model access |
+| Article and SI literature retrieval | Python desktop applications; neutral publisher profiles and image names; selected input tables; local calibration and working inventories | Review unmapped pending rows and validate live desktop downloading |
+| Positive and negative extraction | Python document matching, JSON-backed positive mining, offline CSV recovery, negative plans, and failure enumeration; separate prompts and configurations | Compare saved research runs and validate live extraction |
+| Cleaning and dataset construction | Chemical lookups, positive/negative curation, grouped splitting, publication-year training subsets, and archived training/holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
+| Reaction evaluation | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive/negative evaluation code and ground truth |
+| Fine-tuning | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training/holdout JSONL | Record completed job provenance and validate training on the target GPU system |
+
+See [the mining and dataset guide](docs/workflow.md) for extraction, curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md), and execution evidence is recorded in [triage validation](docs/validation.md), [literature retrieval validation](docs/literature_retrieval_validation.md), [mining validation](docs/mining_validation.md), and [evaluation validation](docs/evaluation_validation.md).
+
+The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replacement files, commands, and remaining research artifacts for each workflow.
+
+## Choose a workflow
+
+| Task | Start here |
+| --- | --- |
+| Run data cleaning and JSON preparation without API access | [Offline demos](Demo/README.md) |
+| Try triage and positive/negative mining with an API key | [Additional demos](Demo/additional_demo_api_needed/README.md) |
+| Look up chemical names and SMILES | [Original mapping tables](data/name_SMILES_mappers/README.md) |
+| Check installation and example inputs | [Offline example](Demo/03_abstract_triage/README.md) |
+| Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
+| Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
+| Explore the same workflow interactively | [Triage walkthrough](notebooks/01_abstract_triage.ipynb) |
+| Inspect human annotations | [Abstract triage benchmark](benchmarks/abstract_triage/README.md) |
+| Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
+| Match documents and extract synthesis records | [Mining workflow](docs/workflow.md) |
+| Clean records and prepare training/holdout JSONL | [Curation](docs/curation.md) and [datasets](docs/datasets.md) |
+| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/additional_demo_api_needed/literature_input/README.md) |
+| Locate notebook operations in the Python implementation | [Source-to-code guide](docs/source_to_code.md) |
+| Inspect training, holdout, and record assignments | [Training datasets](data/training/README.md) and [split assignments](data/splits/README.md) |
+| Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
+| Check the DOI-named sample documents locally | [Mining example](Demo/05_data_mining/README.md) |
+| Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
+| Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
+| Inspect data identities and transformations | [Data manifest](data/manifest.json) |
+| Locate analyses supporting paper results | [Analysis and publication mapping](docs/figure_table_map.md) |
+| Find the earlier extraction and modeling scripts | [Historical workflow and archived files](docs/legacy_workflow.md) |
+
+## Repository layout
+
+| Location | Contents |
+| --- | --- |
+| `src/mofinder/literature/` | Input validation, screening, document matching, and local document counts |
+| `src/mofinder/literature_retrieval/` | Article and SI desktop applications, configuration loading, and inventory handling |
+| `src/mofinder/extraction/` | Positive mining, JSON recovery, negative plans, and enumeration |
+| `src/mofinder/curation/` | Chemical normalization, amount conversion, derived features, and reports |
+| `src/mofinder/datasets/` | Condition-classification records, grouped splits, and training JSONL |
+| `src/mofinder/training/` | Single-dataset training input preparation and HPC fine-tuning |
+| `src/mofinder/evaluation/` | Triage statistics, reaction holdout/model evaluation, and human benchmark analysis |
+| `src/mofinder/plotting/` | Triage figures and associated source tables |
+| `notebooks/` | Short walkthroughs that call the Python implementation |
+| `configs/` and `prompts/` | Named settings and prompt text |
+| `data/literature_retrieval_assets/` | Browser image templates with neutral publisher identifiers |
+| `data/` | Input manifests, metadata, chemical lookups, dataset snapshots, and split records |
+| `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
+| `data/training/` and `data/splits/` | Training and holdout JSONL, record assignments, split summary, and class map |
+| `benchmarks/` | Human references and benchmark-specific documentation |
+| `Demo/` | Cleaning, JSON preparation, abstract triage, literature retrieval, and mining demonstrations |
+| `results/` | Run conventions and figure source-data destination |
+| `docs/` | Installation, methods, stage status, and reproduction instructions |
+| `tools/literature_retrieval/` | Entry points for optional desktop download tools |
+| `tools/training/` | Training-bundle preparation and GPU training entry points |
+| `docs/environments/` | Recorded dependency environment |
+| `tests/` | Offline checks of workflow behavior, statistical calculations, and data integrity |
+
+Python modules contain the reusable implementation and support terminal or HPC execution. The notebooks provide short interactive walkthroughs with input instructions and calls to those same functions. Each offline demo also has a Python runner. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
+
+## Data and reproducibility
+
+The processed tables and training records are available directly:
+
+| File | Contents | Records |
+| --- | --- | ---: |
+| [`data/processed/revised/positive_stage6.csv`](data/processed/revised/positive_stage6.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
+| [`data/processed/revised/negative_stage6_v3.csv`](data/processed/revised/negative_stage6_v3.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
+| [`data/processed/corrected/negative_stage6_v3.csv`](data/processed/corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
+| [`data/training/train.jsonl`](data/training/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
+| [`data/training/holdout.jsonl`](data/training/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
+| [`data/splits/split_assignments.csv`](data/splits/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
+
+Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
+
+<p align="center">
+  <img src="data/Figures-03a.png" alt="Example reaction-condition input and P output" width="750">
+</p>
+
+The current triage input consists of 13,773 bibliography rows and 478 annotated reference publications. The reference has 293 Y and 185 N consensus labels. Every reference DOI has an abstract in the metadata export. Reference labels remain authoritative, including documented rubric decisions and overrides.
+
+Saved model predictions are not yet included. Statistical methods and prompt-development history are described in [the triage guide](docs/triage.md).
+
+Each new run records its settings, prompt, input hashes, response status, and predictions. Generated run directories are local outputs. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
+
+Literature retrieval includes two 7,437-row input tables with their original download states. The desktop applications work on local copies and use locally calibrated browser controls. Research article and SI downloads remain local. The [demonstration PDFs](Demo/05_data_mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/metadata/literature_retrieval/README.md) for the input hashes and publisher-profile assignments.
+
+The current dataset configuration reads the newly generated positive and negative stage-6 cleaning outputs. Positive stage 6 is the input used by the source preparation notebook; optional stage 7 trimming is not selected automatically. A separate archived configuration reproduces preparation from the archived positive stage-6 and negative `stage 6_v3` records. Their public tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
+
+Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/processed/corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. Archived model inputs and assignments remain unchanged.
+
+The archived training and validation JSONL files retain their original records. Model evaluation reads reference answers locally for scoring and sends only the intended reaction inputs. Human responses are distributed with anonymous participant IDs; the original workbook remains the source for provenance. See [evaluation](docs/evaluation.md).
+
+The historical data and counts described in [the earlier workflow](docs/legacy_workflow.md) belong to their original processing configuration. Its removed files are linked to the historical commit; the current datasets are listed above.
+
+## Related applications
+
+- `WebApplication/`: MOFinder web interface.
+- `MOF-Quest/`: reaction-prediction game.
+- `SMILESearcher/`: chemical name and SMILES resolution.
+
+These three components retain their existing pinned Git submodule commits and configuration. Initialize them when needed:
 
 ```bash
 git submodule update --init --recursive
 ```
 
-### Create a Python environment
+## Open-weight model
 
-Linux or macOS:
+The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is available for local synthesis-outcome prediction. Local inference requires hardware suitable for a 20B-parameter model. The checkpoint is optional; data cleaning and JSONL preparation run on a CPU without model downloads.
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-```
+## Citation and license
 
-Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip setuptools wheel
-```
-
-If PowerShell blocks activation in the current session:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
-
-### Install MOFinder
-
-Core runtime dependencies:
-
-```bash
-pip install -e .
-```
-
-Notebook demo support:
-
-```bash
-pip install -e ".[notebook]" nbconvert ipykernel
-```
-
-Full research environment:
-
-```bash
-pip install -e ".[all]"
-```
-
-Useful optional extras:
-
-```bash
-pip install -e ".[fetch-gui]"   # Tk/PyAutoGUI downloader tools
-pip install -e ".[fetch-web]"   # Selenium-backed web resolvers
-pip install -e ".[chem]"        # RDKit-backed SMILES validation
-pip install -e ".[notebook]"    # JupyterLab / notebook UI
-```
-
-### Verify installation
-
-```bash
-python - <<'PY'
-import pandas
-import numpy
-import sklearn
-import openai
-import pydantic
-import pypdf
-import openpyxl
-print("MOFinder core dependencies import successfully.")
-PY
-```
-
-Windows PowerShell alternative:
-
-```powershell
-python -c "import pandas, numpy, sklearn, openai, pydantic, pypdf, openpyxl; print('MOFinder core dependencies import successfully')"
-```
-
-### Typical installation time
-
-On the tested Windows desktop environment, the command below completed in 5.8 seconds:
-
-```powershell
-Measure-Command { pip install -e . }
-```
-
-A fresh environment without cached wheels may take longer depending on network speed. Installing the full optional environment, especially RDKit and browser automation dependencies, may take several minutes.
-
-
-Demo
-----
-
-The demo is in `demo/` and consists of two notebooks.
-
-### Demo input files
-
-The following files should be present in `demo/`:
-
-| File | Purpose |
-| --- | --- |
-| `demo/mof_extraction.csv` | Raw positive extraction table. |
-| `demo/linker and mw.csv` | Linker lookup table used during cleaning. |
-| `demo/Full.xlsx` | Paper metadata table with DOI and publication year. |
-| `demo/mof_extraction_failures_enum_1_2_3_4_5_6.csv` | Cleaned inferred negative reaction table. |
-| `demo/demo_01_clean_data.ipynb` | Cleans positive extraction records. |
-| `demo/demo_02_prepare_json_for_fine_tuning.ipynb` | Builds model-ready P/N JSONL files. |
-
-### Run Demo 01: clean positive synthesis records
-
-From the repository root:
-
-```bash
-cd demo
-python -m jupyter nbconvert --to notebook --execute demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb
-```
-
-Expected outputs:
-
-```text
-demo/mof_extraction_1.csv
-demo/mof_extraction_1_2.csv
-demo/mof_extraction_1_2_3.csv
-demo/mof_extraction_1_2_3_4.csv
-demo/mof_extraction_1_2_3_4_5.csv
-demo/mof_extraction_1_2_3_4_5_6.csv
-demo/metal_linker_pairs_report_all.csv
-demo/metal_linker_pairs_report_all_missing.csv
-```
-
-Expected final positive cleaned table:
-
-```text
-Rows: 15,340
-Main file: demo/mof_extraction_1_2_3_4_5_6.csv
-```
-
-### Run Demo 02: prepare JSONL files for fine-tuning
-
-Continue from the `demo/` folder:
-
-```bash
-python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
-cd ..
-```
-
-Expected outputs:
-
-```text
-demo/out/mof_cls_train.jsonl
-demo/out/mof_cls_holdout.jsonl
-demo/out/mof_cls_class_map.json
-demo/out/mof_cls_split_summary.json
-demo/out/mof_cls_train_1999to2012.jsonl
-demo/out/mof_cls_train_2013to2016.jsonl
-demo/out/mof_cls_train_2017to2020.jsonl
-demo/out/mof_cls_train_2021to2025.jsonl
-demo/out/mof_cls_train_1999to2016.jsonl
-demo/out/mof_cls_train_1999to2020.jsonl
-```
-
-Expected Demo 02 summary:
-
-```text
-Input rows total: 37,878
-Rows kept after required field checks: 34,419
-Rows skipped required: 3,459
-Rows with same input JSON but both P and N: 2,877
-Rows after conflict drop: 31,542
-Unique clusters: 10,291
-Holdout clusters: 1,060
-Train rows: 28,388, labels = {'P': 11854, 'N': 16534}
-Holdout rows: 3,154, labels = {'P': 1317, 'N': 1837}
-```
-
-### Demo runtime
-
-The following runtimes were measured on the tested Windows desktop environment. Demo 01 timing is the sum of the timed stages reported by the notebook; full command-line execution through `nbconvert` may differ slightly depending on notebook startup overhead.
-
-| Task | Runtime on tested Windows desktop |
-| --- | --- |
-| Core install, `pip install -e .` | 5.8 seconds |
-| Demo 01, clean positive records | 9.6 seconds total across timed stages: 1.5, 2.1, 0.9, 0.5, 0.8, 0.9, 0.8, and 2.1 seconds |
-| Demo 02, prepare JSONL | 105 seconds, approximately 1 minute 45 seconds |
-| End-to-end offline demo, excluding install | 114.6 seconds, approximately 1 minute 55 seconds |
-| Optional API-based gpt-4.1 JSON run | approximately 1 hour in author tests |
-
-PowerShell timing commands:
-
-```powershell
-cd demo
-Measure-Command { python -m jupyter nbconvert --to notebook --execute .\demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb }
-Measure-Command { python -m jupyter nbconvert --to notebook --execute .\demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb }
-cd ..
-```
-
-Generated files under `demo/out/` and executed notebooks are local outputs. They do not need to be committed unless a release package is being prepared with expected outputs.
-
-
-Pipeline
---------
-
-```text
-WoS / paper metadata
-  -> step_1_literature_classification/
-       1.1 abstract-only Y/N screening
-       1.2 PDF-based Y/N screening
-       1.3 evaluation against expert / model labels
-  -> step_2_fetching/
-       2.1 download main article PDFs
-       2.2 download Supporting Information files
-  -> step_3_mining/
-       3.1 match main PDFs with SI files and count words/tokens
-       3.2 extract successful synthesis records with structured LLM output
-       3.3 mine and enumerate failed synthesis conditions
-  -> step_4_cleansing/
-       clean metals, linkers, solvents, stoichiometry, and derived features
-  -> step_5_assembly/
-       build SFT, classifier, DPO, and clustered holdout JSONL datasets
-  -> eval/
-       run P/N classifiers, ablations, out-of-distribution probes, and screening
-  -> visualization/
-       generate result figures
-```
-
-The cumulative CSV suffixes in `data/` and `demo/` show the cleaning chain. For example, `mof_extraction_1_2_3_4_5_6.csv` is the positive extraction table after all currently scripted Step 4 cleaning passes.
-
-<p align="center">
-  <img src="data/Figures-03a.png" alt="MOFinder data figure" width="500">
-</p>
-
-
-Instructions for use
---------------------
-
-### Run Step 1 paper classification
-
-Step 1 scripts are resume-safe and write Excel outputs.
-
-Set your OpenAI API key first:
-
-```bash
-export OPENAI_API_KEY="sk-..."
-```
-
-Windows PowerShell:
-
-```powershell
-$env:OPENAI_API_KEY = "sk-..."
-```
-
-Abstract-only screening:
-
-```bash
-python step_1_literature_classification/1_1_classify_abstract.py \
-  --input-name data/Full \
-  --model gpt-4o-mini
-```
-
-PDF-based screening:
-
-```bash
-python step_1_literature_classification/1_2_classify_pdf.py \
-  --input-folder data/downloaded \
-  --model gpt-5 \
-  --effort low
-```
-
-### Download PDFs and SI files
-
-Step 2 is desktop automation, not a headless scraper. It requires Chrome, a visible desktop session, and whatever institutional access or browser login is needed for the target publishers.
-
-```bash
-python step_2_fetching/2_1_fetch_paper.py
-python step_2_fetching/2_2_fetch_si.py
-```
-
-Both tools open a Tkinter UI, remember the last selected workbook, and update download status columns in the workbook.
-
-### Match PDFs/SI and extract syntheses
-
-Build the DOI/Main File/SI File workbook for extraction:
-
-```bash
-python step_3_mining/3_1_match_and_count.py \
-  --excel data/"SELECTED 7000 SI - Copy.xlsx" \
-  --main-folder data/downloaded \
-  --si-folder data/"SI downloaded"
-```
-
-Extract successful synthesis records:
-
-```bash
-python step_3_mining/3_2_mine_synthesis.py \
-  --excel data/"SELECTED 7000 SI - Copy - simple.xlsx" \
-  --csv-out data/mof_extraction.csv \
-  --json-dir data/mof_json_store \
-  --model gpt-5 \
-  --concurrency 5
-```
-
-Rebuild the CSV from saved JSON without API calls:
-
-```bash
-python step_3_mining/3_2_mine_synthesis.py --backfill
-```
-
-Negative mining is split into a planning pass and an enumeration pass. The default command runs both:
-
-```bash
-python step_3_mining/3_3_mine_negative.py \
-  --task all \
-  --positive-csv data/mof_extraction.csv \
-  --success-dir data/mof_json_store
-```
-
-### Clean extraction tables
-
-Run the positive branch end to end using files under `data/`:
-
-```bash
-python step_4_cleansing/run_cleansing.py --branch positive
-```
-
-Run positive cleaning on a custom directory, such as `demo/`:
-
-```bash
-python step_4_cleansing/run_cleansing.py --branch positive --data-dir demo
-```
-
-Other branches are available for negative data:
-
-```bash
-python step_4_cleansing/run_cleansing.py --branch negative-plans
-python step_4_cleansing/run_cleansing.py --branch negative-basic
-```
-
-Those branches require the corresponding negative raw CSVs from Step 3.3.
-
-### Prepare model-ready JSONL files
-
-The checked-in classifier JSONL files are already available under `data/`. To regenerate the classifier JSONL from cleaned positive and negative records, run the demo notebook:
-
-```bash
-cd demo
-python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
-cd ..
-```
-
-Required inputs:
-
-```text
-demo/mof_extraction_1_2_3_4_5_6.csv
-demo/mof_extraction_failures_enum_1_2_3_4_5_6.csv
-demo/Full.xlsx
-```
-
-The repository also contains the Step 5 assembly runner:
-
-```bash
-python step_5_assembly/run_assembly.py
-python step_5_assembly/run_assembly.py --option d
-```
-
-When regenerating classifier datasets with the Step 5 runner, the cleaned negative CSV is required:
-
-```text
-data/mof_extraction_failures_enum_1_2_3_4_5_6.csv
-```
-
-### Resolve chemical names to SMILES
-
-`SMILESearcher/` is a separate resolver submodule used to fill linker, modulator, and related SMILES columns with a persistent JSON cache.
-
-```bash
-cd SMILESearcher
-pip install -r requirements.txt
-python app.py --csv ../data/mof_extraction_1_2_3_4_5_6.csv \
-  --cache ../data/name_SMILES_mappers/name2smiles_1222.json \
-  --headless
-```
-
-On Windows, `SMILESearcher/start.bat` launches the interactive workflow. See `SMILESearcher/README.md` for resolver details.
-
-### Evaluation and plots
-
-Evaluation wrappers live in `eval/`. They are thin scripts around `eval/eval_engine.py` and contain hard-coded model IDs, holdout paths, and output paths for the experiments used in this project. Edit the constants at the top of each runner before launching a new evaluation.
-
-Examples:
-
-```bash
-python eval/run_pn_full.py
-python eval/run_20q_challenge.py
-```
-
-Plotting scripts live in `visualization/` and accept CLI inputs and outputs:
-
-```bash
-python visualization/plot_metal_linker_heatmaps.py --help
-python visualization/plot_human_llm_performance.py --help
-```
-
-
-Open-weight model
------------------
-
-In addition to the JSONL files in this repository, the trained open-weight model is available on Hugging Face:
-
-```text
-StarLiu714/GPT-oss-MOF
-```
-
-Use cases:
-
-- Optional local inference with the trained P/N reaction-outcome model
-- Comparison with API-based gpt-4.1 runs
-- Reproducing open-weight model evaluation workflows
-
-Notes:
-
-- This model is optional and is not required for the offline demo.
-- Local inference requires hardware suitable for a 20B-parameter checkpoint.
-- The Hugging Face model card should be kept in sync with this repository, including the repository name, dataset description, license, and example P/N input-output format.
-
-
-Reproduction instructions
--------------------------
-
-### Offline reproduction of the data-processing demo
-
-```bash
-pip install -e ".[notebook]" nbconvert ipykernel
-cd demo
-python -m jupyter nbconvert --to notebook --execute demo_01_clean_data.ipynb --output demo_01_clean_data_executed.ipynb
-python -m jupyter nbconvert --to notebook --execute demo_02_prepare_json_for_fine_tuning.ipynb --output demo_02_prepare_json_for_fine_tuning_executed.ipynb
-cd ..
-```
-
-### API-based extraction or evaluation
-
-API-based LLM runs require an OpenAI API key:
-
-```bash
-export OPENAI_API_KEY="sk-..."
-```
-
-Windows PowerShell:
-
-```powershell
-$env:OPENAI_API_KEY = "sk-..."
-```
-
-The optional API-based gpt-4.1 JSON run took approximately 1 hour in author tests. The exact time can vary with dataset size, model availability, API rate limits, and network conditions.
-
-
-
-License and citation
---------------------
-
-The main MOFinder codebase is licensed under the MIT License. See `LICENSE` for details.
-
-`SMILESearcher/` is included as a Git submodule and is distributed under its own license by its authors. Users should consult the `SMILESearcher` repository and license file before redistributing that component.
-
-If you use MOFinder, the workflow, the dataset, or the public database in your research, please cite the project and link to:
-
-```text
-https://mofinder.chemistry.wustl.edu/
-```
+Software citation metadata is provided in [CITATION.cff](CITATION.cff). The paper-associated release and archival identifier will be added when finalized. The MOFinder code uses the [MIT License](LICENSE); submodules retain their own licenses.

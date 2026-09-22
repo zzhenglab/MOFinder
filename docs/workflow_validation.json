@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "offline_test_count": 107,
+  "live_api_calls": 0,
+  "source_identity_file": "workflow_sources.json",
+  "prompt_strings_exact": 5,
+  "matching": {
+    "status": "passed",
+    "rows": 26,
+    "matched_columns_compared": 6,
+    "presence_summary_groups": 4
+  },
+  "document_counts": {
+    "status": "passed",
+    "rows": 6,
+    "count_columns_compared": 6,
+    "fixture": "SI preferred, zero SI, missing paths, non-PDF, existing counts, empty row"
+  },
+  "positive": {
+    "schema_equal": true,
+    "system_prompt_equal": true,
+    "user_prompt_equal": true,
+    "flatten_cases": 18,
+    "columns": 83,
+    "live_api_calls": 0
+  },
+  "negative": {
+    "prompt_runtime_strings_identical": true,
+    "pydantic_schema_identical": true,
+    "flatten_cases": 5,
+    "enumeration_cases": 8,
+    "enumerated_rows_compared": 138,
+    "json_payloads_identical": true,
+    "documented_deviations": [
+      "Curated base exclusion is independent of verbosity.",
+      "New plans record exact successful-synthesis input order; enumeration uses that snapshot.",
+      "Dry-run no longer creates output or writes trial summary.",
+      "API client creation is lazy and credential errors are recorded per DOI."
+    ]
+  },
+  "curation": {
+    "fixture_rows_per_branch": 52,
+    "unchanged_rule_csvs_identical": 15,
+    "formula_corrections": [
+      {
+        "formula": "Zn(NO3)2\u00b76H2O",
+        "source_molar_mass": 217.4812,
+        "corrected_molar_mass": 297.4762,
+        "corrected_element_counts": {
+          "Zn": 1.0,
+          "N": 2.0,
+          "O": 12.0,
+          "H": 12.0
+        }
+      },
+      {
+        "formula": "Cu(NO3)2\u00b72.5H2O",
+        "source_molar_mass": 208.5919,
+        "corrected_molar_mass": 232.59040000000002,
+        "corrected_element_counts": {
+          "Cu": 1.0,
+          "N": 2.0,
+          "O": 8.5,
+          "H": 5.0
+        }
+      },
+      {
+        "formula": "CaSO4\u00b71/2H2O",
+        "source_molar_mass": 153.1459,
+        "corrected_molar_mass": 145.14640000000003,
+        "corrected_element_counts": {
+          "Ca": 1.0,
+          "S": 1.0,
+          "O": 4.5,
+          "H": 1.0
+        }
+      },
+      {
+        "formula": "[Cu(NH3)4]SO4\u00b7H2O",
+        "source_molar_mass": "ValueError: unmatched parenthesis",
+        "corrected_molar_mass": 245.7434,
+        "corrected_element_counts": {
+          "Cu": 1.0,
+          "N": 4.0,
+          "H": 14.0,
+          "S": 1.0,
+          "O": 5.0
+        }
+      },
+      {
+        "formula": "Cu(NO3)2",
+        "source_molar_mass": 187.5534,
+        "corrected_molar_mass": 187.5534,
+        "corrected_element_counts": {
+          "Cu": 1.0,
+          "N": 2.0,
+          "O": 6.0
+        }
+      }
+    ]
+  },
+  "datasets": {
+    "input_manifest": "../data/processed/revised/manifest.json",
+    "config": "../configs/dataset_preparation_archived.json",
+    "counts": {
+      "input_rows_total": 30403,
+      "rows_after_required_field_checks": 29857,
+      "rows_skipped_required": 546,
+      "rows_with_conflicting_input_labels": 1295,
+      "rows_after_conflict_filter": 29221,
+      "rows_deduped_exact_input_within_label": 3066,
+      "rows_final": 26123,
+      "rows_with_publication_year_final": 26122,
+      "train_rows": 23528,
+      "holdout_rows": 2595,
+      "train_missing_publication_year_rows": 0,
+      "holdout_missing_publication_year_rows": 1
+    },
+    "forced_holdout": {
+      "questions": [
+        {
+          "question": "Q1",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q2",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q3",
+          "reference_label": "P",
+          "matched_rows": 0
+        },
+        {
+          "question": "Q4",
+          "reference_label": "P",
+          "matched_rows": 0
+        },
+        {
+          "question": "Q5",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q6",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q7",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q8",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q9",
+          "reference_label": "P",
+          "matched_rows": 0
+        },
+        {
+          "question": "Q10",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q11",
+          "reference_label": "P",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q12",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q13",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q14",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q15",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q16",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q17",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q18",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q19",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q20",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q21",
+          "reference_label": "N",
+          "matched_rows": 1
+        },
+        {
+          "question": "Q22",
+          "reference_label": "N",
+          "matched_rows": 1
+        }
+      ],
+      "rows_matching_forced_questions": 19,
+      "questions_not_found_after_filters": [
+        "Q3",
+        "Q4",
+        "Q9"
+      ]
+    },
+    "doi_overlap_count": 864,
+    "cluster_overlap_count": 0,
+    "expected_files": [
+      {
+        "file": "mof_cls_train_1999to2012.jsonl",
+        "source_bytes": 4934270,
+        "byte_identical": true,
+        "sha256": "cb0598ef7c94dd428999cd0be03d002696827d040b1f708d57ef3ac8dbb28c43"
+      },
+      {
+        "file": "mof_cls_train_1999to2015.jsonl",
+        "source_bytes": 9301227,
+        "byte_identical": true,
+        "sha256": "076d2b48d6e833486b5723febaba69307b535dff9651937bc9759a142c1f0b60"
+      },
+      {
+        "file": "mof_cls_train_1999to2019.jsonl",
+        "source_bytes": 14027004,
+        "byte_identical": true,
+        "sha256": "96ff67e7e01737126967b4b8892f26158790f8be449f0544fce2954e3d965178"
+      },
+      {
+        "file": "mof_cls_train_2013to2015.jsonl",
+        "source_bytes": 4366957,
+        "byte_identical": true,
+        "sha256": "dd73c4e6967e1f23c969d5e62e0813cb4582a6e0bb05215625f8c852a3a8539c"
+      },
+      {
+        "file": "mof_cls_train_2016to2019.jsonl",
+        "source_bytes": 4725777,
+        "byte_identical": true,
+        "sha256": "c3131e38d8025f1c55c9f6e58a9e12c25219757e9e91a16661c7d9a40dfdb7e1"
+      },
+      {
+        "file": "mof_cls_train_2020to2025.jsonl",
+        "source_bytes": 5325936,
+        "byte_identical": true,
+        "sha256": "4818b5697adfe73c5d6b092101162d9dd5fbb98f05a7c21a838f2c0942f60d96"
+      },
+      {
+        "file": "mof_cls_train_5periods_1999to2011.jsonl",
+        "source_bytes": 3564048,
+        "byte_identical": true,
+        "sha256": "8d14e1e5c512d3002cac4b88b815993fc1bbd1ea0496fd7ae7af49c05c8f542f"
+      },
+      {
+        "file": "mof_cls_train_5periods_1999to2014.jsonl",
+        "source_bytes": 7385015,
+        "byte_identical": true,
+        "sha256": "093ef694b773fab2a3b7df81f61103a534fc5ae1e593c354ba5b3f2f216a9e0d"
+      },
+      {
+        "file": "mof_cls_train_5periods_1999to2017.jsonl",
+        "source_bytes": 11692470,
+        "byte_identical": true,
+        "sha256": "1a7f50c25928bd6953f881d628761653002cfa5f991de5dd713305c7bebfcdbf"
+      },
+      {
+        "file": "mof_cls_train_5periods_1999to2020.jsonl",
+        "source_bytes": 15092687,
+        "byte_identical": true,
+        "sha256": "45a4dfdba35a8f66688a8d4b2aed576d1655fbe46de2ffc9c0f4f944f8119e1e"
+      },
+      {
+        "file": "mof_cls_train_5periods_2012to2014.jsonl",
+        "source_bytes": 3820967,
+        "byte_identical": true,
+        "sha256": "b2442abce3cbffb749f6a30b180521752b7edb072c969de9d781831f92caff53"
+      },
+      {
+        "file": "mof_cls_train_5periods_2015to2017.jsonl",
+        "source_bytes": 4307455,
+        "byte_identical": true,
+        "sha256": "f4433650a1d3bf5fe0588afcc6cb92808fc5d028332543238d6f8f5b50a48c5b"
+      },
+      {
+        "file": "mof_cls_train_5periods_2018to2020.jsonl",
+        "source_bytes": 3400217,
+        "byte_identical": true,
+        "sha256": "eb0a988153c6937caf3af0941e4f92c503e044d151ef22f72b90f475e57867fb"
+      },
+      {
+        "file": "mof_cls_train_5periods_2021to2025.jsonl",
+        "source_bytes": 4260253,
+        "byte_identical": true,
+        "sha256": "d87daba979c598378437cc86cfe582f1cfcd4b11793201d25ff8f04a433eca2b"
+      },
+      {
+        "file": "mof_ft_class_map.json",
+        "source_bytes": 38,
+        "byte_identical": true,
+        "sha256": "94a210943b6ca069fe6974dbc7a99583931dd552c3d8d2d2ca49e86621bdc7c1"
+      },
+      {
+        "file": "mof_ft_holdout.jsonl",
+        "source_bytes": 2130342,
+        "byte_identical": true,
+        "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
+      },
+      {
+        "file": "mof_ft_train.jsonl",
+        "source_bytes": 19352940,
+        "byte_identical": true,
+        "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"
+      }
+    ]
+  }
+}

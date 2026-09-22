@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "offline_tests": 147,
+  "live_api_requests": 0,
+  "train_validation_identity": {
+    "schema_version": 2,
+    "description": "Fine-tuning training and validation datasets.",
+    "files": [
+      {
+        "path": "data/training/train.jsonl",
+        "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+        "size_bytes": 19352940,
+        "rows": 23528,
+        "labels": {
+          "P": 11968,
+          "N": 11560
+        },
+        "transformation": "Original JSONL bytes preserved.",
+        "dataset_id": "reaction_condition_training"
+      },
+      {
+        "path": "data/training/holdout.jsonl",
+        "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+        "size_bytes": 2130342,
+        "rows": 2595,
+        "labels": {
+          "P": 1320,
+          "N": 1275
+        },
+        "transformation": "Original JSONL bytes preserved.",
+        "dataset_id": "reaction_condition_holdout"
+      }
+    ],
+    "split_assignments": "data/splits/split_assignments.csv",
+    "split_summary": "data/splits/split_summary.json"
+  },
+  "public_table_identity": {
+    "schema_version": 2,
+    "description": "Cleaned dataset snapshots with local file paths removed. Scientific values and row order are unchanged.",
+    "files": [
+      {
+        "file": "positive_stage6.csv",
+        "source_sha256": "3d18198fd3cffec8da6d7b18bbcb9131e2ffac9b6a30d6ab8d5128e36100844b",
+        "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
+        "size_bytes": 11274305,
+        "rows": 15340,
+        "columns": 83,
+        "removed_columns": [
+          "main_pdf",
+          "si_pdf",
+          "raw_output",
+          "parsed_json"
+        ],
+        "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
+        "source_description": "Positive synthesis records after stage 6",
+        "encoding": "utf-8-sig"
+      },
+      {
+        "file": "negative_stage6_v3.csv",
+        "source_sha256": "bf179bfb6005a9332a4dd4be583c0c093d3284d381786217922251d9ee674697",
+        "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
+        "size_bytes": 20956706,
+        "rows": 15063,
+        "columns": 89,
+        "removed_columns": [
+          "main_pdf",
+          "si_pdf",
+          "raw_output",
+          "parsed_json"
+        ],
+        "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
+        "source_description": "Negative synthesis records after stage 6, revision 3",
+        "encoding": "utf-8-sig"
+      }
+    ]
+  },
+  "lookup_identity": {
+    "files": [
+      {
+        "path": "data/lookups/linker_molecular_weights.csv",
+        "sha256": "c97d21a12c8e333d2ecafdd3e75464567009b2cfab4f7da9d8bb15e46e7633e5",
+        "transformation": "Byte-identical copy under a descriptive filename.",
+        "header": false,
+        "columns": [
+          "linker_name",
+          "molecular_weight_g_mol"
+        ],
+        "rows": 591,
+        "known_weight_rows": 217,
+        "unknown_weight_rows": 374,
+        "unique_names_case_insensitive": 582,
+        "known_weight_names": 210,
+        "unknown_weight_names": 372,
+        "blank_weight_policy": "Leave unresolved; do not estimate a value.",
+        "source_id": "linker_molecular_weight_reference"
+      }
+    ]
+  },
+  "quest": {
+    "question_count": 22,
+    "helper_cases": 46,
+    "request_cases": 26,
+    "label_or_difficulty_leakage_in_requests": false,
+    "live_api_requests": 0
+  },
+  "holdout": {
+    "requests_source_equal": 12,
+    "resume_initial": 10,
+    "resume_remaining": 2,
+    "scientific_rows_source_equal": 12,
+    "gold_labels_in_requests": false,
+    "live_api_requests": 0,
+    "metrics": {
+      "accuracy": 0.5833333333333334,
+      "precision": 0.6363636363636364,
+      "recall": 0.875,
+      "f1": 0.7368421052631579
+    }
+  },
+  "public_question_parity": {
+    "public_questions": 22,
+    "all_requests_source_identical": true,
+    "all_labels_source_identical": true,
+    "added_metadata_transmitted": false
+  },
+  "human": {
+    "participants": 98,
+    "questions": 22,
+    "responses": 2156
+  },
+  "notebook_execution": [
+    {
+      "notebook": "03_positive_extraction.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "03_positive_extraction.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    },
+    {
+      "notebook": "04_negative_reconstruction.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "04_negative_reconstruction.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    },
+    {
+      "notebook": "05_data_curation.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "05_data_curation.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    },
+    {
+      "notebook": "07_holdout_evaluation.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "07_holdout_evaluation.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    },
+    {
+      "notebook": "08_quest_evaluation.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "08_quest_evaluation.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    },
+    {
+      "notebook": "09_human_benchmark.ipynb",
+      "cwd": "MOFinder",
+      "passed": true
+    },
+    {
+      "notebook": "09_human_benchmark.ipynb",
+      "cwd": "notebooks",
+      "passed": true
+    }
+  ]
+}
