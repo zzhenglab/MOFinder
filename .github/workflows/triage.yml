@@ -1,0 +1,90 @@
+name: Workflow offline checks
+
+on:
+  push:
+    branches: [main, "revision/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
+            !/Demo/
+            /data/metadata/
+            /data/lookups/
+            /data/literature_retrieval_assets/
+            /data/training/
+            /data/splits/
+            /data/processed/revised/
+            /data/processed/corrected/
+            /data/manifest.json
+            /data/name_SMILES_mappers/
+            /Demo/README.md
+            /Demo/01_data_cleaning/
+            /Demo/02_json_preparation/
+            /Demo/03_abstract_triage/
+            /Demo/04_literature_retrieval/
+            /Demo/05_data_mining/
+            /Demo/additional_demo_api_needed/
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install workflow and notebook dependencies
+        run: python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
+      - name: Run offline regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate the small example
+        run: python Demo/03_abstract_triage/validate_example.py
+      - name: Validate all reference abstracts
+        run: python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+      - name: Audit article literature retrieval without a desktop
+        run: python tools/literature_retrieval/fetch_papers.py --validate
+      - name: Audit SI literature retrieval without a desktop
+        run: python tools/literature_retrieval/fetch_si.py --validate
+      - name: Execute the offline notebook
+        run: python -m jupyter nbconvert --to notebook --execute Demo/03_abstract_triage/quickstart.ipynb --output quickstart_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+      - name: Execute the optional walkthrough with screening disabled
+        run: python -m jupyter nbconvert --to notebook --execute notebooks/01_abstract_triage.ipynb --output triage_walkthrough_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+      - name: Match demonstration documents offline
+        run: python -m mofinder.literature.match_documents match --config configs/example_document_matching.json
+      - name: Validate demonstration PDF text
+        run: python -m mofinder.extraction.positive validate --config configs/example_positive_extraction.json
+      - name: Validate supplied dataset snapshots
+        run: python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_archived.json
+      - name: Run the cleaning demonstration
+        run: python Demo/01_data_cleaning/run_demo.py --check
+      - name: Run the JSON preparation demonstration
+        run: python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
+      - name: Validate the API demonstrations without requests
+        run: python Demo/additional_demo_api_needed/run_demo.py validate
+      - name: Validate the local article and SI templates
+        run: python Demo/additional_demo_api_needed/run_demo.py validate --config-dir Demo/additional_demo_api_needed/configs/local_papers
+      - name: Execute downstream walkthroughs with processing disabled
+        run: >-
+          python -m jupyter nbconvert --to notebook --execute
+          notebooks/02_document_matching.ipynb notebooks/03_positive_extraction.ipynb
+          notebooks/04_negative_reconstruction.ipynb notebooks/05_data_curation.ipynb
+          notebooks/06_dataset_preparation.ipynb notebooks/07_holdout_evaluation.ipynb
+          notebooks/08_quest_evaluation.ipynb notebooks/09_human_benchmark.ipynb
+          --output-dir results/local
+          --ExecutePreprocessor.timeout=120
+      - name: Validate holdout inputs
+        run: python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
+      - name: Validate question evaluation
+        run: python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
+      - name: Analyze anonymous human responses
+        run: python -m mofinder.evaluation.human_quest analyze
