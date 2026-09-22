@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mofinder"
-version = "0.1.0"
+version = "0.2.0.dev0"
 description = "Literature-mining and LLM fine-tuning pipeline for Metal-Organic Framework (MOF) synthesis prediction."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -34,84 +34,57 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-# Core runtime dependencies — what every step assumes is importable.
-dependencies = [
-    # data / numerics
-    "pandas>=1.5",
-    "numpy>=1.23",
-    "matplotlib>=3.6",
-    "scikit-learn>=1.2",
-
-    # LLM client + schema
-    "openai>=1.40",
-    "pydantic>=2.0",
-    "tiktoken>=0.5",
-
-    # paper / SI ingestion
-    "pypdf>=4.0",
-    "openpyxl>=3.1",
-
-    # utility
-    "requests>=2.28",
-    "tqdm>=4.64",
-    "rich>=13.0",
-    "python-dotenv>=1.0",
-    "ipywidgets>=8.0",
-    "nest_asyncio>=1.5",
-]
+# Dependencies for the reusable triage validation and statistical functions.
+dependencies = ["numpy>=1.23", "scipy>=1.10"]
 
 [project.optional-dependencies]
-# Tk + image-based downloader used by step 2.1 / 2.2 (Windows-friendly; needs a desktop session).
-fetch-gui = [
-    "pyautogui>=0.9.54",
-    "pyperclip>=1.8",
-    "pynput>=1.7",
-    "opencv-python>=4.7",
+api = ["openai>=1.68"]
+plotting = ["matplotlib>=3.6"]
+literature-retrieval = ["pandas>=1.5", "openpyxl>=3.1"]
+mining = [
+    "pandas>=1.5", "openpyxl>=3.1", "pydantic>=2", "pypdf>=4",
+    "openai>=1.68", "python-docx>=1.1",
 ]
-
-# Selenium stack — used by SMILESearcher (ChemSpider, Google AI Overview, etc.).
-fetch-web = [
-    "selenium>=4.10",
-    "webdriver-manager>=4.0",
-]
-
-# Chemistry-aware SMILES validation. Optional: SMILESearcher falls back to a heuristic check
-# if rdkit is unavailable. Install separately if pip wheels are unstable on your platform.
-chem = [
-    "rdkit>=2023.3",
-]
-
-# Notebook UX. The numbered step notebooks are usable without jupyterlab if you prefer VS Code / nbclient.
+document-counts = ["pdfminer.six>=20221105", "tiktoken>=0.5", "matplotlib>=3.6"]
+curation = ["pandas>=1.5", "matplotlib>=3.6"]
+datasets = ["pandas>=1.5", "openpyxl>=3.1"]
+evaluation = ["pandas>=1.5", "openpyxl>=3.1", "scikit-learn>=1.2", "openai>=1.68", "matplotlib>=3.6"]
 notebook = [
-    "jupyterlab>=4.0",
-    "notebook>=7.0",
+    "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4", "nbconvert>=7",
+    "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
 ]
-
-# Convenience: everything. Listed explicitly to avoid pip resolving mofinder as
-# a separate index candidate instead of expanding local extras.
+triage = [
+    "openai>=1.68", "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4",
+    "nbconvert>=7", "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
+]
+# Runtime dependencies of the earlier numbered scripts.
+legacy = [
+    "pandas>=1.5", "matplotlib>=3.6", "scikit-learn>=1.2", "openai>=1.68",
+    "pydantic>=2", "tiktoken>=0.5", "pypdf>=4", "openpyxl>=3.1",
+    "requests>=2.28", "tqdm>=4.64", "rich>=13", "python-dotenv>=1",
+    "ipywidgets>=8", "nest_asyncio>=1.5",
+]
+fetch-gui = [
+    "pandas>=1.5", "openpyxl>=3.1", "Pillow>=9",
+    "pyautogui>=0.9.54", "pyperclip>=1.8", "pynput>=1.7", "opencv-python>=4.7",
+]
+fetch-web = ["selenium>=4.10", "webdriver-manager>=4"]
+chem = ["rdkit>=2023.3"]
 all = [
-    "pyautogui>=0.9.54",
-    "pyperclip>=1.8",
-    "pynput>=1.7",
-    "opencv-python>=4.7",
-    "selenium>=4.10",
-    "webdriver-manager>=4.0",
-    "rdkit>=2023.3",
-    "jupyterlab>=4.0",
-    "notebook>=7.0",
+    "openai>=1.68", "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4",
+    "nbconvert>=7", "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
+    "pandas>=1.5", "scikit-learn>=1.2", "pydantic>=2", "tiktoken>=0.5",
+    "pypdf>=4", "openpyxl>=3.1", "requests>=2.28", "tqdm>=4.64",
+    "python-docx>=1.1", "pdfminer.six>=20221105",
+    "rich>=13", "python-dotenv>=1", "ipywidgets>=8", "nest_asyncio>=1.5",
+    "Pillow>=9", "pyautogui>=0.9.54", "pyperclip>=1.8", "pynput>=1.7", "opencv-python>=4.7",
+    "selenium>=4.10", "webdriver-manager>=4", "rdkit>=2023.3",
 ]
 
 [project.urls]
 Homepage = "https://github.com/zzhenglab/MOFinder"
 Repository = "https://github.com/zzhenglab/MOFinder"
 
-# The repository is currently organized as numbered notebooks at the repo root,
-# plus the self-contained SMILESearcher/ utility. Packaging is therefore minimal —
-# we only declare the SMILESearcher tree as a package so its modules remain importable.
-[tool.setuptools]
-include-package-data = true
-
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["SMILESearcher*"]
-exclude = ["downloaded*", "mof_json_store*"]
+where = ["src"]
+include = ["mofinder*"]
