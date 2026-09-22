@@ -2,6 +2,8 @@
 
 Offline checks compare the Python workflows with the recorded source notebooks. Source filenames, hashes, and active cell indices are recorded in [workflow_sources.json](workflow_sources.json); comparison results and expected dataset hashes are in [workflow_validation.json](workflow_validation.json).
 
+The tables below preserve the original mining-integration checkpoint. Test totals and environment limitations belong to that checkpoint, rather than the current suite. Later documented changes include the shared reaction-prediction prompt path, consolidated API demo, and notebook display improvements; see [CHANGELOG.md](../CHANGELOG.md).
+
 ## Execution evidence
 
 | Check | Result |

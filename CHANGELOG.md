@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Consolidated demonstrations into offline cleaning, offline JSON preparation, and `Demo/03_api_demo/api_demo.ipynb` for abstract triage and positive/negative mining. The API notebook displays complete abstracts and exact requests before explicitly enabled calls, then compares predictions with reference labels held out of the requests.
+- Added holdout-first and training-example previews with reaction parameters and complete JSON records to the JSON preparation notebook. Shortened displayed checkout paths while preserving paths used for files and saved run provenance.
+- Standardized dataset preparation, question-panel evaluation, and HPC training on `prompts/training/reaction_prediction.txt`. Removed the short training prompt while preserving the full prompt text and archived JSONL bytes. HPC bundles now use schema version 2, and the default 512-token input limit rejects overlength records instead of truncating them; rebuild older bundles into new directories.
+- Corrected reaction-evaluation parsing to require a standalone P/N response after whitespace and case normalization, and corrected fallback token-probability attribution. New runs record `standalone_pn_v1`; historical prediction CSVs remain unchanged, and incompatible holdout runs cannot be resumed under the new protocol.
+- Audited documentation links, demo paths, installation requirements, and execution notes. Historical validation reports retain their original results and are explicitly identified as checkpoints.
+- Made the API notebook reject stale triage previews and compare predictions with the run's saved reference labels. The negative-mining demo now stops when YES-labelled positive DOIs are missing from the selected document manifest.
+- Made negative mining reject unreadable existing plan CSVs before requests and replace prior DOI rows during explicit in-place reruns even when CSV skipping is disabled.
 - Fixed pandas 3 compatibility for document download flags, missing solvent names and abbreviations, and empty trimming inputs, and made extraction and filename-collision tests portable on Windows.
 - Made the JSON demonstration's expected-output comparison tolerate platform line endings while still requiring matching UTF-8 text and split assignments.
 - Replaced the earlier numbered scripts, `eval/`, `visualization/`, top-level demo files, and old data with the reorganized package contents. Preserved the three existing submodule commits, their configuration, and the MIT license.
@@ -9,7 +16,7 @@
 - Removed the separate duration-example input tables from the cleaning demo; time parsing remains part of the shared cleaning implementation and regression tests.
 - Updated the GPT-4.1 training recipe to two epochs, with approximately 1,569 steps per epoch for the archived training set.
 - Added a complete pre-upload checklist with input placement, offline commands, live checks, and remaining research artifacts.
-- Added the GPT-4.1 dashboard training recipe and single-dataset GPT-oss-20B LoRA training, with a separate prompt, portable input bundle, and offline input validation.
+- Added the GPT-4.1 dashboard training recipe and single-dataset GPT-oss-20B LoRA training, with a portable input bundle and offline input validation. Both now use the shared full reaction-prediction instructions.
 - Added source-confirmed prime-symbol corrections for current linker normalization and a corrected negative-data table. Archived model inputs and split assignments remain unchanged.
 - Consolidated browser image templates under `data/` and the recorded environment under `docs/environments/`.
 - Restored the original README illustrations, dataset links, clone instructions, and open-weight model link.

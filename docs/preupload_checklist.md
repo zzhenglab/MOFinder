@@ -22,7 +22,7 @@ No input replacement is needed for these commands. The desktop validation comman
 
 ```bash
 python -m unittest discover -s tests -v
-python Demo/03_abstract_triage/validate_example.py
+python Demo/03_api_demo/run_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 python tools/literature_retrieval/fetch_papers.py --validate
 python tools/literature_retrieval/fetch_si.py --validate
@@ -30,7 +30,7 @@ python -m mofinder.literature.match_documents match --config configs/example_doc
 python -m mofinder.extraction.positive validate --config configs/example_positive_extraction.json
 python Demo/01_data_cleaning/run_demo.py --check
 python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
-python Demo/additional_demo_api_needed/run_demo.py validate
+python Demo/03_api_demo/run_demo.py validate
 python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
 python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
 python -m mofinder.evaluation.human_quest analyze
@@ -39,13 +39,13 @@ python -m mofinder.evaluation.human_quest analyze
 | Check | Expected result |
 | --- | --- |
 | Regression tests | All tests pass; API responses and training calculations are checked locally where fixtures or mocks are used. |
-| Small triage example | 12 publications, 9 Y and 3 N; no missing reference abstracts. |
+| Small triage example | 12 reference publications (9 Y and 3 N); four scheduled (3 Y and 1 N), with eight outside the selected subset. All 12 abstracts are available. |
 | Full triage reference | 478 publications, 293 Y and 185 N; no missing reference abstracts. |
 | Retrieval inventory validation | Both inventories and required image templates load. Unmapped publisher profiles and the optional missing cookie template remain listed for local review. |
-| Demonstration document matching | One main article and one SI match the DOI in `Demo/05_data_mining/inventory.csv`; both have readable text. |
+| Demonstration document matching | One main article and one SI match the DOI in `Demo/03_api_demo/inputs/mining/inventory.csv`; both have readable text. |
 | Cleaning demo | 174 raw records produce 146 stage-6 records; the expected output comparison passes. |
 | JSON preparation demo | 252 training records and 28 holdout records; zero shared clusters; expected JSONL and split assignments match. |
-| API demo validation | Three abstracts and the sample PDF pair are readable. Before positive mining runs, its missing output CSV is expected in the negative-input report. |
+| API demo validation | Four selected abstracts and the sample PDF pair are readable. Before positive mining runs, its missing output CSV is expected in the negative-input report. |
 | Holdout validation | 2,595 archived records with P/N labels and valid message structure. |
 | Question validation | 22 questions, 11 P and 11 N; configured model settings are reported. This does not establish account access. |
 | Human analysis | 98 participants, 22 questions, 2,156 responses; summary and participant/question tables are written locally. |
@@ -96,7 +96,7 @@ One retained archived holdout record has no mapped publication year (`10.1021/ja
 
 ### Three to five article/SI pairs
 
-For this small test, use `Demo/additional_demo_api_needed/literature_input/`. Replace the six blank PDFs below with the corresponding real documents. To use different papers, change `inventory.csv` and both filenames for each DOI.
+For this small test, use `Demo/03_api_demo/literature_input/`. Replace the six blank PDFs below with the corresponding real documents. To use different papers, change `inventory.csv` and both filenames for each DOI.
 
 | DOI | Replace under `literature_input/main/` | Replace under `literature_input/si/` |
 | --- | --- | --- |
@@ -104,10 +104,10 @@ For this small test, use `Demo/additional_demo_api_needed/literature_input/`. Re
 | `10.1002/adfm.200600944` | `10.1002_adfm.200600944.pdf` | `10.1002_adfm.200600944_SI.pdf` |
 | `10.1002/adfm.201002517` | `10.1002_adfm.201002517.pdf` | `10.1002_adfm.201002517_SI.pdf` |
 
-The DOI list controls selection. The local configuration accepts up to five papers and uses concurrency 1. Use documents with extractable text; scanned pages need OCR before this workflow. The illustrative pair in `Demo/05_data_mining/` is ready for a separate demonstration and does not need replacement.
+The DOI list controls selection. The local configuration accepts up to five papers and uses concurrency 1. Use documents with extractable text; scanned pages need OCR before this workflow. The illustrative pair in `Demo/03_api_demo/inputs/mining/` is ready for a separate demonstration and does not need replacement.
 
 ```bash
-python Demo/additional_demo_api_needed/run_demo.py validate --config-dir Demo/additional_demo_api_needed/configs/local_papers
+python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
 ```
 
 - [ ] Confirm that the selected article/SI pairs match the inventory and have readable text.
@@ -115,25 +115,25 @@ python Demo/additional_demo_api_needed/run_demo.py validate --config-dir Demo/ad
 - [ ] Check the models in the selected configuration files. Provide the API key through the hidden prompt or `OPENAI_API_KEY`.
 
 ```bash
-python Demo/additional_demo_api_needed/run_demo.py triage --live
-python Demo/additional_demo_api_needed/run_demo.py positive --config-dir Demo/additional_demo_api_needed/configs/local_papers --live
-python Demo/additional_demo_api_needed/run_demo.py negative --config-dir Demo/additional_demo_api_needed/configs/local_papers --live
+python Demo/03_api_demo/run_demo.py triage --live
+python Demo/03_api_demo/run_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/run_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
 ```
 
-The triage command uses the three abstracts in `Demo/additional_demo_api_needed/inputs/`. It is independent of the PDF selection. Positive mining must finish before negative mining. Negative mining can legitimately return no records when the chosen papers contain no eligible trial/failure evidence.
+The triage command selects the first four of the 12 abstracts in `Demo/03_api_demo/inputs/`. It is independent of the PDF selection. Positive mining must finish before negative mining. Negative mining can legitimately return no records when the chosen papers contain no eligible trial/failure evidence.
 
-Inspect the local-paper outputs under `results/examples/additional_demo_api_needed/local_papers/`:
+Inspect the local-paper outputs under `results/examples/03_api_demo/local_papers/`:
 
 - [ ] `positive/mof_extraction.csv`: fields agree with the source passages for the selected papers.
 - [ ] `positive/mof_json_store/`: article and numbered synthesis JSONs exist and retain all extracted fields.
 - [ ] `negative/`: plans identify their supporting text and correct successful parent; parent snapshots and enumerated records are retained.
 - [ ] Enumerated modifications correspond to the saved plan options. Their Cartesian combinations are reconstructed conditions, not a count of independently reported failed experiments.
 
-See [the API demo](../Demo/additional_demo_api_needed/README.md) for configuration names and output details. A new run with different inputs or settings needs fresh connected output paths; otherwise resume rules skip existing records.
+See [the API demo](../Demo/03_api_demo/README.md) for configuration names and output details. A new run with different inputs or settings needs fresh connected output paths; otherwise resume rules skip existing records.
 
 ### Desktop download check
 
-Install `.[fetch-gui]` on the target desktop. Use a local copy of `Demo/04_literature_retrieval/input_template.csv` with three to five selected DOIs and supported neutral publisher profiles. Clear only the download-state cells intended for this test. Launch each app with the selected file:
+Install `.[fetch-gui]` on the target desktop. Start with a local copy of `Demo/03_api_demo/literature_input/inventory.csv`, which contains three DOIs, their links, and supported neutral publisher profiles. Update the rows for the papers being tested; the apps add their download-state columns. For an existing working inventory, clear only the download-state cells intended for this test. Launch each app with the selected file:
 
 ```bash
 python tools/literature_retrieval/fetch_papers.py --workbook path/to/paper_test.csv
@@ -197,10 +197,11 @@ Install `.[notebook]` in the same environment as the workflow packages. Open eac
 | `notebooks/09_human_benchmark.ipynb` | Included anonymous questions and responses | Local analysis; select a new output directory for another cohort |
 | `Demo/01_data_cleaning/demo.ipynb` | Included raw records and lookups | Local cleaning demonstration |
 | `Demo/02_json_preparation/demo.ipynb` | Included cleaned tables or the cleaning demo output | Local JSONL preparation |
-| `Demo/03_abstract_triage/quickstart.ipynb` | Included 12-paper subset | Local input validation |
-| `Demo/additional_demo_api_needed/api_demo.ipynb` | Included abstracts/sample documents, or select the local-paper configuration directory | Keep all live switches false for validation; enable stages in order for model calls |
+| `Demo/03_api_demo/api_demo.ipynb` | Four abstracts selected from the included 12-paper subset and the sample article/SI pair; `.[mining,notebook]` installed; optionally select the local-paper configuration directory | Preview abstracts and exact requests locally; use `RUN_TRIAGE` for GPT predictions/reference comparison, then `RUN_POSITIVE_MINING` before `RUN_NEGATIVE_MINING`; all default to `False` |
 
 Optional document counting requires `.[document-counts]`; tokenizer resources may download on first use. Default notebook execution leaves live model calls disabled. Clear notebook outputs containing local paths, API output, or run-specific data before committing walkthroughs.
+
+For the API demo's triage stage, confirm that the displayed requests contain the bibliographic fields and abstracts, with human labels used only in the results comparison. A preview with `RUN_TRIAGE = False` validates setup only. A live run sends four abstracts to OpenAI, incurs API charges, and saves its outputs under `results/examples/03_api_demo/triage/`; inspect request statuses as well as predictions.
 
 ## 7. Check training and model evaluation
 

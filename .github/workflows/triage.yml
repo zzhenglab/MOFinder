@@ -36,10 +36,7 @@ jobs:
             /Demo/README.md
             /Demo/01_data_cleaning/
             /Demo/02_json_preparation/
-            /Demo/03_abstract_triage/
-            /Demo/04_literature_retrieval/
-            /Demo/05_data_mining/
-            /Demo/additional_demo_api_needed/
+            /Demo/03_api_demo/
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: ${{ matrix.python-version }}
@@ -48,15 +45,15 @@ jobs:
       - name: Run offline regression tests
         run: python -m unittest discover -s tests -v
       - name: Validate the small example
-        run: python Demo/03_abstract_triage/validate_example.py
+        run: python Demo/03_api_demo/run_demo.py triage
       - name: Validate all reference abstracts
         run: python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
       - name: Audit article literature retrieval without a desktop
         run: python tools/literature_retrieval/fetch_papers.py --validate
       - name: Audit SI literature retrieval without a desktop
         run: python tools/literature_retrieval/fetch_si.py --validate
-      - name: Execute the offline notebook
-        run: python -m jupyter nbconvert --to notebook --execute Demo/03_abstract_triage/quickstart.ipynb --output quickstart_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+      - name: Execute the API demo with model requests disabled
+        run: python -m jupyter nbconvert --to notebook --execute Demo/03_api_demo/api_demo.ipynb --output api_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Execute the optional walkthrough with screening disabled
         run: python -m jupyter nbconvert --to notebook --execute notebooks/01_abstract_triage.ipynb --output triage_walkthrough_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Match demonstration documents offline
@@ -69,10 +66,14 @@ jobs:
         run: python Demo/01_data_cleaning/run_demo.py --check
       - name: Run the JSON preparation demonstration
         run: python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
+      - name: Execute the cleaning notebook
+        run: python -m jupyter nbconvert --to notebook --execute Demo/01_data_cleaning/demo.ipynb --output cleaning_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+      - name: Execute the JSON preparation notebook
+        run: python -m jupyter nbconvert --to notebook --execute Demo/02_json_preparation/demo.ipynb --output json_preparation_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Validate the API demonstrations without requests
-        run: python Demo/additional_demo_api_needed/run_demo.py validate
+        run: python Demo/03_api_demo/run_demo.py validate
       - name: Validate the local article and SI templates
-        run: python Demo/additional_demo_api_needed/run_demo.py validate --config-dir Demo/additional_demo_api_needed/configs/local_papers
+        run: python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
       - name: Execute downstream walkthroughs with processing disabled
         run: >-
           python -m jupyter nbconvert --to notebook --execute
@@ -88,3 +89,7 @@ jobs:
         run: python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
       - name: Analyze anonymous human responses
         run: python -m mofinder.evaluation.human_quest analyze
+      - name: Prepare the portable training bundle
+        run: python tools/training/prepare_hpc.py --output results/local/ci-training-bundle
+      - name: Validate the training bundle without a GPU
+        run: python tools/training/train_hpc.py --bundle results/local/ci-training-bundle --validate-only

@@ -1,6 +1,6 @@
 # Evaluation validation
 
-The full offline suite passed **147 tests**. No live evaluation or training requests were made. Source notebook identities are recorded in [workflow_sources.json](workflow_sources.json); structured results are in [evaluation_validation.json](evaluation_validation.json).
+The original evaluation-integration checkpoint passed **147 tests**. No live evaluation or training requests were made. Source notebook identities are recorded in [workflow_sources.json](workflow_sources.json); structured results are in [evaluation_validation.json](evaluation_validation.json). This historical checkpoint predates the stricter P/N response parsing described below; its source-equivalence results are retained unchanged.
 
 | Check | Result |
 | --- | --- |
@@ -22,7 +22,9 @@ The public table exports retain scientific values from the archived processed da
 
 The holdout workflow records request/input identity and rejects attempts to resume a CSV without a matching manifest. It still permits independent analysis of existing CSVs. Recorded failed attempts remain recorded, following the source resume behavior.
 
-The question evaluator treats a response with no output text as empty; it does not derive a prediction from serialized response metadata. The original parser for actual response text, token-probability calculations, and valid-label metric denominators are preserved. Attempted/scored/failed counts are reported alongside metrics.
+The question evaluator treats a response with no output text as empty; it does not derive a prediction from serialized response metadata. At the checkpoint, the original parser, token-probability calculations, and valid-label metric denominators were preserved. Attempted/scored/failed counts were reported alongside metrics.
+
+New holdout and question-panel requests now accept only a standalone `P` or `N` after case and whitespace normalization. Explanations and other invalid text remain unscored, with raw responses retained. Token-probability fallback uses the actual retrieved label token. Saved CSV analysis continues to use the recorded predictions; it does not silently reparse historical answers. Start a fresh holdout output when moving from the earlier parsing protocol. See [holdout evaluation](holdout_evaluation.md) and [question-panel evaluation](quest_evaluation.md).
 
 ## Execution boundary
 

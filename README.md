@@ -17,14 +17,17 @@ git clone --recurse-submodules https://github.com/zzhenglab/MOFinder.git
 cd MOFinder
 ```
 
-First validate the small offline example:
+Start with the two offline demonstrations:
 
 ```bash
-python -m pip install -e .
-python Demo/03_abstract_triage/validate_example.py
+python -m pip install -e ".[curation,datasets]"
+python Demo/01_data_cleaning/run_demo.py --check
+python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
 ```
 
-Expected output: 12 reference papers, 12 scheduled abstracts, 9 Y and 3 N consensus labels, and zero missing reference abstracts. This example makes no model requests.
+These regenerate cleaned synthesis records and prepare grouped training/holdout JSONL. `--check` compares the files with the bundled expected outputs. Abstract triage and data mining are grouped under [`Demo/03_api_demo/`](Demo/03_api_demo/README.md).
+
+To try abstract triage and data mining, install `.[mining,notebook]` and open the [API demo](Demo/03_api_demo/api_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive and negative mining stages for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_demo/README.md).
 
 Install the API and plotting dependencies, then validate the full triage inputs:
 
@@ -65,7 +68,7 @@ The core workflow and reaction evaluation routines are implemented in Python. Sh
 | Reaction evaluation | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive/negative evaluation code and ground truth |
 | Fine-tuning | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training/holdout JSONL | Record completed job provenance and validate training on the target GPU system |
 
-See [the mining and dataset guide](docs/workflow.md) for extraction, curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md), and execution evidence is recorded in [triage validation](docs/validation.md), [literature retrieval validation](docs/literature_retrieval_validation.md), [mining validation](docs/mining_validation.md), and [evaluation validation](docs/evaluation_validation.md).
+See [the mining and dataset guide](docs/workflow.md) for extraction, curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md). The [22 September 2026 release audit](docs/release_audit.md) records the current checks and links to the earlier validation checkpoints.
 
 The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replacement files, commands, and remaining research artifacts for each workflow.
 
@@ -74,9 +77,9 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Task | Start here |
 | --- | --- |
 | Run data cleaning and JSON preparation without API access | [Offline demos](Demo/README.md) |
-| Try triage and positive/negative mining with an API key | [Additional demos](Demo/additional_demo_api_needed/README.md) |
+| Inspect abstracts, obtain GPT triage predictions, and try positive/negative mining | [API demo](Demo/03_api_demo/README.md) |
 | Look up chemical names and SMILES | [Original mapping tables](data/name_SMILES_mappers/README.md) |
-| Check installation and example inputs | [Offline example](Demo/03_abstract_triage/README.md) |
+| Check installation and example inputs | [Offline input check](Demo/03_api_demo/README.md#install-and-check-the-inputs) |
 | Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
 | Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
 | Explore the same workflow interactively | [Triage walkthrough](notebooks/01_abstract_triage.ipynb) |
@@ -84,11 +87,11 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Mining workflow](docs/workflow.md) |
 | Clean records and prepare training/holdout JSONL | [Curation](docs/curation.md) and [datasets](docs/datasets.md) |
-| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/additional_demo_api_needed/literature_input/README.md) |
+| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_demo/literature_input/README.md) |
 | Locate notebook operations in the Python implementation | [Source-to-code guide](docs/source_to_code.md) |
 | Inspect training, holdout, and record assignments | [Training datasets](data/training/README.md) and [split assignments](data/splits/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
-| Check the DOI-named sample documents locally | [Mining example](Demo/05_data_mining/README.md) |
+| Check the DOI-named sample documents locally | [Mining example](Demo/03_api_demo/inputs/mining/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
 | Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
 | Inspect data identities and transformations | [Data manifest](data/manifest.json) |
@@ -114,7 +117,7 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
 | `data/training/` and `data/splits/` | Training and holdout JSONL, record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
-| `Demo/` | Cleaning, JSON preparation, abstract triage, literature retrieval, and mining demonstrations |
+| `Demo/` | Offline cleaning and JSON preparation; one API demo for abstract triage and mining |
 | `results/` | Run conventions and figure source-data destination |
 | `docs/` | Installation, methods, stage status, and reproduction instructions |
 | `tools/literature_retrieval/` | Entry points for optional desktop download tools |
@@ -149,7 +152,7 @@ Saved model predictions are not yet included. Statistical methods and prompt-dev
 
 Each new run records its settings, prompt, input hashes, response status, and predictions. Generated run directories are local outputs. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
 
-Literature retrieval includes two 7,437-row input tables with their original download states. The desktop applications work on local copies and use locally calibrated browser controls. Research article and SI downloads remain local. The [demonstration PDFs](Demo/05_data_mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/metadata/literature_retrieval/README.md) for the input hashes and publisher-profile assignments.
+Literature retrieval includes two 7,437-row input tables with their original download states. The desktop applications work on local copies and use locally calibrated browser controls. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_demo/inputs/mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/metadata/literature_retrieval/README.md) for the input hashes and publisher-profile assignments.
 
 The current dataset configuration reads the newly generated positive and negative stage-6 cleaning outputs. Positive stage 6 is the input used by the source preparation notebook; optional stage 7 trimming is not selected automatically. A separate archived configuration reproduces preparation from the archived positive stage-6 and negative `stage 6_v3` records. Their public tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
 

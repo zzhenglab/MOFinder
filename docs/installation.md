@@ -9,7 +9,7 @@ Windows PowerShell, from the repository folder:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[api,plotting]"
-.\.venv\Scripts\python.exe Demo/03_abstract_triage/validate_example.py
+.\.venv\Scripts\python.exe Demo/03_api_demo/run_demo.py triage
 .\.venv\Scripts\python.exe -m mofinder.literature.triage --help
 ```
 
@@ -20,7 +20,7 @@ Linux or macOS:
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[api,plotting]"
-.venv/bin/python Demo/03_abstract_triage/validate_example.py
+.venv/bin/python Demo/03_api_demo/run_demo.py triage
 .venv/bin/python -m mofinder.literature.triage --help
 ```
 
@@ -85,11 +85,22 @@ python -m jupyter lab notebooks/01_abstract_triage.ipynb
 
 The notebook calls the same Python functions as the terminal workflow. Screening is disabled by default and must be enabled explicitly.
 
-## Offline verification
+Select the same environment for the notebook kernel and for running `.py` files. In VS Code, **Python: Select Interpreter** controls script execution; the notebook's kernel selector is independent. An import that works in a notebook can still fail in a terminal using another Python installation. Register a named kernel from the installed environment if needed:
 
 ```bash
+python -m ipykernel install --user --name mofinder-demo --display-name "Python (MOFinder demos)"
+```
+
+Use the environment's Python executable for that command. For the cleaning and JSON notebooks, also install `.[curation,datasets]`; for the combined API notebook, install `.[mining,notebook]`. On Windows, a short environment directory such as `%USERPROFILE%\.venvs\mofinder-demo` can avoid package-installation path-length errors in a deeply nested checkout.
+
+## Offline verification
+
+The full test suite covers more stages than the minimal triage installation. Install its dependencies before running all tests:
+
+```bash
+python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_abstract_triage/validate_example.py
+python Demo/03_api_demo/run_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 

@@ -2,6 +2,8 @@
 
 Validation performed on 21 September 2026 used a fresh Linux environment with Python 3.12.14. Installation of the source checkout and the `triage` dependency group completed successfully.
 
+This is the original triage migration checkpoint, retained as historical evidence. Its test count, example size, and environment limitations describe that checkpoint. The current small API demo selects four of its 12 reference abstracts and requires an explicitly enabled live stage for predictions; see [the demo guide](../Demo/03_api_demo/README.md).
+
 | Check | Result |
 | --- | --- |
 | Offline regression tests | 23 passed |
@@ -21,7 +23,7 @@ Validation performed on 21 September 2026 used a fresh Linux environment with Py
 | Live model screening | Not executed |
 | Interactive kernel session | Not established in the local validation environment |
 
-The local environment prohibits TCP and IPC socket binding, which prevents Jupyter kernel startup through `nbconvert`. This limit does not affect the command-line functions or in-process cell checks. Normal kernel execution is included in the Windows/Linux GitHub Actions workflow; consult the status for the commit being used.
+That Linux validation environment prohibited TCP and IPC socket binding, which prevented Jupyter kernel startup through `nbconvert`. This limit did not affect the command-line functions or in-process cell checks. Normal kernel execution is included in the Windows/Linux GitHub Actions workflow; consult the status for the commit being used.
 
 Controlled responses were used only for software checks. They are not model-performance results and are not part of the benchmark archive. No API key or live model request was used.
 
