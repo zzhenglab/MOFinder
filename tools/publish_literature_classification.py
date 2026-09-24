@@ -21,28 +21,12 @@ CATEGORIES = (
 INVENTORY_FIELDS = ["DOI", "Publisher", "DOI Link", "Classification"]
 TAXONOMY_POLICY = "synthesis-inclusive-v1"
 AUDIT_FIELDS = {
-    "DOI": "doi_key",
-    "Classification": "category",
-    "Triage decision": "triage_decision",
-    "Document Type": "Document Type",
-    "Bibliography row": "excel_row",
-    "Classification method": "classification_method",
-    "Taxonomy policy": "taxonomy_policy",
-    "Classification reason": "classification_reason",
-    "Primary topic category (v4)": "primary_topic_category",
-    "Primary topic evidence": "primary_topic_evidence",
-    "Framework synthesis reported": "has_framework_synthesis",
-    "Framework synthesis evidence": "framework_synthesis_evidence",
-    "Taxonomy reassigned": "taxonomy_reassigned",
-    "Reassignment reason": "reassignment_reason",
-    "Review needed": "review_needed",
-    "Low confidence": "low_confidence",
-    "Fallback used": "fallback_used",
-    "Fallback basis": "fallback_basis",
-    "Review reason": "review_reason",
-    "Evidence": "evidence",
-    "Primary topic reason": "primary_topic_reason",
-    "Classifier version": "classifier_version",
+    "DOI", "doi_key", "category", "triage_decision", "Document Type", "excel_row",
+    "classification_method", "taxonomy_policy", "classification_reason",
+    "primary_topic_category", "primary_topic_evidence", "has_framework_synthesis",
+    "framework_synthesis_evidence", "taxonomy_reassigned", "reassignment_reason",
+    "review_needed", "low_confidence", "fallback_used", "fallback_basis",
+    "review_reason", "evidence", "primary_topic_reason", "classifier_version",
 }
 
 
@@ -78,7 +62,7 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
     audit_path, repo_root = Path(audit_path), Path(repo_root)
     folder = repo_root / "data/metadata/literature_retrieval"
     fields, rows = read_csv(audit_path)
-    missing = (set(AUDIT_FIELDS.values()) | {"DOI"}) - set(fields)
+    missing = AUDIT_FIELDS - set(fields)
     if missing:
         raise ValueError(f"Missing audit fields: {sorted(missing)}")
     by_doi = {}
@@ -121,19 +105,6 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
             raise ValueError(f"Missing classification reason: {doi}")
         by_doi[doi] = {**row, "doi_key": doi}
 
-    prior_audit_path = folder / "classification_audit.csv"
-    if prior_audit_path.exists():
-        _, prior_rows = read_csv(prior_audit_path)
-        prior_by_doi = {normalize_doi(row["DOI"]): row for row in prior_rows}
-        if set(prior_by_doi) != set(by_doi):
-            raise ValueError("Published and incoming audits must cover the same DOI identities.")
-        for doi, row in by_doi.items():
-            prior = prior_by_doi[doi]
-            primary_topic = prior.get("Primary topic category (v4)", prior["Classification"])
-            if row["primary_topic_category"] != primary_topic:
-                raise ValueError(f"Historical primary topic changed: {doi}")
-            if row["triage_decision"] != prior["Triage decision"]:
-                raise ValueError(f"Historical triage decision changed: {doi}")
     _, bibliography = read_csv(repo_root / "data/metadata/literature_metadata.csv")
     bibliography_dois = {normalize_doi(row["DOI"]) for row in bibliography}
     if set(by_doi) != bibliography_dois:
@@ -148,6 +119,7 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
 
     manifest_path = folder / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    source_sha256 = digest(audit_path.read_bytes())
     parent_path = repo_root / "data/manifest.json"
     parent = json.loads(parent_path.read_text(encoding="utf-8"))
     old_exports = {entry["file"]: entry for entry in manifest["exports"]}
@@ -171,19 +143,6 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
         exports.append(entry)
 
     ordered = [by_doi[doi] for doi in sorted(by_doi)]
-    compact = [{"DOI": row["doi_key"], "Classification": row["category"]} for row in ordered]
-    audit = [{label: row[field] for label, field in AUDIT_FIELDS.items()} for row in ordered]
-    for name, columns, records in (
-        ("doi_classification.csv", ["DOI", "Classification"], compact),
-        ("classification_audit.csv", list(AUDIT_FIELDS), audit),
-    ):
-        content = csv_bytes(columns, records)
-        outputs[folder / name] = content
-        exports.append({"file": name, "sha256": digest(content), "row_count": len(records),
-                        "unique_doi_count": len(records), "columns": columns,
-                        "source_id": "literature_topic_classification_audit",
-                        "source_sha256": digest(audit_path.read_bytes())})
-
     summary = [{"Category": category,
                 "Before triage": sum(row["category"] == category for row in ordered),
                 "After triage (Y)": sum(row["category"] == category and row["triage_decision"] == "Y" for row in ordered),
@@ -191,19 +150,19 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
                for category in CATEGORIES]
     provenance = {
         "source_id": "literature_topic_classification_audit",
-        "source_sha256": digest(audit_path.read_bytes()),
+        "source_sha256": source_sha256,
         "bibliography_sha256": digest((repo_root / "data/metadata/literature_metadata.csv").read_bytes()),
         "classifier_versions": sorted({row["classifier_version"] for row in ordered}),
         "generated_by_llm": False,
         "validated_against_expert_topic_labels": False,
-        "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; prior primary topics and uncertainty flags retained.",
+        "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; evidence and uncertainty flags retained in the source analysis.",
         "taxonomy_policy": TAXONOMY_POLICY,
         "chemical_synthesis_definition": "Includes original papers reporting experimental MOF/framework preparation, even when structure or application is the main topic.",
         "taxonomy_change_interpretation": "A descriptive category-definition change; does not establish improved screening accuracy.",
         "primary_topic_classifier_version": "4.0.0",
         "previous_publication": "https://github.com/zzhenglab/MOFinder/tree/76738b0/data/metadata/literature_retrieval",
         "triage_decisions": "Existing saved model Y/N decisions, joined separately; not used to assign topics.",
-        "canonical_record": "Longest title/abstract representative; Bibliography row identifies its original workbook row (header is row 1).",
+        "canonical_record": "Longest title/abstract representative; original workbook row retained in the source analysis.",
         "unique_dois": len(ordered),
         "triage_counts": dict(sorted(Counter(row["triage_decision"] for row in ordered).items())),
         "review_needed_count": sum(row["review_needed"] == "True" for row in ordered),
@@ -238,20 +197,15 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
         "Preserve retrieval DOI, publisher identifiers, DOI links, duplicate rows, and original row order.",
         "Remove Downloaded and SI Downloaded columns from published inventories.",
         "Join rough topic Classification by normalized DOI; preserve all saved triage decisions.",
-        "Export one normalized DOI per row for the full bibliography, sorted by DOI.",
-        "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv.",
-        "Preserve v4 primary-contribution labels and saved Y/N; publish synthesis-inclusive categories with matched framework-preparation evidence.",
+        "Keep assignment evidence, review flags, and canonical source rows in the source analysis.",
+        "Publish Classification in the article and supporting-information inventories only.",
     ])
     outputs[manifest_path] = json_bytes(manifest)
-    new_entries = []
-    for entry in exports[2:]:
-        new_entries.append({"path": "data/metadata/literature_retrieval/" + entry["file"],
-                            "source_id": entry["source_id"], "source_sha256": entry["source_sha256"],
-                            "export_sha256": entry["sha256"], "rows": entry["row_count"],
-                            "columns": entry["columns"],
-                            "provenance_manifest": "data/metadata/literature_retrieval/manifest.json"})
-    replaced = {entry["path"] for entry in new_entries}
-    parent["files"] = [entry for entry in parent["files"] if entry["path"] not in replaced] + new_entries
+    retired_exports = {
+        "data/metadata/literature_retrieval/doi_classification.csv",
+        "data/metadata/literature_retrieval/classification_audit.csv",
+    }
+    parent["files"] = [entry for entry in parent["files"] if entry["path"] not in retired_exports]
     outputs[parent_path] = json_bytes(parent)
     # All identities, coverage, and provenance are checked before the first write.
     for path, content in outputs.items():

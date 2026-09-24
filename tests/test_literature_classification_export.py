@@ -31,8 +31,14 @@ class ClassificationPublicationTests(unittest.TestCase):
         self.manifest = {"schema_version": 1, "exports": [
             {"file": name, "source_sha256": "source-workbook-hash", "status_counts": {"Downloaded": {"1": 2}}}
             for name in ("papers.csv", "supporting_information.csv")]}
+        self.manifest["exports"].extend({"file": name} for name in
+                                        ("doi_classification.csv", "classification_audit.csv"))
         (self.folder / "manifest.json").write_text(json.dumps(self.manifest), encoding="utf-8")
-        (self.root / "data/manifest.json").write_text(json.dumps({"files": [{"path": "unchanged"}]}), encoding="utf-8")
+        (self.root / "data/manifest.json").write_text(json.dumps({"files": [
+            {"path": "unchanged"},
+            {"path": "data/metadata/literature_retrieval/doi_classification.csv"},
+            {"path": "data/metadata/literature_retrieval/classification_audit.csv"},
+        ]}), encoding="utf-8")
         self.audit_path = self.root / "full_decision_audit.csv"
         self.audit = [{"DOI": doi, "doi_key": doi, "category": category, "triage_decision": decision,
                        "Document Type": "Article", "excel_row": row, "classification_method": "topic rules",
@@ -66,14 +72,14 @@ class ClassificationPublicationTests(unittest.TestCase):
             self.assertEqual(fields, export.INVENTORY_FIELDS)
             self.assertEqual([row["DOI"] for row in rows], ["10.1234/YES"] * 2)
             self.assertEqual([row["Classification"] for row in rows], ["Chemical synthesis"] * 2)
-        fields, rows = export.read_csv(self.folder / "doi_classification.csv")
-        self.assertEqual(fields, ["DOI", "Classification"])
-        self.assertEqual([row["DOI"] for row in rows], ["10.1234/no", "10.1234/yes"])
-        _, rows = export.read_csv(self.folder / "classification_audit.csv")
-        self.assertTrue(all(row["Review reason"] == "Weak evidence" for row in rows))
-        yes_row = next(row for row in rows if row["Triage decision"] == "Y")
-        self.assertEqual(yes_row["Primary topic category (v4)"], "Crystal engineering")
-        self.assertEqual(yes_row["Framework synthesis evidence"], "Two coordination frameworks were synthesized.")
+        self.assertEqual({path.name for path in self.folder.iterdir()},
+                         {"papers.csv", "supporting_information.csv", "manifest.json"})
+        manifest = json.loads((self.folder / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual([entry["file"] for entry in manifest["exports"]],
+                         ["papers.csv", "supporting_information.csv"])
+        parent = json.loads((self.root / "data/manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(parent["files"], [{"path": "unchanged"}])
+        self.assertEqual(result["source_sha256"], export.digest(self.audit_path.read_bytes()))
         before = {path: path.read_bytes() for path in self.folder.iterdir()}
         export.publish(self.audit_path, self.root)
         self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
@@ -111,59 +117,43 @@ class ClassificationPublicationTests(unittest.TestCase):
                     export.publish(self.audit_path, self.root)
                 self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
 
-    def test_republication_rejects_changes_to_historical_primary_topics(self):
-        export.publish(self.audit_path, self.root)
-        before = {path: path.read_bytes() for path in self.folder.iterdir()}
-        self.audit[0]["primary_topic_category"] = "Functional materials"
-        self.write_audit()
-        with self.assertRaisesRegex(ValueError, "Historical primary topic changed"):
-            export.publish(self.audit_path, self.root)
-        self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
-
-
 class PublishedClassificationIntegrityTests(unittest.TestCase):
     def test_public_tables_match_each_other_and_recorded_provenance(self):
         folder = ROOT / "data/metadata/literature_retrieval"
         manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual([entry["file"] for entry in manifest["exports"]],
+                         ["papers.csv", "supporting_information.csv"])
+        provenance = manifest["classification"]
+        by_inventory = {}
         for entry in manifest["exports"]:
             path = folder / entry["file"]
             self.assertEqual(export.digest(path.read_bytes()), entry["sha256"], path.name)
             fields, rows = export.read_csv(path)
             self.assertEqual(fields, entry["columns"], path.name)
             self.assertEqual(len(rows), entry["row_count"], path.name)
-        _, compact = export.read_csv(folder / "doi_classification.csv")
-        _, audit = export.read_csv(folder / "classification_audit.csv")
-        by_doi = {row["DOI"]: row for row in audit}
-        self.assertEqual(len(by_doi), 13770)
-        self.assertEqual(len(audit), len(by_doi))
-        self.assertEqual(compact, [{"DOI": row["DOI"], "Classification": row["Classification"]} for row in audit])
-        self.assertTrue(all(row["Classification"] in export.CATEGORIES for row in audit))
-        self.assertEqual(Counter(row["Triage decision"] for row in audit), {"Y": 7435, "N": 6335})
-        yes_dois = {doi for doi, row in by_doi.items() if row["Triage decision"] == "Y"}
-        for name in ("papers.csv", "supporting_information.csv"):
-            fields, rows = export.read_csv(folder / name)
             self.assertEqual(fields, export.INVENTORY_FIELDS)
             self.assertEqual(len(rows), 7437)
-            self.assertEqual({export.normalize_doi(row["DOI"]) for row in rows}, yes_dois)
-            self.assertTrue(all(row["Classification"] == by_doi[export.normalize_doi(row["DOI"])]["Classification"] for row in rows))
-        provenance = manifest["classification"]
+            self.assertTrue(all(row["Classification"] in export.CATEGORIES for row in rows))
+            self.assertEqual(Counter(row["Classification"] for row in rows), entry["classification_counts"])
+            by_doi = {export.normalize_doi(row["DOI"]): row["Classification"] for row in rows}
+            self.assertEqual(len(by_doi), entry["unique_doi_count"])
+            self.assertEqual(len(by_doi), provenance["triage_counts"]["Y"])
+            self.assertTrue(all(row["Classification"] == by_doi[export.normalize_doi(row["DOI"])]
+                                for row in rows))
+            self.assertEqual(Counter(by_doi.values()),
+                             {row["Category"]: row["After triage (Y)"] for row in provenance["topic_summary"]})
+            by_inventory[path.name] = by_doi
+        self.assertEqual(by_inventory["papers.csv"], by_inventory["supporting_information.csv"])
+        self.assertEqual(provenance["unique_dois"], 13770)
+        self.assertEqual(provenance["triage_counts"], {"Y": 7435, "N": 6335})
+        for row in provenance["topic_summary"]:
+            self.assertEqual(row["Before triage"], row["After triage (Y)"] + row["After triage (N)"])
+        self.assertEqual(sum(row["Before triage"] for row in provenance["topic_summary"]), 13770)
+        self.assertEqual(sum(row["After triage (N)"] for row in provenance["topic_summary"]), 6335)
         self.assertEqual(provenance["taxonomy_policy"], export.TAXONOMY_POLICY)
-        self.assertEqual(Counter(row["Primary topic category (v4)"] for row in audit),
-                         {"Chemical synthesis": 2017, "Theory & modeling": 500,
-                          "Crystal engineering": 4862, "Functional materials": 6391})
-        for row in audit:
-            reassigned = row["Classification"] != row["Primary topic category (v4)"]
-            self.assertEqual(row["Taxonomy reassigned"] == "True", reassigned)
-            if reassigned:
-                self.assertEqual(row["Classification"], "Chemical synthesis")
-                self.assertEqual(row["Framework synthesis reported"], "True")
-                self.assertTrue(row["Framework synthesis evidence"])
-                self.assertTrue(row["Reassignment reason"])
-        self.assertEqual(provenance["taxonomy_reassigned_count"],
-                         sum(row["Taxonomy reassigned"] == "True" for row in audit))
-        self.assertEqual(provenance["review_needed_count"], sum(row["Review needed"] == "True" for row in audit))
-        self.assertEqual(provenance["fallback_count"], sum(row["Fallback used"] == "True" for row in audit))
         self.assertFalse(provenance["generated_by_llm"])
+        self.assertEqual(export.digest((folder.parent / "literature_metadata.csv").read_bytes()),
+                         provenance["bibliography_sha256"])
         self.assertEqual(export.digest((ROOT / provenance["classifier_path"]).read_bytes()), provenance["classifier_sha256"])
 
 

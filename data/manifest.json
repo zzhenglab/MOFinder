@@ -99,50 +99,6 @@
       "sha256": "3a5e1db062cce138e5bbaa4783ad1da0cd555da96f7b11714e858814e8c829fa",
       "entries": 2290,
       "transformation": "Byte-identical copy of the original mapping dictionary."
-    },
-    {
-      "path": "data/metadata/literature_retrieval/doi_classification.csv",
-      "source_id": "literature_topic_classification_audit",
-      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5",
-      "export_sha256": "615297fe760c95aa350632f2b7f797575dcba9923a414ec09dec8bf7765aa1e1",
-      "rows": 13770,
-      "columns": [
-        "DOI",
-        "Classification"
-      ],
-      "provenance_manifest": "data/metadata/literature_retrieval/manifest.json"
-    },
-    {
-      "path": "data/metadata/literature_retrieval/classification_audit.csv",
-      "source_id": "literature_topic_classification_audit",
-      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5",
-      "export_sha256": "857a97d4c42483cd9b1911e4ec43a33b98e10f668f56504b79b1cba968df6443",
-      "rows": 13770,
-      "columns": [
-        "DOI",
-        "Classification",
-        "Triage decision",
-        "Document Type",
-        "Bibliography row",
-        "Classification method",
-        "Taxonomy policy",
-        "Classification reason",
-        "Primary topic category (v4)",
-        "Primary topic evidence",
-        "Framework synthesis reported",
-        "Framework synthesis evidence",
-        "Taxonomy reassigned",
-        "Reassignment reason",
-        "Review needed",
-        "Low confidence",
-        "Fallback used",
-        "Fallback basis",
-        "Review reason",
-        "Evidence",
-        "Primary topic reason",
-        "Classifier version"
-      ],
-      "provenance_manifest": "data/metadata/literature_retrieval/manifest.json"
     }
   ],
   "workflow_source": {

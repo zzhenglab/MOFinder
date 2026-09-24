@@ -66,59 +66,14 @@
         "Functional materials": 2139,
         "Theory & modeling": 72
       }
-    },
-    {
-      "file": "doi_classification.csv",
-      "sha256": "615297fe760c95aa350632f2b7f797575dcba9923a414ec09dec8bf7765aa1e1",
-      "row_count": 13770,
-      "unique_doi_count": 13770,
-      "columns": [
-        "DOI",
-        "Classification"
-      ],
-      "source_id": "literature_topic_classification_audit",
-      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5"
-    },
-    {
-      "file": "classification_audit.csv",
-      "sha256": "857a97d4c42483cd9b1911e4ec43a33b98e10f668f56504b79b1cba968df6443",
-      "row_count": 13770,
-      "unique_doi_count": 13770,
-      "columns": [
-        "DOI",
-        "Classification",
-        "Triage decision",
-        "Document Type",
-        "Bibliography row",
-        "Classification method",
-        "Taxonomy policy",
-        "Classification reason",
-        "Primary topic category (v4)",
-        "Primary topic evidence",
-        "Framework synthesis reported",
-        "Framework synthesis evidence",
-        "Taxonomy reassigned",
-        "Reassignment reason",
-        "Review needed",
-        "Low confidence",
-        "Fallback used",
-        "Fallback basis",
-        "Review reason",
-        "Evidence",
-        "Primary topic reason",
-        "Classifier version"
-      ],
-      "source_id": "literature_topic_classification_audit",
-      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5"
     }
   ],
   "transformations": [
     "Preserve retrieval DOI, publisher identifiers, DOI links, duplicate rows, and original row order.",
     "Remove Downloaded and SI Downloaded columns from published inventories.",
     "Join rough topic Classification by normalized DOI; preserve all saved triage decisions.",
-    "Export one normalized DOI per row for the full bibliography, sorted by DOI.",
-    "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv.",
-    "Preserve v4 primary-contribution labels and saved Y/N; publish synthesis-inclusive categories with matched framework-preparation evidence."
+    "Keep assignment evidence, review flags, and canonical source rows in the source analysis.",
+    "Publish Classification in the article and supporting-information inventories only."
   ],
   "classification": {
     "source_id": "literature_topic_classification_audit",
@@ -129,14 +84,14 @@
     ],
     "generated_by_llm": false,
     "validated_against_expert_topic_labels": false,
-    "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; prior primary topics and uncertainty flags retained.",
+    "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; evidence and uncertainty flags retained in the source analysis.",
     "taxonomy_policy": "synthesis-inclusive-v1",
     "chemical_synthesis_definition": "Includes original papers reporting experimental MOF/framework preparation, even when structure or application is the main topic.",
     "taxonomy_change_interpretation": "A descriptive category-definition change; does not establish improved screening accuracy.",
     "primary_topic_classifier_version": "4.0.0",
     "previous_publication": "https://github.com/zzhenglab/MOFinder/tree/76738b0/data/metadata/literature_retrieval",
     "triage_decisions": "Existing saved model Y/N decisions, joined separately; not used to assign topics.",
-    "canonical_record": "Longest title/abstract representative; Bibliography row identifies its original workbook row (header is row 1).",
+    "canonical_record": "Longest title/abstract representative; original workbook row retained in the source analysis.",
     "unique_dois": 13770,
     "triage_counts": {
       "N": 6335,
