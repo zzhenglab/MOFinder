@@ -14,16 +14,9 @@ Demo/**/outputs/
 Demo/**/*_executed.ipynb
 demo/out/
 demo/*_executed.ipynb
-results/abstract_triage/
-results/local/
-results/literature_retrieval/
+/results/
 data/local/
 configs/local/
 notebooks/triage_results/
 downloaded/
 SI downloaded/
-results/extraction/
-results/curation/
-results/datasets/
-results/examples/
-results/evaluation/

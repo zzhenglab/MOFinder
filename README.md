@@ -120,12 +120,11 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `data/training/` and `data/splits/` | Training and holdout JSONL, record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
 | `Demo/` | Offline cleaning and JSON preparation; one API demo for abstract triage and mining |
-| `results/` | Run conventions and figure source-data destination |
 | `docs/` | Installation, methods, stage status, and reproduction instructions |
 | `tools/literature_retrieval/` | Entry points for optional desktop download tools |
 | `tools/training/` | Training-bundle preparation and GPU training entry points |
 | `docs/environments/` | Recorded dependency environment |
-| `tests/` | Offline checks of workflow behavior, statistical calculations, and data integrity |
+| `tests/` | Automated checks of workflows, splitting, and data integrity, run by GitHub Actions |
 
 Python modules contain the reusable implementation and support terminal or HPC execution. The notebooks provide short interactive walkthroughs with input instructions and calls to those same functions. Each offline demo also has a Python runner. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
 
@@ -152,7 +151,7 @@ The current triage input consists of 13,773 bibliography rows and 478 annotated 
 
 Complete saved model-run artifacts are not yet included. Statistical methods and prompt-development history are described in [the triage guide](docs/triage.md).
 
-Each new run records its settings, prompt, input hashes, response status, and predictions. Generated run directories are local outputs. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
+Each new run records its settings, prompt, input hashes, response status, and predictions. Workflows create `results/` locally as needed; generated outputs are excluded from Git. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
 
 This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/metadata/literature_retrieval/README.md).
 
