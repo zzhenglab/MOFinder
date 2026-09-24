@@ -175,7 +175,7 @@ class CurationTests(unittest.TestCase):
         repository = Path(__file__).resolve().parents[1]
         self.pd.DataFrame([self.row()]).to_csv(self.root / "input.csv", index=False)
         settings = self.settings()
-        settings["linker_mw_csv"] = repository / "data/lookups/linker_molecular_weights.csv"
+        settings["linker_mw_csv"] = repository / "data/organic_linker_info/linker_molecular_weights.csv"
         result = validate_inputs(settings)
         self.assertTrue(result["valid"], result["issues"])
         lookup_check = result["checks"][-1]

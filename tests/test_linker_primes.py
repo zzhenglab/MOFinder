@@ -11,7 +11,7 @@ import unittest
 from mofinder.curation.linker_primes import correct_csv, correct_frame, correct_record, load_corrections
 
 ROOT = Path(__file__).resolve().parents[1]
-LOOKUP = ROOT / "data/lookups/linker_prime_corrections.json"
+LOOKUP = ROOT / "data/organic_linker_info/linker_prime_corrections.json"
 
 
 class LinkerPrimeTests(unittest.TestCase):
@@ -56,14 +56,14 @@ class LinkerPrimeTests(unittest.TestCase):
             for mode in ("positive", "negative"):
                 with self.subTest(mode=mode), redirect_stdout(StringIO()):
                     result = getattr(linkers, f"clean_{mode}")(
-                        source, output, linker_mw_path=ROOT / "data/lookups/linker_molecular_weights.csv",
+                        source, output, linker_mw_path=ROOT / "data/organic_linker_info/linker_molecular_weights.csv",
                         linker_prime_corrections=LOOKUP,
                     )
                     self.assertEqual(result.linker_1.tolist(), ["2,2′-bipyrimidine"])
 
     def test_corrected_derivative_and_archive_checksums(self):
-        source = ROOT / "data/processed/revised/negative_stage6_v3.csv"
-        corrected_dir = ROOT / "data/processed/corrected"
+        source = ROOT / "data/cleaned_data/archived/negative_stage6_v3.csv"
+        corrected_dir = ROOT / "data/cleaned_data/linker_corrected"
         manifest = json.loads((corrected_dir / "manifest.json").read_text())
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "corrected.csv"

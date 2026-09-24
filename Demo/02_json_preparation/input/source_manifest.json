@@ -1,6 +1,6 @@
 {
   "negative": {
-    "path": "data/processed/revised/negative_stage6_v3.csv",
+    "path": "data/cleaned_data/archived/negative_stage6_v3.csv",
     "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
     "source_rows_zero_based": [
       0,

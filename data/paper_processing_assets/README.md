@@ -1,4 +1,4 @@
-# Literature retrieval image templates
+# Paper processing assets
 
 `icons/` contains 48 image templates for the literature retrieval workflow.
 The image bytes are unchanged; filenames use neutral publisher identifiers.

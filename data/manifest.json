@@ -109,14 +109,14 @@
   },
   "related_manifests": {
     "literature_retrieval_inventories": "data/metadata/literature_retrieval/manifest.json",
-    "literature_retrieval_templates": "data/literature_retrieval_assets/manifest.json",
+    "paper_processing_assets": "data/paper_processing_assets/manifest.json",
     "mining_examples": "Demo/03_api_demo/inputs/mining/manifest.json",
-    "revised_cleaned_snapshots": "data/processed/revised/manifest.json",
+    "archived_cleaned_data": "data/cleaned_data/archived/manifest.json",
     "training_and_validation": "data/training/manifest.json",
-    "linker_molecular_weights": "data/lookups/manifest.json",
+    "organic_linker_info": "data/organic_linker_info/manifest.json",
     "human_mof_quest": "benchmarks/mof_quest/human_manifest.json",
     "cleaning_demo": "Demo/01_data_cleaning/input/source_manifest.json",
     "json_preparation_demo": "Demo/02_json_preparation/input/source_manifest.json",
-    "corrected_linker_records": "data/processed/corrected/manifest.json"
+    "linker_corrected_data": "data/cleaned_data/linker_corrected/manifest.json"
   }
 }

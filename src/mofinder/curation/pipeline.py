@@ -95,7 +95,7 @@ def validate_inputs(settings, mode="both", stage="all"):
                 f"Missing linker molecular-weight table: {lookup}. Supply the headerless "
                 "two-column linker-name/MW CSV used for the revised cleaning run and set "
                 "linker_mw_csv in configs/curation.json. The supplied lookup is available "
-                "at data/lookups/linker_molecular_weights.csv."
+                "at data/organic_linker_info/linker_molecular_weights.csv."
             )
         else:
             names, unresolved, count, known_rows, unknown_rows = {}, set(), 0, 0, 0

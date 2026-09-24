@@ -372,15 +372,16 @@
     "notes": {
       "positive": "Archived positive stage 6 records with four local-path columns removed.",
       "negative": "Archived negative stage 6_v3 records with four local-path columns removed.",
-      "prompt_relocation": "The unchanged classification prompt is now prompts/training/reaction_prediction.txt. Only its configuration path and associated file hashes were updated; the archived dataset bytes and all other preparation settings are unchanged."
+      "prompt_relocation": "The unchanged classification prompt is now prompts/training/reaction_prediction.txt. Only its configuration path and associated file hashes were updated; the archived dataset bytes and all other preparation settings are unchanged.",
+      "data_relocation": "Cleaned records now live in data/cleaned_data/archived. Only paths and the configuration hash changed; scientific records, preparation settings, and archived splits are unchanged."
     },
     "files": {
       "positive_csv": {
-        "path": "data/processed/revised/positive_stage6.csv",
+        "path": "data/cleaned_data/archived/positive_stage6.csv",
         "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5"
       },
       "negative_csv": {
-        "path": "data/processed/revised/negative_stage6_v3.csv",
+        "path": "data/cleaned_data/archived/negative_stage6_v3.csv",
         "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06"
       },
       "metadata_file": {
@@ -397,8 +398,9 @@
       },
       "config_file": {
         "path": "configs/dataset_preparation_archived.json",
-        "sha256": "1959a2e14a00db4b6acfc04922dbcb946ec33113d17249b73287076083616ec9",
-        "previous_sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a"
+        "sha256": "bc1f6f10328ff9ad0a112fe1564888c01d0d076ecf6c6b59d4e2a87e11623b36",
+        "previous_sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a",
+        "before_data_relocation_sha256": "1959a2e14a00db4b6acfc04922dbcb946ec33113d17249b73287076083616ec9"
       }
     },
     "versions": {
@@ -407,8 +409,8 @@
     },
     "effective_settings": {
       "project_root": ".",
-      "positive_csv": "data/processed/revised/positive_stage6.csv",
-      "negative_csv": "data/processed/revised/negative_stage6_v3.csv",
+      "positive_csv": "data/cleaned_data/archived/positive_stage6.csv",
+      "negative_csv": "data/cleaned_data/archived/negative_stage6_v3.csv",
       "metadata_file": "data/metadata/publication_years.csv",
       "output_dir": "results/datasets/archived_conditions",
       "prompt_file": "prompts/training/reaction_prediction.txt",

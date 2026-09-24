@@ -37,7 +37,7 @@ def load_settings(config_file, mode):
     section = config[mode]
     paths = {key: (root / Path(section[key]).expanduser()).resolve() for key in
              ["workbook", "calibration_file", "app_settings_file", "download_dir", "working_dir"]}
-    paths["icon_dir"] = (root / Path(config["icon_dir"]).expanduser()).resolve()
+    paths["paper_processing_icon_dir"] = (root / Path(config["paper_processing_icon_dir"]).expanduser()).resolve()
     settings = {"mode": mode, "config_file": path, "project_root": root, **paths,
                 "sample_urls": section.get("sample_urls", {}), "tuning": section.get("tuning", {})}
     for key, value in settings["sample_urls"].items():

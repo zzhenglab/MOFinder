@@ -141,7 +141,7 @@ class LiteratureRetrievalTests(unittest.TestCase):
         app.pending_set = {i for i, status in enumerate(statuses) if not status.strip()}
         app.journal_fail_counts = {}
         app.skip_journal_keys = set()
-        app.get_icon_dir = Mock(return_value=self.folder)
+        app.get_paper_processing_icon_dir = Mock(return_value=self.folder)
         app.ui_queue = queue.Queue()
         calls = []
         answers = iter(outcomes)
@@ -195,7 +195,7 @@ class LiteratureRetrievalTests(unittest.TestCase):
         def existing(target, timeout):
             return target.with_suffix(".pdf") if str(target) in available else None
         with ExitStack() as stack:
-            for name, value in {"abort_now": False, "save_requested": False, "ICON_DIR": self.folder,
+            for name, value in {"abort_now": False, "save_requested": False, "PAPER_PROCESSING_ICON_DIR": self.folder,
                                 "PUBLISHER_FLOW": {"publisher_A": flow}, "fresh_file_ready_any": existing}.items():
                 stack.enter_context(patch.object(module, name, value))
             stack.enter_context(patch.object(module, "ensure_si_download_dir", return_value=self.folder))
@@ -250,7 +250,7 @@ class LiteratureRetrievalTests(unittest.TestCase):
     def test_headless_help_and_validation_do_not_import_gui_or_write_files(self):
         path = self.folder / "inventory.csv"
         common.write_inventory(self.frame(["", "0", "1"]), path)
-        config = {"project_root": ".", "icon_dir": "icons"}
+        config = {"project_root": ".", "paper_processing_icon_dir": "icons"}
         for mode in ("papers", "si"):
             config[mode] = {"workbook": "inventory.csv", "working_dir": f"working/{mode}",
                             "calibration_file": f"working/{mode}/calibration.json",

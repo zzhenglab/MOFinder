@@ -31,7 +31,7 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_archived.json
 ```
 
-This selects the public scientific-data exports in `data/processed/revised/` and writes a separate run to `results/datasets/archived_conditions`.
+This selects the public scientific-data exports in `data/cleaned_data/archived/` and writes a separate run to `results/datasets/archived_conditions`.
 
 The source dataset notebook selected positive stage 6, before the optional positive stage 7 trimming. That choice is preserved. It named a negative `stage 6_v3` CSV, which is a separate prior input; current negative curation writes a stage 6 CSV. Set `negative_csv` explicitly to the historical snapshot when reproducing that run. A run from newly mined or curated data is a new dataset and can produce different split assignments. The input notes and SHA-256 hashes are recorded in its summary.
 

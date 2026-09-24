@@ -21,4 +21,4 @@ smiles = name_to_smiles.get("HCl (36–38%)")
 names = smiles_to_names.get(smiles, [])
 ```
 
-Run this example from the repository root. The original cache-based resolution workflow is described in the [historical workflow](../../docs/legacy_workflow.md). Molecular-weight conversion during curation uses the separate [linker lookup](../lookups/README.md).
+Run this example from the repository root. The original cache-based resolution workflow is described in the [historical workflow](../../docs/legacy_workflow.md). Molecular-weight conversion during curation uses the separate [linker lookup](../organic_linker_info/README.md).

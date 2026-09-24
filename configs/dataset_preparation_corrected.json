@@ -1,7 +1,7 @@
 {
   "project_root": "..",
-  "positive_csv": "data/processed/revised/positive_stage6.csv",
-  "negative_csv": "data/processed/corrected/negative_stage6_v3.csv",
+  "positive_csv": "data/cleaned_data/archived/positive_stage6.csv",
+  "negative_csv": "data/cleaned_data/linker_corrected/negative_stage6_v3.csv",
   "metadata_file": "data/metadata/publication_years.csv",
   "output_dir": "results/datasets/corrected_conditions",
   "prompt_file": "prompts/training/reaction_prediction.txt",

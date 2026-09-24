@@ -79,7 +79,7 @@ from .common import (
 
 # Desktop dependencies load when the GUI is launched.
 HAS_CV2 = False
-ICON_DIR = Path("data/literature_retrieval_assets/icons")
+PAPER_PROCESSING_ICON_DIR = Path("data/paper_processing_assets/icons")
 DOWNLOAD_DIR = Path("data/raw/si")
 SETTINGS = {}
 
@@ -864,7 +864,7 @@ class App:
         if not coords_save or len(coords_save) != 2:
             raise SystemExit("Global FILE NAME BOX XY not set.")
 
-        icon_dir = Path(ICON_DIR)
+        icon_dir = Path(PAPER_PROCESSING_ICON_DIR)
         if not icon_dir.exists():
             raise SystemExit(f"Icon folder not found:\n{icon_dir}\nPut SI icons in this folder.")
 
@@ -1053,12 +1053,12 @@ _TUNING_KEYS = (
 
 def configure(settings: dict):
     """Set paths and optional timing overrides before opening the desktop app."""
-    global DEFAULT_EXCEL_PATH, APP_SETTINGS, CAL_FILE, ICON_DIR, DOWNLOAD_DIR, SAMPLE_URLS, SETTINGS
+    global DEFAULT_EXCEL_PATH, APP_SETTINGS, CAL_FILE, PAPER_PROCESSING_ICON_DIR, DOWNLOAD_DIR, SAMPLE_URLS, SETTINGS
     SETTINGS = dict(settings)
     DEFAULT_EXCEL_PATH = str(settings["workbook"])
     APP_SETTINGS = str(settings["app_settings_file"])
     CAL_FILE = str(settings["calibration_file"])
-    ICON_DIR = Path(settings["icon_dir"])
+    PAPER_PROCESSING_ICON_DIR = Path(settings["paper_processing_icon_dir"])
     DOWNLOAD_DIR = Path(settings["download_dir"])
     SAMPLE_URLS = dict(settings.get("sample_urls", {}))
     tuning = settings.get("tuning", {})
@@ -1070,9 +1070,9 @@ def configure(settings: dict):
 
 def warn_missing_templates():
     """Report known absent captures without changing the image matching sequence."""
-    if icon_path(ICON_DIR, "publisher_W_SI_1") is None:
+    if icon_path(PAPER_PROCESSING_ICON_DIR, "publisher_W_SI_1") is None:
         log("Missing template publisher_W_SI_1: capture the profile W anchor locally before using that flow.")
-    if icon_path(ICON_DIR, "publisher_S_SI_Accept2") is None:
+    if icon_path(PAPER_PROCESSING_ICON_DIR, "publisher_S_SI_Accept2") is None:
         log("Optional template publisher_S_SI_Accept2 is absent; this cookie-button check will be skipped.")
 
 
@@ -1110,7 +1110,7 @@ def main(argv=None):
         if args.workbook:
             settings["workbook"] = Path(args.workbook).expanduser().resolve()
         if args.validate:
-            report = audit_inventory(settings["workbook"], mode="si", icon_dir=settings["icon_dir"])
+            report = audit_inventory(settings["workbook"], mode="si", icon_dir=settings["paper_processing_icon_dir"])
             print(json.dumps(display_paths(report), indent=2, default=str))
             return 0
         launch(settings)

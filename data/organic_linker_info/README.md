@@ -1,4 +1,4 @@
-# Chemical lookup tables
+# Organic linker information
 
 `linker_molecular_weights.csv` preserves the source lookup table byte for byte. It is the default linker lookup in `configs/curation.json`.
 
@@ -18,4 +18,4 @@ Blank weights are unresolved. They are not estimated or replaced. Linker amounts
 
 `manifest.json` records provenance and integrity information. See [curation](../../docs/curation.md) for the workflow and conversion rules.
 
-`linker_prime_corrections.json` restores 167 documented linker spellings from intact records associated with the same DOI. It applies only to exact DOI/name pairs in the six linker-name and abbreviation fields. The default curation configuration applies this lookup before linker filtering and amount conversion. [Corrected stage-6 records](../processed/corrected/README.md) and a separate dataset-preparation configuration are also provided; archived model inputs retain their original values.
+`linker_prime_corrections.json` restores 167 documented linker spellings from intact records associated with the same DOI. It applies only to exact DOI/name pairs in the six linker-name and abbreviation fields. The default curation configuration applies this lookup before linker filtering and amount conversion. [Corrected stage-6 records](../cleaned_data/linker_corrected/README.md) and a separate dataset-preparation configuration are also provided; archived model inputs retain their original values.

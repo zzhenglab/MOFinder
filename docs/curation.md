@@ -10,11 +10,11 @@ The curation package normalizes positive synthesis records and enumerated negati
 | --- | --- |
 | Positive extraction | `results/extraction/positive/mof_extraction.csv` |
 | Enumerated negative extraction | `results/extraction/negative/mof_extraction_failures_enum.csv` |
-| Linker molecular weights | `data/lookups/linker_molecular_weights.csv` |
+| Linker molecular weights | `data/organic_linker_info/linker_molecular_weights.csv` |
 
 The molecular-weight table is a UTF-8 CSV with **no header**, containing linker name and molecular weight in g/mol. Quote names that contain commas. Names are matched case-insensitively after stripping whitespace. Numeric molecular weights must be positive and finite; conflicting duplicate numeric weights are rejected. A blank weight indicates an unresolved value and remains blank.
 
-The source lookup is preserved byte-for-byte as `data/lookups/linker_molecular_weights.csv`. It contains 591 rows: 217 with numeric weights and 374 with blank weights. Case-insensitive matching gives 210 names with known weights and 372 names without weights. Repeated names have consistent values. The lookup manifest records its source identifier and SHA-256 hash.
+The source lookup is preserved byte-for-byte as `data/organic_linker_info/linker_molecular_weights.csv`. It contains 591 rows: 217 with numeric weights and 374 with blank weights. Case-insensitive matching gives 210 names with known weights and 372 names without weights. Repeated names have consistent values. The lookup manifest records its source identifier and SHA-256 hash.
 
 The workflow requires the molecular-weight table before creating outputs. For names absent from the table or present with a blank weight, mass-unit records remain unconverted and are removed by the final linker-unit filter. Reported molar amounts do not require a lookup weight. Validation reports known and unresolved lookup counts; the linker-stage report also counts mass-unit records without a molecular weight.
 
@@ -94,9 +94,9 @@ The two branches retain these distinct rules. In both branches, `h3btb` and `H3B
 
 ### Publication-specific prime restoration
 
-`linker_prime_corrections` in `configs/curation.json` points to [167 documented spellings](../data/lookups/linker_prime_corrections.json) restored from intact same-publication records. The linker stage applies each rule only when the DOI and entire linker name or abbreviation match. Single, double, triple, and quadruple primes are distinguished. Missing or null configuration disables this lookup. The run manifest records the correction file and its SHA-256 hash.
+`linker_prime_corrections` in `configs/curation.json` points to [167 documented spellings](../data/organic_linker_info/linker_prime_corrections.json) restored from intact same-publication records. The linker stage applies each rule only when the DOI and entire linker name or abbreviation match. Single, double, triple, and quadruple primes are distinguished. Missing or null configuration disables this lookup. The run manifest records the correction file and its SHA-256 hash.
 
-The [corrected negative stage-6 table](../data/processed/corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. Original snapshots and reported training/holdout files remain available for reproducing the archived runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
+The [corrected negative stage-6 table](../data/cleaned_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. Original snapshots and reported training/holdout files remain available for reproducing the archived runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
 
 The Python mass parser corrects two related formula parsing errors found in the notebooks. A leading coefficient now multiplies the complete dot-separated fragment, and square brackets remain intact during abbreviation expansion. Thus `6H2O` contributes H12O6, fractional hydrates are handled consistently, and bracketed complexes can be parsed.
 

@@ -1,6 +1,6 @@
 {
   "input_csv": "input/mof_extraction.csv",
   "linker_mw_csv": "input/linker_molecular_weights.csv",
-  "linker_prime_corrections": "../../data/lookups/linker_prime_corrections.json",
+  "linker_prime_corrections": "../../data/organic_linker_info/linker_prime_corrections.json",
   "output_dir": "outputs"
 }

@@ -21,7 +21,7 @@ For a notebook walkthrough, install `python -m pip install -e ".[curation,datase
 | --- | --- |
 | [input/mof_extraction.csv](input/mof_extraction.csv) | Raw extraction records with document-availability flags |
 | [input/linker_molecular_weights.csv](input/linker_molecular_weights.csv) | Headerless linker-name/MW lookup used for amount conversion |
-| [../../data/lookups/linker_prime_corrections.json](../../data/lookups/linker_prime_corrections.json) | Exact DOI/name prime restorations shared with the main curation workflow |
+| [../../data/organic_linker_info/linker_prime_corrections.json](../../data/organic_linker_info/linker_prime_corrections.json) | Exact DOI/name prime restorations shared with the main curation workflow |
 | [input/source_manifest.json](input/source_manifest.json) | Source hashes, selected DOIs, and original zero-based row positions |
 | [reference/positive_stage6_supplied.csv](reference/positive_stage6_supplied.csv) | Corresponding records from the supplied full-corpus cleaned table |
 | [expected/mof_extraction_1_2_3_4_5_6.csv](expected/mof_extraction_1_2_3_4_5_6.csv) | Regenerated stage 6 output, containing 146 records |

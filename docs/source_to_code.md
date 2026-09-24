@@ -41,7 +41,7 @@ Cell numbers below are zero-based positions in the source notebooks, including M
 | Positive-extraction prompts | [positive_system.txt](../prompts/positive_system.txt), [positive_user.txt](../prompts/positive_user.txt) |
 | Negative-plan prompts | [negative_system.txt](../prompts/negative_system.txt), [negative_user.txt](../prompts/negative_user.txt) |
 | Shared reaction-prediction prompt for datasets, MOF Quest, and HPC training | [reaction_prediction.txt](../prompts/training/reaction_prediction.txt) |
-| Publication-specific linker prime corrections | [linker_prime_corrections.json](../data/lookups/linker_prime_corrections.json) |
+| Publication-specific linker prime corrections | [linker_prime_corrections.json](../data/organic_linker_info/linker_prime_corrections.json) |
 | Paths, model groups, and run settings | [configs/](../configs/) |
 | Manual negative-enumeration rules | [negative_corrections.json](../configs/negative_corrections.json) |
 | MOF Quest condition records and human responses | [benchmarks/mof_quest/](../benchmarks/mof_quest/) |

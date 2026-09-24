@@ -25,12 +25,11 @@ jobs:
             !/data/
             !/Demo/
             /data/metadata/
-            /data/lookups/
-            /data/literature_retrieval_assets/
+            /data/organic_linker_info/
+            /data/paper_processing_assets/
             /data/training/
             /data/splits/
-            /data/processed/revised/
-            /data/processed/corrected/
+            /data/cleaned_data/
             /data/manifest.json
             /data/name_SMILES_mappers/
             /Demo/README.md

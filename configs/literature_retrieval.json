@@ -1,6 +1,6 @@
 {
   "project_root": "..",
-  "icon_dir": "data/literature_retrieval_assets/icons",
+  "paper_processing_icon_dir": "data/paper_processing_assets/icons",
   "papers": {
     "workbook": "data/metadata/literature_retrieval/papers.csv",
     "working_dir": "results/literature_retrieval/papers/inventories",

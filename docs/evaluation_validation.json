@@ -77,7 +77,7 @@
   "lookup_identity": {
     "files": [
       {
-        "path": "data/lookups/linker_molecular_weights.csv",
+        "path": "data/organic_linker_info/linker_molecular_weights.csv",
         "sha256": "c97d21a12c8e333d2ecafdd3e75464567009b2cfab4f7da9d8bb15e46e7633e5",
         "transformation": "Byte-identical copy under a descriptive filename.",
         "header": false,

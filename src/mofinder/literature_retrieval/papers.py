@@ -41,7 +41,7 @@ CHROME_FLAGS = [
 # Paths are resolved from the configuration at launch.
 DEFAULT_EXCEL_PATH = ""
 APP_SETTINGS = "app_settings.json"
-ICON_DIR = None
+PAPER_PROCESSING_ICON_DIR = None
 DOWNLOAD_DIR = None
 CONFIG_SETTINGS = {}
 
@@ -549,11 +549,11 @@ class App:
             pass
 
     # icon prescreen
-    def get_icon_dir(self) -> Optional[Path]:
-        return Path(ICON_DIR) if ICON_DIR is not None else None
+    def get_paper_processing_icon_dir(self) -> Optional[Path]:
+        return Path(PAPER_PROCESSING_ICON_DIR) if PAPER_PROCESSING_ICON_DIR is not None else None
 
     def refresh_icon_availability(self):
-        icon_dir = self.get_icon_dir()
+        icon_dir = self.get_paper_processing_icon_dir()
         for name in SUPPORTED_PREFIXES:
             count = 0; available = False
             if icon_dir and icon_dir.exists():
@@ -768,7 +768,7 @@ class App:
         processed_since_save = 0; start_ts = time.time(); processed_since_start = 0
         coords_save = self.cal_data.get("GLOBAL_SAVE", {}).get("save_xy")
         if not coords_save: raise SystemExit("Global FILE NAME BOX XY not set.")
-        icon_dir = self.get_icon_dir()
+        icon_dir = self.get_paper_processing_icon_dir()
 
         for idx in indices:
             if abort_now: raise SystemExit("Aborted")
@@ -892,12 +892,12 @@ TUNING_KEYS = (
 
 def configure(settings: dict):
     """Apply resolved paths and optional timing overrides without opening a desktop."""
-    global DEFAULT_EXCEL_PATH, APP_SETTINGS, CAL_FILE, ICON_DIR, DOWNLOAD_DIR, SAMPLE_URLS, CONFIG_SETTINGS
+    global DEFAULT_EXCEL_PATH, APP_SETTINGS, CAL_FILE, PAPER_PROCESSING_ICON_DIR, DOWNLOAD_DIR, SAMPLE_URLS, CONFIG_SETTINGS
     CONFIG_SETTINGS = dict(settings)
     DEFAULT_EXCEL_PATH = str(settings["workbook"])
     APP_SETTINGS = Path(settings["app_settings_file"])
     CAL_FILE = Path(settings["calibration_file"])
-    ICON_DIR = Path(settings["icon_dir"])
+    PAPER_PROCESSING_ICON_DIR = Path(settings["paper_processing_icon_dir"])
     DOWNLOAD_DIR = Path(settings["download_dir"])
     SAMPLE_URLS = dict(settings.get("sample_urls", {}))
     for name, value in settings.get("tuning", {}).items():
@@ -934,7 +934,7 @@ def main(argv=None):
         if args.workbook is not None:
             settings["workbook"] = args.workbook.expanduser().resolve()
         if args.validate:
-            report = audit_inventory(settings["workbook"], "papers", icon_dir=settings["icon_dir"])
+            report = audit_inventory(settings["workbook"], "papers", icon_dir=settings["paper_processing_icon_dir"])
             print(json.dumps(display_paths(report), indent=2, ensure_ascii=False))
             return 0
         launch(settings)

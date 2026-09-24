@@ -112,8 +112,10 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `src/mofinder/plotting/` | Triage figures and associated source tables |
 | `notebooks/` | Short walkthroughs that call the Python implementation |
 | `configs/` and `prompts/` | Named settings and prompt text |
-| `data/literature_retrieval_assets/` | Browser image templates with neutral publisher identifiers |
-| `data/` | Input manifests, metadata, chemical lookups, dataset snapshots, and split records |
+| `data/paper_processing_assets/` | Browser image templates with neutral publisher identifiers |
+| `data/` | Input manifests, metadata, organic linker information, dataset snapshots, and split records |
+| `data/organic_linker_info/` | Organic linker molecular weights and publication-specific name corrections |
+| `data/cleaned_data/` | Archived positive and negative records, plus linker-corrected negative records |
 | `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
 | `data/training/` and `data/splits/` | Training and holdout JSONL, record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
@@ -129,13 +131,13 @@ Python modules contain the reusable implementation and support terminal or HPC e
 
 ## Data and reproducibility
 
-The processed tables and training records are available directly:
+The cleaned positive and negative tables and training records are available directly:
 
 | File | Contents | Records |
 | --- | --- | ---: |
-| [`data/processed/revised/positive_stage6.csv`](data/processed/revised/positive_stage6.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
-| [`data/processed/revised/negative_stage6_v3.csv`](data/processed/revised/negative_stage6_v3.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
-| [`data/processed/corrected/negative_stage6_v3.csv`](data/processed/corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
+| [`data/cleaned_data/archived/positive_stage6.csv`](data/cleaned_data/archived/positive_stage6.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
+| [`data/cleaned_data/archived/negative_stage6_v3.csv`](data/cleaned_data/archived/negative_stage6_v3.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
+| [`data/cleaned_data/linker_corrected/negative_stage6_v3.csv`](data/cleaned_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
 | [`data/training/train.jsonl`](data/training/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
 | [`data/training/holdout.jsonl`](data/training/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
 | [`data/splits/split_assignments.csv`](data/splits/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
@@ -158,7 +160,7 @@ Published inventories omit download-status columns; the desktop applications mai
 
 The current dataset configuration reads the newly generated positive and negative stage-6 cleaning outputs. Positive stage 6 is the input used by the source preparation notebook; optional stage 7 trimming is not selected automatically. A separate archived configuration reproduces preparation from the archived positive stage-6 and negative `stage 6_v3` records. Their public tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
 
-Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/processed/corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. Archived model inputs and assignments remain unchanged.
+Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/cleaned_data/linker_corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. Archived model inputs and assignments remain unchanged.
 
 The archived training and validation JSONL files retain their original records. Model evaluation reads reference answers locally for scoring and sends only the intended reaction inputs. Human responses are distributed with anonymous participant IDs; the original workbook remains the source for provenance. See [evaluation](docs/evaluation.md).
 

@@ -100,7 +100,7 @@ The negative enumerator applies the Cartesian product of the permitted option li
 
 The split groups precursor, linker, and solvent identities under the configured settings. This is not a DOI-disjoint split. The forced benchmark conditions and their cluster exclusions are recorded separately. Publication-year subsets are produced from training records; they are not automatically separate prospective test sets.
 
-The archived negative `stage 6_v3` snapshot is distributed with scientific values preserved and four local-path columns omitted in `data/processed/revised/`. The archived configuration uses that exact table. The ordinary configuration connects to newly generated negative stage-6 output and records its provenance separately. A new curation run should not be assumed identical to the archived snapshot.
+The archived negative `stage 6_v3` snapshot is distributed with scientific values preserved and four local-path columns omitted in `data/cleaned_data/archived/`. The archived configuration uses that exact table. The ordinary configuration connects to newly generated negative stage-6 output and records its provenance separately. A new curation run should not be assumed identical to the archived snapshot.
 
 ## Remaining research inputs
 

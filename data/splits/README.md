@@ -15,7 +15,7 @@ These files record the partition used by [train.jsonl](../training/train.jsonl) 
 
 Training and holdout have no shared clusters or exact condition inputs. Their P:N ratio is 88:85. Distinct clusters from the same DOI can occur in both partitions.
 
-`source_row_id` is the zero-based row number in the original concatenation of the positive and negative tables, before filtering. IDs below 15,340 refer to [positive_stage6.csv](../processed/revised/positive_stage6.csv). For larger IDs, subtract 15,340 to obtain the zero-based row number in [negative_stage6_v3.csv](../processed/revised/negative_stage6_v3.csv). Header rows are excluded. `is_success` is `True` for P and `False` for N. The assignment table contains retained records only; filtering counts appear in the summary.
+`source_row_id` is the zero-based row number in the original concatenation of the positive and negative tables, before filtering. IDs below 15,340 refer to [positive_stage6.csv](../cleaned_data/archived/positive_stage6.csv). For larger IDs, subtract 15,340 to obtain the zero-based row number in [negative_stage6_v3.csv](../cleaned_data/archived/negative_stage6_v3.csv). Header rows are excluded. `is_success` is `True` for P and `False` for N. The assignment table contains retained records only; filtering counts appear in the summary.
 
 The CSV uses UTF-8 with a byte-order mark for spreadsheet compatibility. Paths in the summary are relative to the repository root. The publication-year subset paths identify files generated during preparation; those subsets can be recreated with:
 

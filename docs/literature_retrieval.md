@@ -55,7 +55,8 @@ timings, image-match thresholds, retry limits, and save intervals.
 | App settings | `results/literature_retrieval/papers/app_settings.json` | `results/literature_retrieval/si/app_settings.json` |
 | Download directory | `data/local/articles/` | `data/local/supporting_information/` |
 
-Both applications use `data/literature_retrieval_assets/icons/`. Download directories,
+Both applications use `paper_processing_icon_dir`, set to
+`data/paper_processing_assets/icons/`. Download directories,
 calibration, app settings, and working inventories are local outputs excluded
 from version control.
 
@@ -108,7 +109,7 @@ loaded as public defaults.
 
 Image names use neutral publisher identifiers. Renaming preserves the image
 bytes and does not change their visible content. See
-[the image-template inventory](../data/literature_retrieval_assets/README.md) for checksums
+[the image-template inventory](../data/paper_processing_assets/README.md) for checksums
 and flow references.
 
 The required `publisher_W_SI_1.png` entry template is included. The optional `publisher_S_SI_Accept2.png` cookie-button alternative remains absent. Image matching still requires a compatible local browser appearance.

@@ -7,8 +7,8 @@
   "corrections_sha256": "a3ca86bfb5ef957a3a8f95498f44b7ee0bbea724447d95bae7618089338a3834",
   "schema_version": 1,
   "file": "negative_stage6_v3.csv",
-  "source_file": "data/processed/revised/negative_stage6_v3.csv",
-  "corrections_file": "data/lookups/linker_prime_corrections.json",
+  "source_file": "data/cleaned_data/archived/negative_stage6_v3.csv",
+  "corrections_file": "data/organic_linker_info/linker_prime_corrections.json",
   "encoding": "utf-8-sig",
   "transformation": "Exact DOI and complete linker-name/abbreviation matches only. All other fields and row order are unchanged.",
   "columns": 89
