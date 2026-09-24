@@ -103,8 +103,8 @@
     {
       "path": "data/metadata/literature_retrieval/doi_classification.csv",
       "source_id": "literature_topic_classification_audit",
-      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
-      "export_sha256": "d50bcdfa9f925c5736530d019ed372113fec3e04ab099e065e694d3ade3d17f6",
+      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5",
+      "export_sha256": "615297fe760c95aa350632f2b7f797575dcba9923a414ec09dec8bf7765aa1e1",
       "rows": 13770,
       "columns": [
         "DOI",
@@ -115,8 +115,8 @@
     {
       "path": "data/metadata/literature_retrieval/classification_audit.csv",
       "source_id": "literature_topic_classification_audit",
-      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
-      "export_sha256": "450d28e652248975c01f31826d4d22d519a6819ba656ddda6c961414e6e43fc7",
+      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5",
+      "export_sha256": "857a97d4c42483cd9b1911e4ec43a33b98e10f668f56504b79b1cba968df6443",
       "rows": 13770,
       "columns": [
         "DOI",
@@ -125,6 +125,14 @@
         "Document Type",
         "Bibliography row",
         "Classification method",
+        "Taxonomy policy",
+        "Classification reason",
+        "Primary topic category (v4)",
+        "Primary topic evidence",
+        "Framework synthesis reported",
+        "Framework synthesis evidence",
+        "Taxonomy reassigned",
+        "Reassignment reason",
         "Review needed",
         "Low confidence",
         "Fallback used",

@@ -19,6 +19,7 @@ CATEGORIES = (
     "Functional materials",
 )
 INVENTORY_FIELDS = ["DOI", "Publisher", "DOI Link", "Classification"]
+TAXONOMY_POLICY = "synthesis-inclusive-v1"
 AUDIT_FIELDS = {
     "DOI": "doi_key",
     "Classification": "category",
@@ -26,6 +27,14 @@ AUDIT_FIELDS = {
     "Document Type": "Document Type",
     "Bibliography row": "excel_row",
     "Classification method": "classification_method",
+    "Taxonomy policy": "taxonomy_policy",
+    "Classification reason": "classification_reason",
+    "Primary topic category (v4)": "primary_topic_category",
+    "Primary topic evidence": "primary_topic_evidence",
+    "Framework synthesis reported": "has_framework_synthesis",
+    "Framework synthesis evidence": "framework_synthesis_evidence",
+    "Taxonomy reassigned": "taxonomy_reassigned",
+    "Reassignment reason": "reassignment_reason",
     "Review needed": "review_needed",
     "Low confidence": "low_confidence",
     "Fallback used": "fallback_used",
@@ -85,7 +94,8 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
             raise ValueError(f"Unresolved/unknown topic for {doi}: {row['category']!r}")
         if row["triage_decision"] not in {"Y", "N"}:
             raise ValueError(f"Unresolved triage decision: {doi}")
-        for flag in ("review_needed", "low_confidence", "fallback_used"):
+        for flag in ("review_needed", "low_confidence", "fallback_used",
+                     "has_framework_synthesis", "taxonomy_reassigned"):
             if row[flag] not in {"True", "False"}:
                 raise ValueError(f"Invalid {flag} flag: {doi}")
         if row["fallback_used"] == "True" and not row["fallback_basis"]:
@@ -94,7 +104,36 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
             raise ValueError(f"Pure rule-generated publication does not accept overrides: {doi}")
         if not row["classifier_version"]:
             raise ValueError(f"Missing classification provenance: {doi}")
+        if row["taxonomy_policy"] != TAXONOMY_POLICY:
+            raise ValueError(f"Unknown taxonomy policy: {doi}")
+        if row["primary_topic_category"] not in CATEGORIES:
+            raise ValueError(f"Unresolved/unknown primary topic: {doi}")
+        reassigned = row["category"] != row["primary_topic_category"]
+        if (row["taxonomy_reassigned"] == "True") != reassigned:
+            raise ValueError(f"Inconsistent taxonomy reassignment flag: {doi}")
+        if reassigned and (row["category"] != "Chemical synthesis"
+                           or row["has_framework_synthesis"] != "True"
+                           or not row["reassignment_reason"]):
+            raise ValueError(f"Unsupported taxonomy reassignment: {doi}")
+        if row["has_framework_synthesis"] == "True" and not row["framework_synthesis_evidence"]:
+            raise ValueError(f"Missing framework synthesis evidence: {doi}")
+        if not row["classification_reason"]:
+            raise ValueError(f"Missing classification reason: {doi}")
         by_doi[doi] = {**row, "doi_key": doi}
+
+    prior_audit_path = folder / "classification_audit.csv"
+    if prior_audit_path.exists():
+        _, prior_rows = read_csv(prior_audit_path)
+        prior_by_doi = {normalize_doi(row["DOI"]): row for row in prior_rows}
+        if set(prior_by_doi) != set(by_doi):
+            raise ValueError("Published and incoming audits must cover the same DOI identities.")
+        for doi, row in by_doi.items():
+            prior = prior_by_doi[doi]
+            primary_topic = prior.get("Primary topic category (v4)", prior["Classification"])
+            if row["primary_topic_category"] != primary_topic:
+                raise ValueError(f"Historical primary topic changed: {doi}")
+            if row["triage_decision"] != prior["Triage decision"]:
+                raise ValueError(f"Historical triage decision changed: {doi}")
     _, bibliography = read_csv(repo_root / "data/metadata/literature_metadata.csv")
     bibliography_dois = {normalize_doi(row["DOI"]) for row in bibliography}
     if set(by_doi) != bibliography_dois:
@@ -157,7 +196,12 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
         "classifier_versions": sorted({row["classifier_version"] for row in ordered}),
         "generated_by_llm": False,
         "validated_against_expert_topic_labels": False,
-        "method": "Deterministic rough topic rules using title, abstract, and document type; uncertainty flags retained.",
+        "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; prior primary topics and uncertainty flags retained.",
+        "taxonomy_policy": TAXONOMY_POLICY,
+        "chemical_synthesis_definition": "Includes original papers reporting experimental MOF/framework preparation, even when structure or application is the main topic.",
+        "taxonomy_change_interpretation": "A descriptive category-definition change; does not establish improved screening accuracy.",
+        "primary_topic_classifier_version": "4.0.0",
+        "previous_publication": "https://github.com/zzhenglab/MOFinder/tree/76738b0/data/metadata/literature_retrieval",
         "triage_decisions": "Existing saved model Y/N decisions, joined separately; not used to assign topics.",
         "canonical_record": "Longest title/abstract representative; Bibliography row identifies its original workbook row (header is row 1).",
         "unique_dois": len(ordered),
@@ -167,6 +211,9 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
         "fallback_count": sum(row["fallback_used"] == "True" for row in ordered),
         "manual_overrides_applied": 0,
         "unclassified_count": 0,
+        "framework_synthesis_reported_count": sum(row["has_framework_synthesis"] == "True" for row in ordered),
+        "taxonomy_reassigned_count": sum(row["taxonomy_reassigned"] == "True" for row in ordered),
+        "primary_topic_counts": dict(sorted(Counter(row["primary_topic_category"] for row in ordered).items())),
         "topic_summary": summary,
     }
     if analysis_manifest is not None:
@@ -175,6 +222,8 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
             raise ValueError("Analysis manifest must confirm topics do not use triage decisions.")
         if source_manifest.get("manual_overrides_applied") != 0:
             raise ValueError("Pure rule-generated publication requires zero manual overrides.")
+        if source_manifest.get("taxonomy_policy") != TAXONOMY_POLICY:
+            raise ValueError("Analysis manifest must record the synthesis-inclusive taxonomy policy.")
         provenance["analysis_manifest_sha256"] = digest(Path(analysis_manifest).read_bytes())
         input_hashes = source_manifest.get("inputs", {})
         provenance["input_sha256"] = sorted(set(input_hashes.values()))
@@ -185,12 +234,13 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
         classifier_path = Path(classifier).resolve()
         provenance["classifier_path"] = classifier_path.relative_to(repo_root.resolve()).as_posix()
         provenance["classifier_sha256"] = digest(classifier_path.read_bytes())
-    manifest.update(schema_version=2, exports=exports, classification=provenance, transformations=[
+    manifest.update(schema_version=3, exports=exports, classification=provenance, transformations=[
         "Preserve retrieval DOI, publisher identifiers, DOI links, duplicate rows, and original row order.",
         "Remove Downloaded and SI Downloaded columns from published inventories.",
         "Join rough topic Classification by normalized DOI; preserve all saved triage decisions.",
         "Export one normalized DOI per row for the full bibliography, sorted by DOI.",
         "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv.",
+        "Preserve v4 primary-contribution labels and saved Y/N; publish synthesis-inclusive categories with matched framework-preparation evidence.",
     ])
     outputs[manifest_path] = json_bytes(manifest)
     new_entries = []

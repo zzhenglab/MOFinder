@@ -10,7 +10,7 @@ links, and publisher-routing identifiers are preserved.
 | [`papers.csv`](papers.csv) | Article retrieval inventory | DOI, Publisher, DOI Link, Classification |
 | [`supporting_information.csv`](supporting_information.csv) | Supporting-information retrieval inventory | DOI, Publisher, DOI Link, Classification |
 | [`doi_classification.csv`](doi_classification.csv) | All 13,770 unique bibliography DOIs | DOI, Classification |
-| [`classification_audit.csv`](classification_audit.csv) | All 13,770 unique bibliography DOIs | Topic label, saved triage Y/N, document type, canonical bibliography row, method, review flags, evidence, classifier version |
+| [`classification_audit.csv`](classification_audit.csv) | All 13,770 unique bibliography DOIs | Classification, earlier primary topic, framework-synthesis evidence, saved triage Y/N, document type, canonical bibliography row, policy, review flags, classifier version |
 
 ## What the classification means
 
@@ -19,19 +19,30 @@ deterministic classifications based on article titles, abstracts, and document
 types, intended for a broad descriptive analysis. They have not been validated
 against expert topic labels and should not be treated as ground truth.
 
-Each DOI has one of four topics based on the reported primary contribution:
+Each DOI has one of four mutually exclusive categories. The revised definition
+gives Chemical synthesis priority when an original experimental paper reports
+preparing a MOF or coordination framework, even when its main contribution is
+structural analysis or application performance:
 
 - Chemical synthesis: synthetic-route development, molecular/ligand synthesis,
-  or post-synthetic chemistry; routine framework preparation is weak evidence.
+  post-synthetic chemistry, and experimental MOF/framework preparation reported
+  in structural or application papers.
 - Theory & modeling: primarily computation/theory, plus identified review
   articles under this analysis's review policy.
-- Crystal engineering: constructing or understanding coordination structures,
-  networks, and topology, including new frameworks with substantial structural analysis.
-- Functional materials: application/property performance, including derived
-  materials and catalysts used to make molecular products.
+- Crystal engineering: coordination structures, networks, and topology without
+  sufficient evidence of reported experimental framework preparation.
+- Functional materials: application/property performance without sufficient
+  evidence of reported framework preparation, including derived materials and
+  catalysts used to make molecular products.
 
 The [public classifier source](../../../tools/literature_triage/topic_classifier.py)
 defines the exact precedence and evidence patterns.
+
+This is a change in descriptive taxonomy, not a new screening result or evidence
+of better screening accuracy. The earlier v4 primary-contribution category is
+retained separately in the audit, together with the evidence for assigning a
+paper to Chemical synthesis under the revised definition. The previous published
+classification is also available at [commit 76738b0](https://github.com/zzhenglab/MOFinder/tree/76738b0/data/metadata/literature_retrieval).
 
 All papers receive a topic, but assigning a topic does not resolve every
 uncertainty. `Review needed`, `Review reason`, `Low confidence`, `Fallback used`,
@@ -39,6 +50,14 @@ uncertainty. `Review needed`, `Review reason`, `Low confidence`, `Fallback used`
 assignments, and fallback provenance. Overall, 8,925 assignments retain a review
 flag. The compact DOI table omits these details for convenience; use the audit
 for interpretation.
+
+The original primary-topic reason, evidence, and review diagnostics describe
+the retained v4 assignment. `Classification reason`, `Framework synthesis
+evidence`, and `Reassignment reason` explain the revised grouping separately.
+Primary-topic scores in the upstream analysis also remain unchanged; they are
+heuristic evidence scores, not probabilities. Framework preparation can be
+missed when it is not stated clearly in the title or abstract, so absence of a
+matched preparation claim does not establish that a paper reports no synthesis.
 
 `Triage decision` is a **separate, previously saved model Y/N decision** about
 inclusion for synthesis-information extraction. It is not the source of the
@@ -48,19 +67,23 @@ both Y and N. Every paper is counted once in corpus-level topic summaries.
 
 | Category | Before triage | After triage (Y) | After triage (N) |
 | --- | ---: | ---: | ---: |
-| Chemical synthesis | 2,017 | 879 | 1,138 |
-| Theory & modeling | 500 | 85 | 415 |
-| Crystal engineering | 4,862 | 2,968 | 1,894 |
-| Functional materials | 6,391 | 3,503 | 2,888 |
+| Chemical synthesis | 5,360 | 3,168 | 2,192 |
+| Theory & modeling | 477 | 72 | 405 |
+| Crystal engineering | 3,557 | 2,057 | 1,500 |
+| Functional materials | 4,376 | 2,138 | 2,238 |
 | Unclassified | 0 | 0 | 0 |
 | **TOTAL** | **13,770** | **7,435** | **6,335** |
+
+Chemical synthesis now contains more Y than N under the revised definition.
+The synthesis-inclusive grouping moves 3,343 papers from their earlier primary
+topics into Chemical synthesis; each move retains matched preparation evidence
+and the original category. All 13,770 saved Y/N decisions remain unchanged.
 
 All 124 previously unclassified papers now have provisional topic assignments.
 Of these, 77 use broad lexical fallback and remain explicitly flagged as low
 confidence; none uses the unsupported corpus-domain default. The remaining 47
-are assigned by expanded topic rules. Chemical synthesis still has more N than
-Y under the primary-topic definition above; the recorded triage decisions and
-category rules were not adjusted to force a preferred ratio.
+are assigned by expanded topic rules. These primary-topic diagnostics remain in
+the audit after applying the synthesis-inclusive grouping.
 
 Duplicate bibliography rows use a single canonical representative selected by
 title/abstract text length. `Bibliography row` records that representative's

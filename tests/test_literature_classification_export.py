@@ -38,6 +38,14 @@ class ClassificationPublicationTests(unittest.TestCase):
                        "Document Type": "Article", "excel_row": row, "classification_method": "topic rules",
                        "review_needed": "True", "review_reason": "Weak evidence", "evidence": "title phrase",
                        "low_confidence": "True", "fallback_used": "True", "fallback_basis": "lexical evidence",
+                       "taxonomy_policy": export.TAXONOMY_POLICY,
+                       "classification_reason": "Synthesis-inclusive grouping" if decision == "Y" else "Primary topic retained",
+                       "primary_topic_category": "Crystal engineering" if decision == "Y" else category,
+                       "primary_topic_evidence": "original primary-topic evidence",
+                       "has_framework_synthesis": "True" if decision == "Y" else "False",
+                       "framework_synthesis_evidence": "Two coordination frameworks were synthesized." if decision == "Y" else "",
+                       "taxonomy_reassigned": "True" if decision == "Y" else "False",
+                       "reassignment_reason": "Reported framework preparation" if decision == "Y" else "",
                        "primary_topic_reason": "Primary contribution", "classifier_version": "test"}
                       for doi, category, decision, row in (("10.1234/yes", "Chemical synthesis", "Y", "4"),
                                                            ("10.1234/no", "Functional materials", "N", "3"))]
@@ -51,6 +59,8 @@ class ClassificationPublicationTests(unittest.TestCase):
         self.assertEqual(result["triage_counts"], {"N": 1, "Y": 1})
         self.assertEqual(result["review_needed_count"], 2)
         self.assertEqual(result["fallback_count"], 2)
+        self.assertEqual(result["taxonomy_reassigned_count"], 1)
+        self.assertEqual(result["taxonomy_policy"], export.TAXONOMY_POLICY)
         for name in ("papers.csv", "supporting_information.csv"):
             fields, rows = export.read_csv(self.folder / name)
             self.assertEqual(fields, export.INVENTORY_FIELDS)
@@ -61,6 +71,9 @@ class ClassificationPublicationTests(unittest.TestCase):
         self.assertEqual([row["DOI"] for row in rows], ["10.1234/no", "10.1234/yes"])
         _, rows = export.read_csv(self.folder / "classification_audit.csv")
         self.assertTrue(all(row["Review reason"] == "Weak evidence" for row in rows))
+        yes_row = next(row for row in rows if row["Triage decision"] == "Y")
+        self.assertEqual(yes_row["Primary topic category (v4)"], "Crystal engineering")
+        self.assertEqual(yes_row["Framework synthesis evidence"], "Two coordination frameworks were synthesized.")
         before = {path: path.read_bytes() for path in self.folder.iterdir()}
         export.publish(self.audit_path, self.root)
         self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
@@ -68,7 +81,9 @@ class ClassificationPublicationTests(unittest.TestCase):
     def test_invalid_audit_does_not_modify_publication(self):
         before = {path: path.read_bytes() for path in self.folder.iterdir()}
         original = [dict(row) for row in self.audit]
-        for problem in ("missing_doi", "duplicate_doi", "unclassified", "wrong_decision", "wrong_source_row", "manual_override"):
+        for problem in ("missing_doi", "duplicate_doi", "unclassified", "wrong_decision",
+                        "wrong_source_row", "manual_override", "missing_synthesis_evidence",
+                        "wrong_reassignment_flag", "wrong_policy", "unsupported_reassignment"):
             with self.subTest(problem=problem):
                 self.audit = [dict(row) for row in original]
                 if problem == "missing_doi":
@@ -81,12 +96,29 @@ class ClassificationPublicationTests(unittest.TestCase):
                     self.audit[0]["triage_decision"] = "N"
                 elif problem == "manual_override":
                     self.audit[0]["classification_method"] = "manual override"
+                elif problem == "missing_synthesis_evidence":
+                    self.audit[0]["framework_synthesis_evidence"] = ""
+                elif problem == "wrong_reassignment_flag":
+                    self.audit[0]["taxonomy_reassigned"] = "False"
+                elif problem == "wrong_policy":
+                    self.audit[0]["taxonomy_policy"] = "unrecorded-policy"
+                elif problem == "unsupported_reassignment":
+                    self.audit[0]["category"] = "Functional materials"
                 else:
                     self.audit[0]["excel_row"] = "3"
                 self.write_audit()
                 with self.assertRaises(ValueError):
                     export.publish(self.audit_path, self.root)
                 self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
+
+    def test_republication_rejects_changes_to_historical_primary_topics(self):
+        export.publish(self.audit_path, self.root)
+        before = {path: path.read_bytes() for path in self.folder.iterdir()}
+        self.audit[0]["primary_topic_category"] = "Functional materials"
+        self.write_audit()
+        with self.assertRaisesRegex(ValueError, "Historical primary topic changed"):
+            export.publish(self.audit_path, self.root)
+        self.assertEqual(before, {path: path.read_bytes() for path in self.folder.iterdir()})
 
 
 class PublishedClassificationIntegrityTests(unittest.TestCase):
@@ -115,6 +147,20 @@ class PublishedClassificationIntegrityTests(unittest.TestCase):
             self.assertEqual({export.normalize_doi(row["DOI"]) for row in rows}, yes_dois)
             self.assertTrue(all(row["Classification"] == by_doi[export.normalize_doi(row["DOI"])]["Classification"] for row in rows))
         provenance = manifest["classification"]
+        self.assertEqual(provenance["taxonomy_policy"], export.TAXONOMY_POLICY)
+        self.assertEqual(Counter(row["Primary topic category (v4)"] for row in audit),
+                         {"Chemical synthesis": 2017, "Theory & modeling": 500,
+                          "Crystal engineering": 4862, "Functional materials": 6391})
+        for row in audit:
+            reassigned = row["Classification"] != row["Primary topic category (v4)"]
+            self.assertEqual(row["Taxonomy reassigned"] == "True", reassigned)
+            if reassigned:
+                self.assertEqual(row["Classification"], "Chemical synthesis")
+                self.assertEqual(row["Framework synthesis reported"], "True")
+                self.assertTrue(row["Framework synthesis evidence"])
+                self.assertTrue(row["Reassignment reason"])
+        self.assertEqual(provenance["taxonomy_reassigned_count"],
+                         sum(row["Taxonomy reassigned"] == "True" for row in audit))
         self.assertEqual(provenance["review_needed_count"], sum(row["Review needed"] == "True" for row in audit))
         self.assertEqual(provenance["fallback_count"], sum(row["Fallback used"] == "True" for row in audit))
         self.assertFalse(provenance["generated_by_llm"])

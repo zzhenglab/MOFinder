@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Broadened the descriptive Chemical synthesis category to include original papers reporting experimental MOF/framework preparation, including structural and application studies. Preserved prior primary-topic categories, evidence, uncertainty flags, and all saved triage Y/N decisions in the audit.
+
 - Published rough non-LLM topic classifications for the full literature corpus, with separate historical triage Y/N labels, evidence, and uncertainty flags. Replaced download-state columns in public article/SI inventories with `Classification`; local retrieval progress remains supported.
 
 - Consolidated demonstrations into offline cleaning, offline JSON preparation, and `Demo/03_api_demo/api_demo.ipynb` for abstract triage and positive/negative mining. The API notebook displays complete abstracts and exact requests before explicitly enabled calls, then compares predictions with reference labels held out of the requests.

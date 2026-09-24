@@ -1,11 +1,11 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "exports": [
     {
       "file": "papers.csv",
       "source_sha256": "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
       "source_sheet": "Sheet1",
-      "sha256": "4fd594d1a6147101e16c7d08d7f0b8dab726cb3c63fc14975d11648c907811e0",
+      "sha256": "e8b8e919fd286d698f1092fca4baf48a679874911e277b620c48dbf6f66744c5",
       "row_count": 7437,
       "columns": [
         "DOI",
@@ -28,17 +28,17 @@
       "source_id": "article_retrieval_inventory",
       "source_description": "Article retrieval inventory workbook",
       "classification_counts": {
-        "Chemical synthesis": 880,
-        "Crystal engineering": 2968,
-        "Functional materials": 3504,
-        "Theory & modeling": 85
+        "Chemical synthesis": 3169,
+        "Crystal engineering": 2057,
+        "Functional materials": 2139,
+        "Theory & modeling": 72
       }
     },
     {
       "file": "supporting_information.csv",
       "source_sha256": "01d6c0bb6a118da50c5c9a35954f099c75d0c23620aee21a5ecab753a91c3024",
       "source_sheet": "Sheet1",
-      "sha256": "a2f1715d8bf2037baf126cd260f7f852225f3007c06ae9b963d0592b668f5352",
+      "sha256": "04be9265425e7e9fb386f582a6d60f6c81824b71d91961b8e366b212b77a2ca5",
       "row_count": 7437,
       "columns": [
         "DOI",
@@ -61,15 +61,15 @@
       "source_id": "si_retrieval_inventory",
       "source_description": "Supporting-information retrieval inventory workbook",
       "classification_counts": {
-        "Chemical synthesis": 880,
-        "Crystal engineering": 2968,
-        "Functional materials": 3504,
-        "Theory & modeling": 85
+        "Chemical synthesis": 3169,
+        "Crystal engineering": 2057,
+        "Functional materials": 2139,
+        "Theory & modeling": 72
       }
     },
     {
       "file": "doi_classification.csv",
-      "sha256": "d50bcdfa9f925c5736530d019ed372113fec3e04ab099e065e694d3ade3d17f6",
+      "sha256": "615297fe760c95aa350632f2b7f797575dcba9923a414ec09dec8bf7765aa1e1",
       "row_count": 13770,
       "unique_doi_count": 13770,
       "columns": [
@@ -77,11 +77,11 @@
         "Classification"
       ],
       "source_id": "literature_topic_classification_audit",
-      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4"
+      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5"
     },
     {
       "file": "classification_audit.csv",
-      "sha256": "450d28e652248975c01f31826d4d22d519a6819ba656ddda6c961414e6e43fc7",
+      "sha256": "857a97d4c42483cd9b1911e4ec43a33b98e10f668f56504b79b1cba968df6443",
       "row_count": 13770,
       "unique_doi_count": 13770,
       "columns": [
@@ -91,6 +91,14 @@
         "Document Type",
         "Bibliography row",
         "Classification method",
+        "Taxonomy policy",
+        "Classification reason",
+        "Primary topic category (v4)",
+        "Primary topic evidence",
+        "Framework synthesis reported",
+        "Framework synthesis evidence",
+        "Taxonomy reassigned",
+        "Reassignment reason",
         "Review needed",
         "Low confidence",
         "Fallback used",
@@ -101,7 +109,7 @@
         "Classifier version"
       ],
       "source_id": "literature_topic_classification_audit",
-      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4"
+      "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5"
     }
   ],
   "transformations": [
@@ -109,18 +117,24 @@
     "Remove Downloaded and SI Downloaded columns from published inventories.",
     "Join rough topic Classification by normalized DOI; preserve all saved triage decisions.",
     "Export one normalized DOI per row for the full bibliography, sorted by DOI.",
-    "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv."
+    "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv.",
+    "Preserve v4 primary-contribution labels and saved Y/N; publish synthesis-inclusive categories with matched framework-preparation evidence."
   ],
   "classification": {
     "source_id": "literature_topic_classification_audit",
-    "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
+    "source_sha256": "d45d91975a45aff892fb8b78cecf6b25355c22ccfefa2d71443871acda799fc5",
     "bibliography_sha256": "7105758d0e492d28e4eaa27575b8a00b0a9a94fd46c9c198cdc277869e608ba1",
     "classifier_versions": [
-      "4.0.0"
+      "5.0.0"
     ],
     "generated_by_llm": false,
     "validated_against_expert_topic_labels": false,
-    "method": "Deterministic rough topic rules using title, abstract, and document type; uncertainty flags retained.",
+    "method": "Deterministic rough title/abstract/document-type rules with synthesis-inclusive grouping; prior primary topics and uncertainty flags retained.",
+    "taxonomy_policy": "synthesis-inclusive-v1",
+    "chemical_synthesis_definition": "Includes original papers reporting experimental MOF/framework preparation, even when structure or application is the main topic.",
+    "taxonomy_change_interpretation": "A descriptive category-definition change; does not establish improved screening accuracy.",
+    "primary_topic_classifier_version": "4.0.0",
+    "previous_publication": "https://github.com/zzhenglab/MOFinder/tree/76738b0/data/metadata/literature_retrieval",
     "triage_decisions": "Existing saved model Y/N decisions, joined separately; not used to assign topics.",
     "canonical_record": "Longest title/abstract representative; Bibliography row identifies its original workbook row (header is row 1).",
     "unique_dois": 13770,
@@ -133,33 +147,41 @@
     "fallback_count": 77,
     "manual_overrides_applied": 0,
     "unclassified_count": 0,
+    "framework_synthesis_reported_count": 4134,
+    "taxonomy_reassigned_count": 3343,
+    "primary_topic_counts": {
+      "Chemical synthesis": 2017,
+      "Crystal engineering": 4862,
+      "Functional materials": 6391,
+      "Theory & modeling": 500
+    },
     "topic_summary": [
       {
         "Category": "Chemical synthesis",
-        "Before triage": 2017,
-        "After triage (Y)": 879,
-        "After triage (N)": 1138
+        "Before triage": 5360,
+        "After triage (Y)": 3168,
+        "After triage (N)": 2192
       },
       {
         "Category": "Theory & modeling",
-        "Before triage": 500,
-        "After triage (Y)": 85,
-        "After triage (N)": 415
+        "Before triage": 477,
+        "After triage (Y)": 72,
+        "After triage (N)": 405
       },
       {
         "Category": "Crystal engineering",
-        "Before triage": 4862,
-        "After triage (Y)": 2968,
-        "After triage (N)": 1894
+        "Before triage": 3557,
+        "After triage (Y)": 2057,
+        "After triage (N)": 1500
       },
       {
         "Category": "Functional materials",
-        "Before triage": 6391,
-        "After triage (Y)": 3503,
-        "After triage (N)": 2888
+        "Before triage": 4376,
+        "After triage (Y)": 2138,
+        "After triage (N)": 2238
       }
     ],
-    "analysis_manifest_sha256": "a7afc3b68f1a76fba6aa709686931523a5c639948e3be6cdfcd215fa93cb9066",
+    "analysis_manifest_sha256": "2940c3d2cf03c3497499910677027a358116bb04e79bac640b05ccd53e956b90",
     "input_sha256": [
       "48d10eab4ddb5c34d3bae74707e55beba94881bcd48c16f3f7143633f9cb3153",
       "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
@@ -168,6 +190,6 @@
     "triage_decision_source_sha256": "48d10eab4ddb5c34d3bae74707e55beba94881bcd48c16f3f7143633f9cb3153",
     "triage_decision_column": "Agent_YN",
     "classifier_path": "tools/literature_triage/topic_classifier.py",
-    "classifier_sha256": "7fdbdb8ae7b26da3944c4e939709e41a254fb6960bd48c9f88d3f772dd6ee470"
+    "classifier_sha256": "ce2cab40e3de0409f4447baaf3abde906c647f100f426b2e9e56e8555dded3dc"
   }
 }

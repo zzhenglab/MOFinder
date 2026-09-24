@@ -1,4 +1,17 @@
-"""Topic classifier v4: contribution rules with an explicit lexical fallback.
+"""Topic classifier v5: synthesis-inclusive grouping with a v4 topic audit.
+
+The public category is synthesis-inclusive: an original paper with an explicit,
+affirmative preparation claim for a MOF/coordination framework, network, or
+polymer is Chemical synthesis, including routine preparation in structure and
+application papers. Review articles retain Theory & modeling priority. Generic
+material preparation, use of an existing MOF catalyst, derivative-only synthesis,
+and background, hypothetical, or computational preparation are not such claims.
+This is an additive policy; v4 molecular/method/post-synthetic Chemical synthesis
+assignments are retained. The v4 primary topic, reason, evidence, scores and
+diagnostics are preserved independently of the public grouping. The evidence
+rule is specified without reading or fitting any triage Y/N decisions.
+
+The retained v4 primary-topic policy follows:
 
 The four primary topics overlap. Chemical synthesis means developing synthetic
 routes, molecular/ligand synthesis, or post-synthetic chemistry. Using a MOF or
@@ -45,7 +58,8 @@ CATEGORIES = (
     "Functional materials",
 )
 UNCLASSIFIED = "Unclassified"
-CLASSIFIER_VERSION = "4.0.0"
+CLASSIFIER_VERSION = "5.0.0"
+TAXONOMY_POLICY = "synthesis-inclusive-v1"
 
 _SCORE_KEYS = (
     "score_chemical_synthesis",
@@ -540,6 +554,146 @@ def detect_review_article(title, abstract, document_type=""):
     return False, "", ""
 
 
+_PREPARED_FRAMEWORK = (
+    r"(?:metal organic|porous coordination|coordination|zeolitic imidazolate) "
+    r"(?:frameworks?|networks?|polymers?)|mofs?|"
+    r"(?:uio|zif|mil|hkust|mfm|pcn|dut|nu) \d+[a-z]?"
+)
+_PREPARATION_PAST = (
+    r"synthesi[sz]ed|prepared|fabricated|assembled|constructed|obtained|grown|crystalli[sz]ed"
+)
+_PREPARATION_ACTIVE = (
+    r"synthesi[sz](?:e|ed)|prepar(?:e|ed)|fabricat(?:e|ed)|assembl(?:e|ed)|"
+    r"construct(?:ed)?|obtain(?:ed)?|grew|grow|crystalli[sz](?:e|ed)"
+)
+_PREPARATION_NOUN = r"synthes(?:is|es)|preparation|fabrication|construction|assembly|growth"
+_NONASSERTED_PREPARATION = re.compile(
+    r"\b(?:not|never|no|cannot|can t|couldn t|didn t|without|unsuccessful|failed|"
+    r"previously|previous|earlier|already|usually|typically|commonly|generally|"
+    r"traditionally|conventionally|hypothetical|hypothetically|proposed|predicted|"
+    r"reported by|in the literature|has been reported|have been reported|"
+    r"had been|can|could|may|might|would|should|will|aim|aims|attempt|attempts)\b"
+)
+_DERIVED_OR_DIFFERENT_OBJECT = re.compile(
+    r"\b(?:derived|based on|carbon(?:s)?|oxides?|\w*composites?|\w*hybrids?|"
+    r"using|via|over|from|cataly[sz]\w*|cataly(?:sis|tic)|"
+    r"products?|substrates?|molecules?|carbonates?|amines?|alcohols?|"
+    r"data|results?|measurements?|properties|isotherms?|curves?)\b"
+)
+
+
+def _framework_preparation_evidence(title, abstract, primary_result):
+    """Find local, affirmative framework-preparation claims, without label inputs.
+
+    Matches require a preparation noun governing the framework object, a
+    first-person preparation verb with that object, or a framework subject with
+    a passive preparation verb. Bridges are bounded to 18 words/180 characters
+    and reject object-changing prepositions and derivative/composite objects.
+    Sentences, semicolons, and explicit contrast clauses are independent: a MOF
+    mention elsewhere cannot make organic-product synthesis a positive claim.
+    Common framework identifiers are accepted as entities. A generic 'framework'
+    alone is insufficient, as it can describe a model or a supramolecular solid.
+    These conservative lexical checks are evidence flags, not a parser or a
+    claim of validated accuracy; ambiguous records retain the v4 assignment.
+    """
+    if primary_result["is_review_article"]:
+        return []
+    entity = r"(?P<entity>\b(?:" + _PREPARED_FRAMEWORK + r")\b)"
+    bridge = r"(?P<bridge>[^.;:!?]{0,180}?)"
+    passive = re.compile(entity + bridge + r"\b(?P<action>" + _PREPARATION_PAST + r")\b")
+    active = re.compile(r"\b(?P<action>" + _PREPARATION_ACTIVE + r")\b" + bridge + entity)
+    nominal = re.compile(r"\b(?P<action>" + _PREPARATION_NOUN + r")\b" + bridge + entity)
+    evidence = []
+    denied_preparation = False
+    inputs = [("title", str(title).strip(), _normalize(title))] if _normalize(title) else []
+    inputs += [("abstract", raw, normalized) for raw, normalized in _abstract_sentences(abstract)]
+    for source, raw, normalized in inputs:
+        for clause in re.split(r";|\b(?:but|whereas|however)\b", normalized):
+            for relation, pattern in (("passive", passive), ("active", active), ("nominal", nominal)):
+                for match in pattern.finditer(clause):
+                    link = match.group("bridge")
+                    if len(re.findall(r"\b\w+\b", link)) > 18:
+                        continue
+                    # The preparation target must be the framework, rather than
+                    # a product made using it or a derivative/composite of it.
+                    if _DERIVED_OR_DIFFERENT_OBJECT.search(link):
+                        continue
+                    entity_suffix = clause[match.end("entity"):]
+                    if re.match(r"\s*(?:\([^)]*\)\s*)?"
+                                r"(?:(?!(?:was|were|is|are|has|have|and|for|which|that)\b)[a-z0-9]+\s+){0,4}"
+                                r"(?:derived|based|\w*composites?|\w*hybrids?)\b", entity_suffix):
+                        continue
+                    prefix = clause[:match.end()]
+                    if _NONASSERTED_PREPARATION.search(prefix):
+                        failed_attempt = re.match(
+                            r"\s*(?:was|were|is|are|have been|has been) "
+                            r"(?:\w+ ){0,2}(?:unsuccessful|failed)\b", clause[match.end():])
+                        if source == "abstract" and (failed_attempt or re.search(
+                                r"\b(?:not|never|cannot|failed|unsuccessful)\b", prefix)):
+                            denied_preparation = True
+                        continue
+                    suffix = clause[match.end():]
+                    if re.match(r"\s*(?:(?:that|which)\s+)?(?:(?:was|were|has been|have been)\s+)?"
+                                r"(?:previously|earlier|reported by|in the literature)\b", suffix):
+                        continue
+                    # An entirely theoretical/simulation preparation statement
+                    # does not establish physical framework preparation.
+                    if re.search(r"\b(?:in silico|computationally|theoretically|virtually)\b", prefix):
+                        continue
+                    if relation == "nominal":
+                        # 'Synthesis ... using a MOF' is excluded above. Require
+                        # the governing 'of' and reject a new object before it.
+                        if not re.match(r"\s*(?:(?:and|,|crystal|structures?|structural|"
+                                        r"characterization|characterisation|isolation|properties|"
+                                        r"luminescence|magnetic|photoluminescent)\s*)*of\b", link):
+                            continue
+                        if re.search(r"\b(?:in|within|inside|into|on|for|with|by|containing|"
+                                     r"confined|supported|embedded)\b", link.replace("in situ", "")):
+                            continue
+                        if source == "abstract" and not (
+                                (_SELF_REPORT.search(clause[:match.start()])
+                                 and re.search(r"\b(?:report|reported|present|presented|describe|"
+                                               r"described|demonstrate|demonstrated|achieve|achieved)\b",
+                                               clause[:match.start()]))
+                                or re.search(r"\b(?:is|are|was|were|has been|have been) "
+                                             r"(?:reported|described|presented)\b", clause[match.end():])):
+                            continue
+                    elif relation == "active":
+                        if source == "title" or not _SELF_REPORT.search(clause[:match.start()]):
+                            continue
+                        if re.search(r"\bto\s*$", clause[:match.start()]):
+                            continue
+                        if re.search(r"\b(?:to|for|by|with|on|into|in)\b", link):
+                            continue
+                    else:
+                        # Past participles preceding the entity belong to the
+                        # active pattern; here the framework itself is prepared.
+                        if re.search(r"\b(?:of|for|by|with|on|into|in|to|as|used|use|"
+                                     r"employed|utilized|utilised)\b", link):
+                            continue
+                        if re.search(r"\b(?:data|results?|measurements?|properties|isotherms?|curves?)\b"
+                                     r"[^.;:!?]{0,80}\b(?:about|of|for|on)\s*$",
+                                     clause[:match.start("entity")]):
+                            continue
+                        if source == "abstract" and not re.search(
+                                r"\b(?:was|were|is|are|has|have|been)\b", link):
+                            continue
+                    # A computational title can mention hypothetical synthesis.
+                    # Only an explicit experimental abstract claim overrides it.
+                    if source == "title" and (
+                            primary_result["title_computational_focus"]
+                            or primary_result["abstract_computational_focus"]):
+                        continue
+                    snippet = "{}: {}".format(source, raw)
+                    if snippet not in evidence:
+                        evidence.append(snippet)
+    if denied_preparation and not any(item.startswith("abstract:") for item in evidence):
+        # An unqualified title does not overcome an abstract reporting only a
+        # failed/negated preparation. Preserve the primary-topic audit instead.
+        evidence = []
+    return evidence
+
+
 def classify_topic(title, abstract, document_type=""):
     """Return one topic plus evidence, scores, and explicit review diagnostics.
 
@@ -749,6 +903,27 @@ def classify_topic(title, abstract, document_type=""):
     }
     for name, key in zip(CATEGORIES, _SCORE_KEYS):
         result[key] = round(scores[name], 2)
+    # Keep all v4 diagnostics untouched. The public category is a separate,
+    # explicitly documented grouping; its counts must never feed this rule.
+    result["primary_topic_category"] = result["category"]
+    result["primary_topic_evidence"] = result["evidence"]
+    framework_evidence = _framework_preparation_evidence(title, abstract, result)
+    result["has_framework_synthesis"] = bool(framework_evidence)
+    result["framework_synthesis_evidence"] = " | ".join(framework_evidence)
+    result["taxonomy_policy"] = TAXONOMY_POLICY
+    result["taxonomy_reassigned"] = bool(framework_evidence and category != CATEGORIES[0])
+    result["reassignment_reason"] = ""
+    result["classification_reason"] = result["primary_topic_reason"]
+    if framework_evidence:
+        result["category"] = CATEGORIES[0]
+        result["classification_reason"] = (
+            "Synthesis-inclusive taxonomy: this original paper explicitly reports "
+            "preparation of a MOF/coordination framework, network, or polymer; "
+            "routine preparation takes precedence over structural or application focus.")
+        if result["taxonomy_reassigned"]:
+            result["reassignment_reason"] = (
+                "Grouped as Chemical synthesis by the synthesis-inclusive policy; "
+                "the retained v4 primary topic is {}.".format(category))
     return result
 
 
@@ -771,7 +946,7 @@ def _run_sanity_checks():
     ]
     for title, abstract, expected in cases:
         result = classify_topic(title, abstract)
-        assert result["category"] == expected, (title, expected, result)
+        assert result["primary_topic_category"] == expected, (title, expected, result)
 
     # Repeated abstract language cannot multiply a phrase-group score.
     once = classify_topic("New framework", "Adsorption was studied.")
