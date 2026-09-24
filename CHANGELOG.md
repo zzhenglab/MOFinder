@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Published rough non-LLM topic classifications for the full literature corpus, with separate historical triage Y/N labels, evidence, and uncertainty flags. Replaced download-state columns in public article/SI inventories with `Classification`; local retrieval progress remains supported.
+
 - Consolidated demonstrations into offline cleaning, offline JSON preparation, and `Demo/03_api_demo/api_demo.ipynb` for abstract triage and positive/negative mining. The API notebook displays complete abstracts and exact requests before explicitly enabled calls, then compares predictions with reference labels held out of the requests.
 - Added holdout-first and training-example previews with reaction parameters and complete JSON records to the JSON preparation notebook. Shortened displayed checkout paths while preserving paths used for files and saved run provenance.
 - Standardized dataset preparation, question-panel evaluation, and HPC training on `prompts/training/reaction_prediction.txt`. Removed the short training prompt while preserving the full prompt text and archived JSONL bytes. HPC bundles now use schema version 2, and the default 512-token input limit rejects overlength records instead of truncating them; rebuild older bundles into new directories.

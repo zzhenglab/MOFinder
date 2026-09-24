@@ -1,17 +1,17 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "exports": [
     {
       "file": "papers.csv",
       "source_sha256": "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
       "source_sheet": "Sheet1",
-      "sha256": "997d96ff0013f4da43e0b09d5738eeda6582d20b2b0d5c394d9e11f5015b31bc",
+      "sha256": "4fd594d1a6147101e16c7d08d7f0b8dab726cb3c63fc14975d11648c907811e0",
       "row_count": 7437,
       "columns": [
         "DOI",
         "Publisher",
         "DOI Link",
-        "Downloaded"
+        "Classification"
       ],
       "publisher_id_counts": {
         "publisher_A": 1770,
@@ -21,32 +21,30 @@
         "publisher_W": 989,
         "unmapped": 664
       },
-      "status_counts": {
-        "Downloaded": {
-          "": 422,
-          "0": 851,
-          "1": 6164
-        }
-      },
       "publisher_resolution": "Original paper prefix resolver, followed by neutral identifier replacement.",
       "unsupported_value": "unmapped",
       "missing_doi_count": 0,
       "unique_doi_count": 7435,
       "source_id": "article_retrieval_inventory",
-      "source_description": "Article retrieval inventory workbook"
+      "source_description": "Article retrieval inventory workbook",
+      "classification_counts": {
+        "Chemical synthesis": 880,
+        "Crystal engineering": 2968,
+        "Functional materials": 3504,
+        "Theory & modeling": 85
+      }
     },
     {
       "file": "supporting_information.csv",
       "source_sha256": "01d6c0bb6a118da50c5c9a35954f099c75d0c23620aee21a5ecab753a91c3024",
       "source_sheet": "Sheet1",
-      "sha256": "975b8dae32f89738e6cdc9b99d62f01194b0f776ed3c0907d0963d07fc6f29cb",
+      "sha256": "a2f1715d8bf2037baf126cd260f7f852225f3007c06ae9b963d0592b668f5352",
       "row_count": 7437,
       "columns": [
         "DOI",
         "Publisher",
         "DOI Link",
-        "Downloaded",
-        "SI Downloaded"
+        "Classification"
       ],
       "publisher_id_counts": {
         "publisher_A": 1770,
@@ -56,31 +54,120 @@
         "publisher_W": 989,
         "unmapped": 3
       },
-      "status_counts": {
-        "Downloaded": {
-          "": 7140,
-          "0": 3,
-          "1": 294
-        },
-        "SI Downloaded": {
-          "": 475,
-          "0": 1255,
-          "1": 5707
-        }
-      },
       "publisher_resolution": "Original SI alias resolver and canonical contains fallback, followed by neutral identifier replacement.",
       "unsupported_value": "unmapped",
       "missing_doi_count": 0,
       "unique_doi_count": 7435,
       "source_id": "si_retrieval_inventory",
-      "source_description": "Supporting-information retrieval inventory workbook"
+      "source_description": "Supporting-information retrieval inventory workbook",
+      "classification_counts": {
+        "Chemical synthesis": 880,
+        "Crystal engineering": 2968,
+        "Functional materials": 3504,
+        "Theory & modeling": 85
+      }
+    },
+    {
+      "file": "doi_classification.csv",
+      "sha256": "d50bcdfa9f925c5736530d019ed372113fec3e04ab099e065e694d3ade3d17f6",
+      "row_count": 13770,
+      "unique_doi_count": 13770,
+      "columns": [
+        "DOI",
+        "Classification"
+      ],
+      "source_id": "literature_topic_classification_audit",
+      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4"
+    },
+    {
+      "file": "classification_audit.csv",
+      "sha256": "450d28e652248975c01f31826d4d22d519a6819ba656ddda6c961414e6e43fc7",
+      "row_count": 13770,
+      "unique_doi_count": 13770,
+      "columns": [
+        "DOI",
+        "Classification",
+        "Triage decision",
+        "Document Type",
+        "Bibliography row",
+        "Classification method",
+        "Review needed",
+        "Low confidence",
+        "Fallback used",
+        "Fallback basis",
+        "Review reason",
+        "Evidence",
+        "Primary topic reason",
+        "Classifier version"
+      ],
+      "source_id": "literature_topic_classification_audit",
+      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4"
     }
   ],
   "transformations": [
-    "Select literature retrieval columns only.",
-    "Replace resolved publisher keys with neutral identifiers.",
-    "Retain all rows in their original order.",
-    "Represent empty cells as empty CSV fields.",
-    "Retain download status values without merging stages."
-  ]
+    "Preserve retrieval DOI, publisher identifiers, DOI links, duplicate rows, and original row order.",
+    "Remove Downloaded and SI Downloaded columns from published inventories.",
+    "Join rough topic Classification by normalized DOI; preserve all saved triage decisions.",
+    "Export one normalized DOI per row for the full bibliography, sorted by DOI.",
+    "Keep assignment evidence, review flags, document type, and canonical source row in classification_audit.csv."
+  ],
+  "classification": {
+    "source_id": "literature_topic_classification_audit",
+    "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
+    "bibliography_sha256": "7105758d0e492d28e4eaa27575b8a00b0a9a94fd46c9c198cdc277869e608ba1",
+    "classifier_versions": [
+      "4.0.0"
+    ],
+    "generated_by_llm": false,
+    "validated_against_expert_topic_labels": false,
+    "method": "Deterministic rough topic rules using title, abstract, and document type; uncertainty flags retained.",
+    "triage_decisions": "Existing saved model Y/N decisions, joined separately; not used to assign topics.",
+    "canonical_record": "Longest title/abstract representative; Bibliography row identifies its original workbook row (header is row 1).",
+    "unique_dois": 13770,
+    "triage_counts": {
+      "N": 6335,
+      "Y": 7435
+    },
+    "review_needed_count": 8925,
+    "low_confidence_count": 8925,
+    "fallback_count": 77,
+    "manual_overrides_applied": 0,
+    "unclassified_count": 0,
+    "topic_summary": [
+      {
+        "Category": "Chemical synthesis",
+        "Before triage": 2017,
+        "After triage (Y)": 879,
+        "After triage (N)": 1138
+      },
+      {
+        "Category": "Theory & modeling",
+        "Before triage": 500,
+        "After triage (Y)": 85,
+        "After triage (N)": 415
+      },
+      {
+        "Category": "Crystal engineering",
+        "Before triage": 4862,
+        "After triage (Y)": 2968,
+        "After triage (N)": 1894
+      },
+      {
+        "Category": "Functional materials",
+        "Before triage": 6391,
+        "After triage (Y)": 3503,
+        "After triage (N)": 2888
+      }
+    ],
+    "analysis_manifest_sha256": "a7afc3b68f1a76fba6aa709686931523a5c639948e3be6cdfcd215fa93cb9066",
+    "input_sha256": [
+      "48d10eab4ddb5c34d3bae74707e55beba94881bcd48c16f3f7143633f9cb3153",
+      "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
+      "fd7dd1fe93510031fc3d61195744bff4488d1e4c2b7262d404bd172cb27871f3"
+    ],
+    "triage_decision_source_sha256": "48d10eab4ddb5c34d3bae74707e55beba94881bcd48c16f3f7143633f9cb3153",
+    "triage_decision_column": "Agent_YN",
+    "classifier_path": "tools/literature_triage/topic_classifier.py",
+    "classifier_sha256": "7fdbdb8ae7b26da3944c4e939709e41a254fb6960bd48c9f88d3f772dd6ee470"
+  }
 }

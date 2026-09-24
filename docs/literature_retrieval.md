@@ -26,15 +26,19 @@ They do not open a browser or modify files. `--help` lists the available options
 
 The default inputs are documented in
 [the literature retrieval input tables](../data/metadata/literature_retrieval/README.md). Each CSV
-retains all 7,437 rows and the download states from its source workbook. A saved
-state does not establish that a document is present on the current computer.
+retains all 7,437 rows and provides a `Classification` column with a rough topic
+label. These labels come from deterministic title/abstract/document-type rules,
+not an LLM; they are distinct from the saved model triage Y/N decisions. The
+published tables have no `Downloaded` or `SI Downloaded` columns. The applications
+initialize blank status fields in local working copies and preserve `Classification`.
+Validation therefore reports every published row as pending; it does not check
+whether documents already exist on the current computer.
 
-The article input has 422 blank states, including 412 rows without a supported
-publisher profile under the original matching rules. The SI input has 475 blank
-states, including three unmapped rows. Review those assignments before a live
-run. Assign a neutral profile only after checking the intended browser flow, and
-make changes in a local input copy. The full routing counts and source-export
-details are recorded in the input-table documentation linked above.
+The article inventory has 664 unmapped publisher rows and the SI inventory has
+three. Review those assignments before a live run. Assign a neutral profile only
+after checking the intended browser flow, and make changes in a local input
+copy. Full routing counts and source-export details are recorded in the
+input-table documentation linked above.
 
 ## Configuration and local files
 
@@ -60,7 +64,9 @@ under the configured inventory directory. The source path and source-file hash
 identify that copy. Selecting the same unchanged source again resumes the same
 working inventory; selecting an existing working file continues that exact file.
 The Browse control and manually entered input paths follow the same rule. The
-archived input is not updated by the application.
+archived input is not updated by the application. Because a changed source hash
+creates a new working copy, select an existing working inventory explicitly to
+resume earlier download progress after a public metadata update.
 
 To select another inventory:
 
@@ -134,9 +140,8 @@ without reordering them.
 
 **Sync from folder to inventory (block 1)** updates the working inventory from
 the configured local SI directory. Use it when reconciling an existing local
-download collection. The article and SI `Downloaded` fields originate from
-separate workbook snapshots and are not merged; `SI Downloaded` controls SI
-literature retrieval.
+download collection. Local `Downloaded` states control article retrieval, while
+local `SI Downloaded` states control SI retrieval; these stages are independent.
 
 Both applications retain **Ctrl+Shift+S** to save progress and
 **Ctrl+Shift+X** or **STOP now** to stop. Moving the pointer to a screen corner

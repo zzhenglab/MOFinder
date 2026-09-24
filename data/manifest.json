@@ -99,6 +99,42 @@
       "sha256": "3a5e1db062cce138e5bbaa4783ad1da0cd555da96f7b11714e858814e8c829fa",
       "entries": 2290,
       "transformation": "Byte-identical copy of the original mapping dictionary."
+    },
+    {
+      "path": "data/metadata/literature_retrieval/doi_classification.csv",
+      "source_id": "literature_topic_classification_audit",
+      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
+      "export_sha256": "d50bcdfa9f925c5736530d019ed372113fec3e04ab099e065e694d3ade3d17f6",
+      "rows": 13770,
+      "columns": [
+        "DOI",
+        "Classification"
+      ],
+      "provenance_manifest": "data/metadata/literature_retrieval/manifest.json"
+    },
+    {
+      "path": "data/metadata/literature_retrieval/classification_audit.csv",
+      "source_id": "literature_topic_classification_audit",
+      "source_sha256": "de8f782c9868803b1553619b210f0c3d9cc13cf37fb16d51df56158f81441ef4",
+      "export_sha256": "450d28e652248975c01f31826d4d22d519a6819ba656ddda6c961414e6e43fc7",
+      "rows": 13770,
+      "columns": [
+        "DOI",
+        "Classification",
+        "Triage decision",
+        "Document Type",
+        "Bibliography row",
+        "Classification method",
+        "Review needed",
+        "Low confidence",
+        "Fallback used",
+        "Fallback basis",
+        "Review reason",
+        "Evidence",
+        "Primary topic reason",
+        "Classifier version"
+      ],
+      "provenance_manifest": "data/metadata/literature_retrieval/manifest.json"
     }
   ],
   "workflow_source": {

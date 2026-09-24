@@ -6,3 +6,5 @@ prompts/*.txt -text
 prompts/**/*.txt -text
 # Configuration and provenance hashes must match on Windows and Linux.
 *.json -text
+# The literature classification manifest records this source file's byte hash.
+tools/literature_triage/topic_classifier.py -text

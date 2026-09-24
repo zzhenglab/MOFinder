@@ -78,6 +78,28 @@ class LiteratureRetrievalTests(unittest.TestCase):
         self.assertNotEqual(common.prepare_local_inventory({**settings, "workbook": second}), working)
         self.assertEqual(common.prepare_local_inventory({**settings, "workbook": working}), working)
 
+    def test_classified_inventory_adds_only_local_status_and_preserves_labels(self):
+        labels = ["Chemical synthesis", "Theory & modeling"]
+        for mode, module, status in (("papers", self.papers, "Downloaded"),
+                                     ("si", self.si, "SI Downloaded")):
+            with self.subTest(mode=mode):
+                source = self.folder / f"classified_{mode}.csv"
+                frame = self.frame(["", ""]).drop(columns=["Downloaded"])
+                frame["Classification"] = labels
+                common.write_inventory(frame, source)
+                initial = source.read_bytes()
+                working = common.prepare_local_inventory({"mode": mode, "workbook": source,
+                                                           "working_dir": self.folder / mode})
+                with patch.object(module, "log"):
+                    prepared = module.load_and_prepare_excel(working)
+                    self.assertEqual(prepared[status].tolist(), ["", ""])
+                    prepared.at[0, status] = "1"
+                    module.save_progress(prepared, working)
+                self.assertEqual(source.read_bytes(), initial)
+                saved = common.read_inventory(working)
+                self.assertEqual(saved["Classification"].tolist(), labels)
+                self.assertEqual(saved[status].tolist(), ["1", ""])
+
     def test_missing_coordinates_do_not_reuse_another_machine(self):
         for module in (self.papers, self.si):
             with self.subTest(module=module.__name__), patch.object(module, "CAL_FILE", self.folder / f"{module.__name__}.json"):
