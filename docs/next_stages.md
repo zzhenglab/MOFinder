@@ -23,7 +23,7 @@ These checks concern the packaged Python implementation. Completed runs in the o
 
 ## Full upstream reproduction
 
-The cleaning demo includes a subset of raw positive extraction records. Full upstream reproduction uses the complete positive extraction CSV and successful-synthesis JSON store, the negative plans, and the enumerated records before cleaning. The full positive CSV has been supplied separately; it is not distributed in the current repository. Archived cleaned tables are included for dataset preparation. Research article and SI files remain local; demonstration PDFs are included for testing document matching and mining. The [pre-upload checklist](preupload_checklist.md) gives the destination and required format for each input.
+The cleaning demo includes a subset of raw positive extraction records. Full upstream reproduction uses the complete positive extraction CSV and successful-synthesis JSON store, the negative plans, and the enumerated records before cleaning. The full positive CSV has been supplied separately; it is not distributed in the current repository. Processed positive and negative tables are included in `data/processed_data/` for dataset preparation. Research article and SI files remain local; demonstration PDFs are included for testing document matching and mining. The [pre-upload checklist](preupload_checklist.md) gives the destination and required format for each input.
 
 Before a whole-corpus literature retrieval or screening run:
 

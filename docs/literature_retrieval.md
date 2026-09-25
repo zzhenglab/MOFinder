@@ -25,7 +25,7 @@ report row counts, download states, publisher profiles, and image availability.
 They do not open a browser or modify files. `--help` lists the available options.
 
 The default inputs are documented in
-[the literature retrieval input tables](../data/metadata/literature_retrieval/README.md). Each CSV
+[the literature retrieval input tables](../data/processed_data/literature_retrieval/README.md). Each CSV
 retains all 7,437 rows and provides a `Classification` column with a rough topic
 label. These labels come from deterministic title/abstract/document-type rules,
 not an LLM; they are distinct from the saved model triage Y/N decisions. The
@@ -49,7 +49,7 @@ timings, image-match thresholds, retry limits, and save intervals.
 
 | Setting | Article default | SI default |
 | --- | --- | --- |
-| Input inventory | `data/metadata/literature_retrieval/papers.csv` | `data/metadata/literature_retrieval/supporting_information.csv` |
+| Input inventory | `data/processed_data/literature_retrieval/papers.csv` | `data/processed_data/literature_retrieval/supporting_information.csv` |
 | Working inventories | `results/literature_retrieval/papers/inventories/` | `results/literature_retrieval/si/inventories/` |
 | Calibration | `results/literature_retrieval/papers/calibration.json` | `results/literature_retrieval/si/calibration.json` |
 | App settings | `results/literature_retrieval/papers/app_settings.json` | `results/literature_retrieval/si/app_settings.json` |

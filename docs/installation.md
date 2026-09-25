@@ -101,7 +101,7 @@ The full test suite covers more stages than the minimal triage installation. Ins
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
 python Demo/03_api_demo/run_demo.py triage
-python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
 Recorded environment and execution results are in [validation.md](validation.md). The GitHub Actions workflow runs the offline tests on Windows and Linux. Its status should be checked for the commit being used.
@@ -110,7 +110,7 @@ Recorded environment and execution results are in [validation.md](validation.md)
 
 Install `.[mining,curation,datasets]` for the revised extraction-to-dataset modules and add `notebook` for the optional walkthroughs. See [the workflow guide](workflow.md). PDF readers extract embedded text; no OCR pipeline is enabled. Legacy DOC conversion may require additional system software, while DOCX handling uses the supported Python readers.
 
-The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the archived processed tables and JSONL files can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
+The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive/negative tables in `data/processed_data/` and final JSONL in `data/final_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
 
 ## Evaluation
 

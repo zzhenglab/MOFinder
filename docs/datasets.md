@@ -1,6 +1,6 @@
 # Condition classification datasets
 
-`mofinder.datasets.prepare` creates condition-classification training JSONL, a held-out JSONL dataset, publication-year training subsets, and a split-assignment table. It does not start a fine-tuning job.
+`mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The prepared research files and their assignments are together in [data/final_json](../data/final_json/README.md).
 
 ```bash
 python -m pip install -e ".[datasets]"
@@ -18,22 +18,24 @@ Paths are relative to `project_root` in [dataset_preparation.json](../configs/da
 
 | Input | Default | Role |
 | --- | --- | --- |
-| Positive CSV | `results/curation/positive/mof_extraction_1_2_3_4_5_6.csv` | Successful syntheses, labelled P |
-| Negative CSV | `results/curation/negative/mof_extraction_failures_enum_1_2_3_4_5_6.csv` | Enumerated unsuccessful conditions, labelled N |
-| Publication metadata | `data/metadata/publication_years.csv` | DOI-to-year mapping |
+| Processed positive CSV | `data/processed_data/processed_positive.csv` | Successful syntheses, labelled P |
+| Processed negative CSV | `data/processed_data/processed_negative.csv` | Enumerated unsuccessful conditions, labelled N |
+| Publication metadata | `data/processed_data/publication_years.csv` | DOI-to-year mapping |
 | Reaction-prediction prompt | `prompts/training/reaction_prediction.txt` | System message in every example; shared with MOF Quest evaluation and HPC training |
 | Benchmark conditions | `configs/dataset_forced_questions.json` | 22 question inputs reserved for holdout when matched |
 
-For the archived inputs, use:
+After running curation on new extraction records, select the configuration for those generated outputs:
 
 ```bash
-python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_archived.json
-python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_archived.json
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_from_curation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
 ```
 
-This selects the public scientific-data exports in `data/cleaned_data/archived/` and writes a separate run to `results/datasets/archived_conditions`.
+This reads the positive and negative description-stage CSVs under `results/curation/` and writes a separate run to `results/datasets/curated_conditions/`. The untrimmed positive output is selected; optional positive trimming is not applied automatically.
 
-The source dataset notebook selected positive stage 6, before the optional positive stage 7 trimming. That choice is preserved. It named a negative `stage 6_v3` CSV, which is a separate prior input; current negative curation writes a stage 6 CSV. Set `negative_csv` explicitly to the historical snapshot when reproducing that run. A run from newly mined or curated data is a new dataset and can produce different split assignments. The input notes and SHA-256 hashes are recorded in its summary.
+For the source-confirmed linker corrections, use `configs/dataset_preparation_corrected.json`. It reads `data/processed_data/linker_corrected/processed_negative.csv` with the same processed positive table and writes to `results/datasets/corrected_conditions/`. Linker corrections change cluster identities, so this version calculates new assignments.
+
+A run from newly mined or curated data is a new dataset and can produce different split assignments. Each run records its input notes and SHA-256 hashes in the summary. The default bundled inputs retain the scientific values used for the original research dataset.
 
 CSV and Excel publication metadata are supported; both must contain `DOI` and `Publication Year`. Duplicate metadata DOI entries use the modal valid year, with the lowest year resolving a tie. DOI recognition accepts canonical DOI strings, DOI URLs, and article/SI filenames such as `10.1021_jacs.2c09756_SI.pdf`.
 
@@ -77,9 +79,9 @@ These files support training-history comparisons against the existing holdout. T
 
 All seeded sampling, search order, shuffling, and year-bin construction follow the source notebook. JSONL outputs were compared with the original notebook on controlled fixtures for both P:N modes. Automated tests cover cluster separation, forced conditions, label conflict handling, exact ratios, deterministic output, training-only year subsets, and infeasible input partitions. No training API requests are made by this module.
 
-## Archived input validation
+## Processed input validation
 
-Using the archived stage 6 positive CSV, stage 6_v3 negative CSV, and original publication metadata, the Python module produced all 16 JSONL files and the class map byte-for-byte identically to the source notebook.
+Using `processed_positive.csv`, `processed_negative.csv`, and the included publication metadata, the Python module produced all 16 JSONL files and the class map byte-for-byte identically to the source notebook.
 
 | Partition | P | N | Total |
 | --- | ---: | ---: | ---: |
@@ -87,12 +89,12 @@ Using the archived stage 6 positive CSV, stage 6_v3 negative CSV, and original p
 | Training | 11,968 | 11,560 | 23,528 |
 | Holdout | 1,320 | 1,275 | 2,595 |
 
-The final train/holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row lacks a publication year. These results describe the archived inputs only; fresh mining and curation can change them.
+The final train/holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row lacks a publication year. These results describe the bundled processed inputs; fresh mining and curation can change them.
 
-The implementation also adds explicit failure messages for infeasible splits and handles the case where all selected holdout clusters are forced. Those changes affect edge cases in which the original notebook failed; they did not alter the archived outputs above.
+The implementation also adds explicit failure messages for infeasible splits and handles the case where all selected holdout clusters are forced. Those changes affect edge cases in which the original notebook failed; they did not alter the final outputs above.
 
-## Archived training and validation files
+## Final JSONL and split records
 
-The archived training and validation records are available together at `data/training/train.jsonl` and `data/training/holdout.jsonl`. Their hashes exactly match the corresponding original preparation outputs. The retained source rows, cluster assignments, and preparation summary are included in [data/splits](../data/splits/README.md). Regenerating from `configs/dataset_preparation_archived.json` reproduces both JSONL files byte for byte. The four removed local-path columns in the cleaned public tables do not affect any condition input, cluster key, or DOI mapping across all 30,403 rows.
+The final training and holdout records are available at `data/final_json/train.jsonl` and `data/final_json/holdout.jsonl`. Their hashes exactly match the corresponding original preparation outputs. The same folder contains `split_assignments.csv`, `split_summary.json`, `class_map.json`, and `manifest.json`; see [the file guide](../data/final_json/README.md). Regenerating from `configs/dataset_preparation.json` reproduces both JSONL files byte for byte. The four removed local-path columns in the processed public tables do not affect any condition input, cluster key, or DOI mapping across all 30,403 rows.
 
-The archived records retain their original scientific values. New curation runs use `h3btb` → `1,3,5-Tris(4-carboxyphenyl)benzene` and the reference molecular-weight lookup. These curation changes do not rewrite the archived training and validation files.
+The bundled records retain their original scientific values. New curation runs use `h3btb` → `1,3,5-Tris(4-carboxyphenyl)benzene` and the reference molecular-weight lookup. These curation changes do not rewrite the bundled training and holdout files.

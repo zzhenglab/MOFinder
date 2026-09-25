@@ -12,11 +12,11 @@ python -m pip install -e ".[evaluation]"
 
 | Workflow | Input | Entry point | Guide |
 | --- | --- | --- | --- |
-| Holdout model evaluation | Archived validation JSONL, 2,595 reactions | `mofinder.evaluation.holdout` | [Holdout](holdout_evaluation.md) |
+| Holdout model evaluation | Final holdout JSONL, 2,595 reactions | `mofinder.evaluation.holdout` | [Holdout](holdout_evaluation.md) |
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
 
-The training set is `data/training/train.jsonl`, and the validation set is `data/training/holdout.jsonl`. Both preserve the archived experiment records byte for byte. Their identities are recorded in `data/training/manifest.json`, and their record assignments are in `data/splits/split_assignments.csv`.
+The training set is `data/final_json/train.jsonl`, and the validation set is `data/final_json/holdout.jsonl`. Both preserve the original experiment records byte for byte. Their identities are recorded in `data/final_json/manifest.json`, and their record assignments are in `data/final_json/split_assignments.csv`.
 
 ## Offline checks
 

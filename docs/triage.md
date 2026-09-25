@@ -6,14 +6,14 @@ The triage workflow runs from Python modules and command-line commands. Screenin
 
 | Input | Content |
 | --- | --- |
-| `data/metadata/literature_metadata.csv` | 13,773 bibliography records with DOI, title, source, keywords, and abstract |
+| `data/processed_data/literature_metadata.csv` | 13,773 bibliography records with DOI, title, source, keywords, and abstract |
 | `benchmarks/abstract_triage/ground_truth.xlsx` | Unchanged 478-paper human annotation reference |
 | `configs/abstract_triage.json` | Paths, model configurations, inference limits, and statistical settings |
 | `prompts/abstract_triage.txt` | Screening criteria and prompt template |
 
 Every reference DOI has one nonempty abstract in the metadata export. The default `"benchmark_only": true` selects these 478 publications. Model inputs contain the title, source, keywords, and abstract. Annotation labels and comments are not included in prompts.
 
-Three conflicting duplicate DOI groups occur outside the benchmark. Whole-corpus screening raises an explicit error until their bibliographic records are reconciled. See [`data/metadata/README.md`](../data/metadata/README.md).
+Three conflicting duplicate DOI groups occur outside the benchmark. Whole-corpus screening raises an explicit error until their bibliographic records are reconciled. See [`data/processed_data/literature_metadata.md`](../data/processed_data/literature_metadata.md).
 
 ## Installation and input validation
 
@@ -21,7 +21,7 @@ From the repository root:
 
 ```bash
 python -m pip install -e ".[api,plotting]"
-python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
 Expected counts are 478 scheduled publications, 293 Y and 185 N reference labels, and zero missing reference abstracts. This command makes no model requests. Input validation and statistical calculations also work with the base installation, `pip install -e .`.
@@ -94,7 +94,7 @@ Across-round summaries report the mean and sample standard deviation (`ddof=1`) 
 The annotation calculations can be run locally:
 
 ```bash
-python -m mofinder.literature.triage human-agreement --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx --output-dir results/local/human_agreement
+python -m mofinder.literature.triage human-agreement --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx --output-dir results/local/human_agreement
 ```
 
 The output directory must be new. The default uses 50,000 publication-bootstrap draws and seed 42. Ambiguous `Y/N` ratings are not treated as binary votes. Pairwise agreement uses available binary pairs, Fleiss' kappa uses complete four-binary-rating rows, and the human consensus label remains authoritative for model scoring.

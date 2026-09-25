@@ -100,8 +100,8 @@
     ]
   },
   "datasets": {
-    "input_manifest": "../data/cleaned_data/archived/manifest.json",
-    "config": "../configs/dataset_preparation_archived.json",
+    "input_manifest": "../data/processed_data/manifest.json",
+    "config": "../configs/dataset_preparation.json",
     "counts": {
       "input_rows_total": 30403,
       "rows_after_required_field_checks": 29857,

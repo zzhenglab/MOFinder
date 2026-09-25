@@ -42,7 +42,7 @@ class TrainingTests(unittest.TestCase):
         return prepare_bundle(
             self.root / "train.jsonl", self.root / "holdout.jsonl",
             self.repo / "benchmarks/mof_quest/questions.json",
-            self.repo / "data/splits/class_map.json",
+            self.repo / "data/final_json/class_map.json",
             config or self.repo / "configs/training_hpc.json", self.root / "bundle",
             prompt=prompt,
         )

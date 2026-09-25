@@ -25,7 +25,7 @@ def load_config(config_file):
     config = json.loads(config_file.read_text(encoding="utf-8"))
     root = (config_file.parent / config.get("project_root", "..")).resolve()
     defaults = {
-        "input_file": "data/metadata/literature_retrieval/supporting_information.csv",
+        "input_file": "data/processed_data/literature_retrieval/supporting_information.csv",
         "article_dir": "data/local/articles",
         "si_dir": "data/local/supporting_information",
         "manifest_file": "results/extraction/document_manifest.csv",

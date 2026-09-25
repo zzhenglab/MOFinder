@@ -1,6 +1,6 @@
 {
   "project_root": "..",
-  "input_file": "data/metadata/literature_retrieval/supporting_information.csv",
+  "input_file": "data/processed_data/literature_retrieval/supporting_information.csv",
   "article_dir": "data/local/articles",
   "si_dir": "data/local/supporting_information",
   "manifest_file": "results/extraction/document_manifest.csv",

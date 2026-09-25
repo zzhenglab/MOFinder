@@ -33,7 +33,7 @@ Install the API and plotting dependencies, then validate the full triage inputs:
 
 ```bash
 python -m pip install -e ".[api,plotting]"
-python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
 With `OPENAI_API_KEY` set and the model settings checked, screen the 478-paper reference:
@@ -64,7 +64,7 @@ The core workflow and reaction evaluation routines are implemented in Python. Sh
 | Offline validation | Input checks, human-agreement calculations, examples, and regression tests | Run Windows/Linux CI on the release commit and verify packaged commands with live model access |
 | Article and SI literature retrieval | Python desktop applications; neutral publisher profiles and image names; selected input tables; local calibration and working inventories | Review unmapped pending rows and validate live desktop downloading |
 | Positive and negative extraction | Python document matching, JSON-backed positive mining, offline CSV recovery, negative plans, and failure enumeration; separate prompts and configurations | Compare saved research runs and validate live extraction |
-| Cleaning and dataset construction | Chemical lookups, positive/negative curation, grouped splitting, publication-year training subsets, and archived training/holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
+| Cleaning and dataset construction | Chemical lookups, processed positive/negative records, grouped splitting, publication-year training subsets, and final training/holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
 | Reaction evaluation | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive/negative evaluation code and ground truth |
 | Fine-tuning | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training/holdout JSONL | Record completed job provenance and validate training on the target GPU system |
 
@@ -89,7 +89,8 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Clean records and prepare training/holdout JSONL | [Curation](docs/curation.md) and [datasets](docs/datasets.md) |
 | Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_demo/literature_input/README.md) |
 | Locate notebook operations in the Python implementation | [Source-to-code guide](docs/source_to_code.md) |
-| Inspect training, holdout, and record assignments | [Training datasets](data/training/README.md) and [split assignments](data/splits/README.md) |
+| Inspect processed positive/negative records and publication metadata | [Processed data](data/processed_data/README.md) |
+| Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
 | Check the DOI-named sample documents locally | [Mining example](Demo/03_api_demo/inputs/mining/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
@@ -115,9 +116,9 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `data/paper_processing_assets/` | Browser image templates with neutral publisher identifiers |
 | `data/` | Input manifests, metadata, organic linker information, dataset snapshots, and split records |
 | `data/organic_linker_info/` | Organic linker molecular weights and publication-specific name corrections |
-| `data/cleaned_data/` | Archived positive and negative records, plus linker-corrected negative records |
+| `data/processed_data/` | Processed positive and negative CSVs, publication metadata, retrieval inventories, and a linker-corrected alternative |
 | `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
-| `data/training/` and `data/splits/` | Training and holdout JSONL, record assignments, split summary, and class map |
+| `data/final_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
 | `Demo/` | Offline cleaning and JSON preparation; one API demo for abstract triage and mining |
 | `docs/` | Installation, methods, stage status, and reproduction instructions |
@@ -130,16 +131,16 @@ Python modules contain the reusable implementation and support terminal or HPC e
 
 ## Data and reproducibility
 
-The cleaned positive and negative tables and training records are available directly:
+Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/final_json/README.md). Processed positive/negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training/holdout files and their assignments are together in `data/final_json/`.
 
 | File | Contents | Records |
 | --- | --- | ---: |
-| [`data/cleaned_data/archived/positive_stage6.csv`](data/cleaned_data/archived/positive_stage6.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
-| [`data/cleaned_data/archived/negative_stage6_v3.csv`](data/cleaned_data/archived/negative_stage6_v3.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
-| [`data/cleaned_data/linker_corrected/negative_stage6_v3.csv`](data/cleaned_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
-| [`data/training/train.jsonl`](data/training/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
-| [`data/training/holdout.jsonl`](data/training/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
-| [`data/splits/split_assignments.csv`](data/splits/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
+| [`data/processed_data/processed_positive.csv`](data/processed_data/processed_positive.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
+| [`data/processed_data/processed_negative.csv`](data/processed_data/processed_negative.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
+| [`data/processed_data/linker_corrected/processed_negative.csv`](data/processed_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
+| [`data/final_json/train.jsonl`](data/final_json/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
+| [`data/final_json/holdout.jsonl`](data/final_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
+| [`data/final_json/split_assignments.csv`](data/final_json/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
@@ -153,15 +154,22 @@ Complete saved model-run artifacts are not yet included. Statistical methods and
 
 Each new run records its settings, prompt, input hashes, response status, and predictions. Workflows create `results/` locally as needed; generated outputs are excluded from Git. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
 
-This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/metadata/literature_retrieval/README.md).
+This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/processed_data/literature_retrieval/README.md).
 
-Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_demo/inputs/mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/metadata/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
+Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_demo/inputs/mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
 
-The current dataset configuration reads the newly generated positive and negative stage-6 cleaning outputs. Positive stage 6 is the input used by the source preparation notebook; optional stage 7 trimming is not selected automatically. A separate archived configuration reproduces preparation from the archived positive stage-6 and negative `stage 6_v3` records. Their public tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
+The default [dataset configuration](configs/dataset_preparation.json) reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from `data/processed_data/`. Regenerate their final JSONL and split records locally with:
 
-Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/cleaned_data/linker_corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. Archived model inputs and assignments remain unchanged.
+```bash
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
+```
 
-The archived training and validation JSONL files retain their original records. Model evaluation reads reference answers locally for scoring and sends only the intended reaction inputs. Human responses are distributed with anonymous participant IDs; the original workbook remains the source for provenance. See [evaluation](docs/evaluation.md).
+This writes to `results/datasets/conditions/`. To prepare a dataset after running curation, select [dataset_preparation_from_curation.json](configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`. The included processed tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
+
+Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/processed_data/linker_corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. The bundled final JSONL and assignments preserve their original values.
+
+Model evaluation reads reference answers locally from the final holdout JSONL for scoring and sends only the intended reaction inputs. Human responses are distributed with anonymous participant IDs; the original workbook remains the source for provenance. See [evaluation](docs/evaluation.md).
 
 The historical data and counts described in [the earlier workflow](docs/legacy_workflow.md) belong to their original processing configuration. Its removed files are linked to the historical commit; the current datasets are listed above.
 

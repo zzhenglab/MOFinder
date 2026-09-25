@@ -6,10 +6,10 @@ The GPT-4.1 training workflow uses the OpenAI fine-tuning interface. The setting
 
 | File | Records | Purpose |
 | --- | ---: | --- |
-| [data/training/train.jsonl](../data/training/train.jsonl) | 23,528 | Training examples |
-| [data/training/holdout.jsonl](../data/training/holdout.jsonl) | 2,595 | Holdout evaluation; optional validation metrics during training |
+| [data/final_json/train.jsonl](../data/final_json/train.jsonl) | 23,528 | Training examples |
+| [data/final_json/holdout.jsonl](../data/final_json/holdout.jsonl) | 2,595 | Holdout evaluation; optional validation metrics during training |
 
-Each line is a complete JSON object containing `system`, `user`, and `assistant` messages. The assistant message contains the reference label, `P` or `N`. Upload the `.jsonl` file directly, without converting it to a JSON array. File hashes and label counts are recorded in the [training manifest](../data/training/manifest.json).
+Each line is a complete JSON object containing `system`, `user`, and `assistant` messages. The assistant message contains the reference label, `P` or `N`. Upload the `.jsonl` file directly, without converting it to a JSON array. File hashes and label counts are recorded in the [training manifest](../data/final_json/manifest.json).
 
 The system message uses the full [reaction-prediction instructions](../prompts/training/reaction_prediction.txt), shared with dataset preparation, MOF Quest evaluation, and HPC training. Renaming the prompt file preserves its text and the existing training/holdout JSONL bytes.
 
@@ -17,8 +17,8 @@ The system message uses the full [reaction-prediction instructions](../prompts/t
 
 1. Open the [OpenAI fine-tuning dashboard](https://platform.openai.com/finetune) and select the project used for training.
 2. Select **Create**, choose **Supervised** fine-tuning, and select **GPT-4.1** (`gpt-4.1-2025-04-14`).
-3. Upload `data/training/train.jsonl` under **Training data**.
-4. If validation metrics are required during training, select `data/training/holdout.jsonl` under **Validation data**. Otherwise leave the validation field empty and use the holdout for subsequent evaluation. Record the selection with the job details.
+3. Upload `data/final_json/train.jsonl` under **Training data**.
+4. If validation metrics are required during training, select `data/final_json/holdout.jsonl` under **Validation data**. Otherwise leave the validation field empty and use the holdout for subsequent evaluation. Record the selection with the job details.
 5. Enter the settings below and create the job.
 
 | Setting | Value |

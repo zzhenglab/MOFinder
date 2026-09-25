@@ -1,9 +1,9 @@
 {
   "project_root": "..",
-  "positive_csv": "data/cleaned_data/archived/positive_stage6.csv",
-  "negative_csv": "data/cleaned_data/archived/negative_stage6_v3.csv",
-  "metadata_file": "data/metadata/publication_years.csv",
-  "output_dir": "results/datasets/archived_conditions",
+  "positive_csv": "results/curation/positive/mof_extraction_1_2_3_4_5_6.csv",
+  "negative_csv": "results/curation/negative/mof_extraction_failures_enum_1_2_3_4_5_6.csv",
+  "metadata_file": "data/processed_data/publication_years.csv",
+  "output_dir": "results/datasets/curated_conditions",
   "prompt_file": "prompts/training/reaction_prediction.txt",
   "forced_questions_file": "configs/dataset_forced_questions.json",
   "rng_seed": 42,
@@ -21,7 +21,7 @@
   "holdout_search_trials": 64,
   "holdout_search_swaps": 1200,
   "input_provenance": {
-    "positive": "Archived positive stage 6 records with four local-path columns removed.",
-    "negative": "Archived negative stage 6_v3 records with four local-path columns removed."
+    "positive": "Processed positive output from the current curation run, before optional trimming.",
+    "negative": "Processed negative output from the current curation run. Use dataset_preparation.json for the included processed tables."
   }
 }

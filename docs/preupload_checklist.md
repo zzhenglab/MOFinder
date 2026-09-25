@@ -23,7 +23,7 @@ No input replacement is needed for these commands. The desktop validation comman
 ```bash
 python -m unittest discover -s tests -v
 python Demo/03_api_demo/run_demo.py triage
-python -m mofinder.literature.triage validate-inputs --metadata data/metadata/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 python tools/literature_retrieval/fetch_papers.py --validate
 python tools/literature_retrieval/fetch_si.py --validate
 python -m mofinder.literature.match_documents match --config configs/example_document_matching.json
@@ -46,7 +46,7 @@ python -m mofinder.evaluation.human_quest analyze
 | Cleaning demo | 174 raw records produce 146 stage-6 records; the expected output comparison passes. |
 | JSON preparation demo | 252 training records and 28 holdout records; zero shared clusters; expected JSONL and split assignments match. |
 | API demo validation | Four selected abstracts and the sample PDF pair are readable. Before positive mining runs, its missing output CSV is expected in the negative-input report. |
-| Holdout validation | 2,595 archived records with P/N labels and valid message structure. |
+| Holdout validation | 2,595 bundled records with P/N labels and valid message structure. |
 | Question validation | 22 questions, 11 P and 11 N; configured model settings are reported. This does not establish account access. |
 | Human analysis | 98 participants, 22 questions, 2,156 responses; summary and participant/question tables are written locally. |
 
@@ -54,31 +54,31 @@ The duration conventions are regression-tested in `tests/test_curation_times.py`
 
 ## 3. Reproduce the included datasets
 
-The archived and corrected inputs are separate dataset versions. Keep their output folders, split assignments, training jobs, and evaluated models together.
+The standard processed and linker-corrected inputs are separate dataset versions. Keep their output folders, split assignments, training jobs, and evaluated models together.
 
 ```bash
-python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_archived.json
-python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_archived.json
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_corrected.json
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_corrected.json
 ```
 
 | Version | Input files | Output directory | Expected train / holdout |
 | --- | --- | --- | ---: |
-| Archived | `data/cleaned_data/archived/positive_stage6.csv` and `data/cleaned_data/archived/negative_stage6_v3.csv` | `results/datasets/archived_conditions/` | 23,528 / 2,595 |
-| Corrected linker spellings | Same positive table and `data/cleaned_data/linker_corrected/negative_stage6_v3.csv` | `results/datasets/corrected_conditions/` | 23,436 / 2,604 |
-| Newly mined and cleaned records | Both stage-6 files under `results/curation/` | `results/datasets/conditions/` | Determined by the new inputs |
+| Processed positive and negative | `data/processed_data/processed_positive.csv` and `data/processed_data/processed_negative.csv` | `results/datasets/conditions/` | 23,528 / 2,595 |
+| Corrected linker spellings | Same positive table and `data/processed_data/linker_corrected/processed_negative.csv` | `results/datasets/corrected_conditions/` | 23,436 / 2,604 |
+| Newly mined and cleaned records | Generated positive/negative CSVs under `results/curation/` | `results/datasets/curated_conditions/` | Determined by the new inputs |
 
-- [ ] For the archived run, compare `mof_ft_train.jsonl` byte-for-byte with `data/training/train.jsonl`, and `mof_ft_holdout.jsonl` with `data/training/holdout.jsonl`.
+- [ ] For the default processed-data run, compare `mof_ft_train.jsonl` byte-for-byte with `data/final_json/train.jsonl`, and `mof_ft_holdout.jsonl` with `data/final_json/holdout.jsonl`.
 - [ ] Check each run's `mof_ft_split_summary.json` for filtering counts, P/N counts, year coverage, input hashes, and benchmark coverage.
 - [ ] Confirm that training and holdout have no shared cluster keys or exact condition inputs. Dataset preparation enforces these checks before writing outputs.
-- [ ] Keep the corrected run's new assignments. Linker names enter cluster identity, so archived assignments cannot be transferred to corrected names.
+- [ ] Keep the corrected run's new assignments. Linker names enter cluster identity, so bundled assignments cannot be transferred to corrected names.
 
 The included partition is a grouped training/holdout split. It does not include a third independent test partition, and it is not DOI- or parent-disjoint. If the holdout is supplied as validation data during training, record that use with the training job.
 
 ### Publication-year subsets and future-year evaluation
 
-The preparation commands already generate separate and cumulative publication-year **training subsets** in four-period and five-period variants. The required `DOI` and `Publication Year` mapping is included in `data/metadata/publication_years.csv`. These files can be generated immediately from either included stage-6 dataset, or after a new curation run. Missing-year rows remain in the full partition but are excluded from year subsets.
+The preparation commands already generate separate and cumulative publication-year **training subsets** in four-period and five-period variants. The required `DOI` and `Publication Year` mapping is included in `data/processed_data/publication_years.csv`. These files can be generated immediately from the standard or linker-corrected processed tables, or after a new curation run. Missing-year rows remain in the full partition but are excluded from year subsets.
 
 A train-on-past, test-on-future evaluation is a separate pending workflow. A fixed all-year holdout evaluated against successively larger training-year subsets is not that temporal test. Before implementing the temporal partitions, specify:
 
@@ -90,7 +90,7 @@ A train-on-past, test-on-future evaluation is a separate pending workflow. A fix
 
 The publication-year metadata is available. The confirmed temporal protocol or revised source notebook, plus resulting split assignments and model results, are still needed.
 
-One retained archived holdout record has no mapped publication year (`10.1021/jacs.5c08726`). Check its bibliographic year before building future-year partitions; do not infer its year from the DOI string.
+One record in the bundled holdout has no mapped publication year (`10.1021/jacs.5c08726`). Check its bibliographic year before building future-year partitions; do not infer its year from the DOI string.
 
 ## 4. Test literature retrieval and mining with local papers
 
@@ -154,30 +154,30 @@ Use the paths below for the main configuration. Files generated by an upstream s
 
 | Stage | File or directory to provide | Required preparation |
 | --- | --- | --- |
-| Abstract triage | `data/metadata/literature_metadata.csv`; `benchmarks/abstract_triage/ground_truth.xlsx` | Included. For another collection, retain the documented bibliographic columns and DOI/reference-label schema. Resolve the three conflicting DOI groups before whole-corpus screening. |
-| Document matching | `data/metadata/literature_retrieval/supporting_information.csv` | Included inventory. Select a local replacement CSV/XLSX with a `DOI` column for another collection. |
+| Abstract triage | `data/processed_data/literature_metadata.csv`; `benchmarks/abstract_triage/ground_truth.xlsx` | Included. For another collection, retain the documented bibliographic columns and DOI/reference-label schema. Resolve the three conflicting DOI groups before whole-corpus screening. |
+| Document matching | `data/processed_data/literature_retrieval/supporting_information.csv` | Included inventory. Select a local replacement CSV/XLSX with a `DOI` column for another collection. |
 | Main articles | `data/local/articles/` | Add real PDFs, for example `10.1021_jacs.2c09756.pdf`. |
 | Supporting information | `data/local/supporting_information/` | Add the corresponding `_SI.pdf` or supported text document. |
 | Positive extraction | `results/extraction/document_manifest.csv` | Generated by matching; contains `DOI`, `Main File`, and `SI File`. |
 | Negative planning | `results/extraction/positive/mof_extraction.csv` and `results/extraction/positive/mof_json_store/` | Generated together by positive extraction. Retain the trial/failure flag, notes, and complete DOI directories. A cleaned stage-6 CSV is not a substitute. |
 | Negative enumeration | `results/extraction/negative/mof_extraction_failplans.csv` and `results/extraction/negative/mof_negative_plan_store/` | Generated by planning. Retain the plan JSONs, ordered successful-parent snapshots, and provenance files. |
 | Positive cleaning | `results/extraction/positive/mof_extraction.csv` | Full raw extraction table. Preserve the original extraction schema and document-availability information. The existing source CSV can be selected here; the package currently distributes a smaller raw demo. |
-| Negative cleaning | `results/extraction/negative/mof_extraction_failures_enum.csv` | Raw enumerated table produced before cleaning. The archived stage-6 table belongs in dataset preparation. |
+| Negative cleaning | `results/extraction/negative/mof_extraction_failures_enum.csv` | Raw enumerated table produced before cleaning. The bundled processed negative table belongs in dataset preparation. |
 | Organic linker information | `data/organic_linker_info/linker_molecular_weights.csv`; `data/organic_linker_info/linker_prime_corrections.json` | Included. MW CSV has no header. Leave unresolved weights blank until established. |
-| Dataset preparation | Both stage-6 CSVs under `results/curation/`; `data/metadata/publication_years.csv` | Generated cleaned CSVs plus included publication years. Keep the positive stage-6 input even if optional stage-7 trimming also runs. |
+| Dataset preparation after curation | Generated CSVs under `results/curation/`; `data/processed_data/publication_years.csv` | Use `configs/dataset_preparation_from_curation.json`. Keep the untrimmed positive output even if optional trimming also runs. |
 
 Run the matching, extraction, and enumeration commands in [the workflow guide](workflow.md). Then test both cleaning branches and the newly generated dataset:
 
 ```bash
 python -m mofinder.curation validate-inputs --config configs/curation.json --mode both
 python -m mofinder.curation run --config configs/curation.json --mode both
-python -m mofinder.datasets.prepare validate --config configs/dataset_preparation.json
-python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_from_curation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
 ```
 
 - [ ] Inspect every numbered cleaning table and branch report, including row removals, aliases, quantities, temperatures, times, and derived ratios/concentrations.
 - [ ] Compare corresponding stages with the original notebooks using identical raw inputs and lookup files. Use [the code map](source_to_code.md) to locate the original operations.
-- [ ] Account for the documented H3BTB, hydrate-mass, duration-text, and DOI-specific prime corrections when comparing new output with archived tables. Archived JSONL files remain unchanged.
+- [ ] Account for the documented H3BTB, hydrate-mass, duration-text, and DOI-specific prime corrections when comparing new output with bundled tables. Bundled JSONL files remain unchanged.
 - [ ] Retain the curation and split manifests with the generated data.
 
 ## 6. Run the notebook walkthroughs
@@ -191,8 +191,8 @@ Install `.[notebook]` in the same environment as the workflow packages. Open eac
 | `notebooks/03_positive_extraction.ipynb` | Run matching; select the corresponding positive configuration | `RUN_EXTRACTION`; `RUN_BACKFILL` only with saved JSONs |
 | `notebooks/04_negative_reconstruction.ipynb` | Complete positive extraction and retain CSV/JSON stores | `RUN_MINING`, then `RUN_ENUMERATION` |
 | `notebooks/05_data_curation.ipynb` | Supply both raw extraction tables | `RUN_CURATION`; `TRIM_POSITIVE` controls optional stage 7 |
-| `notebooks/06_dataset_preparation.ipynb` | Supply both stage-6 files, or select the archived/corrected configuration | `RUN_PREPARATION` |
-| `notebooks/07_holdout_evaluation.ipynb` | Included archived files; accessible model ID and fresh output name | `RUN_SANITY_TEST` or `RUN_EVALUATION`; `test_mode=True` limits the latter to ten pending records |
+| `notebooks/06_dataset_preparation.ipynb` | Included processed tables by default; select the curation-output or linker-corrected configuration when needed | `RUN_PREPARATION` |
+| `notebooks/07_holdout_evaluation.ipynb` | Included final JSONL; accessible model ID and fresh output name | `RUN_SANITY_TEST` or `RUN_EVALUATION`; `test_mode=True` limits the latter to ten pending records |
 | `notebooks/08_quest_evaluation.ipynb` | Included question panel; accessible model group | `RUN_EVALUATION`; set one round for a small live check |
 | `notebooks/09_human_benchmark.ipynb` | Included anonymous questions and responses | Local analysis; select a new output directory for another cohort |
 | `Demo/01_data_cleaning/demo.ipynb` | Included raw records and lookups | Local cleaning demonstration |
@@ -208,7 +208,7 @@ For the API demo's triage stage, confirm that the displayed requests contain the
 ### GPT-4.1 dashboard training
 
 - [ ] Select the intended dataset version and record its hashes.
-- [ ] Upload the training JSONL directly through the fine-tuning dashboard. Use the [training recipe](training_openai.md): two epochs, batch size 15, learning-rate multiplier 2, and seed 42. For the separate one-epoch run, set Epochs to 1; the archived 23,528 records give approximately 1,569 steps. Keep the two jobs and their model IDs separate.
+- [ ] Upload the training JSONL directly through the fine-tuning dashboard. Use the [training recipe](training_openai.md): two epochs, batch size 15, learning-rate multiplier 2, and seed 42. For the separate one-epoch run, set Epochs to 1; the bundled 23,528 records give approximately 1,569 steps. Keep the two jobs and their model IDs separate.
 - [ ] Record whether the paired holdout was also uploaded as validation data.
 - [ ] Save the completed job ID, uploaded file IDs, resolved settings, actual step count, metrics, and trained model ID.
 - [ ] Set the resulting accessible model ID and a fresh output name in the evaluation configuration. Existing fine-tuned model IDs do not update automatically when a new dataset is prepared.
@@ -265,14 +265,14 @@ python -m mofinder.evaluation.quest run --config configs/local/quest_smoke.json 
 | Prospective and structural source data | Historical Reactome files are available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) | Link any revised candidate scores, selection records, measured outcomes, replicate identifiers, PXRD source data, and structure/archive identifiers used in the final figures. |
 | Final figure/table inputs | Reproduction map incomplete | Complete [the figure/table map](figure_table_map.md) with saved inputs and commands for each final result. |
 
-The anonymous human benchmark inputs, archived cleaned tables, original train/holdout files, split assignments, prompts, molecular-weight lookup, and name/SMILES mappings are included. Their source workbooks are not required to run the included analyses. A new human workbook can be exported with `mofinder.evaluation.human_quest export-workbook` as documented in [human analysis](human_benchmark.md).
+The anonymous human benchmark inputs, processed positive/negative tables, original train/holdout files, split assignments, prompts, molecular-weight lookup, and name/SMILES mappings are included. Their source workbooks are not required to run the included analyses. A new human workbook can be exported with `mofinder.evaluation.human_quest export-workbook` as documented in [human analysis](human_benchmark.md).
 
 ## 9. Inspect the GitHub payload
 
 - [ ] Preview the root README and check its two reused figures, internal links, dataset links, and current workflow status.
 - [ ] Confirm that all demonstrations are under `Demo/` and each notebook's input instructions match the current paths.
 - [ ] Check comments against the source notebooks using the source-to-code map. Keep chemical explanations and necessary operational notes; keep release-specific comparison notes outside the scientific code.
-- [ ] Check that the included archived files still match their manifests and that new corrected outputs are clearly identified.
+- [ ] Check that the processed data and final JSONL still match their manifests and that new corrected outputs are clearly identified.
 - [ ] Match the manuscript and supporting-information dataset counts, split descriptions, training settings, checkpoint identities, and performance tables to the exact release inputs and saved runs.
 - [ ] Inspect `git diff --name-status` and `git status --short`. Commit the intended code, data, prompts, documentation, and required deletions. Local outputs, calibration, credentials, and private workbooks should not appear in the staged list.
 - [ ] Leave all notebook live-run switches disabled in the committed walkthroughs.

@@ -1,6 +1,6 @@
 # Local GPU and HPC training
 
-This workflow fine-tunes **GPT-oss-20B** on one training dataset using a fresh LoRA adapter. It uses the training and holdout files in `data/training/` and the current 22-question panel in `benchmarks/mof_quest/questions.json`. The [hosted GPT-4.1 training route](training_openai.md) is documented separately.
+This workflow fine-tunes **GPT-oss-20B** on one training dataset using a fresh LoRA adapter. It uses the training and holdout files in `data/final_json/` and the current 22-question panel in `benchmarks/mof_quest/questions.json`. The [hosted GPT-4.1 training route](training_openai.md) is documented separately.
 
 ## Prepare the files
 

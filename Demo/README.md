@@ -5,7 +5,7 @@ Start with data cleaning and JSONL preparation, which run locally without an API
 | Folder | Workflow | API access |
 | --- | --- | --- |
 | [01_data_cleaning](01_data_cleaning/README.md) | Raw positive extraction records to normalized synthesis records | No |
-| [02_json_preparation](02_json_preparation/README.md) | Cleaned positive and negative records to grouped training/holdout JSONL | No |
+| [02_json_preparation](02_json_preparation/README.md) | Processed positive and negative records to grouped training/holdout JSONL | No |
 | [03_api_demo](03_api_demo/README.md) | Abstract triage and positive/negative data mining | Required for model calls; input validation runs offline |
 
 The [API walkthrough](03_api_demo/api_demo.ipynb) combines abstract triage and positive/negative data mining in one notebook.

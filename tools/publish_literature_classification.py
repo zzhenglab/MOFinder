@@ -60,7 +60,7 @@ def json_bytes(value):
 def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
     """Validate every join before replacing the public tables and manifests."""
     audit_path, repo_root = Path(audit_path), Path(repo_root)
-    folder = repo_root / "data/metadata/literature_retrieval"
+    folder = repo_root / "data/processed_data/literature_retrieval"
     fields, rows = read_csv(audit_path)
     missing = AUDIT_FIELDS - set(fields)
     if missing:
@@ -105,7 +105,7 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
             raise ValueError(f"Missing classification reason: {doi}")
         by_doi[doi] = {**row, "doi_key": doi}
 
-    _, bibliography = read_csv(repo_root / "data/metadata/literature_metadata.csv")
+    _, bibliography = read_csv(repo_root / "data/processed_data/literature_metadata.csv")
     bibliography_dois = {normalize_doi(row["DOI"]) for row in bibliography}
     if set(by_doi) != bibliography_dois:
         raise ValueError("Audit must cover exactly the bibliography's normalized unique DOIs.")
@@ -151,7 +151,7 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
     provenance = {
         "source_id": "literature_topic_classification_audit",
         "source_sha256": source_sha256,
-        "bibliography_sha256": digest((repo_root / "data/metadata/literature_metadata.csv").read_bytes()),
+        "bibliography_sha256": digest((repo_root / "data/processed_data/literature_metadata.csv").read_bytes()),
         "classifier_versions": sorted({row["classifier_version"] for row in ordered}),
         "generated_by_llm": False,
         "validated_against_expert_topic_labels": False,
@@ -202,8 +202,8 @@ def publish(audit_path, repo_root, *, analysis_manifest=None, classifier=None):
     ])
     outputs[manifest_path] = json_bytes(manifest)
     retired_exports = {
-        "data/metadata/literature_retrieval/doi_classification.csv",
-        "data/metadata/literature_retrieval/classification_audit.csv",
+        "data/processed_data/literature_retrieval/doi_classification.csv",
+        "data/processed_data/literature_retrieval/classification_audit.csv",
     }
     parent["files"] = [entry for entry in parent["files"] if entry["path"] not in retired_exports]
     outputs[parent_path] = json_bytes(parent)

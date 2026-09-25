@@ -1,8 +1,8 @@
 {
   "project_root": "..",
-  "positive_csv": "data/cleaned_data/archived/positive_stage6.csv",
-  "negative_csv": "data/cleaned_data/linker_corrected/negative_stage6_v3.csv",
-  "metadata_file": "data/metadata/publication_years.csv",
+  "positive_csv": "data/processed_data/processed_positive.csv",
+  "negative_csv": "data/processed_data/linker_corrected/processed_negative.csv",
+  "metadata_file": "data/processed_data/publication_years.csv",
   "output_dir": "results/datasets/corrected_conditions",
   "prompt_file": "prompts/training/reaction_prediction.txt",
   "forced_questions_file": "configs/dataset_forced_questions.json",
@@ -21,7 +21,7 @@
   "holdout_search_trials": 64,
   "holdout_search_swaps": 1200,
   "input_provenance": {
-    "positive": "Archived positive stage 6 records with four local-path columns removed.",
-    "negative": "Negative stage 6_v3 records with documented prime glyph restorations in linker names and abbreviations. Grouped partitions are recalculated for these corrected conditions."
+    "positive": "Processed positive synthesis records with four local-path columns removed.",
+    "negative": "Processed negative synthesis records with documented linker prime glyph restorations. Grouped partitions are recalculated for these corrected conditions."
   }
 }

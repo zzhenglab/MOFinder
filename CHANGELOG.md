@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Combined processed positive/negative tables and literature metadata in `data/processed_data/`, and training/holdout JSONL with split records in `data/final_json/`. Replaced stage/version filenames with `processed_positive.csv` and `processed_negative.csv`; the default preparation configuration now reads these included inputs. Kept fresh curation and linker-corrected preparation as named alternatives, and updated scripts, notebooks, manifests, tests, and CI paths without changing scientific data or dataset partitions.
+
 - Simplified literature classification documentation and removed redundant public classification CSVs; the labels remain in the article and SI inventories, with detailed analysis retained locally.
 
 - Broadened the descriptive Chemical synthesis category to include original papers reporting experimental MOF/framework preparation, including structural and application studies. Preserved prior primary-topic categories, evidence, uncertainty flags, and all saved triage Y/N decisions in the audit.
@@ -29,7 +31,7 @@
 - Renamed desktop downloading paths and commands to literature retrieval.
 - Replaced upload-copy filenames in public manifests with descriptive source identifiers while retaining source checksums.
 - Restored UTF-8 byte-order marks in archived cleaned CSVs and kept generated demo and split tables compatible with spreadsheet software.
-- Placed training and holdout JSONL together under `data/training/` and included reproducible record assignments under `data/splits/`.
+- Placed training and holdout JSONL together under `data/final_json/` and included reproducible record assignments under `data/final_json/`.
 - Added three article/SI replacement-template pairs and local-paper extraction configurations.
 - Added explicit input-placement instructions to every walkthrough and a source-cell-to-function navigation guide.
 - Added separate offline cleaning and JSON-preparation demos, with optional API-based triage and positive/negative mining examples.

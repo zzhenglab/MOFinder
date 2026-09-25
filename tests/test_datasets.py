@@ -146,12 +146,12 @@ class DatasetTests(unittest.TestCase):
             self.module.validate_split(result["train"], result["holdout"], forced)
 
     def test_archived_split_assignments_match_training_and_holdout(self):
-        assignments = self.pd.read_csv(self.repo / "data/splits/split_assignments.csv")
+        assignments = self.pd.read_csv(self.repo / "data/final_json/split_assignments.csv")
         self.assertTrue(assignments.source_row_id.is_unique)
         train_clusters = set(assignments.loc[assignments.split == "train", "cluster_key"])
         holdout_clusters = set(assignments.loc[assignments.split == "holdout", "cluster_key"])
         self.assertFalse(train_clusters & holdout_clusters)
-        manifest = json.loads((self.repo / "data/training/manifest.json").read_text())
+        manifest = json.loads((self.repo / "data/final_json/manifest.json").read_text())
         for entry in manifest["files"]:
             path = self.repo / entry["path"]
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), entry["sha256"])

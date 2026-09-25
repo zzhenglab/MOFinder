@@ -1,6 +1,6 @@
 # JSON preparation demo
 
-Prepare condition-classification training and holdout files from 146 cleaned positive records and 175 curated negative records. This demo calls `mofinder.datasets.prepare`, including the same condition builder, conflict handling, cluster split, class balancing, and JSONL writer used for the full dataset.
+Prepare condition-classification training and holdout files from 146 processed positive records and 175 processed negative records. This demo calls `mofinder.datasets.prepare`, including the same condition builder, conflict handling, cluster split, class balancing, and JSONL writer used for the [full dataset](../../data/final_json/README.md).
 
 ## Run
 
@@ -26,8 +26,8 @@ The notebook previews holdout examples first, followed by training examples, wit
 
 | File | Contents |
 | --- | --- |
-| [input/positive_cleaned.csv](input/positive_cleaned.csv) | Stage 6 records from the cleaning demo |
-| [input/negative_cleaned.csv](input/negative_cleaned.csv) | Up to ten archived negative records per selected publication |
+| [input/positive_cleaned.csv](input/positive_cleaned.csv) | Processed positive records from the cleaning demo |
+| [input/negative_cleaned.csv](input/negative_cleaned.csv) | Up to ten processed negative records per selected publication |
 | [input/publication_years.csv](input/publication_years.csv) | DOI-to-year mapping for the selected publications |
 | [input/source_manifest.json](input/source_manifest.json) | Source table hash and original negative row positions |
 | [config.json](config.json) | Seed, split targets, paths, and balancing settings |

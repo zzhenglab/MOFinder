@@ -3,7 +3,7 @@
   "base_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
   "files": [
     {
-      "path": "data/metadata/literature_metadata.csv",
+      "path": "data/processed_data/literature_metadata.csv",
       "source_sha256": "fd7dd1fe93510031fc3d61195744bff4488d1e4c2b7262d404bd172cb27871f3",
       "source_sheet": "Sheet1",
       "export_sha256": "7105758d0e492d28e4eaa27575b8a00b0a9a94fd46c9c198cdc277869e608ba1",
@@ -73,7 +73,7 @@
       }
     },
     {
-      "path": "data/metadata/publication_years.csv",
+      "path": "data/processed_data/publication_years.csv",
       "source_sha256": "fd7dd1fe93510031fc3d61195744bff4488d1e4c2b7262d404bd172cb27871f3",
       "source_sheet": "Sheet1",
       "export_sha256": "a69ed672b2184f23a757bd5b8520e8378e931232ca1d09b63d79858eaa197e57",
@@ -108,15 +108,15 @@
     "source_description": "Consolidated abstract triage notebook"
   },
   "related_manifests": {
-    "literature_retrieval_inventories": "data/metadata/literature_retrieval/manifest.json",
+    "literature_retrieval_inventories": "data/processed_data/literature_retrieval/manifest.json",
     "paper_processing_assets": "data/paper_processing_assets/manifest.json",
     "mining_examples": "Demo/03_api_demo/inputs/mining/manifest.json",
-    "archived_cleaned_data": "data/cleaned_data/archived/manifest.json",
-    "training_and_validation": "data/training/manifest.json",
+    "processed_data": "data/processed_data/manifest.json",
+    "training_and_validation": "data/final_json/manifest.json",
     "organic_linker_info": "data/organic_linker_info/manifest.json",
     "human_mof_quest": "benchmarks/mof_quest/human_manifest.json",
     "cleaning_demo": "Demo/01_data_cleaning/input/source_manifest.json",
     "json_preparation_demo": "Demo/02_json_preparation/input/source_manifest.json",
-    "linker_corrected_data": "data/cleaned_data/linker_corrected/manifest.json"
+    "linker_corrected_data": "data/processed_data/linker_corrected/manifest.json"
   }
 }

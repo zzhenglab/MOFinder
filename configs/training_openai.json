@@ -3,9 +3,9 @@
   "recipe_type": "manual_dashboard",
   "description": "GPT-4.1 supervised fine-tuning settings for entry in the OpenAI dashboard.",
   "dashboard_url": "https://platform.openai.com/finetune",
-  "training_input": "data/training/train.jsonl",
-  "holdout_input": "data/training/holdout.jsonl",
-  "dataset_manifest": "data/training/manifest.json",
+  "training_input": "data/final_json/train.jsonl",
+  "holdout_input": "data/final_json/holdout.jsonl",
+  "dataset_manifest": "data/final_json/manifest.json",
   "epoch_options": {
     "two_epoch_run": 2,
     "one_epoch_run": 1

@@ -16,7 +16,7 @@ python -m pip install -e ".[mining,curation,datasets]"
 | Negative planning | Raw positive CSV, successful synthesis JSONs, article/SI text | Evidence-based modification plans and parent-synthesis snapshots | [Negative reconstruction](negative_extraction.md) |
 | Failure enumeration | Modification plans and their successful parents | Enumerated negative JSONs and CSV | [Negative reconstruction](negative_extraction.md) |
 | Curation | Raw positive CSV or enumerated negative CSV; linker molecular weights | Successive cleaned tables, optional plots and reports | [Curation](curation.md) |
-| Dataset preparation | Stage-6 positive and negative tables; DOI years | Train/holdout JSONL, split assignments, temporal subsets, run records | [Datasets](datasets.md) |
+| Dataset preparation | Processed positive and negative tables; DOI years | Final train/holdout JSONL, split assignments, temporal subsets, run records | [Datasets](datasets.md) |
 
 Do not delete the successful synthesis JSONs after flattening them to CSV. Negative reconstruction needs the nested records and their one-based parent indices. The raw positive `article_trial_or_failure` flag controls eligibility for negative planning.
 
@@ -68,22 +68,23 @@ python -m mofinder.extraction.negative enumerate --config configs/negative_extra
 
 Mining commands send document text to the configured model. Matching, recovery, enumeration, curation, and dataset preparation require no model requests. Notebook switches disable live mining by default.
 
-Validate the required lookup and run both curation branches:
+Validate the required lookup, run both curation branches, and prepare their generated records:
 
 ```bash
 python -m mofinder.curation validate-inputs --config configs/curation.json --mode both
 python -m mofinder.curation run --config configs/curation.json --mode both
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_from_curation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
+```
+
+To prepare final JSONL directly from the included processed records, use the default configuration:
+
+```bash
 python -m mofinder.datasets.prepare validate --config configs/dataset_preparation.json
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-To prepare datasets directly from the archived cleaned records, use:
-
-```bash
-python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_archived.json
-```
-
-This independent offline route uses the archived processed records directly. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual stages and options. The default dataset input uses positive stage 6, as in the source preparation notebook. Positive stage 7 is optional trimming and is not selected automatically.
+This offline route reads `data/processed_data/processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv`, then writes training/holdout JSONL and split records to `results/datasets/conditions/`. The bundled final files and assignments are together in `data/final_json/`. The curation-output configuration writes to `results/datasets/curated_conditions/` and selects the untrimmed positive output. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual operations and alternatives.
 
 ## Train a model
 
@@ -100,12 +101,12 @@ The negative enumerator applies the Cartesian product of the permitted option li
 
 The split groups precursor, linker, and solvent identities under the configured settings. This is not a DOI-disjoint split. The forced benchmark conditions and their cluster exclusions are recorded separately. Publication-year subsets are produced from training records; they are not automatically separate prospective test sets.
 
-The archived negative `stage 6_v3` snapshot is distributed with scientific values preserved and four local-path columns omitted in `data/cleaned_data/archived/`. The archived configuration uses that exact table. The ordinary configuration connects to newly generated negative stage-6 output and records its provenance separately. A new curation run should not be assumed identical to the archived snapshot.
+The processed positive and negative tables in `data/processed_data/` preserve their original scientific values and omit four local-path columns. The default dataset configuration uses these tables. `configs/dataset_preparation_from_curation.json` uses newly generated cleaning outputs and records their provenance separately. A new curation run can differ from the bundled processed records.
 
 ## Remaining research inputs
 
 - Saved positive extraction CSV/JSONs, negative plans, and enumerated records for comparison against a completed run.
-- Training-job records connecting the archived dataset versions and training settings to the model IDs already recorded in the evaluation configurations.
+- Training-job records connecting the dataset versions and training settings to the model IDs already recorded in the evaluation configurations.
 - Complete saved predictions and the figure/table mapping for the paper-associated release.
 
 Offline software checks do not establish extraction accuracy or reproduce model-training results. See [evaluation](evaluation.md) for the available holdout and question-panel analyses. Separate positive and negative extraction-evaluation workflows require their reference data and scoring code.

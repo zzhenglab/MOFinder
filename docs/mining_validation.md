@@ -15,16 +15,16 @@ The tables below preserve the original mining-integration checkpoint. Test total
 | Positive extraction | Original schema and 83-column flattening preserved; 18 direct source comparisons |
 | Negative reconstruction | Original schema and five flattening comparisons; eight enumeration cases, 138 rows, and their JSON payloads match |
 | Curation | 15 unchanged-rule CSVs match byte for byte on 52-row fixtures for each branch; formula corrections checked separately |
-| Dataset preparation | All 16 JSONL outputs and class map match byte for byte on the archived cleaned snapshots; both balancing modes additionally compared on controlled inputs |
+| Dataset preparation | All 16 JSONL outputs and class map match byte for byte on the bundled processed tables; both balancing modes additionally compared on controlled inputs |
 | Walkthroughs | All five downstream notebooks execute from the repository root and notebook directory with model imports blocked and mining, curation, and dataset-preparation switches disabled |
 | Included PDFs | Matched successfully and embedded text read locally; original bytes retained |
 | Publication years | CSV export yields the same 13,770 DOI/year mappings as the original workbook |
 
 Notebook execution used code cells in process. Notebook format validation also passed. GitHub Actions is configured for kernel-based walkthrough execution and offline tests on Windows/Linux; the checks reported here were performed locally. Optional token counting was compared on controlled inputs; the validation environment did not include `tiktoken` for an actual token-count run.
 
-## Archived dataset results
+## Processed dataset results
 
-These counts describe dataset preparation from the exact archived inputs and original split settings, not a fresh extraction or a new model-performance evaluation.
+These counts describe dataset preparation from the exact bundled processed inputs and original split settings, not a fresh extraction or a new model-performance evaluation.
 
 | Partition | Positive | Negative | Total |
 | --- | ---: | ---: | ---: |
@@ -38,7 +38,7 @@ Both final partitions have P:N = 88:85. Their chemical-cluster overlap is zero, 
 
 Operational changes prevent duplicate-DOI write races, stale or mismatched JSON parents, blank-document model requests, silent missing-lookup filtering, and empty-table crashes. New negative plans retain the exact ordered successful-synthesis list presented to the model and verify its saved identity during enumeration. The curated exclusion is applied independently of logging verbosity.
 
-Metal formula parsing now applies leading coefficients to whole hydrate fragments and preserves bracketed groups. The original parser undercounted hydrate oxygen and could reject bracketed complexes. The source atomic-weight table is retained; corrected stoichiometry and numerical differences are recorded in the validation JSON. Regenerated amounts and derived features can change for affected records. The scientific values in the archived cleaned snapshots and the dataset reproduction comparison remain unchanged; public CSV exports omit four local-path columns.
+Metal formula parsing now applies leading coefficients to whole hydrate fragments and preserves bracketed groups. The original parser undercounted hydrate oxygen and could reject bracketed complexes. The source atomic-weight table is retained; corrected stoichiometry and numerical differences are recorded in the validation JSON. Regenerated amounts and derived features can change for affected records. The scientific values in the bundled processed tables and the dataset reproduction comparison remain unchanged; public CSV exports omit four local-path columns.
 
 See the [positive](positive_extraction.md), [negative](negative_extraction.md), [curation](curation.md), and [dataset](datasets.md) guides for the complete behavior and compatibility notes.
 

@@ -2,7 +2,7 @@
   "project_root": "..",
   "prompt_file": "prompts/abstract_triage.txt",
   "output_root": "results/abstract_triage",
-  "input_file": "data/metadata/literature_metadata.csv",
+  "input_file": "data/processed_data/literature_metadata.csv",
   "input_sheet": null,
   "ground_truth_file": "benchmarks/abstract_triage/ground_truth.xlsx",
   "models": [

@@ -23,8 +23,8 @@ For a notebook walkthrough, install `python -m pip install -e ".[curation,datase
 | [input/linker_molecular_weights.csv](input/linker_molecular_weights.csv) | Headerless linker-name/MW lookup used for amount conversion |
 | [../../data/organic_linker_info/linker_prime_corrections.json](../../data/organic_linker_info/linker_prime_corrections.json) | Exact DOI/name prime restorations shared with the main curation workflow |
 | [input/source_manifest.json](input/source_manifest.json) | Source hashes, selected DOIs, and original zero-based row positions |
-| [reference/positive_stage6_supplied.csv](reference/positive_stage6_supplied.csv) | Corresponding records from the supplied full-corpus cleaned table |
-| [expected/mof_extraction_1_2_3_4_5_6.csv](expected/mof_extraction_1_2_3_4_5_6.csv) | Regenerated stage 6 output, containing 146 records |
+| [reference/positive_stage6_supplied.csv](reference/positive_stage6_supplied.csv) | Corresponding records from the supplied full-corpus processed positive table |
+| [expected/mof_extraction_1_2_3_4_5_6.csv](expected/mof_extraction_1_2_3_4_5_6.csv) | Regenerated processed positive output, containing 146 records |
 | [config.json](config.json) | Input paths and output directory |
 
 Each run writes intermediate CSVs, compact raw and cleaned previews, and `demo_summary.json` to `outputs/`. The `--check` option compares the final table with the bundled expected output.

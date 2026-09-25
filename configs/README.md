@@ -48,17 +48,18 @@ without opening a browser. See [literature-retrieval](../docs/literature_retriev
 | `negative_extraction.json` | Negative planning and enumeration inputs and outputs |
 | `negative_corrections.json` | Explicit DOI-specific enumeration rules retained from the notebook |
 | `curation.json` | Positive/negative cleaning paths and required molecular-weight lookup |
-| `dataset_preparation.json` | Stage-6 inputs, publication years, split settings, and output provenance |
-| `dataset_preparation_archived.json` | Reproduce preparation from the archived cleaned snapshots |
+| `dataset_preparation.json` | Prepare final JSONL and split records from the included processed positive/negative CSVs and publication years |
+| `dataset_preparation_from_curation.json` | Prepare a new dataset from generated positive/negative curation outputs |
+| `dataset_preparation_corrected.json` | Prepare a separate dataset using the linker-corrected processed negative CSV |
 | `dataset_forced_questions.json` | Fixed benchmark conditions used to select holdout clusters |
 
-Paths are resolved from `project_root`. Defaults preserve the source notebook settings; use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
+Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/final_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
 
 ## Evaluation settings
 
 | Configuration | Purpose |
 | --- | --- |
-| `holdout_evaluation.json` | Archived holdout JSONL, model IDs, concurrency, seed, retry settings, and output names |
+| `holdout_evaluation.json` | Final holdout JSONL, model IDs, concurrency, seed, retry settings, and output names |
 | `quest_evaluation.json` | Question definitions, classifier prompt, model groups, repeated rounds, and reasoning settings |
 
 Model credentials are read from `OPENAI_API_KEY`; notebooks can request the key through a hidden prompt when a live run is enabled. Human analysis uses the anonymous files under `benchmarks/mof_quest/` and requires no credentials. See [evaluation](../docs/evaluation.md).

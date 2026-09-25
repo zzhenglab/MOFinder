@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "description": "Fine-tuning training and validation datasets.",
+  "description": "Final training and holdout JSONL with source-row split assignments, preparation summary, and class labels.",
   "files": [
     {
-      "path": "data/training/train.jsonl",
+      "path": "data/final_json/train.jsonl",
       "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
       "size_bytes": 19352940,
       "rows": 23528,
@@ -15,7 +15,7 @@
       "dataset_id": "reaction_condition_training"
     },
     {
-      "path": "data/training/holdout.jsonl",
+      "path": "data/final_json/holdout.jsonl",
       "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
       "size_bytes": 2130342,
       "rows": 2595,
@@ -27,6 +27,9 @@
       "dataset_id": "reaction_condition_holdout"
     }
   ],
-  "split_assignments": "data/splits/split_assignments.csv",
-  "split_summary": "data/splits/split_summary.json"
+  "split_assignments": "data/final_json/split_assignments.csv",
+  "split_summary": "data/final_json/split_summary.json",
+  "preparation_config": "configs/dataset_preparation.json",
+  "processed_inputs_manifest": "data/processed_data/manifest.json",
+  "class_map": "data/final_json/class_map.json"
 }

@@ -20,7 +20,7 @@ class ClassificationPublicationTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.folder = self.root / "data/metadata/literature_retrieval"
+        self.folder = self.root / "data/processed_data/literature_retrieval"
         self.folder.mkdir(parents=True)
         bibliography = [{"DOI": "10.1234/YES"}, {"DOI": "10.1234/no"}, {"DOI": "10.1234/YES"}]
         (self.folder.parent / "literature_metadata.csv").write_bytes(export.csv_bytes(["DOI"], bibliography))
@@ -36,8 +36,8 @@ class ClassificationPublicationTests(unittest.TestCase):
         (self.folder / "manifest.json").write_text(json.dumps(self.manifest), encoding="utf-8")
         (self.root / "data/manifest.json").write_text(json.dumps({"files": [
             {"path": "unchanged"},
-            {"path": "data/metadata/literature_retrieval/doi_classification.csv"},
-            {"path": "data/metadata/literature_retrieval/classification_audit.csv"},
+            {"path": "data/processed_data/literature_retrieval/doi_classification.csv"},
+            {"path": "data/processed_data/literature_retrieval/classification_audit.csv"},
         ]}), encoding="utf-8")
         self.audit_path = self.root / "full_decision_audit.csv"
         self.audit = [{"DOI": doi, "doi_key": doi, "category": category, "triage_decision": decision,
@@ -119,7 +119,7 @@ class ClassificationPublicationTests(unittest.TestCase):
 
 class PublishedClassificationIntegrityTests(unittest.TestCase):
     def test_public_tables_match_each_other_and_recorded_provenance(self):
-        folder = ROOT / "data/metadata/literature_retrieval"
+        folder = ROOT / "data/processed_data/literature_retrieval"
         manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual([entry["file"] for entry in manifest["exports"]],
                          ["papers.csv", "supporting_information.csv"])

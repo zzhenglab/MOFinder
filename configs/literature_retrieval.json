@@ -2,7 +2,7 @@
   "project_root": "..",
   "paper_processing_icon_dir": "data/paper_processing_assets/icons",
   "papers": {
-    "workbook": "data/metadata/literature_retrieval/papers.csv",
+    "workbook": "data/processed_data/literature_retrieval/papers.csv",
     "working_dir": "results/literature_retrieval/papers/inventories",
     "calibration_file": "results/literature_retrieval/papers/calibration.json",
     "app_settings_file": "results/literature_retrieval/papers/app_settings.json",
@@ -28,7 +28,7 @@
     }
   },
   "si": {
-    "workbook": "data/metadata/literature_retrieval/supporting_information.csv",
+    "workbook": "data/processed_data/literature_retrieval/supporting_information.csv",
     "working_dir": "results/literature_retrieval/si/inventories",
     "calibration_file": "results/literature_retrieval/si/calibration.json",
     "app_settings_file": "results/literature_retrieval/si/app_settings.json",

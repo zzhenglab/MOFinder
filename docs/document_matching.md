@@ -8,7 +8,7 @@ supporting-information files. The implementation is in
 ## Inputs and filenames
 
 The default inventory is
-`data/metadata/literature_retrieval/supporting_information.csv`. A CSV or XLSX file with a
+`data/processed_data/literature_retrieval/supporting_information.csv`. A CSV or XLSX file with a
 `DOI` column can be selected in `configs/document_matching.json` or specified with
 `--input-file`. Additional columns and repeated DOI rows are retained.
 

@@ -196,14 +196,14 @@
     "train_clusters": 11157
   },
   "outputs": {
-    "train": "data/training/train.jsonl",
-    "holdout": "data/training/holdout.jsonl",
-    "class_map": "data/splits/class_map.json",
+    "train": "data/final_json/train.jsonl",
+    "holdout": "data/final_json/holdout.jsonl",
+    "class_map": "data/final_json/class_map.json",
     "year_outputs": [
       {
         "type": "single_bin",
         "bin": 1,
-        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2012.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_1999to2012.jsonl",
         "start_year": 1999,
         "end_year": 2012,
         "rows": 6006,
@@ -215,7 +215,7 @@
       {
         "type": "single_bin",
         "bin": 2,
-        "path": "results/datasets/archived_conditions/mof_cls_train_2013to2015.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_2013to2015.jsonl",
         "start_year": 2013,
         "end_year": 2015,
         "rows": 5302,
@@ -227,7 +227,7 @@
       {
         "type": "single_bin",
         "bin": 3,
-        "path": "results/datasets/archived_conditions/mof_cls_train_2016to2019.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_2016to2019.jsonl",
         "start_year": 2016,
         "end_year": 2019,
         "rows": 5746,
@@ -239,7 +239,7 @@
       {
         "type": "single_bin",
         "bin": 4,
-        "path": "results/datasets/archived_conditions/mof_cls_train_2020to2025.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_2020to2025.jsonl",
         "start_year": 2020,
         "end_year": 2025,
         "rows": 6474,
@@ -250,7 +250,7 @@
       },
       {
         "type": "cumulative_1to2",
-        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2015.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_1999to2015.jsonl",
         "start_year": 1999,
         "end_year": 2015,
         "rows": 11308,
@@ -261,7 +261,7 @@
       },
       {
         "type": "cumulative_1to3",
-        "path": "results/datasets/archived_conditions/mof_cls_train_1999to2019.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_1999to2019.jsonl",
         "start_year": 1999,
         "end_year": 2019,
         "rows": 17054,
@@ -275,7 +275,7 @@
       {
         "type": "single_bin",
         "bin": 1,
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2011.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_1999to2011.jsonl",
         "start_year": 1999,
         "end_year": 2011,
         "rows": 4352,
@@ -287,7 +287,7 @@
       {
         "type": "single_bin",
         "bin": 2,
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2012to2014.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_2012to2014.jsonl",
         "start_year": 2012,
         "end_year": 2014,
         "rows": 4623,
@@ -299,7 +299,7 @@
       {
         "type": "single_bin",
         "bin": 3,
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2015to2017.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_2015to2017.jsonl",
         "start_year": 2015,
         "end_year": 2017,
         "rows": 5226,
@@ -311,7 +311,7 @@
       {
         "type": "single_bin",
         "bin": 4,
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2018to2020.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_2018to2020.jsonl",
         "start_year": 2018,
         "end_year": 2020,
         "rows": 4154,
@@ -323,7 +323,7 @@
       {
         "type": "single_bin",
         "bin": 5,
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_2021to2025.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_2021to2025.jsonl",
         "start_year": 2021,
         "end_year": 2025,
         "rows": 5173,
@@ -334,7 +334,7 @@
       },
       {
         "type": "cumulative_1to2",
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2014.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_1999to2014.jsonl",
         "start_year": 1999,
         "end_year": 2014,
         "rows": 8975,
@@ -345,7 +345,7 @@
       },
       {
         "type": "cumulative_1to3",
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2017.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_1999to2017.jsonl",
         "start_year": 1999,
         "end_year": 2017,
         "rows": 14201,
@@ -356,7 +356,7 @@
       },
       {
         "type": "cumulative_1to4",
-        "path": "results/datasets/archived_conditions/mof_cls_train_5periods_1999to2020.jsonl",
+        "path": "results/datasets/conditions/mof_cls_train_5periods_1999to2020.jsonl",
         "start_year": 1999,
         "end_year": 2020,
         "rows": 18355,
@@ -366,26 +366,26 @@
         }
       }
     ],
-    "split_assignments": "data/splits/split_assignments.csv"
+    "split_assignments": "data/final_json/split_assignments.csv"
   },
   "provenance": {
     "notes": {
-      "positive": "Archived positive stage 6 records with four local-path columns removed.",
-      "negative": "Archived negative stage 6_v3 records with four local-path columns removed.",
+      "positive": "Processed positive synthesis records with four local-path columns removed.",
+      "negative": "Processed negative synthesis records with four local-path columns removed.",
       "prompt_relocation": "The unchanged classification prompt is now prompts/training/reaction_prediction.txt. Only its configuration path and associated file hashes were updated; the archived dataset bytes and all other preparation settings are unchanged.",
-      "data_relocation": "Cleaned records now live in data/cleaned_data/archived. Only paths and the configuration hash changed; scientific records, preparation settings, and archived splits are unchanged."
+      "data_relocation": "Processed positive and negative tables and literature metadata are combined in data/processed_data. Training, holdout, and split records are combined in data/final_json. Only names, paths, provenance descriptions, and the configuration hash changed; dataset bytes and split settings are unchanged."
     },
     "files": {
       "positive_csv": {
-        "path": "data/cleaned_data/archived/positive_stage6.csv",
+        "path": "data/processed_data/processed_positive.csv",
         "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5"
       },
       "negative_csv": {
-        "path": "data/cleaned_data/archived/negative_stage6_v3.csv",
+        "path": "data/processed_data/processed_negative.csv",
         "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06"
       },
       "metadata_file": {
-        "path": "data/metadata/publication_years.csv",
+        "path": "data/processed_data/publication_years.csv",
         "sha256": "a69ed672b2184f23a757bd5b8520e8378e931232ca1d09b63d79858eaa197e57"
       },
       "prompt_file": {
@@ -397,10 +397,11 @@
         "sha256": "1b68f8aef77f2a11711d3c96336b3615a732e12afd62f1e60625ba649cf17751"
       },
       "config_file": {
-        "path": "configs/dataset_preparation_archived.json",
-        "sha256": "bc1f6f10328ff9ad0a112fe1564888c01d0d076ecf6c6b59d4e2a87e11623b36",
+        "path": "configs/dataset_preparation.json",
+        "sha256": "d84c1332242e969b8d100f32aa62d0546146418cf78aa2570efe78df1a279874",
         "previous_sha256": "c732e2161d53ccdfe63e34deec7830919b6dfedc03ce0ae0ec30ba6608a4964a",
-        "before_data_relocation_sha256": "1959a2e14a00db4b6acfc04922dbcb946ec33113d17249b73287076083616ec9"
+        "before_data_relocation_sha256": "1959a2e14a00db4b6acfc04922dbcb946ec33113d17249b73287076083616ec9",
+        "before_folder_consolidation_sha256": "bc1f6f10328ff9ad0a112fe1564888c01d0d076ecf6c6b59d4e2a87e11623b36"
       }
     },
     "versions": {
@@ -409,10 +410,10 @@
     },
     "effective_settings": {
       "project_root": ".",
-      "positive_csv": "data/cleaned_data/archived/positive_stage6.csv",
-      "negative_csv": "data/cleaned_data/archived/negative_stage6_v3.csv",
-      "metadata_file": "data/metadata/publication_years.csv",
-      "output_dir": "results/datasets/archived_conditions",
+      "positive_csv": "data/processed_data/processed_positive.csv",
+      "negative_csv": "data/processed_data/processed_negative.csv",
+      "metadata_file": "data/processed_data/publication_years.csv",
+      "output_dir": "results/datasets/conditions",
       "prompt_file": "prompts/training/reaction_prediction.txt",
       "forced_questions_file": "configs/dataset_forced_questions.json",
       "rng_seed": 42,
@@ -430,30 +431,30 @@
       "holdout_search_trials": 64,
       "holdout_search_swaps": 1200,
       "input_provenance": {
-        "positive": "Archived positive stage 6 records with four local-path columns removed.",
-        "negative": "Archived negative stage 6_v3 records with four local-path columns removed."
+        "positive": "Processed positive synthesis records with four local-path columns removed.",
+        "negative": "Processed negative synthesis records with four local-path columns removed."
       },
-      "config_file": "configs/dataset_preparation_archived.json"
+      "config_file": "configs/dataset_preparation.json"
     }
   },
   "output_path_base": "repository_root",
-  "year_subset_files": "Generated by the archived preparation command under results/datasets/archived_conditions; not included in the archived training directory.",
-  "archived_jsonl_verification": {
-    "data/training/train.jsonl": {
+  "year_subset_files": "Generated by the default preparation command under results/datasets/conditions; not included in data/final_json.",
+  "split_assignment_file": {
+    "path": "data/final_json/split_assignments.csv",
+    "encoding": "utf-8-sig",
+    "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa",
+    "rows": 26123
+  },
+  "included_jsonl_verification": {
+    "data/final_json/train.jsonl": {
       "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
       "size_bytes": 19352940,
       "regenerated_exact_match": true
     },
-    "data/training/holdout.jsonl": {
+    "data/final_json/holdout.jsonl": {
       "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
       "size_bytes": 2130342,
       "regenerated_exact_match": true
     }
-  },
-  "split_assignment_file": {
-    "path": "data/splits/split_assignments.csv",
-    "encoding": "utf-8-sig",
-    "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa",
-    "rows": 26123
   }
 }

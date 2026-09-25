@@ -126,10 +126,10 @@ def validate_bundle(bundle):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     root = Path(__file__).resolve().parents[3]
-    parser.add_argument("--train", type=Path, default=root / "data/training/train.jsonl")
-    parser.add_argument("--holdout", type=Path, default=root / "data/training/holdout.jsonl")
+    parser.add_argument("--train", type=Path, default=root / "data/final_json/train.jsonl")
+    parser.add_argument("--holdout", type=Path, default=root / "data/final_json/holdout.jsonl")
     parser.add_argument("--questions", type=Path, default=root / "benchmarks/mof_quest/questions.json")
-    parser.add_argument("--class-map", type=Path, default=root / "data/splits/class_map.json")
+    parser.add_argument("--class-map", type=Path, default=root / "data/final_json/class_map.json")
     parser.add_argument("--config", type=Path, default=root / "configs/training_hpc.json")
     parser.add_argument("--prompt", type=Path, default=REACTION_PROMPT_FILE,
                         help="Full reaction-prediction instructions; conditions are appended separately")

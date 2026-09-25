@@ -1,7 +1,7 @@
 {
   "project_root": "..",
-  "holdout_paths": ["data/training/holdout.jsonl"],
-  "training_path": "data/training/train.jsonl",
+  "holdout_paths": ["data/final_json/holdout.jsonl"],
+  "training_path": "data/final_json/train.jsonl",
   "output_dir": "results/evaluation/holdout",
   "models": [
     {

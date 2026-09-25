@@ -62,15 +62,15 @@ class LinkerPrimeTests(unittest.TestCase):
                     self.assertEqual(result.linker_1.tolist(), ["2,2′-bipyrimidine"])
 
     def test_corrected_derivative_and_archive_checksums(self):
-        source = ROOT / "data/cleaned_data/archived/negative_stage6_v3.csv"
-        corrected_dir = ROOT / "data/cleaned_data/linker_corrected"
+        source = ROOT / "data/processed_data/processed_negative.csv"
+        corrected_dir = ROOT / "data/processed_data/linker_corrected"
         manifest = json.loads((corrected_dir / "manifest.json").read_text())
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "corrected.csv"
             result = correct_csv(source, output, LOOKUP)
             self.assertEqual(result["changed_rows"], 1458)
             self.assertEqual(result["changed_cells"], 1551)
-            self.assertEqual(output.read_bytes(), (corrected_dir / "negative_stage6_v3.csv").read_bytes())
+            self.assertEqual(output.read_bytes(), (corrected_dir / "processed_negative.csv").read_bytes())
             self.assertEqual(result["output_sha256"], manifest["output_sha256"])
             self.assertEqual(result["input_sha256"], manifest["input_sha256"])
         with self.assertRaisesRegex(ValueError, "separate"):
@@ -79,7 +79,7 @@ class LinkerPrimeTests(unittest.TestCase):
             ("train.jsonl", "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"),
             ("holdout.jsonl", "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"),
         ):
-            self.assertEqual(hashlib.sha256((ROOT / "data/training" / filename).read_bytes()).hexdigest(), expected)
+            self.assertEqual(hashlib.sha256((ROOT / "data/final_json" / filename).read_bytes()).hexdigest(), expected)
 
 
 if __name__ == "__main__":

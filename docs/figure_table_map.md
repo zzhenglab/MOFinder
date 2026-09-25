@@ -9,7 +9,7 @@ Descriptive analysis identifiers remain stable while manuscript and supplementar
 | Human annotation agreement | `benchmarks/abstract_triage/ground_truth.xlsx` | `python -m mofinder.literature.triage human-agreement` | Locally reproducible from the human reference |
 | Positive extraction | Extraction reference records pending | `src/mofinder/extraction/positive.py`; reference-based scoring pending | Pending |
 | Negative reconstruction | Reconstruction reference records pending | `src/mofinder/extraction/negative.py` and `enumerate_failures.py`; reference-based scoring pending | Pending |
-| Reaction holdout classification | `data/training/holdout.jsonl` | `python -m mofinder.evaluation.holdout` | Saved model predictions pending |
+| Reaction holdout classification | `data/final_json/holdout.jsonl` | `python -m mofinder.evaluation.holdout` | Saved model predictions pending |
 | MOF Quest model evaluation | `benchmarks/mof_quest/questions.json` | `python -m mofinder.evaluation.quest` | Saved model predictions pending |
 | MOF Quest human benchmark | `benchmarks/mof_quest/human_questions.csv` and `human_responses.csv` | `python -m mofinder.evaluation.human_quest` | Locally reproducible from the anonymous responses |
 

@@ -19,14 +19,14 @@ This audit covers the current documentation, demonstrations, execution logic, an
 | Notebook execution | All 12 notebooks executed successfully, with live requests disabled |
 | Documentation | 54 Markdown files checked; 305 local links/anchors, 48 notebook links, and 16 source-map module paths resolve; all three documentation JSON files parse |
 | Provenance hashes | All 16 checked hashes match their distributed artifacts and recorded provenance |
-| Archived JSONL integrity | All 26,123 records contain the canonical full prompt, eight reaction fields, and manifest-consistent P/N labels |
-| Archived split integrity | Unique source-row IDs; no shared chemical clusters or exact condition inputs; reserved question conditions absent from training |
-| Archived dataset reproduction | 23,528 training and 2,595 holdout records; regenerated training/holdout JSONL are byte-identical to the bundled files |
+| Final JSONL integrity | All 26,123 records contain the canonical full prompt, eight reaction fields, and manifest-consistent P/N labels |
+| Final split integrity | Unique source-row IDs; no shared chemical clusters or exact condition inputs; reserved question conditions absent from training |
+| Processed dataset reproduction | 23,528 training and 2,595 holdout records; regenerated training/holdout JSONL are byte-identical to the bundled files |
 | Corrected dataset reproduction | 23,436 training and 2,604 holdout records; configured preparation completed successfully |
 
-The 16 hash checks cover five files in [the data manifest](../data/manifest.json), two in [the training manifest](../data/training/manifest.json), two in [the archived-table manifest](../data/cleaned_data/archived/manifest.json), six preparation inputs/configuration/prompt entries in [the split summary](../data/splits/split_summary.json), and its split-assignment CSV.
+The 16 hash checks cover five files in [the data manifest](../data/manifest.json), two in [the training manifest](../data/final_json/manifest.json), two in [the processed-table manifest](../data/processed_data/manifest.json), six preparation inputs/configuration/prompt entries in [the split summary](../data/final_json/split_summary.json), and its split-assignment CSV.
 
-Cluster and exact-condition separation do not imply publication separation. The archived split has **864 shared DOIs**, as documented in [dataset preparation](datasets.md). The corrected dataset is a separate version and retains its own assignments.
+Cluster and exact-condition separation do not imply publication separation. The bundled split has **864 shared DOIs**, as documented in [dataset preparation](datasets.md). The corrected dataset is a separate version and retains its own assignments.
 
 ## Reproduce and interpret the checks
 

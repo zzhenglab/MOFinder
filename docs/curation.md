@@ -42,7 +42,7 @@ Text reports are saved under each branch's `reports/` directory. `--no-reports` 
 
 Positive output names start with `mof_extraction`; negative names start with `mof_extraction_failures_enum`. Files are saved under `results/curation/positive/` and `results/curation/negative/`, respectively.
 
-Stage outputs and archived stage-6 CSVs use UTF-8 with a byte-order mark (`utf-8-sig`) for spreadsheet compatibility. This preserves Unicode characters such as the hydrate separator in `Cu(NO3)2·1H2O`. When reading CSVs with Python's `csv` module, open them with `encoding="utf-8-sig"` to exclude the byte-order mark from the first column name.
+Stage outputs and the bundled processed CSVs use UTF-8 with a byte-order mark (`utf-8-sig`) for spreadsheet compatibility. This preserves Unicode characters such as the hydrate separator in `Cu(NO3)2·1H2O`. When reading CSVs with Python's `csv` module, open them with `encoding="utf-8-sig"` to exclude the byte-order mark from the first column name.
 
 | Operation | Suffix | Behavior |
 | --- | --- | --- |
@@ -96,11 +96,11 @@ The two branches retain these distinct rules. In both branches, `h3btb` and `H3B
 
 `linker_prime_corrections` in `configs/curation.json` points to [167 documented spellings](../data/organic_linker_info/linker_prime_corrections.json) restored from intact same-publication records. The linker stage applies each rule only when the DOI and entire linker name or abbreviation match. Single, double, triple, and quadruple primes are distinguished. Missing or null configuration disables this lookup. The run manifest records the correction file and its SHA-256 hash.
 
-The [corrected negative stage-6 table](../data/cleaned_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. Original snapshots and reported training/holdout files remain available for reproducing the archived runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
+The [corrected processed negative table](../data/processed_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. The processed inputs and final training/holdout files remain available for reproducing the original runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
 
 The Python mass parser corrects two related formula parsing errors found in the notebooks. A leading coefficient now multiplies the complete dot-separated fragment, and square brackets remain intact during abbreviation expansion. Thus `6H2O` contributes H12O6, fractional hydrates are handled consistently, and bracketed complexes can be parsed.
 
-For example, using the source atomic weights, `Zn(NO3)2·6H2O` has a calculated molecular weight of 297.4762 g/mol; the notebook parser returned 217.4812 g/mol because it did not multiply the hydrate oxygen. Newly regenerated metal amounts, derived ratios, and concentrations can therefore differ for affected mass-based records. Already reported mol/mmol amounts are unaffected by this formula-mass correction. Archived curated CSV snapshots are not rewritten. The run manifest records `mass_parser: whole-fragment-coefficients-v2` to distinguish regenerated results.
+For example, using the source atomic weights, `Zn(NO3)2·6H2O` has a calculated molecular weight of 297.4762 g/mol; the notebook parser returned 217.4812 g/mol because it did not multiply the hydrate oxygen. Newly regenerated metal amounts, derived ratios, and concentrations can therefore differ for affected mass-based records. Already reported mol/mmol amounts are unaffected by this formula-mass correction. The bundled processed CSVs are not rewritten. The run manifest records `mass_parser: whole-fragment-coefficients-v2` to distinguish regenerated results.
 
 ## Positive trimming and dataset preparation
 
@@ -110,7 +110,7 @@ Trimming considers only papers whose rows all have `article_trial_or_failure=no`
 2. Remove the ten remaining papers with the most rows, by default.
 3. Remove rows at or below the tenth-percentile numeric yield. The inclusive cutoff removes all ties. Missing or unparseable yields remain.
 
-`top_n` and `yield_bottom_frac` are configurable. Stage 6 and stage 7 are both retained. Dataset preparation uses the untrimmed positive **stage 6** table by default, matching the original dataset configuration. Selecting stage 7 for training requires an explicit change to that dataset input.
+`top_n` and `yield_bottom_frac` are configurable. Stage 6 and stage 7 are both retained. After curation, `configs/dataset_preparation_from_curation.json` reads the untrimmed positive **stage 6** table and the negative stage 6 table. Selecting stage 7 for training requires an explicit change to that dataset input. The default `configs/dataset_preparation.json` reads the bundled `processed_positive.csv` and `processed_negative.csv` in `data/processed_data/`; it can run without repeating curation.
 
 ## Verification
 

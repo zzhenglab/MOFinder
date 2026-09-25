@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "description": "Cleaned dataset snapshots with local file paths removed. Scientific values and row order are unchanged.",
+  "description": "Processed positive and negative synthesis tables used to prepare the included final JSONL. Scientific values and row order are unchanged.",
   "files": [
     {
-      "file": "positive_stage6.csv",
+      "file": "processed_positive.csv",
       "source_sha256": "3d18198fd3cffec8da6d7b18bbcb9131e2ffac9b6a30d6ab8d5128e36100844b",
       "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
       "size_bytes": 11274305,
@@ -16,11 +16,11 @@
         "parsed_json"
       ],
       "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
-      "source_description": "Positive synthesis records after stage 6",
+      "source_description": "Processed positive synthesis records",
       "encoding": "utf-8-sig"
     },
     {
-      "file": "negative_stage6_v3.csv",
+      "file": "processed_negative.csv",
       "source_sha256": "bf179bfb6005a9332a4dd4be583c0c093d3284d381786217922251d9ee674697",
       "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
       "size_bytes": 20956706,
@@ -33,7 +33,7 @@
         "parsed_json"
       ],
       "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
-      "source_description": "Negative synthesis records after stage 6, revision 3",
+      "source_description": "Processed negative synthesis records",
       "encoding": "utf-8-sig"
     }
   ]
