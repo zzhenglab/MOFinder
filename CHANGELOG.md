@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated the triage demo selection to include `10.1002/anie.201504786` and `10.1002/zaac.201700108`, copying their original bibliography metadata and human annotations. The four scheduled examples now contain two Y and two N reference labels.
+
 - Renamed the combined example to Data mining demo (API required), covering abstract triage, positive extraction, and negative reconstruction. Configured demo triage for GPT-5 with high reasoning and cleared its notebook output for a fresh run.
 
 - Removed internal release checklists, historical integration reports, and empty placeholders from the public layout. Kept workflow instructions, scientific provenance, and recorded demo runs. Removed duplicate syntax/hash checks and consolidated triage tests while retaining distinct scientific and runtime regression coverage.

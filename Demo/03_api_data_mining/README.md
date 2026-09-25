@@ -40,8 +40,8 @@ directory with an absolute path to the script. Configuration paths are resolved
 relative to the repository, independently of the current working directory.
 
 To check only the triage inputs, run `python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage`.
-The included tables contain 12 abstracts and reference labels (9 Y and 3 N).
-The configuration schedules the first four abstracts (3 Y and 1 N). The validation
+The included tables contain 12 abstracts and reference labels (8 Y and 4 N).
+The configuration schedules the first four abstracts (2 Y and 2 N). The validation
 summary counts the eight unscheduled references under `missing_reference_publications`;
 their abstracts are present, but outside the configured four-paper subset.
 

@@ -57,20 +57,34 @@
     },
     {
       "path": "Demo/03_api_data_mining/inputs/",
-      "selection": "First 12 reference rows in source order, joined to metadata by normalized DOI.",
+      "selection": "Twelve selected human-reference records joined to bibliography metadata by normalized DOI, in the order listed in selected_dois. Metadata and annotations retain their source values.",
       "demo_max_papers": 4,
       "rows": 12,
       "expected_validation": {
         "metadata_rows": 12,
         "reference_publications": 12,
         "consensus_counts": {
-          "Y": 9,
-          "N": 3
+          "Y": 8,
+          "N": 4
         },
-        "scheduled_publications": 12,
-        "missing_reference_publications": 0,
+        "scheduled_publications": 4,
+        "missing_reference_publications": 8,
         "identical_duplicates_collapsed": 0
-      }
+      },
+      "selected_dois": [
+        "10.1002/adfm.202307369",
+        "10.1002/anie.201504786",
+        "10.1002/adfm.202501344",
+        "10.1002/zaac.201700108",
+        "10.1002/adma.201907063",
+        "10.1002/adma.202103316",
+        "10.1002/adma.202304832",
+        "10.1002/adma.202500370",
+        "10.1002/admi.202201771",
+        "10.1002/admi.202300075",
+        "10.1002/adom.202200213",
+        "10.1002/adom.202200484"
+      ]
     },
     {
       "path": "data/processed_data/publication_years.csv",
