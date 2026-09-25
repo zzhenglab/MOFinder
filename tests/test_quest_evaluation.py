@@ -205,6 +205,19 @@ class QuestEvaluationTests(unittest.TestCase):
             asyncio.run(self.module.run_evaluation(self.config, client=client, output_dir=destination))
         self.assertEqual(request.await_count, 22)
 
+    def test_default_numbered_runs_preserve_previous_results(self):
+        self.config["output_root"] = self.root / "default_runs"
+        group = self.config["default_group"]
+        with patch.object(self.module, "evaluate_mof_classifier", new_callable=AsyncMock,
+                          return_value={"saved": True}):
+            first = asyncio.run(self.module.run_evaluation(self.config, client=object()))["output_dir"]
+            original = {path.name: path.read_bytes() for path in first.iterdir()}
+            second = asyncio.run(self.module.run_evaluation(self.config, client=object()))["output_dir"]
+        self.assertEqual(first, self.config["output_root"] / group / "run_001")
+        self.assertEqual(second, self.config["output_root"] / group / "run_002")
+        self.assertEqual({path.name: path.read_bytes() for path in first.iterdir()}, original)
+        self.assertEqual(json.loads((second / "metrics_summary.json").read_text()), {"saved": True})
+
     def test_question_ids_are_not_assumed_to_encode_all_conditions(self):
         records = json.loads(self.config["questions_file"].read_text())
         records[1]["reaction_id"] = records[0]["reaction_id"]

@@ -27,6 +27,7 @@ import numpy as np
 
 from mofinder.config import load_triage_config
 from mofinder.display import display_path
+from mofinder.run_paths import create_run_directory
 
 GT_COLUMNS = ["DOI", "Consensus GT", "Annotator 1", "Annotator 1 comment",
               "Annotator 2", "Annotator 2 comment", "Annotator 3", "Annotator 3 comment",
@@ -526,9 +527,9 @@ def prepare_screening(config_file, *, output_dir=None, resume=False):
     identity = _screening_identity(config, prompt, validated)
     if resume and output_dir is None:
         raise ValueError("Resume requires an explicit output_dir.")
-    run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S") + "_" + uuid.uuid4().hex[:8]
+    run_id = uuid.uuid4().hex
     folder = (Path(output_dir).expanduser().resolve() if output_dir is not None
-              else config["output_root"] / run_id)
+              else create_run_directory(config["output_root"]))
     rows = []
     if resume:
         manifest = json.loads((folder / "run_manifest.json").read_text(encoding="utf-8"))
@@ -566,7 +567,8 @@ def prepare_screening(config_file, *, output_dir=None, resume=False):
                 raise ValueError("Saved response has an invalid status or label.")
             seen.add(key)
     else:
-        folder.mkdir(parents=True, exist_ok=False)
+        if output_dir is not None:
+            folder.mkdir(parents=True, exist_ok=False)
         manifest = {
             "run_id": run_id, "created_utc": datetime.now(timezone.utc).isoformat(),
             "prediction_source": "New Responses API calls from mofinder.literature.triage",

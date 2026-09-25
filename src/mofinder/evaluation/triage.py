@@ -20,6 +20,7 @@ import numpy as np
 from scipy.stats import binomtest
 
 from mofinder.display import display_path, display_paths
+from mofinder.run_paths import create_run_directory
 from mofinder.literature.triage import (
     GT_COLUMNS, read_table, doi_key, digest, save_csv, votes,
     divide, metric_values, confusion, interval, wilson, human_agreement,
@@ -197,10 +198,12 @@ def load_saved_run(run_dir, ground_truth_file, *, output_dir=None,
                          "No analysis was written; restore reference_used.csv and reference_not_screened.csv from that run.")
 
 
-    ANALYSIS_ID = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S") + "_" + uuid.uuid4().hex[:8]
-    ANALYSIS_DIR = (SCREENING_RUN_DIR / f"analysis_{ANALYSIS_ID}" if output_dir is None
-                    else Path(output_dir).expanduser().resolve())
-    ANALYSIS_DIR.mkdir(parents=True, exist_ok=False)
+    ANALYSIS_ID = uuid.uuid4().hex
+    if output_dir is None:
+        ANALYSIS_DIR = create_run_directory(SCREENING_RUN_DIR, prefix="analysis")
+    else:
+        ANALYSIS_DIR = Path(output_dir).expanduser().resolve()
+        ANALYSIS_DIR.mkdir(parents=True, exist_ok=False)
     MANIFEST = dict(_source_manifest)
     MANIFEST.update({
         "analysis_id": ANALYSIS_ID,

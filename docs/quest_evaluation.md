@@ -42,7 +42,7 @@ python -m mofinder.evaluation.quest run --group latest_fine_tuned
 python -m mofinder.evaluation.quest run --group reasoning
 ```
 
-Each invocation creates a timestamped directory under `results/evaluation/mof_quest/<group>/`. An explicit `--output-dir` must be empty. The directory contains an input-hash manifest, a metrics summary, and one combined CSV per model. The manifest records `label_parser: standalone_pn_v1`. Each CSV contains all rounds. The workflow saves a model's predictions after completing all its rounds and does not resume interrupted runs.
+Each invocation creates the next available numbered directory, such as `run_001/` or `run_002/`, under `results/evaluation/mof_quest/<group>/`. An explicit `--output-dir` must be empty. The directory contains an input-hash manifest, a metrics summary, and one combined CSV per model. The manifest retains the execution time and records `label_parser: standalone_pn_v1`. Each CSV contains all rounds. The workflow saves a model's predictions after completing all its rounds and does not resume interrupted runs.
 
 Saved CSVs can be analyzed without an API key:
 

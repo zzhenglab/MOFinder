@@ -27,13 +27,13 @@ For an interactive walkthrough with saved outputs, install `python -m pip instal
 | [expected/mof_extraction_6.csv](expected/mof_extraction_6.csv) | Regenerated processed positive output, containing 146 records |
 | [config.json](config.json) | Input paths and output directory |
 
-Each run writes intermediate CSVs, compact raw and processed previews, and `demo_summary.json` to `outputs/`. It also preserves a separate output snapshot and run record under `run_history/<timestamp>/`. The record identifies the inputs, settings, outputs, and verification results. Local run history is excluded from Git by default.
+Each run writes intermediate CSVs, compact raw and processed previews, and `demo_summary.json` to `outputs/`. It also preserves a separate output snapshot and run record in a numbered folder such as `run_history/run_001/`. The record identifies the execution time, inputs, settings, outputs, and verification results. Local run history is excluded from Git by default.
 
 ## Verify and inspect a saved run
 
 The notebook's **Verify against expected output** section is a separate, rerunnable check. Its table shows expected rows, actual rows, **PASS** or **FAIL**, and comparison details. The check compares the contents of the processed positive CSV with `expected/`, as well as its row count. The command-line `--check` option performs the same verification.
 
-Open the checked-in [recorded runs](recorded_runs/README.md) to inspect run records and output snapshots on GitHub. The notebook also retains its executed tables. A new run updates `outputs/` and adds a timestamped history folder, preserving earlier runs.
+Open the checked-in [recorded runs](recorded_runs/README.md) to inspect run records and output snapshots on GitHub. The notebook also retains its executed tables. A new run updates `outputs/` and adds the next available numbered history folder, preserving earlier runs. Earlier recorded examples keep their original folder names.
 
 ## Input provenance
 

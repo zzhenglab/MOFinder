@@ -5,6 +5,7 @@ Model calls require API access; input validation runs offline.
 
 import argparse
 import asyncio
+import csv
 import getpass
 import json
 import os
@@ -166,6 +167,43 @@ def run_negative(*, live=False, config_dir=CONFIG_DIR):
     if not Path(config["csv_out"]).is_file():
         return {"plans": plans, "message": "No plan CSV was produced; enumeration was not run."}
     return {"plans": plans, "enumeration": enumerate_from_config(config)}
+
+
+def load_result_json(stage, config_dir=CONFIG_DIR):
+    """Read saved scientific JSON referenced by the selected documents' CSV rows."""
+    from mofinder.extraction import negative, positive
+
+    if stage == "positive":
+        config = positive.load_config(Path(config_dir) / "positive_extraction.json")
+        manifest_path = config["manifest_file"]
+        tables = {"syntheses": config["csv_out"]}
+    elif stage == "negative":
+        config = negative.load_config(Path(config_dir) / "negative_reconstruction.json")
+        manifest_path = config["manifest"]
+        tables = {"plans": config["csv_out"],
+                  "syntheses": config["enumeration"]["out_csv"]}
+    else:
+        raise ValueError("Choose positive or negative JSON results.")
+    manifest = negative.read_excel_checked(str(manifest_path))
+    selected_dois = {doi.strip().casefold() for doi in manifest["DOI"]}
+    results = {}
+    for label, csv_path in tables.items():
+        payloads = results[label] = []
+        if not Path(csv_path).is_file():
+            continue
+        seen = set()
+        with Path(csv_path).open(encoding="utf-8-sig", newline="") as stream:
+            for row in csv.DictReader(stream):
+                if row.get("doi", "").strip().casefold() not in selected_dois:
+                    continue
+                reference = row.get("parsed_json", "").strip()
+                if not reference:
+                    continue
+                path = (Path(config["project_root"]) / reference).resolve()
+                if path not in seen:
+                    payloads.append(json.loads(path.read_text(encoding="utf-8")))
+                    seen.add(path)
+    return results
 
 
 def main(argv=None):

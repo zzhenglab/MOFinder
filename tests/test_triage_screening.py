@@ -147,6 +147,19 @@ class ScreeningTests(unittest.TestCase):
             self.invoke(client)
         self.assertEqual(client.responses.create.await_count, 0)
 
+    def test_default_runs_are_numbered_and_can_resume(self):
+        self.config['output_root'] = str(self.folder / 'runs')
+        self.write_config()
+        first = triage.prepare_screening(self.config_file)
+        original = (first.output_dir / 'run_manifest.json').read_bytes()
+        second = triage.prepare_screening(self.config_file)
+        self.assertEqual(first.output_dir.name, 'run_001')
+        self.assertEqual(second.output_dir.name, 'run_002')
+        self.assertNotEqual(first.manifest['run_id'], second.manifest['run_id'])
+        resumed = triage.prepare_screening(self.config_file, output_dir=first.output_dir, resume=True)
+        self.assertEqual(resumed.manifest['run_id'], first.manifest['run_id'])
+        self.assertEqual((first.output_dir / 'run_manifest.json').read_bytes(), original)
+
     def test_config_paths_are_relative_to_configured_project_root(self):
         loaded = load_triage_config(self.config_file)
         self.assertEqual(loaded['input_file'], ROOT / 'Demo/03_api_data_mining/inputs/triage_metadata.csv')

@@ -8,7 +8,15 @@ Start with [mof_api_data_mining_demo.ipynb](mof_api_data_mining_demo.ipynb). It 
 previews the exact requests, and compares GPT predictions with human labels.
 Continue in the same notebook to extract positive synthesis records from the
 included article/SI pair and reconstruct negative conditions from the extracted
-evidence. The corresponding terminal commands use [mof_api_data_mining_demo.py](mof_api_data_mining_demo.py).
+evidence. Each extraction section displays its saved JSON after a live run.
+The corresponding terminal commands use [mof_api_data_mining_demo.py](mof_api_data_mining_demo.py).
+
+There are three demonstration DOI slots in [literature_input/](literature_input/README.md).
+All supplied PDFs are placeholders: the `10.1021/jacs.2c09756` pair contains
+synthetic illustrative text, and the other two pairs are blank templates. These
+files demonstrate input handling and extraction without distributing the original
+publications. The default notebook selects only the illustrative pair; its
+extracted records are demonstration outputs, not scientific results.
 
 The notebook starts with empty outputs and all live switches set to `False`.
 Run the preview cells to inspect the abstracts, requests, and document validation
@@ -79,7 +87,7 @@ positive extraction has finished.
 | Abstract triage | Four abstracts selected from the 12-paper subset in `inputs/` | GPT-5; high reasoning effort; one round; one request at a time |
 | Positive extraction | One illustrative article/SI pair in [`inputs/extraction/`](inputs/extraction/README.md) | GPT-5; one document at a time |
 | Negative reconstruction | Positive CSV, synthesis JSON files, and the same article/SI pair | GPT-5; medium reasoning effort; at most one eligible document |
-| Local paper extraction | Three to five article/SI pairs in `literature_input/main/` and `literature_input/si/` | Separate `configs/local_papers/`; one request at a time |
+| Local paper extraction | Three DOI slots in `literature_input/main/` and `literature_input/si/`: one illustrative pair and two blank pairs | Separate `configs/local_papers/`; up to five papers; one request at a time |
 
 The triage settings are in [`configs/triage.json`](configs/triage.json):
 `model: "gpt-5"`, `reasoning_effort: "high"`, `max_output_tokens: 25000`, and
@@ -104,12 +112,13 @@ uses no corpus-specific manual enumeration corrections.
 
 ## Extract from three to five local papers
 
-The [literature input folder](literature_input/README.md) contains three pairs of
-DOI-named PDF templates and a matching inventory. Replace the main article
-templates in `literature_input/main/` and SI templates in `literature_input/si/`
-with the real PDFs. Update `literature_input/inventory.csv` if choosing different
-papers. The templates contain no published text; the original illustrative
-article/SI pair under `Demo/03_api_data_mining/inputs/extraction/` remains available for the default demonstration.
+The [literature input folder](literature_input/README.md) contains three DOI-named
+article/SI pairs and a matching inventory. The JACS pair contains synthetic
+illustrative content; the other two pairs are blank templates. For a demonstration
+with all three slots, supply readable documents for both blank pairs. For research
+extraction, replace all three pairs with your own source documents. Update
+`literature_input/inventory.csv` if choosing different papers. The default
+demonstration uses the same illustrative JACS pair under `inputs/extraction/`.
 
 From the repository root:
 
@@ -119,8 +128,9 @@ python Demo/03_api_data_mining/mof_api_data_mining_demo.py positive --config-dir
 python Demo/03_api_data_mining/mof_api_data_mining_demo.py negative --config-dir Demo/03_api_data_mining/configs/local_papers --live
 ```
 
-The validation report identifies any placeholder PDFs. Live extraction stops
-until they have been replaced. The selected configurations preserve the same
+The validation report identifies the blank placeholder PDFs. Live extraction
+with the local configuration stops until both blank pairs have been replaced or
+removed from the selected inventory. The selected configurations preserve the same
 prompts and scientific extraction logic, with outputs stored separately under
 `results/examples/03_api_data_mining/local_papers/`.
 
@@ -142,7 +152,7 @@ research datasets.
 All generated files are written under
 `results/examples/03_api_data_mining/`, which is excluded from Git:
 
-- `triage/`: timestamped runs containing predictions and run metadata.
+- `triage/run_001/`, `triage/run_002/`, and so on: predictions and run metadata for each invocation.
 - `extraction/`: the matched document manifest and input summary.
 - `extraction/positive/`: extracted CSV records and the synthesis JSON store.
 - `extraction/negative/`: modification plans, parent snapshots, and enumerated records.
@@ -151,7 +161,8 @@ All generated files are written under
 Positive extraction and negative reconstruction resume from their saved artifacts. A repeated
 command may skip completed documents. To rerun with different models or prompts,
 set fresh output paths in the configurations and keep the negative inputs linked
-to the corresponding positive output. Each triage invocation creates a new run.
+to the corresponding positive output. Each triage invocation creates the next
+available numbered run folder. Execution times remain in the run metadata.
 
 Negative reconstruction also checks that every positive DOI marked `YES` belongs to the
 selected document manifest. A mismatch stops the demonstration so an output from another

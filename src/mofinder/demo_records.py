@@ -9,11 +9,11 @@ import platform
 import shutil
 import subprocess
 import sys
-from uuid import uuid4
 
 import pandas as pd
 
 from mofinder.display import display_path
+from mofinder.run_paths import create_run_directory
 
 
 def verify_files(output_dir, expected_dir, filenames, *, rtol=0, atol=0):
@@ -67,10 +67,7 @@ class DemoRun:
         self.demo_dir, self.output_dir = Path(demo_dir), Path(output_dir)
         self.repo = self.demo_dir.parents[1]
         self.started = datetime.now(timezone.utc)
-        run_id = self.started.strftime("%Y%m%dT%H%M%S.%fZ") + "_" + uuid4().hex[:8]
-        self.folder = Path(history_dir or self.demo_dir / "run_history") / run_id
-        self.work_dir = self.folder / "outputs"
-        self.record_path = self.folder / "run_record.json"
+        self.history_dir = Path(history_dir or self.demo_dir / "run_history")
         self.inputs = inputs
         self.verification = {"passed": None, "checks": [], "status": "not_requested"}
         self.log = io.StringIO()
@@ -83,7 +80,9 @@ class DemoRun:
             return path.name
 
     def __enter__(self):
-        self.folder.mkdir(parents=True, exist_ok=False)
+        self.folder = create_run_directory(self.history_dir)
+        self.work_dir = self.folder / "outputs"
+        self.record_path = self.folder / "run_record.json"
         self.work_dir.mkdir()
         self.input_records = {}
         for name, value in self.inputs.items():

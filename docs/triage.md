@@ -40,7 +40,7 @@ Provide `OPENAI_API_KEY` as an environment variable, then run:
 python -m mofinder.literature.triage screen --config configs/abstract_triage.json --output-dir results/abstract_triage/benchmark_run
 ```
 
-Use a new output directory for a new run. Omitting `--output-dir` creates a distinct run directory under the configured `output_root`, which defaults to `results/abstract_triage/`. The first abstract checks each configuration before the remaining requests are scheduled. Each additional round requests new predictions.
+Use a new output directory for a new run. Omitting `--output-dir` creates the next available numbered directory, such as `run_001/` or `run_002/`, under the configured `output_root`, which defaults to `results/abstract_triage/`. Execution times remain in the run metadata. The first abstract checks each configuration before the remaining requests are scheduled. Each additional round requests new predictions.
 
 The parser accepts only completed responses whose entire stripped answer is `Y` or `N`. Invalid, incomplete, refused, and failed responses remain visible and outside the scored denominator. Coverage must be reported with classification metrics.
 
@@ -70,7 +70,7 @@ The run directory should contain:
 
 Keep the run files, reference snapshots, and subsequent analysis outputs together. The workflow creates `results/` locally as needed, and its contents are excluded from Git. Saved notebook displays are not a complete prediction archive. Earlier experiments remain available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a); they are not substituted for a current run.
 
-The loader records the current reference and any label changes before calculating comparison tables, paired tests, and figures. Reanalysis creates separate outputs so previous results remain identifiable. To name the analysis destination and make the statistical settings explicit:
+The loader records the current reference and any label changes before calculating comparison tables, paired tests, and figures. Reanalysis creates numbered folders such as `analysis_001/` inside the selected run directory so previous results remain identifiable. To name the analysis destination and make the statistical settings explicit:
 
 ```bash
 python -m mofinder.literature.triage analyze --run-dir results/abstract_triage/benchmark_run --ground-truth benchmarks/abstract_triage/ground_truth.xlsx --output-dir results/local/benchmark_analysis --bootstraps 50000 --seed 42

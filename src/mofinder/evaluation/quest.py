@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-from datetime import datetime, timezone
 import hashlib
 import json
 import math
@@ -22,6 +21,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
 from mofinder.display import display_path, display_paths
+from mofinder.run_paths import create_run_directory
 
 LABEL_PARSING_VERSION = "standalone_pn_v1"
 
@@ -760,12 +760,12 @@ async def run_evaluation(config, group=None, *, client=None, output_dir=None):
         from openai import AsyncOpenAI
         client = AsyncOpenAI()
     if output_dir is None:
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
-        output_dir = config["output_root"] / group / stamp
-    output_dir = Path(output_dir)
-    if output_dir.exists() and any(output_dir.iterdir()):
-        raise ValueError("Choose an empty output directory to preserve previous runs.")
-    output_dir.mkdir(parents=True, exist_ok=True)
+        output_dir = create_run_directory(config["output_root"] / group)
+    else:
+        output_dir = Path(output_dir)
+        if output_dir.exists() and any(output_dir.iterdir()):
+            raise ValueError("Choose an empty output directory to preserve previous runs.")
+        output_dir.mkdir(parents=True, exist_ok=True)
     manifest = {
         "group": group,
         "label_parser": LABEL_PARSING_VERSION,

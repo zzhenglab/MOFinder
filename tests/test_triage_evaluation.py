@@ -99,6 +99,8 @@ class SavedRunEvaluationTests(unittest.TestCase):
         (self.run / "responses.jsonl").unlink()
         save_csv(self.rows, self.run / "predictions.csv")
         csv_context = load_saved_run(self.run, self.ground_truth_file, bootstraps=20)
+        self.assertEqual(context["output_dir"].name, "analysis_001")
+        self.assertEqual(csv_context["output_dir"].name, "analysis_002")
         self.assertEqual(csv_context["prediction_source"].name, "predictions.csv")
         self.assertEqual(csv_context["rows"][0]["Round"], 1)
 

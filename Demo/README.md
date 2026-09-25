@@ -22,7 +22,7 @@ python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-cs
 
 The first demonstration regenerates processed records from the raw example. The second prepares classification records and grouped splits. `--check` compares the generated files with the saved expected results. Each notebook has a separate **Verify against expected output** section with expected/actual counts and **PASS** or **FAIL** results. See each folder's README for inputs, settings, output files, and use with other data.
 
-Each offline run keeps its output snapshot and run record in a new `run_history/<timestamp>/` folder. `outputs/` holds the latest files. Local histories are excluded from Git by default; the checked-in [data curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md), together with executed notebook outputs, preserve examples that can be viewed on GitHub.
+Each offline run keeps its output snapshot and run record in a numbered folder such as `run_history/run_001/`. `outputs/` holds the latest files. Run records retain execution times and file hashes. Local histories are excluded from Git by default; the checked-in [data curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md), together with executed notebook outputs, preserve examples that can be viewed on GitHub. Earlier recorded examples keep their original folder names.
 
 To check abstract inputs and match the included article/SI pair:
 
@@ -39,6 +39,8 @@ jupyter lab
 ```
 
 For the [data mining demo (API required)](03_api_data_mining/README.md), install `.[mining,notebook]` and open [mof_api_data_mining_demo.ipynb](03_api_data_mining/mof_api_data_mining_demo.ipynb). Inspect the four abstracts and request previews, then set `RUN_TRIAGE = True` to obtain predictions using GPT-5 with high reasoning effort. The same notebook uses `RUN_POSITIVE_EXTRACTION` and `RUN_NEGATIVE_RECONSTRUCTION` for the sample article/SI pair; run positive extraction first. All switches default to `False`. Use `OPENAI_API_KEY` or the hidden key prompt for live calls, which send the selected text to OpenAI and incur API charges.
+
+The data mining demonstration includes three DOI slots: one article/SI pair with synthetic illustrative content and two blank placeholder pairs. Original publications are not included. The default notebook selects the illustrative pair and displays the saved JSON after positive extraction and negative reconstruction.
 
 ## Find the workflow code
 

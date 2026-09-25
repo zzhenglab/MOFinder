@@ -55,6 +55,8 @@ class DemoRecordTests(unittest.TestCase):
                 second.verification = {"passed": False, "checks": []}
                 raise AssertionError("does not match")
         self.assertNotEqual(first.folder, second.folder)
+        self.assertEqual(first.folder.name, "run_001")
+        self.assertEqual(second.folder.name, "run_002")
         self.assertEqual((first.folder / "outputs/records.csv").read_bytes(), original)
         self.assertEqual((second.folder / "outputs/records.csv").read_bytes(), changed)
         self.assertEqual(output.read_bytes(), original)  # Failed work does not replace latest successful output.

@@ -139,6 +139,10 @@ class DemoTriageTests(unittest.TestCase):
         runner = {
             "run_positive": Mock(return_value={"positive": "completed"}),
             "run_negative": Mock(return_value={"negative": "completed"}),
+            "load_result_json": Mock(side_effect=[
+                {"syntheses": [{"name": "sample MOF"}]},
+                {"plans": [{"changed_section": "temperature"}], "syntheses": []},
+            ]),
         }
         self.namespace.update(api_runner=runner, EXTRACTION_CONFIG_DIR=self.folder)
         self.execute("positive-api", live=True, switch="RUN_POSITIVE_EXTRACTION")
@@ -150,6 +154,11 @@ class DemoTriageTests(unittest.TestCase):
         runner["run_negative"].assert_called_once_with(live=True, config_dir=self.folder)
         self.assertEqual(self.namespace["negative_result"], {"negative": "completed"})
         runner["run_positive"].assert_called_once()
+        self.assertEqual(runner["load_result_json"].call_args_list,
+                         [unittest.mock.call("positive", self.folder),
+                          unittest.mock.call("negative", self.folder)])
+        self.assertIn('"name": "sample MOF"', self.stdout.getvalue())
+        self.assertIn('"changed_section": "temperature"', self.stdout.getvalue())
 
     def test_default_preview_shows_full_abstracts_without_requests_or_files(self):
         os.environ["OPENAI_API_KEY"] = "offline-test-key"
@@ -341,6 +350,43 @@ class DemoExtractionTests(unittest.TestCase):
         patcher = patch.dict(self.namespace, replacements)
         patcher.start()
         self.addCleanup(patcher.stop)
+
+    def test_json_display_reads_indexed_results_only_for_selected_documents(self):
+        manifest = self.folder / "manifest.csv"
+        manifest.write_text("DOI,Main File,SI File\n10.1234/sample,,\n", encoding="utf-8")
+        payloads = {
+            "positive": {"name": "sample MOF", "conditions": {"temperature": 120}},
+            "plans": {"options": [100, 110]},
+            "enumerated": {"conditions": {"temperature": 100}},
+        }
+        for name, payload in payloads.items():
+            (self.folder / f"{name}.json").write_text(json.dumps(payload), encoding="utf-8")
+            with (self.folder / f"{name}.csv").open("w", encoding="utf-8-sig", newline="") as stream:
+                writer = csv.writer(stream)
+                writer.writerow(["doi", "parsed_json"])
+                writer.writerow(["10.1234/sample", f"{name}.json"])
+                # Repeated index entries, unrelated papers and failed rows must not add results.
+                writer.writerow(["10.1234/sample", str(self.folder / f"{name}.json")])
+                writer.writerow(["10.1234/other", "unrelated.json"])
+                writer.writerow(["10.1234/sample", ""])
+        positive_config = {"manifest_file": manifest, "project_root": self.folder,
+                           "csv_out": self.folder / "positive.csv"}
+        negative_config = {"manifest": manifest, "project_root": self.folder,
+                           "csv_out": self.folder / "plans.csv",
+                           "enumeration": {"out_csv": self.folder / "enumerated.csv"}}
+        with patch("mofinder.extraction.positive.load_config", return_value=positive_config), \
+                patch("mofinder.extraction.negative.load_config", return_value=negative_config):
+            self.assertEqual(self.runner["load_result_json"]("positive", self.folder),
+                             {"syntheses": [payloads["positive"]]})
+            self.assertEqual(self.runner["load_result_json"]("negative", self.folder),
+                             {"plans": [payloads["plans"]], "syntheses": [payloads["enumerated"]]})
+            (self.folder / "enumerated.csv").unlink()
+            self.assertEqual(self.runner["load_result_json"]("negative", self.folder)["syntheses"], [])
+            # A broken saved reference must surface instead of silently hiding a result.
+            (self.folder / "positive.json").unlink()
+            with self.assertRaises(FileNotFoundError):
+                self.runner["load_result_json"]("positive", self.folder)
+        self.key.assert_not_called()
 
     def test_document_templates_block_both_extraction_stages_before_key_or_api(self):
         self.namespace["validate_positive"].return_value = {
