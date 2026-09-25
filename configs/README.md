@@ -21,6 +21,8 @@ Input, prompt, and default output paths are resolved from `project_root`. Run sc
 python -m mofinder.literature.triage screen --config configs/abstract_triage.json
 ```
 
+Store personal configurations in `configs/local/`, which is excluded from Git. When copying a configuration from `configs/` directly into `configs/local/`, change `project_root` from `".."` to `"../.."` so its paths still resolve from the repository root. Use a fresh output directory when changing inputs, prompts, or model settings.
+
 An explicit `--output-dir` selects a run directory. Add `--resume` only when continuing that existing run with the same configuration and inputs. Resume retains recorded attempts, including failures, and schedules only requests without a saved record. The [triage guide](../docs/triage.md) describes saved-run analysis and its statistical overrides.
 
 Configurations for the downstream stages are listed below. Training settings are described in the [HPC training guide](../docs/training_hpc.md). The historical numbered scripts and their settings are available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a).

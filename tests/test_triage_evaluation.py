@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from mofinder.evaluation.triage import evaluate_run, load_saved_run, select_saved_run
+from mofinder.evaluation.triage import evaluate_counts, evaluate_run, load_saved_run, select_saved_run
 from mofinder.literature.triage import GT_COLUMNS, save_csv
 
 
@@ -54,6 +54,16 @@ class SavedRunEvaluationTests(unittest.TestCase):
         (self.run / "responses.jsonl").write_text(
             "".join(json.dumps(row) + "\n" for row in self.rows), encoding="utf-8"
         )
+
+    def test_metrics_keep_failed_and_unscheduled_papers_in_coverage(self):
+        summary, _ = evaluate_counts([1, 0], [1, 0], "test", 1, 4, 3, "Full reference",
+                                     bootstraps=50, statistics_seed=42)
+        self.assertEqual(summary["Reference N"], 4)
+        self.assertEqual(summary["Scheduled reference N"], 3)
+        self.assertEqual(summary["Scored N"], 2)
+        self.assertEqual(summary["Unscored reference N"], 2)
+        self.assertEqual(summary["Coverage of reference"], 0.5)
+        self.assertEqual(summary["Accuracy"], 1)
 
     def test_reference_revision_failures_and_pairs_keep_their_denominators(self):
         original = {path: path.read_bytes() for path in self.run.iterdir()}

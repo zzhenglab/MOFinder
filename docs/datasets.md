@@ -89,7 +89,7 @@ Using `processed_positive.csv`, `processed_negative.csv`, and the included publi
 | Training | 11,968 | 11,560 | 23,528 |
 | Holdout | 1,320 | 1,275 | 2,595 |
 
-The final training and holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row lacks a publication year. These results describe the bundled processed inputs; fresh extraction and curation can change them.
+The final training and holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row, DOI `10.1021/jacs.5c08726`, lacks a publication year; verify its bibliographic year before defining temporal partitions. These results describe the bundled processed inputs; fresh extraction and curation can change them.
 
 The implementation also adds explicit failure messages for infeasible splits and handles the case where all selected holdout clusters are forced. Those changes affect edge cases in which the original notebook failed; they did not alter the final outputs above.
 

@@ -54,6 +54,6 @@ python -m mofinder.evaluation.quest analyze path/to/saved_question_predictions.c
 
 Use the filenames produced by the configured run. The stage guides describe output columns, run manifests, resume behavior, and per-round metrics.
 
-## Subsequent evaluation stages
+## Evaluation scope
 
-Separate positive extraction and negative reconstruction evaluation workflows are planned. They require their own reference records and scoring definitions. Model-performance results require corresponding saved predictions.
+Separate reference-based scoring for positive extraction and negative reconstruction is not included. The available model evaluators score reaction-condition predictions; reproducing model-performance results requires the corresponding saved predictions.

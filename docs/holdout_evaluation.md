@@ -53,4 +53,4 @@ python -m mofinder.evaluation.holdout analyze \
   --output results/evaluation/holdout/holdout_mofinder.reanalysis.json
 ```
 
-Offline tests cover controlled responses, retry failures, token log probabilities, valid-label metrics, and interrupted-run resume. Live verification of the packaged Python evaluator remains pending.
+Offline tests cover controlled responses, retry failures, token log probabilities, valid-label metrics, and interrupted-run resume. Check live model access with `--test-mode` before scheduling a full run.

@@ -59,8 +59,7 @@ On Windows, install the desktop dependencies into the environment created above:
 
 Omit `--validate` to launch the corresponding application. On other systems, use
 the environment's Python executable in the same commands. The desktop requires
-Chrome, Tk, and permissions to control the mouse and keyboard. Live desktop
-operation remains to be validated locally.
+Chrome, Tk, and permissions to control the mouse and keyboard. Calibrate and check the browser controls on the computer used for downloading.
 
 The applications close Chrome windows during literature retrieval. Save browser work
 before starting. Record the Save-dialog filename coordinates on the current
@@ -73,7 +72,7 @@ and missing templates. No API credentials are used by these tools.
 
 Set `OPENAI_API_KEY` in the environment before live screening or synthesis extraction. `.env.example` shows the variable name; the workflow does not automatically load an `.env` file. Offline commands do not use API credentials.
 
-Check model settings and account access before scheduling a full run. The packaged screening, extraction, and evaluation commands have been checked offline; live verification of these commands remains pending. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
+Check model settings and account access before scheduling a full run. Offline software checks cover request handling and response parsing; they do not verify live model access. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
 
 ## Demo notebooks
 
@@ -105,7 +104,7 @@ python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
-Recorded environment and execution results are in [validation.md](validation.md). The GitHub Actions workflow runs the offline tests on Windows and Linux. Its status should be checked for the commit being used.
+The [GitHub Actions workflow](../.github/workflows/triage.yml) runs offline tests on Windows and Linux. The [demos](../Demo/README.md) provide expected-output checks for data curation and dataset preparation. These checks do not measure extraction accuracy or model performance.
 
 ## Downstream workflow
 

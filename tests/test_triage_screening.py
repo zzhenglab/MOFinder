@@ -43,6 +43,39 @@ class ScreeningTests(unittest.TestCase):
             return asyncio.run(triage.screen(self.config_file, output_dir=self.run_folder,
                                               resume=resume, client=client))
 
+    def test_strict_response_parsing_does_not_convert_failures_to_negative(self):
+        from functools import partial
+        classify = partial(triage.classify_one,
+                           prompt=(ROOT / "prompts/abstract_triage.txt").read_text(encoding="utf-8"),
+                           run_id="offline-test", max_output_tokens=100)
+        paper = {"DOI": "10.1234/example", "title": "Example", "source": "Journal",
+                 "author_keywords": "", "keywords_plus": "", "abstract": "Example abstract."}
+        config = {"name": "test", "model": "gpt-4o", "reasoning_effort": None}
+        for raw, status, expected_label, expected_status in [
+            ("Y", "completed", "Y", "ok"),
+            (" N\n", "completed", "N", "ok"),
+            ("Y/N", "completed", "", "invalid_answer"),
+            ("Yes", "completed", "", "invalid_answer"),
+            ("n", "completed", "", "invalid_answer"),
+            ("N", "incomplete", "", "incomplete"),
+        ]:
+            with self.subTest(raw=raw, status=status):
+                response = SimpleNamespace(output_text=raw, status=status, id="mock", model="mock")
+                create = AsyncMock(return_value=response)
+                result = asyncio.run(classify(SimpleNamespace(responses=SimpleNamespace(create=create)),
+                                               paper, config, 1))
+                self.assertEqual(result["Agent_YN"], expected_label)
+                self.assertEqual(result["Status"], expected_status)
+                self.assertNotIn("reasoning", create.call_args.kwargs)
+                self.assertFalse(create.call_args.kwargs["store"])
+
+        create = AsyncMock(side_effect=RuntimeError("Request failed"))
+        result = asyncio.run(classify(SimpleNamespace(responses=SimpleNamespace(create=create)),
+                                       paper, {**config, "reasoning_effort": "high"}, 1))
+        self.assertEqual(result["Agent_YN"], "")
+        self.assertEqual(result["Status"], "api_error")
+        self.assertEqual(create.call_args.kwargs["reasoning"], {"effort": "high"})
+
     def test_resume_sends_only_unrecorded_requests_and_keeps_errors(self):
         run = triage.prepare_screening(self.config_file, output_dir=self.run_folder)
         client = self.client(error=RuntimeError('Transient failure'))

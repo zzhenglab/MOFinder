@@ -163,7 +163,4 @@ Document matching builds a DOI-to-file manifest from local documents before
 positive extraction and negative reconstruction. The separate
 [extraction example](../Demo/03_triage_extraction/inputs/extraction/README.md) contains demonstration PDFs.
 
-Live Chrome literature retrieval remains to be validated on the configured desktop.
-Offline validation and its limits are recorded in
-[literature retrieval validation](literature_retrieval_validation.md). Remaining workflow tasks
-are listed in [next stages](next_stages.md).
+Validate browser downloads, image matches, and institutional access on the configured desktop with a small inventory before a larger run. Offline input checks do not establish download success; inspect the saved files and corresponding working-inventory states.

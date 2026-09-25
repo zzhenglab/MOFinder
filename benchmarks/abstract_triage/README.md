@@ -15,4 +15,4 @@ The consensus column is authoritative. It incorporates the recorded rubric decis
 
 All 478 DOIs have one nonempty abstract in the associated metadata CSV. Labels and comments are excluded from screening requests and retained for analysis.
 
-The complete screening predictions and run manifests are pending. Files under `data/Section S2/` in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) describe earlier experiments and are not automatically paired with this reference.
+Complete screening predictions and run manifests are not included. Files under `data/Section S2/` in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) describe earlier experiments and are not automatically paired with this reference.

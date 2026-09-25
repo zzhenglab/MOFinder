@@ -6,7 +6,7 @@ MOFinder extracts MOF synthesis information from the literature, reconstructs ev
   <img src="data/mofinder.png" alt="MOFinder web application" width="750">
 </p>
 
-[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demos](Demo/README.md) · [Source code](docs/source_to_code.md) · [Abstract triage](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Workflow guide](docs/workflow.md) · [Model evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
+[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demos](Demo/README.md) · [Source code](docs/source_to_code.md) · [Abstract triage](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Workflow guide](docs/workflow.md) · [Model evaluation](docs/evaluation.md)
 
 ## Quick start
 
@@ -54,28 +54,6 @@ See [installation](docs/installation.md) and [triage](docs/triage.md) for creden
 
 The current implementation is in [`src/mofinder/`](src/mofinder/). The [source code map](docs/source_to_code.md) pairs each task with its Python file and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, data curation, dataset preparation, model evaluation, and plotting code.
 
-## Development status
-
-The core workflow and reaction evaluation routines are implemented in [Python source modules](src/mofinder/), with commands and explanations in the [workflow guides](docs/source_to_code.md). Demo notebooks retain executable examples and saved displays. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive extraction and negative reconstruction evaluation workflows are pending.
-
-| Component | Completed | Next work |
-| --- | --- | --- |
-| Repository structure | Python package, configurations, prompts, benchmarks, guides, examples, and tests | Complete paper-associated release metadata |
-| Demonstrations | Offline data curation and dataset preparation with expected outputs; API examples for abstract triage, positive extraction, and negative reconstruction | Check the live examples with the configured model access |
-| Abstract triage | Python screening, saved-run analysis, plotting, and command-line entry points; preserved prompt and model settings | Add complete saved prediction runs and verify live configurations |
-| Human reference | 478-paper workbook included unchanged; 293 Y and 185 N labels | Archive the model comparisons associated with this reference |
-| Bibliographic input | Six-field export of 13,773 records; all 478 reference abstracts present | Reconcile three conflicting duplicate DOI groups before whole-corpus screening |
-| Offline validation | Input checks, human-agreement calculations, examples, and regression tests | Run Windows/Linux CI on the release commit and verify packaged commands with live model access |
-| Literature retrieval | Python desktop applications for articles and supporting information; neutral publisher profiles and image names; selected input tables; local calibration and working inventories | Review unmapped pending rows and validate live desktop downloading |
-| Positive extraction and negative reconstruction | Python document matching, JSON-backed positive extraction, offline CSV recovery, negative plans, and failure enumeration; separate prompts and configurations | Compare saved research runs and validate live extraction |
-| Data curation and dataset preparation | Chemical lookups, processed positive and negative records, grouped splitting, publication-year training subsets, and final training and holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
-| Model evaluation and human benchmark analysis | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive extraction and negative reconstruction evaluation code and ground truth |
-| Model training | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training and holdout JSONL | Record completed job provenance and validate training on the target GPU system |
-
-See [the workflow guide](docs/workflow.md) for positive extraction, negative reconstruction, data curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md). The [22 September 2026 release audit](docs/release_audit.md) records the current checks and links to the earlier validation checkpoints.
-
-The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replacement files, commands, and remaining research artifacts for each workflow.
-
 ## Choose a workflow
 
 | Task | Start here |
@@ -99,7 +77,6 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
 | Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
 | Inspect data identities and transformations | [Data manifest](data/manifest.json) |
-| Locate analyses supporting paper results | [Analysis and publication mapping](docs/figure_table_map.md) |
 | Find the earlier extraction and modeling scripts | [Original research scripts](docs/legacy_workflow.md) |
 
 ## Repository layout
@@ -123,10 +100,9 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `data/final_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
 | `Demo/` | Offline data curation and dataset preparation; API examples for abstract triage, positive extraction, and negative reconstruction |
-| `docs/` | Installation, workflow guides, validation records, and reproduction instructions |
+| `docs/` | Installation, workflow guides, source provenance, and reproduction instructions |
 | `tools/literature_retrieval/` | Entry points for optional desktop download tools |
 | `tools/training/` | Training-bundle preparation and GPU training entry points |
-| `docs/environments/` | Recorded dependency environment |
 | `tests/` | Automated checks of workflows, splitting, and data integrity, run by GitHub Actions |
 
 Python modules contain the reusable implementation and support terminal or HPC execution. Markdown guides explain their inputs, commands, and outputs; [the source code map](docs/source_to_code.md) links each guide directly to its implementation and the original research scripts. Interactive examples and saved run displays live together under `Demo/`, alongside Python runners. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
@@ -152,7 +128,7 @@ Training and holdout records use chat-format JSONL. Each record contains a syste
 
 The current triage input consists of 13,773 bibliography rows and 478 annotated reference publications. The reference has 293 Y and 185 N consensus labels. Every reference DOI has an abstract in the metadata export. Reference labels remain authoritative, including documented rubric decisions and overrides.
 
-Complete saved model-run artifacts are not yet included. Statistical methods and prompt-development history are described in [the triage guide](docs/triage.md).
+Complete saved model-run artifacts and reference-based scoring for positive extraction and negative reconstruction are not included. The available [evaluation workflows](docs/evaluation.md) cover abstract triage, reaction outcomes, and human responses. Statistical methods and prompt-development history are described in [the triage guide](docs/triage.md).
 
 Each new run records its settings, prompt, input hashes, response status, and predictions. Workflows create `results/` locally as needed; generated outputs are excluded from Git. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
 

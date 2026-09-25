@@ -2,10 +2,8 @@
 
 | Directory | Reference | Status |
 | --- | --- | --- |
-| `abstract_triage/` | 478-paper human annotation reference | Included |
-| `positive_extraction/` | Synthesis and field-level extraction reference | Integration pending |
-| `negative_reconstruction/` | Evidence and publication-level reconstruction reference | Integration pending |
-| `mof_quest/` | Recorded 22-question panels and deidentified human responses | Included; game source remains in the MOF-Quest submodule |
-| `reaction_holdout/` | Reaction-condition holdout records | Included |
+| [abstract_triage/](abstract_triage/README.md) | 478-paper human annotation reference | Included |
+| [mof_quest/](mof_quest/README.md) | Recorded 22-question panels and deidentified human responses | Included; game source remains in the MOF-Quest submodule |
+| [reaction_holdout/](reaction_holdout/README.md) | Reaction-condition holdout records | Included |
 
-Reference labels, model predictions, and data used for prompt development have distinct roles. Each benchmark must record these roles alongside its evaluation procedure.
+The linked benchmark guides describe their reference labels, prompt-development use, and evaluation procedures. Complete model prediction archives and reference-based evaluation for positive extraction and negative reconstruction are not included.

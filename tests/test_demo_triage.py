@@ -107,12 +107,6 @@ class DemoTriageTests(unittest.TestCase):
         return SimpleNamespace(output_text=answer, status="completed",
                                id="offline-response", model="gpt-4o")
 
-    def test_all_code_cells_compile_with_notebook_await_support(self):
-        for cell_id, source in self.cells.items():
-            with self.subTest(cell=cell_id):
-                compile(source, f"{NOTEBOOK.name}:{cell_id}", "exec",
-                        flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
-
     def test_cli_and_notebook_validate_the_same_four_abstracts(self):
         runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
         output = io.StringIO()
@@ -123,7 +117,7 @@ class DemoTriageTests(unittest.TestCase):
         self.assertEqual(summary["scheduled_publications"], 4)
         self.sdk.assert_not_called()
 
-    def test_mining_setup_and_defaults_validate_without_live_calls(self):
+    def test_extraction_setup_and_defaults_validate_without_live_calls(self):
         os.environ["OPENAI_API_KEY"] = "offline-test-key"
         runner = {
             "validate_positive": Mock(return_value={"ready_for_live_extraction": True}),
@@ -141,7 +135,7 @@ class DemoTriageTests(unittest.TestCase):
         self.sdk.assert_not_called()
         self.key_prompt.assert_not_called()
 
-    def test_mining_switches_enable_only_the_selected_stage(self):
+    def test_extraction_switches_enable_only_the_selected_stage(self):
         runner = {
             "run_positive": Mock(return_value={"positive": "completed"}),
             "run_negative": Mock(return_value={"negative": "completed"}),
@@ -322,7 +316,7 @@ class DemoTriageTests(unittest.TestCase):
         self.assertIsNone(self.namespace["screening_run"])
 
 
-class DemoMiningTests(unittest.TestCase):
+class DemoExtractionTests(unittest.TestCase):
     def setUp(self):
         self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
         self.namespace = self.runner["run_negative"].__globals__
@@ -344,7 +338,7 @@ class DemoMiningTests(unittest.TestCase):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-    def test_document_templates_block_both_mining_stages_before_key_or_api(self):
+    def test_document_templates_block_both_extraction_stages_before_key_or_api(self):
         self.namespace["validate_positive"].return_value = {
             "placeholder_documents": [{"path": "template.pdf"}],
         }

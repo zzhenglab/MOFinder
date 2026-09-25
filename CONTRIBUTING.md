@@ -22,4 +22,6 @@ python -m unittest discover -s tests -v
 python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 ```
 
-Use the same environment for terminal commands and the selected notebook kernel. See [installation](docs/installation.md) for setup and [the pre-upload checklist](docs/preupload_checklist.md) for the demo and workflow checks. Live API, desktop-download, and GPU checks are separate from this offline suite.
+The test command automatically discovers every `test_*.py` file in `tests/`. Tests cover scientific transformations, data integrity, model-response handling, and saved-run behavior. GitHub Actions also executes all three demo notebooks.
+
+Use the same environment for terminal commands and the selected notebook kernel. See [installation](docs/installation.md) for setup and [the demo guide](Demo/README.md) for expected-output checks and saved run records. Live API, desktop-download, and GPU checks are separate from this offline suite.
