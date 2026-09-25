@@ -2,8 +2,7 @@
 
 Document matching connects the literature retrieval inventory to local article and
 supporting-information files. The implementation is in
-`src/mofinder/literature/match_documents.py`; the notebook
-`notebooks/02_document_matching.ipynb` calls the same functions.
+[`src/mofinder/literature/match_documents.py`](../src/mofinder/literature/match_documents.py).
 
 ## Inputs and filenames
 

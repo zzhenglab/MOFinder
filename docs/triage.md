@@ -1,6 +1,6 @@
 # Abstract triage
 
-The triage workflow runs from Python modules and command-line commands. Screening preserves response records, evaluation compares saved predictions with the human reference, and plotting generates figures from the same analysis. The [optional notebook](../notebooks/01_abstract_triage.ipynb) calls these functions to provide an interactive walkthrough.
+The triage workflow runs from Python modules and command-line commands. Screening preserves response records, evaluation compares saved predictions with the human reference, and plotting generates figures from the same analysis. The [API demo](../Demo/03_api_demo/README.md) provides a four-abstract example with saved reference comparisons.
 
 ## Inputs
 
@@ -10,6 +10,8 @@ The triage workflow runs from Python modules and command-line commands. Screenin
 | `benchmarks/abstract_triage/ground_truth.xlsx` | Unchanged 478-paper human annotation reference |
 | `configs/abstract_triage.json` | Paths, model configurations, inference limits, and statistical settings |
 | `prompts/abstract_triage.txt` | Screening criteria and prompt template |
+
+For another collection, retain the bibliography fields `DOI`, `Article Title`, `Source Title`, `Author Keywords`, `Keywords Plus`, and `Abstract`. The reference needs `DOI` and binary `Consensus GT`; retain individual annotation columns for agreement calculations. Select CSV or XLSX input paths in the configuration, and use `max_papers` to limit a small screening run.
 
 Every reference DOI has one nonempty abstract in the metadata export. The default `"benchmark_only": true` selects these 478 publications. Model inputs contain the title, source, keywords, and abstract. Annotation labels and comments are not included in prompts.
 
@@ -76,7 +78,7 @@ python -m mofinder.literature.triage analyze --run-dir results/abstract_triage/b
 
 Add `--no-plots` to produce the statistical outputs without figure generation. This mode does not require the plotting dependency group. Complete prediction records for the consolidated workflow are not included yet; reproducing its model-performance tables requires saved records from a completed run.
 
-The analysis command defaults to 50,000 bootstrap draws and seed 42. For a run created with other statistical settings, pass the values recorded in its manifest using `--bootstraps` and `--seed`. The notebook passes the values from its loaded configuration. Every analysis records the settings actually used.
+The analysis command defaults to 50,000 bootstrap draws and seed 42. For a run created with other statistical settings, pass the values recorded in its manifest using `--bootstraps` and `--seed`. Every analysis records the settings actually used.
 
 ### Statistical methods
 
@@ -97,18 +99,9 @@ The annotation calculations can be run locally:
 python -m mofinder.literature.triage human-agreement --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx --output-dir results/local/human_agreement
 ```
 
-The output directory must be new. The default uses 50,000 publication-bootstrap draws and seed 42. Ambiguous `Y/N` ratings are not treated as binary votes. Pairwise agreement uses available binary pairs, Fleiss' kappa uses complete four-binary-rating rows, and the human consensus label remains authoritative for model scoring.
+The output directory must be new. The default uses 50,000 publication-bootstrap draws and seed 42. Ambiguous `Y/N` ratings are not treated as binary votes. Pairwise agreement uses available binary pairs, Fleiss' kappa uses complete four-binary-rating rows, and nominal Krippendorff's alpha uses available binary ratings. The human consensus label remains authoritative for model scoring. The default bootstrap calculation can take several minutes.
 
 Human annotation notes informed prompt refinement, and the same reference is used for evaluation.
-
-## Optional notebook
-
-```bash
-python -m pip install -e ".[triage]"
-python -m jupyter lab notebooks/01_abstract_triage.ipynb
-```
-
-The notebook loads the same configuration and validates the same inputs. Live screening is guarded by `RUN_SCREENING = False`; enable it explicitly to dispatch requests. Saved-run analysis is a separate call and can run without screening. The notebook does not contain a second implementation of the workflow.
 
 ## Implementation
 

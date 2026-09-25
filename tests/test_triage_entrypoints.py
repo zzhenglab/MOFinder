@@ -1,4 +1,4 @@
-"""Check notebook syntax and Python entry points with controlled responses."""
+"""Check demonstration syntax and Python entry points with controlled responses."""
 
 import ast
 import asyncio
@@ -13,19 +13,19 @@ from mofinder.evaluation.triage import evaluate_counts
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "notebooks/01_abstract_triage.ipynb"
 
 
 
 
-class NotebookTests(unittest.TestCase):
+class TriageEntrypointTests(unittest.TestCase):
     def test_all_code_cells_compile_with_notebook_await(self):
-        notebook = json.loads(NOTEBOOK.read_text(encoding="utf-8"))
-        for index, cell in enumerate(notebook["cells"]):
-            if cell["cell_type"] == "code":
-                with self.subTest(cell=index):
-                    compile("".join(cell["source"]), f"cell_{index}", "exec",
-                            flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
+        for path in (ROOT / "Demo").glob("*/*.ipynb"):
+            notebook = json.loads(path.read_text(encoding="utf-8"))
+            for index, cell in enumerate(notebook["cells"]):
+                if cell["cell_type"] == "code":
+                    with self.subTest(notebook=path.name, cell=index):
+                        compile("".join(cell["source"]), f"cell_{index}", "exec",
+                                flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
 
     def test_strict_response_parsing_does_not_convert_failures_to_negative(self):
         from functools import partial

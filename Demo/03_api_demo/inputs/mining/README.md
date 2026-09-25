@@ -13,4 +13,4 @@ The documents contain synthetic sample text, illustrative synthesis conditions, 
 
 The filenames follow literature retrieval naming: replace the DOI slash with an underscore and append `_SI` for supporting information. [manifest.json](manifest.json) records document provenance, byte sizes, and SHA-256 checksums.
 
-Use these inputs in [api_demo.ipynb](../../api_demo.ipynb). The [API demo instructions](../../README.md) give the validation and positive/negative mining commands. Model calls require API access; reference extraction outputs are not included. To try your own papers, use the separate [local PDF input folder](../../literature_input/README.md).
+Use these inputs in [mof_api_demo.ipynb](../../mof_api_demo.ipynb). The [API demo instructions](../../README.md) give the validation and positive/negative mining commands. Model calls require API access; reference extraction outputs are not included. To try your own papers, use the separate [local PDF input folder](../../literature_input/README.md).

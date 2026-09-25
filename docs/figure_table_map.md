@@ -13,4 +13,4 @@ Descriptive analysis identifiers remain stable while manuscript and supplementar
 | MOF Quest model evaluation | `benchmarks/mof_quest/questions.json` | `python -m mofinder.evaluation.quest` | Saved model predictions pending |
 | MOF Quest human benchmark | `benchmarks/mof_quest/human_questions.csv` and `human_responses.csv` | `python -m mofinder.evaluation.human_quest` | Locally reproducible from the anonymous responses |
 
-The optional triage notebook calls these Python implementations to display results. Each completed paper result will identify its final figure/table number, dataset and split version, effective configuration, prediction archive, and exact reproduction command.
+The [triage guide](triage.md) gives commands for generating these figures and their underlying tables. Each completed paper result will identify its final figure/table number, dataset and split version, effective configuration, prediction archive, and exact reproduction command.

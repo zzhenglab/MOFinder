@@ -58,8 +58,8 @@ python -m mofinder.extraction.negative enumerate --config configs/negative_extra
 Validation reports missing inputs, missing document paths, eligible papers,
 missing successful bases, and papers marked `yes` without accompanying notes.
 Both dry-run commands only inspect local inputs and list the selected work.
-`notebooks/04_negative_reconstruction.ipynb` calls the same Python functions with
-model calls and enumeration disabled by default.
+The [API demo](../Demo/03_api_demo/README.md) uses these functions for a small
+interactive run and preserves its positive records, plans, and enumerated outputs.
 
 Mining selects only DOIs marked `yes` in the positive CSV, ignoring whitespace
 and case in that flag, and deduplicates DOIs in manifest order. The source rule

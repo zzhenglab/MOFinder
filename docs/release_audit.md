@@ -1,16 +1,16 @@
 # Release audit — 22 September 2026
 
-This audit covers the current documentation, demonstrations, execution logic, and bundled datasets. The checks below were run locally on Windows using the isolated Python 3.11 demo environment. Historical integration reports retain their original results; they are separate from this audit.
+This audit records the documentation, demonstrations, execution logic, and bundled datasets checked on 22 September 2026. Its notebook counts describe that checkpoint; the current workflow uses Python modules and Markdown guides, with notebooks retained only for demos. The checks below were run locally on Windows using the isolated Python 3.11 demo environment. Historical integration reports retain their original results; they are separate from this audit.
 
 ## Corrections reviewed
 
-- Demonstrations now comprise offline cleaning, offline JSON preparation, and one [API notebook](../Demo/03_api_demo/api_demo.ipynb). Its triage preview shows the selected abstracts and exact requests, rejects changed inputs or settings before dispatch, and compares predictions with the run's saved reference labels. Model calls remain disabled by default.
+- Demonstrations now comprise offline cleaning, offline JSON preparation, and one [API notebook](../Demo/03_api_demo/mof_api_demo.ipynb). Its triage preview shows the selected abstracts and exact requests, rejects changed inputs or settings before dispatch, and compares predictions with the run's saved reference labels. Model calls remain disabled by default.
 - New reaction evaluations accept only standalone P/N responses after case and whitespace normalization. The `standalone_pn_v1` protocol and corrected label-token probability attribution prevent ordinary prose from becoming a prediction. Saved CSV analysis retains recorded labels; earlier holdout runs require fresh outputs for new requests. See [evaluation](evaluation.md).
 - Negative mining rejects unreadable saved plan CSVs before requests and correctly replaces prior DOI rows during explicit in-place reruns. The API demo also rejects YES-labelled positive DOIs missing from its selected document manifest.
 - Dataset preparation, question-panel evaluation, and HPC training use the full [reaction-prediction prompt](../prompts/training/reaction_prediction.txt). HPC bundles use schema version 2; the default 512-token limit raises an error for overlength inputs. Older bundles must be rebuilt. Displayed paths are shortened without changing file-access paths or saved provenance.
 - Demo paths, installation dependencies, interpreter/kernel instructions, and validation notes were reconciled. Demo01 preserves the edited input's uppercase availability flags and explicit 72-hour first-record duration, with separate bundled-input provenance. Byte-preservation rules protect hashed prompt and data files across checkouts.
 
-## Current verification
+## Verification at this checkpoint
 
 | Check | Result |
 | --- | --- |

@@ -20,7 +20,7 @@ The tables below preserve the original mining-integration checkpoint. Test total
 | Included PDFs | Matched successfully and embedded text read locally; original bytes retained |
 | Publication years | CSV export yields the same 13,770 DOI/year mappings as the original workbook |
 
-Notebook execution used code cells in process. Notebook format validation also passed. GitHub Actions is configured for kernel-based walkthrough execution and offline tests on Windows/Linux; the checks reported here were performed locally. Optional token counting was compared on controlled inputs; the validation environment did not include `tiktoken` for an actual token-count run.
+Notebook execution used code cells in process. Notebook format validation also passed. GitHub Actions at this checkpoint was configured for kernel-based walkthrough execution and offline tests on Windows/Linux; the checks reported here were performed locally. Optional token counting was compared on controlled inputs; the validation environment did not include `tiktoken` for an actual token-count run.
 
 ## Processed dataset results
 

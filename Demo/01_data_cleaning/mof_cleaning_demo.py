@@ -12,13 +12,14 @@ import pandas as pd
 from mofinder.curation.pipeline import STAGES, run_stage
 from mofinder.curation.times import TIME_PARSER_VERSION
 from mofinder.display import display_path
+from mofinder.demo_records import DemoRun, verify_files
 
 DEMO_DIR = Path(__file__).resolve().parent
 PRIVATE_COLUMNS = ("main_pdf", "si_pdf", "raw_output", "parsed_json")
 AVAILABILITY_COLUMNS = ("has_main_document", "has_supporting_document")
 
 
-def run(config_file=DEMO_DIR / "config.json", *, output_dir=None, check=False):
+def _run(config_file=DEMO_DIR / "config.json", *, output_dir=None):
     """Write stage tables and a before/after preview."""
     config_file = Path(config_file).resolve()
     root = config_file.parent
@@ -51,8 +52,8 @@ def run(config_file=DEMO_DIR / "config.json", *, output_dir=None, check=False):
             "linker_prime_corrections": prime_lookup,
             "positive": {"input_csv": source, "output_dir": output_dir},
         }
-        # Stage 6 is the input to condition dataset preparation.
-        for stage in STAGES[:-1]:
+        # The descriptions output is the input to condition dataset preparation.
+        for stage in STAGES:
             result = run_stage(settings, "positive", stage, reports=False)
             stages.append({"stage": stage, "rows": result["rows"], "file": Path(result["output_csv"]).name})
 
@@ -82,13 +83,34 @@ def run(config_file=DEMO_DIR / "config.json", *, output_dir=None, check=False):
         "stages": stages,
     }
     (output_dir / "demo_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-    if check:
-        actual = pd.read_csv(final_file, keep_default_na=False)
-        expected = pd.read_csv(DEMO_DIR / "expected" / final_file.name, keep_default_na=False)
-        pd.testing.assert_frame_equal(actual, expected, check_dtype=False, check_exact=False, rtol=1e-9, atol=1e-9)
-        print("Expected cleaning output matches.")
-    print(f"Cleaned {len(raw)} input rows to {len(cleaned)} stage 6 rows.")
+    print(f"Cleaned {len(raw)} input rows to {len(cleaned)} processed records.")
     print(f"Output: {display_path(output_dir)}")
+    return summary
+
+
+def verify_outputs(output_dir=DEMO_DIR / "outputs"):
+    """Show the actual and expected row counts and compare every cleaned value."""
+    return verify_files(output_dir, DEMO_DIR / "expected", ["mof_extraction_6.csv", "demo_summary.json"], rtol=1e-9, atol=1e-9)
+
+
+def run(config_file=DEMO_DIR / "config.json", *, output_dir=None, check=False, history_dir=None):
+    config_file = Path(config_file).resolve()
+    config = json.loads(config_file.read_text(encoding="utf-8"))
+    out = Path(output_dir).resolve() if output_dir else config_file.parent / config["output_dir"]
+    inputs = {key: config_file.parent / config[key] for key in ("input_csv", "linker_mw_csv", "linker_prime_corrections")}
+    inputs.update(config=config_file, runner=Path(__file__), expected=DEMO_DIR / "expected/mof_extraction_6.csv")
+    source_root = DEMO_DIR.parents[1] / "src/mofinder"
+    inputs.update({"code_" + path.stem: path for path in (source_root / "curation").glob("*.py")})
+    inputs["run_record_code"] = source_root / "demo_records.py"
+    with DemoRun(DEMO_DIR, out, inputs, history_dir=history_dir) as record:
+        summary = _run(config_file, output_dir=record.work_dir)
+        if check:
+            record.verification = verify_outputs(record.work_dir)
+            print("Expected cleaning output:", "PASS" if record.verification["passed"] else "FAIL")
+            if not record.verification["passed"]:
+                raise AssertionError(f"Cleaning output differs from expected; see {record.reference(record.record_path)}")
+    summary.update(verification=record.verification, run_record=record.reference(record.record_path))
+    print(f"Run record: {summary['run_record']}")
     return summary
 
 

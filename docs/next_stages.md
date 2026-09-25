@@ -1,6 +1,6 @@
 # Remaining workflow tasks
 
-Python modules and notebook walkthroughs cover the workflow from abstract triage through reaction and human-benchmark evaluation. The input datasets, molecular-weight lookup, sample PDFs, and anonymous human responses are included.
+Python modules and Markdown guides cover the workflow from abstract triage through reaction and human-benchmark evaluation. The input datasets, molecular-weight lookup, sample PDFs, and anonymous human responses are included.
 
 ## Evaluation and training
 

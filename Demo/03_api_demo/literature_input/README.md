@@ -27,7 +27,7 @@ mining limit. Positive extraction reads all rows in the matched manifest.
 From the repository root, validate the filenames and document text:
 
 ```bash
-python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
+python Demo/03_api_demo/mof_api_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
 ```
 
 Validation lists any remaining templates under `placeholder_documents`. A valid
@@ -38,8 +38,8 @@ extractable text, inspect the PDFs before continuing.
 Run positive extraction and then negative extraction:
 
 ```bash
-python Demo/03_api_demo/run_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
-python Demo/03_api_demo/run_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/mof_api_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/mof_api_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
 ```
 
 An existing `OPENAI_API_KEY` is reused; otherwise the script requests the key

@@ -2,7 +2,7 @@
   "input_rows": 174,
   "output_rows": 146,
   "time_parser": "duration-phrases-v1",
-  "input_sha256": "4e9c6c32aeadfbc3f68d710744831a1591fae2147c8b5c0124f02c08474100d5",
+  "input_sha256": "ef3acef49152e6e2bc6650aafd57cc11d62e47044284778d362475d4064f09ec",
   "linker_mw_sha256": "c97d21a12c8e333d2ecafdd3e75464567009b2cfab4f7da9d8bb15e46e7633e5",
   "stages": [
     {
@@ -13,32 +13,33 @@
     {
       "stage": "metals",
       "rows": 147,
-      "file": "mof_extraction_1_2.csv"
+      "file": "mof_extraction_2.csv"
     },
     {
       "stage": "linkers",
       "rows": 146,
-      "file": "mof_extraction_1_2_3.csv"
+      "file": "mof_extraction_3.csv"
     },
     {
       "stage": "solvents",
       "rows": 146,
-      "file": "mof_extraction_1_2_3_4.csv"
+      "file": "mof_extraction_4.csv"
     },
     {
       "stage": "features",
       "rows": 146,
-      "file": "mof_extraction_1_2_3_4_5.csv"
+      "file": "mof_extraction_5.csv"
     },
     {
       "stage": "connectivity",
       "rows": 146,
-      "file": "mof_extraction_1_2_3_4_5.csv"
+      "file": "mof_extraction_5.csv"
     },
     {
       "stage": "descriptions",
       "rows": 146,
-      "file": "mof_extraction_1_2_3_4_5_6.csv"
+      "file": "mof_extraction_6.csv"
     }
-  ]
+  ],
+  "linker_prime_corrections_sha256": "a3ca86bfb5ef957a3a8f95498f44b7ee0bbea724447d95bae7618089338a3834"
 }

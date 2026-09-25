@@ -13,13 +13,13 @@ python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluati
 
 The configuration retains both fine-tuned model IDs from the source notebook. A fine-tuned model is usable only by an account with access to that model. Set `model_id` to the intended accessible model before starting a new run and give it a distinct `output_name`.
 
-The notebook [07_holdout_evaluation.ipynb](../notebooks/07_holdout_evaluation.ipynb) calls the Python implementation. Set `RUN_EVALUATION = True` and provide your API key at the hidden prompt. For command-line execution, set `OPENAI_API_KEY` in the current environment before running:
+The implementation is in [evaluation/holdout.py](../src/mofinder/evaluation/holdout.py). Set `OPENAI_API_KEY` in the current environment before running:
 
 ```bash
 python -m mofinder.evaluation.holdout run --config configs/holdout_evaluation.json --model holdout_mofinder
 ```
 
-Omit `--model` to run both configurations sequentially. Add `--test-mode` to evaluate the first ten pending records per model. The optional `sanity-test` command sends only the first record using the original separate `gpt-4.1` test settings; it is disabled initially in the notebook and does not write predictions.
+Omit `--model` to run both configurations sequentially. Add `--test-mode` to evaluate the first ten pending records per model. The optional `sanity-test` command sends only the first record using the original separate `gpt-4.1` test settings; it makes a live request and does not write predictions.
 
 Concurrent evaluation keeps `temperature=0`, `top_p=1`, `max_tokens=2`, `logprobs=True`, `top_logprobs=5`, and `seed=7`. The configuration uses concurrency 100 and six request attempts with the original exponential delays. Each request contains the record's system and user messages only. The assistant message remains local as the P/N reference label. No API parameters are silently removed or substituted when a model rejects them.
 

@@ -21,7 +21,7 @@
   "holdout_search_trials": 64,
   "holdout_search_swaps": 1200,
   "input_provenance": {
-    "positive": "Stage 6 output from the companion cleaning demo.",
+    "positive": "Processed positive output from the companion cleaning demo.",
     "negative": "Curated negative records from the selected publications."
   }
 }

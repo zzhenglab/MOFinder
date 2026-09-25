@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "demo": "01_data_cleaning",
+  "started_at": "2026-09-25T18:47:35.464507+00:00",
+  "finished_at": "2026-09-25T18:47:35.948097+00:00",
+  "elapsed_seconds": 0.484,
+  "status": "completed",
+  "python_version": "3.11.9",
+  "pandas_version": "3.0.3",
+  "source_revision": "0f54a500bc748fce9c8d43b7e296188dea987a93",
+  "source_has_local_changes": true,
+  "inputs": {
+    "input_csv": {
+      "path": "Demo/01_data_cleaning/input/mof_extraction.csv",
+      "hash_format": "bytes",
+      "sha256": "ef3acef49152e6e2bc6650aafd57cc11d62e47044284778d362475d4064f09ec"
+    },
+    "linker_mw_csv": {
+      "path": "Demo/01_data_cleaning/input/linker_molecular_weights.csv",
+      "hash_format": "bytes",
+      "sha256": "c97d21a12c8e333d2ecafdd3e75464567009b2cfab4f7da9d8bb15e46e7633e5"
+    },
+    "linker_prime_corrections": {
+      "path": "data/organic_linker_info/linker_prime_corrections.json",
+      "hash_format": "bytes",
+      "sha256": "a3ca86bfb5ef957a3a8f95498f44b7ee0bbea724447d95bae7618089338a3834"
+    },
+    "config": {
+      "path": "Demo/01_data_cleaning/config.json",
+      "hash_format": "bytes",
+      "sha256": "52685405a04dad3e3d84e826ecef875303c3f574368056e367df028d016a06d6"
+    },
+    "runner": {
+      "path": "Demo/01_data_cleaning/mof_cleaning_demo.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "1e7dab72593e6f57aec9fe33543aff90b5583bae1b1e9051e7958fcb8ae6fca9"
+    },
+    "expected": {
+      "path": "Demo/01_data_cleaning/expected/mof_extraction_6.csv",
+      "hash_format": "bytes",
+      "sha256": "5a0fb659694a8f70faf6f4249aa1449a5eb0c2b27ac61c10e4dc792b2359e77a"
+    },
+    "code_connectivity": {
+      "path": "src/mofinder/curation/connectivity.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "3611ddfb8ac13113dd67d59a6e2e0e51d9ad9a747a81c98b224bfe89d26e0731"
+    },
+    "code_descriptions": {
+      "path": "src/mofinder/curation/descriptions.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "d26e6f219d5d13a2f9abcd810314f8821181fa8fc05e7e1e7b6b6fcc2404768d"
+    },
+    "code_features": {
+      "path": "src/mofinder/curation/features.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "5abdf8770d4162f98c9b54db836b9d0a1836feb34ce0b4432a107dbd26cff941"
+    },
+    "code_formula": {
+      "path": "src/mofinder/curation/formula.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "e3ff1e133c828b71e6358618a957925d9b9bfaab35aec522c71244f2fb43dc73"
+    },
+    "code_initial": {
+      "path": "src/mofinder/curation/initial.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "ff1c8bf0c6b5343cf0f1e8f58e3ad35388e611f330f0cffb5daf2848b21759be"
+    },
+    "code_linkers": {
+      "path": "src/mofinder/curation/linkers.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "63820f31618d7f7f7205acace9ec6df803e86e4a2e14560334d8e6a4d6e6fc6a"
+    },
+    "code_linker_primes": {
+      "path": "src/mofinder/curation/linker_primes.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "e7397ed4b4edc0137fb4313b143e85be8d82225d57aac6aa79e7085c8b2b5229"
+    },
+    "code_metals": {
+      "path": "src/mofinder/curation/metals.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "a330e48df2e243173a9cfebbc12e1bcca4b45c2d1974540df4dc9eb64353c169"
+    },
+    "code_pipeline": {
+      "path": "src/mofinder/curation/pipeline.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "fd771d864104498ae7563a6a302e033e2b418c4328efd2a2e8d220fe10c336c6"
+    },
+    "code_reporting": {
+      "path": "src/mofinder/curation/reporting.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "d36e4445a1b0f7c15b60e9d5fb9d316d9c88f9e06c4b19c9b7ce2d087f63678f"
+    },
+    "code_solvents": {
+      "path": "src/mofinder/curation/solvents.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "90055a46c186ac6b5722322f9f40a1ead93989d16a63672fe5adb5fc6aeffa0c"
+    },
+    "code_times": {
+      "path": "src/mofinder/curation/times.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "98f7d9ac8cab8d2983c11311e89ed79bd238f4a4c5aa3a266ba15801bf78c560"
+    },
+    "code___init__": {
+      "path": "src/mofinder/curation/__init__.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "27391d6304e9cf8c4a26b82d2cbc3c336f6312bc44f9893ea315c03a47df5d5b"
+    },
+    "code___main__": {
+      "path": "src/mofinder/curation/__main__.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "cedf0d7ee61e6af7217de991816e0b647f70e7272e0f62efb44e095ecead1e19"
+    },
+    "run_record_code": {
+      "path": "src/mofinder/demo_records.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "70f3826ec828b226a235df4ac5d38ef50f8e9da8e48d5652f5329cd5c3d10c3a"
+    }
+  },
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "file": "mof_extraction_6.csv",
+        "expected_rows": 146,
+        "actual_rows": 146,
+        "passed": true,
+        "expected_sha256": "5a0fb659694a8f70faf6f4249aa1449a5eb0c2b27ac61c10e4dc792b2359e77a",
+        "actual_sha256": "d46ac2f5083df1bee2720f8daa2260e9697887131ee15d41f08940e8f237928d",
+        "detail": "All columns, rows, and values match the expected table."
+      },
+      {
+        "file": "demo_summary.json",
+        "expected_rows": null,
+        "actual_rows": null,
+        "passed": true,
+        "expected_sha256": "d57b16b0cfe2f6b431ccb5b82a892cd6eac7172d9a8326778bf63fa20a61c7f8",
+        "actual_sha256": "fc865e366de8ab45ee8c19c34dae314e3d7489a08d4a0886720240c309d53ef8",
+        "detail": "All JSON values match the expected output."
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "outputs/cleaned_preview.csv",
+      "sha256": "b9b2735082a8f0fdd04c7a2884cc99ca061a8d41e2384c91f8b152a826992803",
+      "generated_sha256": "b9b2735082a8f0fdd04c7a2884cc99ca061a8d41e2384c91f8b152a826992803"
+    },
+    {
+      "path": "outputs/demo_summary.json",
+      "sha256": "fc865e366de8ab45ee8c19c34dae314e3d7489a08d4a0886720240c309d53ef8",
+      "generated_sha256": "fc865e366de8ab45ee8c19c34dae314e3d7489a08d4a0886720240c309d53ef8"
+    },
+    {
+      "path": "outputs/mof_extraction_1.csv",
+      "sha256": "323f1127b9d8a4787ed092592c2fd27ad9f44a0d9520f4d7a83b86989c945813",
+      "generated_sha256": "323f1127b9d8a4787ed092592c2fd27ad9f44a0d9520f4d7a83b86989c945813"
+    },
+    {
+      "path": "outputs/mof_extraction_2.csv",
+      "sha256": "4794bd74fc34b3465e7aab02797b792d3ffbb4351457de93b8405e90f0894e02",
+      "generated_sha256": "4794bd74fc34b3465e7aab02797b792d3ffbb4351457de93b8405e90f0894e02"
+    },
+    {
+      "path": "outputs/mof_extraction_3.csv",
+      "sha256": "e695b6027ce2dbd58a60bba97b2bdfaaf3724e6c23172336184515cd08487e6e",
+      "generated_sha256": "e695b6027ce2dbd58a60bba97b2bdfaaf3724e6c23172336184515cd08487e6e"
+    },
+    {
+      "path": "outputs/mof_extraction_4.csv",
+      "sha256": "22df368230e0074685668bdf0d1686d7b48371c8a4076eda800c17c3cae76ca4",
+      "generated_sha256": "22df368230e0074685668bdf0d1686d7b48371c8a4076eda800c17c3cae76ca4"
+    },
+    {
+      "path": "outputs/mof_extraction_5.csv",
+      "sha256": "86b39d91de1606e439d543e1e81aaeaa3b75d06270a73df73aab2fe1ab8bf385",
+      "generated_sha256": "86b39d91de1606e439d543e1e81aaeaa3b75d06270a73df73aab2fe1ab8bf385"
+    },
+    {
+      "path": "outputs/mof_extraction_6.csv",
+      "sha256": "d46ac2f5083df1bee2720f8daa2260e9697887131ee15d41f08940e8f237928d",
+      "generated_sha256": "d46ac2f5083df1bee2720f8daa2260e9697887131ee15d41f08940e8f237928d"
+    },
+    {
+      "path": "outputs/raw_preview.csv",
+      "sha256": "84a44383b5d2e31c373f918f9eb39814828e555e0842548b9e70d80f046e454e",
+      "generated_sha256": "84a44383b5d2e31c373f918f9eb39814828e555e0842548b9e70d80f046e454e"
+    }
+  ],
+  "log": "run.log"
+}

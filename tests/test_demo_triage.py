@@ -20,7 +20,7 @@ from mofinder.literature import triage
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "Demo/03_api_demo/api_demo.ipynb"
+NOTEBOOK = ROOT / "Demo/03_api_demo/mof_api_demo.ipynb"
 
 
 class DemoTriageTests(unittest.TestCase):
@@ -114,7 +114,7 @@ class DemoTriageTests(unittest.TestCase):
                         flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
 
     def test_cli_and_notebook_validate_the_same_four_abstracts(self):
-        runner = runpy.run_path(str(NOTEBOOK.parent / "run_demo.py"))
+        runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_demo.py"))
         output = io.StringIO()
         with redirect_stdout(output):
             self.assertEqual(runner["main"](["triage"]), 0)
@@ -132,7 +132,7 @@ class DemoTriageTests(unittest.TestCase):
         }
         with patch("runpy.run_path", return_value=runner) as load_runner:
             self.execute("mining-setup")
-        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "run_demo.py"))
+        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "mof_api_demo.py"))
         runner["validate_positive"].assert_called_once_with(NOTEBOOK.parent / "configs")
         self.execute("positive-api")
         self.execute("negative-api")
@@ -324,7 +324,7 @@ class DemoTriageTests(unittest.TestCase):
 
 class DemoMiningTests(unittest.TestCase):
     def setUp(self):
-        self.runner = runpy.run_path(str(NOTEBOOK.parent / "run_demo.py"))
+        self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_demo.py"))
         self.namespace = self.runner["run_negative"].__globals__
         self.folder_context = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder_context.cleanup)

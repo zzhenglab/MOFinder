@@ -1,0 +1,320 @@
+{
+  "counts_before_pn_enforcement": {
+    "train": {
+      "P": 112,
+      "N": 144
+    },
+    "holdout": {
+      "P": 12,
+      "N": 16
+    }
+  },
+  "balance": {
+    "exact_ratio_units": {
+      "P": 3,
+      "N": 4
+    },
+    "rows_removed_from_train_for_exact_ratio": 4,
+    "rows_removed_from_holdout_for_exact_ratio": 0
+  },
+  "forced_holdout": {
+    "questions": [],
+    "rows_matching_forced_questions": 0,
+    "questions_not_found_after_filters": []
+  },
+  "config": {
+    "rng_seed": 42,
+    "holdout_frac": 0.1,
+    "holdout_cluster_frac": 0.1,
+    "pn_mode": "equal",
+    "raw_pn_relative_tolerance": null,
+    "holdout_search_trials": 64,
+    "holdout_search_swaps": 1200,
+    "cluster_metal_mode": "precursor",
+    "cluster_definition": "primary metal + all linkers + all solvents",
+    "drop_input_label_conflicts": true,
+    "dedup_exact_input_within_label": true
+  },
+  "counts": {
+    "input_rows_total": 321,
+    "rows_after_required_field_checks": 321,
+    "rows_skipped_required": 0,
+    "rows_with_conflicting_input_labels": 10,
+    "rows_after_conflict_filter": 316,
+    "rows_deduped_exact_input_within_label": 32,
+    "rows_final": 280,
+    "rows_with_publication_year_final": 280,
+    "train_rows": 252,
+    "holdout_rows": 28,
+    "train_missing_publication_year_rows": 0,
+    "holdout_missing_publication_year_rows": 0
+  },
+  "labels": {
+    "input": {
+      "P": 146,
+      "N": 175
+    },
+    "after_required_field_checks": {
+      "P": 146,
+      "N": 175
+    },
+    "after_conflict_filter": {
+      "P": 146,
+      "N": 170
+    },
+    "after_all_drops": {
+      "P": 120,
+      "N": 160
+    },
+    "train": {
+      "P": 108,
+      "N": 144
+    },
+    "holdout": {
+      "P": 12,
+      "N": 16
+    }
+  },
+  "clusters": {
+    "unique_clusters_final": 145,
+    "holdout_clusters": 15,
+    "train_clusters": 130
+  },
+  "outputs": {
+    "train": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_ft_train.jsonl",
+    "holdout": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_ft_holdout.jsonl",
+    "class_map": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_ft_class_map.json",
+    "year_outputs": [
+      {
+        "type": "single_bin",
+        "bin": 1,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2000to2010.jsonl",
+        "start_year": 2000,
+        "end_year": 2010,
+        "rows": 61,
+        "labels": {
+          "P": 23,
+          "N": 38
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 2,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2012to2014.jsonl",
+        "start_year": 2012,
+        "end_year": 2014,
+        "rows": 70,
+        "labels": {
+          "P": 23,
+          "N": 47
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 3,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2015to2018.jsonl",
+        "start_year": 2015,
+        "end_year": 2018,
+        "rows": 53,
+        "labels": {
+          "P": 27,
+          "N": 26
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 4,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2019to2025.jsonl",
+        "start_year": 2019,
+        "end_year": 2025,
+        "rows": 68,
+        "labels": {
+          "P": 35,
+          "N": 33
+        }
+      },
+      {
+        "type": "cumulative_1to2",
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2000to2014.jsonl",
+        "start_year": 2000,
+        "end_year": 2014,
+        "rows": 131,
+        "labels": {
+          "P": 46,
+          "N": 85
+        }
+      },
+      {
+        "type": "cumulative_1to3",
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_2000to2018.jsonl",
+        "start_year": 2000,
+        "end_year": 2018,
+        "rows": 184,
+        "labels": {
+          "P": 73,
+          "N": 111
+        }
+      }
+    ],
+    "year_outputs_5periods": [
+      {
+        "type": "single_bin",
+        "bin": 1,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2000to2009.jsonl",
+        "start_year": 2000,
+        "end_year": 2009,
+        "rows": 54,
+        "labels": {
+          "P": 22,
+          "N": 32
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 2,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2010to2012.jsonl",
+        "start_year": 2010,
+        "end_year": 2012,
+        "rows": 49,
+        "labels": {
+          "P": 10,
+          "N": 39
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 3,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2013to2015.jsonl",
+        "start_year": 2013,
+        "end_year": 2015,
+        "rows": 46,
+        "labels": {
+          "P": 19,
+          "N": 27
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 4,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2016to2019.jsonl",
+        "start_year": 2016,
+        "end_year": 2019,
+        "rows": 61,
+        "labels": {
+          "P": 33,
+          "N": 28
+        }
+      },
+      {
+        "type": "single_bin",
+        "bin": 5,
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2020to2025.jsonl",
+        "start_year": 2020,
+        "end_year": 2025,
+        "rows": 42,
+        "labels": {
+          "P": 24,
+          "N": 18
+        }
+      },
+      {
+        "type": "cumulative_1to2",
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2000to2012.jsonl",
+        "start_year": 2000,
+        "end_year": 2012,
+        "rows": 103,
+        "labels": {
+          "P": 32,
+          "N": 71
+        }
+      },
+      {
+        "type": "cumulative_1to3",
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2000to2015.jsonl",
+        "start_year": 2000,
+        "end_year": 2015,
+        "rows": 149,
+        "labels": {
+          "P": 51,
+          "N": 98
+        }
+      },
+      {
+        "type": "cumulative_1to4",
+        "path": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_cls_train_5periods_2000to2019.jsonl",
+        "start_year": 2000,
+        "end_year": 2019,
+        "rows": 210,
+        "labels": {
+          "P": 84,
+          "N": 126
+        }
+      }
+    ],
+    "split_assignments": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs\\mof_ft_split_assignments.csv"
+  },
+  "provenance": {
+    "notes": {
+      "positive": "Processed positive output from the companion cleaning demo.",
+      "negative": "Curated negative records from the selected publications."
+    },
+    "files": {
+      "positive_csv": {
+        "path": "MOFinder\\Demo\\02_json_preparation\\input\\positive_cleaned.csv",
+        "sha256": "5a0fb659694a8f70faf6f4249aa1449a5eb0c2b27ac61c10e4dc792b2359e77a"
+      },
+      "negative_csv": {
+        "path": "MOFinder\\Demo\\02_json_preparation\\input\\negative_cleaned.csv",
+        "sha256": "8227b2fa97c3da7fe168ed0af941d5ef131237901ba9e64cec009925edf89fec"
+      },
+      "metadata_file": {
+        "path": "MOFinder\\Demo\\02_json_preparation\\input\\publication_years.csv",
+        "sha256": "0859868a3baf40e12afddce02471132cd39599436be1134676be4477e51beb63"
+      },
+      "prompt_file": {
+        "path": "MOFinder\\prompts\\training\\reaction_prediction.txt",
+        "sha256": "26dec7168e91ad13cb39dfb5e9782ac26f5b8fc0bcfc9e19fd239c8c61c435e6"
+      },
+      "forced_questions_file": {
+        "path": "MOFinder\\Demo\\02_json_preparation\\input\\forced_questions.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "config_file": {
+        "path": "MOFinder\\Demo\\02_json_preparation\\config.json",
+        "sha256": "d3b16bdea44a30d8963fb2d5b4bd9682a03788e13b0cc96351f2a01f3fecdc0e"
+      }
+    },
+    "versions": {
+      "pandas": "3.0.3",
+      "numpy": "2.4.6"
+    },
+    "effective_settings": {
+      "project_root": "MOFinder\\Demo\\02_json_preparation",
+      "positive_csv": "MOFinder\\Demo\\02_json_preparation\\input\\positive_cleaned.csv",
+      "negative_csv": "MOFinder\\Demo\\02_json_preparation\\input\\negative_cleaned.csv",
+      "metadata_file": "MOFinder\\Demo\\02_json_preparation\\input\\publication_years.csv",
+      "output_dir": "MOFinder\\Demo\\02_json_preparation\\run_history\\20260925T184737.788901Z_7274c08c\\outputs",
+      "prompt_file": "MOFinder\\prompts\\training\\reaction_prediction.txt",
+      "forced_questions_file": "MOFinder\\Demo\\02_json_preparation\\input\\forced_questions.json",
+      "rng_seed": 42,
+      "holdout_frac": 0.1,
+      "holdout_cluster_frac": 0.1,
+      "pn_mode": "equal",
+      "raw_pn_relative_tolerance": 0.1,
+      "cluster_metal_mode": "precursor",
+      "include_modulator_in_cluster": false,
+      "year_bins": 4,
+      "year_bins_5": 5,
+      "drop_input_label_conflicts": true,
+      "dedup_exact_input_within_label": true,
+      "shuffle_output": true,
+      "holdout_search_trials": 64,
+      "holdout_search_swaps": 1200,
+      "input_provenance": {
+        "positive": "Processed positive output from the companion cleaning demo.",
+        "negative": "Curated negative records from the selected publications."
+      },
+      "config_file": "MOFinder\\Demo\\02_json_preparation\\config.json"
+    }
+  }
+}

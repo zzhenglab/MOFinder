@@ -35,7 +35,7 @@ python -m mofinder.evaluation.quest validate
 python -m mofinder.evaluation.quest validate --group latest_fine_tuned
 ```
 
-Provide `OPENAI_API_KEY` in the environment, or use the hidden key prompt in `notebooks/08_quest_evaluation.ipynb`. The notebook starts with `RUN_EVALUATION = False`.
+The implementation is in [evaluation/quest.py](../src/mofinder/evaluation/quest.py). Provide `OPENAI_API_KEY` in the environment before running. For a small live test, set the selected group's `rounds` to `1` in the configuration; the default is 20 rounds.
 
 ```bash
 python -m mofinder.evaluation.quest run --group latest_fine_tuned

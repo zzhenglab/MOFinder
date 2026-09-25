@@ -1,6 +1,6 @@
 # Synthesis record curation
 
-The curation package normalizes positive synthesis records and enumerated negative records through separate cleaning branches. Each branch applies chemical mappings, record filters, amount conversions, and derived descriptions. The notebook in `notebooks/05_data_curation.ipynb` calls the same Python functions.
+The curation package normalizes positive synthesis records and enumerated negative records through separate cleaning branches. Each branch applies chemical mappings, record filters, amount conversions, and derived descriptions. The sequence is implemented in [curation/pipeline.py](../src/mofinder/curation/pipeline.py); [the cleaning demo](../Demo/01_data_cleaning/README.md) provides a small run with expected-output checks.
 
 ## Inputs
 
@@ -26,17 +26,16 @@ python -m mofinder.curation validate-inputs --config configs/curation.json
 python -m mofinder.curation run --config configs/curation.json --mode both
 ```
 
-Validation is read-only and exits with status 1 when inputs are missing or invalid. Run one branch with `--mode positive` or `--mode negative`. Run one operation with `--stage initial`, `metals`, `linkers`, `solvents`, `features`, `connectivity`, `descriptions`, or `trimming`. Trimming applies only to the positive branch.
+Validation is read-only and exits with status 1 when inputs are missing or invalid. Run one branch with `--mode positive` or `--mode negative`. Run one operation with `--stage initial`, `metals`, `linkers`, `solvents`, `features`, `connectivity`, or `descriptions`.
 
 ```bash
 python -m mofinder.curation run --mode positive --stage linkers
-python -m mofinder.curation run --mode positive --no-trim
 python -m mofinder.curation report --mode positive
 ```
 
 Each operation reads the preceding stage's configured output. It does not search the working directory for a newer or similarly named CSV. The `connectivity` operation updates the stage-5 intermediate file, matching the original sequence. Other operations write distinct CSVs; extraction inputs remain unchanged. If an intermediate stage removes every record, the pipeline saves that stage's empty table and stops with a message identifying the stage.
 
-Text reports are saved under each branch's `reports/` directory. `--no-reports` suppresses them. `--plots` additionally saves initial-stage histograms as PNGs; plotting requires the `plotting` extra and does not open a window. The standalone report produces summary counts and metal-linker coverage CSVs from the untrimmed stage-6 table, as in the positive notebook. The same reporting function can also describe the negative table.
+Text reports are saved under each branch's `reports/` directory. `--no-reports` suppresses them. `--plots` additionally saves initial-stage histograms as PNGs; plotting requires the `plotting` extra and does not open a window. The standalone report produces summary counts and metal-linker coverage CSVs from the completed description table. The same reporting function can also describe the negative table.
 
 ## Operations and outputs
 
@@ -47,17 +46,16 @@ Stage outputs and the bundled processed CSVs use UTF-8 with a byte-order mark (`
 | Operation | Suffix | Behavior |
 | --- | --- | --- |
 | `initial` | `_1.csv` | PDF availability and flag filters, required fields, linker aliases, temperature and time handling, precursor cleanup, topology and pore fields |
-| `metals` | `_1_2.csv` | Precursor formulas and hydrates, amount-text parsing, molar conversions, precursor and unit filters |
-| `linkers` | `_1_2_3.csv` | Branch-specific aliases, shorthand exclusions, linker MW conversion, retained mmol/equivalent units |
-| `solvents` | `_1_2_3_4.csv` | Solvent names and abbreviations, mixture/volume inference, supported mass-to-volume conversions |
-| `features` | `_1_2_3_4_5.csv` | Metal:linker ratio and integer metal concentration in mM |
-| `connectivity` | Updates `_1_2_3_4_5.csv` | Classified connectivity next to the original text |
-| `descriptions` | `_1_2_3_4_5_6.csv` | MOF description and derived metal information |
-| `trimming` | `_1_2_3_4_5_6_7.csv`, positive only | DOI-level selection for papers without reported trials/failures |
+| `metals` | `_2.csv` | Precursor formulas and hydrates, amount-text parsing, molar conversions, precursor and unit filters |
+| `linkers` | `_3.csv` | Branch-specific aliases, shorthand exclusions, linker MW conversion, retained mmol/equivalent units |
+| `solvents` | `_4.csv` | Solvent names and abbreviations, mixture/volume inference, supported mass-to-volume conversions |
+| `features` | `_5.csv` | Metal:linker ratio and integer metal concentration in mM |
+| `connectivity` | Updates `_5.csv` | Classified connectivity next to the original text |
+| `descriptions` | `_6.csv` | MOF description and derived metal information |
 
 The original `metel_concnertation` spelling remains part of the CSV schema because dataset preparation consumes that column. Concentration uses the primary metal amount in mmol and the main-solvent volume in mL, multiplied by 1000 and rounded to an integer. The ratio uses the primary metal and linker values when the reported reagent units satisfy the original mmol checks; an explicit `1:1` amount-text fallback is retained.
 
-Each completed branch writes `curation_manifest.json` with input and lookup SHA-256 hashes, stage paths, row counts, and trimming settings.
+Each completed branch writes `curation_manifest.json` with input and lookup SHA-256 hashes, operation paths and row counts.
 
 ## Reaction-time text
 
@@ -88,7 +86,6 @@ Ranges accept hyphens, en dashes, em dashes, and `to`; the upper duration is use
 | Linker aliases | Larger manual map | Smaller manual map |
 | Description connectivity | Classified connectivity | Original connectivity text |
 | Description metal parsing | Full metal names before formula tokens; abbreviation fallback | Formula tokens before metal-name lookup |
-| Final trimming | Available after stage 6 | Not applied |
 
 The two branches retain these distinct rules. In both branches, `h3btb` and `H3BTB` now map to `1,3,5-Tris(4-carboxyphenyl)benzene`. The initial normalization and linker-stage normalization use this corrected identity. Case-insensitive lookup resolves the lookup value of 438.4 g/mol. The run manifest records `linker_alias_revision: h3btb-tris-carboxyphenyl-benzene-v1`.
 
@@ -102,18 +99,19 @@ The Python mass parser corrects two related formula parsing errors found in the 
 
 For example, using the source atomic weights, `Zn(NO3)2·6H2O` has a calculated molecular weight of 297.4762 g/mol; the notebook parser returned 217.4812 g/mol because it did not multiply the hydrate oxygen. Newly regenerated metal amounts, derived ratios, and concentrations can therefore differ for affected mass-based records. Already reported mol/mmol amounts are unaffected by this formula-mass correction. The bundled processed CSVs are not rewritten. The run manifest records `mass_parser: whole-fragment-coefficients-v2` to distinguish regenerated results.
 
-## Positive trimming and dataset preparation
+## Prepare final JSONL
 
-Trimming considers only papers whose rows all have `article_trial_or_failure=no`. Papers with any `yes` row, including mixed-flag papers, remain unchanged. DOI strings are normalized for grouping while the output values and row order are preserved.
+After curation, `configs/dataset_preparation_from_curation.json` reads the completed positive and negative description tables. Validate them and prepare the training/holdout files with:
 
-1. Keep papers with recognized vessel signals in strictly more than half their rows.
-2. Remove the ten remaining papers with the most rows, by default.
-3. Remove rows at or below the tenth-percentile numeric yield. The inclusive cutoff removes all ties. Missing or unparseable yields remain.
+```bash
+python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_from_curation.json
+python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
+```
 
-`top_n` and `yield_bottom_frac` are configurable. Stage 6 and stage 7 are both retained. After curation, `configs/dataset_preparation_from_curation.json` reads the untrimmed positive **stage 6** table and the negative stage 6 table. Selecting stage 7 for training requires an explicit change to that dataset input. The default `configs/dataset_preparation.json` reads the bundled `processed_positive.csv` and `processed_negative.csv` in `data/processed_data/`; it can run without repeating curation.
+The default `configs/dataset_preparation.json` instead reads the bundled `processed_positive.csv` and `processed_negative.csv` in `data/processed_data/` and can run without repeating curation. See [dataset preparation](datasets.md) for split settings and the expected bundled-data counts.
 
 ## Verification
 
 An earlier offline comparison ran the original notebook operations and the Python functions on the same 52-row controlled fixture for each branch. All 15 corresponding intermediate/final and positive coverage-report CSVs were byte-identical. The fixture covered missing PDF paths, invalid flags, temperature exclusions, linker aliases and units, precursor forms, solvent amounts, pore outliers, connectivity, and topology codes. This comparison predates the formula, alias, and time changes described above.
 
-The curation tests check branch-specific rules, anhydrous and hydrated precursor mass conversion, fractional hydrates and bracketed formulas, linker mass/molar/equivalent units, solvent density conversion, ratio/concentration units, descriptions, DOI protection, strict vessel majorities, inclusive yield ties, explicit paths, and lookup validation. They also check both routes through the corrected `h3btb` mapping, case-insensitive resolution against the reference lookup, and handling of unresolved molecular weights. Time tests cover the supported phrase conventions, numeric-value precedence, and both cleaning branches. The unchanged-rule comparison is separate from the documented formula, alias, and time changes. Corrected element counts and molar masses are checked against explicit stoichiometry using the original atomic-weight table.
+The curation tests check branch-specific rules, anhydrous and hydrated precursor mass conversion, fractional hydrates and bracketed formulas, linker mass/molar/equivalent units, solvent density conversion, ratio/concentration units, descriptions, explicit paths, and lookup validation. They also check both routes through the corrected `h3btb` mapping, case-insensitive resolution against the reference lookup, and handling of unresolved molecular weights. Time tests cover the supported phrase conventions, numeric-value precedence, and both cleaning branches. The unchanged-rule comparison is separate from the documented formula, alias, and time changes. Corrected element counts and molar masses are checked against explicit stoichiometry using the original atomic-weight table.

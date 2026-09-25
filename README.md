@@ -6,7 +6,7 @@ MOFinder extracts MOF synthesis information from the literature, reconstructs ev
   <img src="data/mofinder.png" alt="MOFinder web application" width="750">
 </p>
 
-[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demo](Demo/README.md) · [Triage workflow](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Mining and datasets](docs/workflow.md) · [Evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
+[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demo](Demo/README.md) · [Source code](docs/source_to_code.md) · [Triage workflow](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Mining and datasets](docs/workflow.md) · [Evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
 
 ## Quick start
 
@@ -21,13 +21,13 @@ Start with the two offline demonstrations:
 
 ```bash
 python -m pip install -e ".[curation,datasets]"
-python Demo/01_data_cleaning/run_demo.py --check
-python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
+python Demo/01_data_cleaning/mof_cleaning_demo.py --check
+python Demo/02_json_preparation/mof_json_preparation_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_6.csv --check
 ```
 
 These regenerate cleaned synthesis records and prepare grouped training/holdout JSONL. `--check` compares the files with the bundled expected outputs. Abstract triage and data mining are grouped under [`Demo/03_api_demo/`](Demo/03_api_demo/README.md).
 
-To try abstract triage and data mining, install `.[mining,notebook]` and open the [API demo](Demo/03_api_demo/api_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive and negative mining stages for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_demo/README.md).
+To try abstract triage and data mining, install `.[mining,notebook]` and open the [API demo](Demo/03_api_demo/mof_api_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive and negative mining stages for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_demo/README.md).
 
 Install the API and plotting dependencies, then validate the full triage inputs:
 
@@ -48,17 +48,21 @@ Analyze that saved run locally:
 python -m mofinder.literature.triage analyze --run-dir results/abstract_triage/benchmark_run --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
-The [optional notebook](notebooks/01_abstract_triage.ipynb) calls the same Python functions to walk through screening and inspect results. See [installation](docs/installation.md) and [triage](docs/triage.md) for credentials, resuming interrupted runs, and analysis options. Live screening requires API access; validation, saved-run analysis, and human-agreement calculations do not.
+See [installation](docs/installation.md) and [triage](docs/triage.md) for credentials, resuming interrupted runs, and analysis options. Live screening requires API access; validation, saved-run analysis, and human-agreement calculations do not.
+
+## Source code
+
+The current implementation is in [`src/mofinder/`](src/mofinder/). [Source code and workflow guides](docs/source_to_code.md) pairs each task with its Python file and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, cleaning, assembly, evaluation, and plotting code.
 
 ## Development status
 
-The core workflow and reaction evaluation routines are implemented in Python. Short notebooks call those modules. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive and negative extraction-evaluation workflows are pending.
+The core workflow and reaction evaluation routines are implemented in [Python source modules](src/mofinder/), with commands and explanations in the [workflow guides](docs/source_to_code.md). Demo notebooks retain executable examples and saved displays. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive and negative extraction-evaluation workflows are pending.
 
 | Component | Completed | Next work |
 | --- | --- | --- |
 | Repository structure | Python package, configurations, prompts, benchmarks, guides, examples, and tests | Complete paper-associated release metadata |
 | Demonstrations | Offline raw-data cleaning and JSON preparation with expected outputs; API examples for triage and positive/negative mining | Check the live examples with the configured model access |
-| Abstract triage | Python screening, saved-run analysis, plotting, and command-line entry points; optional notebook; preserved prompt and model settings | Add complete saved prediction runs and verify live configurations |
+| Abstract triage | Python screening, saved-run analysis, plotting, and command-line entry points; preserved prompt and model settings | Add complete saved prediction runs and verify live configurations |
 | Human reference | 478-paper workbook included unchanged; 293 Y and 185 N labels | Archive the model comparisons associated with this reference |
 | Bibliographic input | Six-field export of 13,773 records; all 478 reference abstracts present | Reconcile three conflicting duplicate DOI groups before whole-corpus screening |
 | Offline validation | Input checks, human-agreement calculations, examples, and regression tests | Run Windows/Linux CI on the release commit and verify packaged commands with live model access |
@@ -82,13 +86,12 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Check installation and example inputs | [Offline input check](Demo/03_api_demo/README.md#install-and-check-the-inputs) |
 | Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
 | Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
-| Explore the same workflow interactively | [Triage walkthrough](notebooks/01_abstract_triage.ipynb) |
 | Inspect human annotations | [Abstract triage benchmark](benchmarks/abstract_triage/README.md) |
 | Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Mining workflow](docs/workflow.md) |
 | Clean records and prepare training/holdout JSONL | [Curation](docs/curation.md) and [datasets](docs/datasets.md) |
 | Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_demo/literature_input/README.md) |
-| Locate notebook operations in the Python implementation | [Source-to-code guide](docs/source_to_code.md) |
+| Read the Python implementation and its instructions | [Source code and workflow guides](docs/source_to_code.md) |
 | Inspect processed positive/negative records and publication metadata | [Processed data](data/processed_data/README.md) |
 | Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
@@ -97,7 +100,7 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
 | Inspect data identities and transformations | [Data manifest](data/manifest.json) |
 | Locate analyses supporting paper results | [Analysis and publication mapping](docs/figure_table_map.md) |
-| Find the earlier extraction and modeling scripts | [Historical workflow and archived files](docs/legacy_workflow.md) |
+| Find the earlier extraction and modeling scripts | [Original research scripts](docs/legacy_workflow.md) |
 
 ## Repository layout
 
@@ -111,7 +114,6 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `src/mofinder/training/` | Single-dataset training input preparation and HPC fine-tuning |
 | `src/mofinder/evaluation/` | Triage statistics, reaction holdout/model evaluation, and human benchmark analysis |
 | `src/mofinder/plotting/` | Triage figures and associated source tables |
-| `notebooks/` | Short walkthroughs that call the Python implementation |
 | `configs/` and `prompts/` | Named settings and prompt text |
 | `data/paper_processing_assets/` | Browser image templates with neutral publisher identifiers |
 | `data/` | Input manifests, metadata, organic linker information, dataset snapshots, and split records |
@@ -127,7 +129,7 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `docs/environments/` | Recorded dependency environment |
 | `tests/` | Automated checks of workflows, splitting, and data integrity, run by GitHub Actions |
 
-Python modules contain the reusable implementation and support terminal or HPC execution. The notebooks provide short interactive walkthroughs with input instructions and calls to those same functions. Each offline demo also has a Python runner. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
+Python modules contain the reusable implementation and support terminal or HPC execution. Markdown guides explain their inputs, commands, and outputs; [the source code map](docs/source_to_code.md) links each guide directly to its implementation and the original research scripts. Interactive examples and saved run displays live together under `Demo/`, alongside Python runners. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
 
 ## Data and reproducibility
 

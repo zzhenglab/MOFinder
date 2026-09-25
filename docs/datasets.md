@@ -10,7 +10,7 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 `validate` reads inputs and reports missing files, column requirements, and input provenance without creating outputs. `prepare` runs the configured split and writes to `results/datasets/conditions`. Use `--output-dir` to select another run directory. Each run should have its own directory so files from an earlier year-bin configuration cannot be mistaken for current outputs.
 
-The notebook [06_dataset_preparation.ipynb](../notebooks/06_dataset_preparation.ipynb) calls the same functions. Execution of preparation is disabled initially with `RUN_PREPARATION = False`.
+The implementation is in [datasets/prepare.py](../src/mofinder/datasets/prepare.py). For a small example with expected outputs, use [the JSON preparation demo](../Demo/02_json_preparation/README.md).
 
 ## Input selection
 
@@ -31,7 +31,7 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
 ```
 
-This reads the positive and negative description-stage CSVs under `results/curation/` and writes a separate run to `results/datasets/curated_conditions/`. The untrimmed positive output is selected; optional positive trimming is not applied automatically.
+This reads the positive and negative description-stage CSVs under `results/curation/` and writes a separate run to `results/datasets/curated_conditions/`.
 
 For the source-confirmed linker corrections, use `configs/dataset_preparation_corrected.json`. It reads `data/processed_data/linker_corrected/processed_negative.csv` with the same processed positive table and writes to `results/datasets/corrected_conditions/`. Linker corrections change cluster identities, so this version calculates new assignments.
 

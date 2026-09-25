@@ -103,7 +103,7 @@
   ],
   "workflow_source": {
     "sha256": "aeb92f27e5a4ec9c133ed299fc52996558c10f1f4ca05cccb25ac94ccc32ae76",
-    "integrated_notebook": "notebooks/01_abstract_triage.ipynb",
+    "integrated_module": "src/mofinder/literature/triage.py",
     "source_id": "abstract_triage_source",
     "source_description": "Consolidated abstract triage notebook"
   },

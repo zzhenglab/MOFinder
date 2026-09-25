@@ -1,4 +1,4 @@
-"""Chemical conversion, branch-specific filtering, and protected-record checks."""
+"""Chemical conversion, branch-specific filtering, and processed-record checks."""
 from contextlib import redirect_stdout
 import importlib.util
 from io import StringIO
@@ -15,9 +15,9 @@ class CurationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         import pandas as pd
-        from mofinder.curation import initial, metals, linkers, solvents, features, descriptions, trimming
+        from mofinder.curation import initial, metals, linkers, solvents, features, descriptions
         cls.pd = pd
-        cls.modules = dict(initial=initial, metals=metals, linkers=linkers, solvents=solvents, features=features, descriptions=descriptions, trimming=trimming)
+        cls.modules = dict(initial=initial, metals=metals, linkers=linkers, solvents=solvents, features=features, descriptions=descriptions)
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -50,8 +50,7 @@ class CurationTests(unittest.TestCase):
     def settings(self):
         return {"linker_mw_csv": self.lookup,
                 "positive": {"input_csv": self.root / "input.csv", "output_dir": self.root / "positive"},
-                "negative": {"input_csv": self.root / "input.csv", "output_dir": self.root / "negative"},
-                "trimming": {"top_n": 10, "yield_bottom_frac": 0.1}}
+                "negative": {"input_csv": self.root / "input.csv", "output_dir": self.root / "negative"}}
 
     def test_initial_retains_distinct_slow_cooling_rules_and_row_alignment(self):
         rows = [self.row(row_id="missing", main_pdf=""), self.row(row_id="slow", temperature_c_text="slow cooling"), self.row(row_id="ordinary")]
@@ -244,26 +243,17 @@ class CurationTests(unittest.TestCase):
         self.assertIn("tetrahedral Zn4O core", negative)
         self.assertNotIn("tetrahedral Zn4O core", positive)
 
-    def test_trimming_protects_yes_and_mixed_dois_and_preserves_order(self):
-        raw = self.pd.DataFrame([
-            self.row(doi="10.1234/mixed", article_trial_or_failure="no", vessel_type="", row_id="mixed_no"),
-            self.row(doi="10.1234/pure", article_trial_or_failure="no", vessel_type="", row_id="drop"),
-            self.row(doi="https://doi.org/10.1234/mixed", article_trial_or_failure="yes", vessel_type="", row_id="yes"),
-        ])
-        result = self.modules["trimming"].apply_p_trimming(raw, top_n=0, verbose=False)
-        self.assertEqual(result.row_id.tolist(), ["mixed_no", "yes"])
-        self.pd.testing.assert_frame_equal(result, raw.iloc[[0, 2]])
-
-    def test_trimming_vessel_majority_is_strict_and_yield_cut_includes_ties(self):
-        rows = [self.row(doi="10.1234/half", article_trial_or_failure="no", vessel_type=v, row_id=f"half{i}") for i, v in enumerate(("vial", ""))]
-        rows += [self.row(doi=f"10.1234/p{i}", article_trial_or_failure="no", row_id=f"p{i}", yield_percent=value) for i, value in enumerate(("10", "10", "20", "unknown"))]
-        result = self.modules["trimming"].apply_p_trimming(self.pd.DataFrame(rows), top_n=0, verbose=False)
-        self.assertEqual(result.row_id.tolist(), ["p2", "p3"])
-
-    def test_trimming_rejects_unusable_doi_and_invalid_flags(self):
-        for changes in ({"doi": "unknown"}, {"article_trial_or_failure": "unknown"}):
-            with self.assertRaises(ValueError):
-                self.modules["trimming"].apply_p_trimming(self.pd.DataFrame([self.row(**changes)]), verbose=False)
+    def test_positive_pipeline_preserves_low_yield_and_missing_vessel_records(self):
+        rows = [
+            self.row(doi="10.1234/low", article_trial_or_failure="no", yield_percent="1", row_id="low_yield"),
+            self.row(doi="10.1234/vessel", article_trial_or_failure="no", vessel_type="", row_id="missing_vessel"),
+            self.row(doi="10.1234/yes", row_id="yes"),
+        ]
+        self.pd.DataFrame(rows).to_csv(self.root / "input.csv", index=False)
+        result = run_pipeline(self.settings(), mode="positive", reports=False)
+        frame = self.pd.read_csv(result["positive"]["output_csv"], dtype=str, keep_default_na=False)
+        self.assertEqual(frame.row_id.tolist(), ["low_yield", "missing_vessel", "yes"])
+        self.assertTrue(frame.mof_description.str.len().gt(0).all())
 
     def test_validation_requires_explicit_well_formed_mw_and_does_not_write(self):
         self.pd.DataFrame([self.row()]).to_csv(self.root / "input.csv", index=False)
@@ -277,7 +267,7 @@ class CurationTests(unittest.TestCase):
         self.lookup.write_text("linker_name,mw\nterephthalic acid,0\n")
         self.assertFalse(validate_inputs(settings)["valid"])
 
-    def test_full_pipeline_keeps_source_and_writes_both_stage6_and_optional_stage7(self):
+    def test_full_pipeline_keeps_source_and_finishes_both_branches_with_descriptions(self):
         source = self.root / "input.csv"
         source_note = "Cu(NO3)2·1H2O; 25 °C; μmol; source notation ??"
         self.pd.DataFrame([self.row(time_h="", time_text="24–48 h", article_trial_or_failure_notes=source_note),
@@ -285,16 +275,22 @@ class CurationTests(unittest.TestCase):
         original = source.read_bytes()
         result = run_pipeline(self.settings(), reports=False)
         self.assertEqual(source.read_bytes(), original)
-        self.assertTrue(result["positive"]["output_csv"].endswith("_6_7.csv"))
-        self.assertTrue(result["negative"]["output_csv"].endswith("_5_6.csv"))
-        self.assertTrue((self.root / "positive/mof_extraction_1_2_3_4_5_6.csv").exists())
+        self.assertTrue(result["positive"]["output_csv"].endswith("mof_extraction_6.csv"))
+        self.assertTrue(result["negative"]["output_csv"].endswith("mof_extraction_failures_enum_6.csv"))
         positive = self.pd.read_csv(result["positive"]["output_csv"], dtype=str, keep_default_na=False)
         self.assertEqual(positive.linker_1_amount_value.tolist(), ["0.1", "0.1"])
         self.assertEqual(positive.metel_concnertation.tolist(), ["10", "10"])
         self.assertEqual(positive.time_h.tolist(), ["48", "24"])
         negative = self.pd.read_csv(result["negative"]["output_csv"], dtype=str, keep_default_na=False)
         self.assertEqual(negative.time_h.tolist(), ["48", "24"])
+        for frame in (positive, negative):
+            self.assertTrue(frame.mof_description.str.len().gt(0).all())
         for branch in result.values():
+            self.assertEqual([stage["stage"] for stage in branch["stages"]],
+                             ["initial", "metals", "linkers", "solvents", "features", "connectivity", "descriptions"])
+            self.assertEqual(branch["output_csv"], branch["stages"][-1]["output_csv"])
+            manifest = Path(branch["output_csv"]).parent / "curation_manifest.json"
+            self.assertEqual(json.loads(manifest.read_text(encoding="utf-8")), branch)
             for stage in branch["stages"]:
                 output = Path(stage["output_csv"])
                 self.assertTrue(output.read_bytes().startswith(b"\xef\xbb\xbf"), output)

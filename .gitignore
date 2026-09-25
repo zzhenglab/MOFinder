@@ -11,12 +11,14 @@ dist/
 Demo/out/
 Demo/*_executed.ipynb
 Demo/**/outputs/
+!Demo/**/saved_run/outputs/
+!Demo/**/saved_run/outputs/**
+Demo/**/run_history/
 Demo/**/*_executed.ipynb
 demo/out/
 demo/*_executed.ipynb
 /results/
 data/local/
 configs/local/
-notebooks/triage_results/
 downloaded/
 SI downloaded/

@@ -28,6 +28,6 @@ New holdout and question-panel requests now accept only a standalone `P` or `N` 
 
 ## Execution boundary
 
-The source API parameters and fine-tuned model identifiers are preserved; access and live behavior still require an account-specific run. Notebook API prompts are disabled unless their live execution switch is enabled. GitHub Actions is configured for offline tests and notebook execution, but the validation reported here was performed locally.
+The source API parameters and fine-tuned model identifiers are preserved; access and live behavior still require an account-specific run. At this checkpoint, notebook API prompts required their live execution switch, and GitHub Actions was configured for offline tests and notebook execution. The validation reported here was performed locally; current commands and demo checks are listed in [the pre-upload checklist](preupload_checklist.md).
 
 The separate positive/negative evaluation workflows await their source code and ground-truth files.

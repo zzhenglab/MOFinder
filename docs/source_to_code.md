@@ -1,37 +1,47 @@
-# Notebook and Python code map
+# Source code and workflow guides
 
-The notebooks call the Python implementation in `src/mofinder/`. The command-line workflows and demonstrations use the same functions. Prompts, model settings, file locations, and benchmark records are stored separately so they can be inspected without searching through notebook cells.
+The working Python implementation is in [`src/mofinder/`](../src/mofinder/). Each guide below explains its inputs, commands, expected outputs, and saved records. Run commands from the repository root after [installation](installation.md). Interactive examples with saved output and verification live under [`Demo/`](../Demo/README.md).
 
-Cell numbers below are zero-based positions in the source notebooks, including Markdown cells. They are not Jupyter execution counts.
+## Current implementation
 
-| Source workflow and cells | Current notebook or entry point | Python implementation |
+| Task | Python source | Markdown instructions |
 | --- | --- | --- |
-| Abstract triage: cells 2, 4, 6–10 | [01_abstract_triage.ipynb](../notebooks/01_abstract_triage.ipynb) | [literature/triage.py](../src/mofinder/literature/triage.py): `validate_inputs`, `classify_one`, `prepare_screening`, `screen_all` |
-| Triage statistics and annotation agreement: cells 12, 14, 16 | Same notebook | [evaluation/triage.py](../src/mofinder/evaluation/triage.py): `evaluate_counts`, `evaluate_run`; [literature/triage.py](../src/mofinder/literature/triage.py): `agreement_values` |
-| Triage figures: cell 18 | Same notebook | [plotting/triage.py](../src/mofinder/plotting/triage.py): `plot_results` |
-| Main-article retrieval: cell 0 | [fetch_papers.py](../tools/literature_retrieval/fetch_papers.py) | [literature_retrieval/papers.py](../src/mofinder/literature_retrieval/papers.py): `App`, `run_actions_then_save`, `run_icons_then_save` |
-| SI retrieval: cell 0 | [fetch_si.py](../tools/literature_retrieval/fetch_si.py) | [literature_retrieval/si.py](../src/mofinder/literature_retrieval/si.py): `App`, `publisher_a_si_flow`, `publisher_w_si_flow`, `publisher_r_si_flow`, `publisher_s_si_flow`, `publisher_e_si_flow` |
-| Article/SI matching and counts: cell 3 | [02_document_matching.ipynb](../notebooks/02_document_matching.ipynb) | [literature/match_documents.py](../src/mofinder/literature/match_documents.py): `match_documents`, `count_documents`, `plot_counts` |
-| Positive extraction: cell 1 | [03_positive_extraction.ipynb](../notebooks/03_positive_extraction.ipynb) | [extraction/positive.py](../src/mofinder/extraction/positive.py): `extract_one`, `flatten_row`, `save_json_payloads`, `run`; [extraction/schemas.py](../src/mofinder/extraction/schemas.py): `ArticleExtraction` and its component models |
-| Recovery from saved positive JSON: cell 8 | Same notebook | [extraction/backfill.py](../src/mofinder/extraction/backfill.py): `flatten_rows_from_article_dir`, `backfill_from_json` |
-| Negative plan mining: cell 1 | [04_negative_reconstruction.ipynb](../notebooks/04_negative_reconstruction.ipynb) | [extraction/negative.py](../src/mofinder/extraction/negative.py): `_neg_build_plan`, `flatten_plan_rows`, `process_negative_item_yes`, `run_negative` |
-| Negative enumeration: cell 3 | Same notebook | [extraction/enumerate_failures.py](../src/mofinder/extraction/enumerate_failures.py): `read_success_syn`, `enumerate_failures`, `apply_option_corrections` |
-| Positive/negative initial cleaning: cell 0 in each notebook | [05_data_curation.ipynb](../notebooks/05_data_curation.ipynb) | [curation/initial.py](../src/mofinder/curation/initial.py): `clean_positive`, `clean_negative`; [curation/times.py](../src/mofinder/curation/times.py): `parse_time_hours`, `normalize_time_hours` |
-| Metal cleaning: positive cell 3; negative cell 2 | Same notebook | [curation/metals.py](../src/mofinder/curation/metals.py): `clean`; [curation/formula.py](../src/mofinder/curation/formula.py): `parse_formula_counts`, `molar_mass` |
-| Linker cleaning: positive cell 5; negative cell 3 | Same notebook | [curation/linkers.py](../src/mofinder/curation/linkers.py): `clean_positive`, `clean_negative` |
-| Solvent cleaning: positive cell 6; negative cell 4 | Same notebook | [curation/solvents.py](../src/mofinder/curation/solvents.py): `clean` |
-| Ratios and concentration: positive cell 7; negative cell 5 | Same notebook | [curation/features.py](../src/mofinder/curation/features.py): `clean` |
-| Connectivity: positive cell 8; negative cell 6 | Same notebook | [curation/connectivity.py](../src/mofinder/curation/connectivity.py): `clean` |
-| Descriptions: positive cell 9; negative cell 7 | Same notebook | [curation/descriptions.py](../src/mofinder/curation/descriptions.py): `clean_positive`, `clean_negative` |
-| Summary tables and positive trimming: positive cells 10–11 | Same notebook | [curation/reporting.py](../src/mofinder/curation/reporting.py): `summarize`; [curation/trimming.py](../src/mofinder/curation/trimming.py): `apply_p_trimming` |
-| Dataset preparation: cells 1–2 | [06_dataset_preparation.ipynb](../notebooks/06_dataset_preparation.ipynb) | [datasets/prepare.py](../src/mofinder/datasets/prepare.py): `row_to_conditions`, `build_cluster_key`, `choose_holdout_clusters`, `enforce_equal_pn_ratio`, `prepare` |
-| HPC records and prompt: `hpc/legacy_0920.py` | [prepare_hpc.py](../tools/training/prepare_hpc.py), [train_hpc.py](../tools/training/train_hpc.py) | [training/records.py](../src/mofinder/training/records.py): `read_message_rows`, `read_manual_rows`, `render_prompt`; [training/prepare.py](../src/mofinder/training/prepare.py): `prepare_bundle`, `validate_bundle` |
-| HPC LoRA and P/N loss: `hpc/legacy_0920.py` | Same entry points | [training/modeling.py](../src/mofinder/training/modeling.py): `make_dataset`, `PnDataCollator`, `NativeLmClassifier`, `classification_loss`, `make_lora_config` |
-| HPC training loop and scheduled evaluations: `hpc/train_one.py` | [train_hpc.py](../tools/training/train_hpc.py) | [training/train.py](../src/mofinder/training/train.py): `run`; [training_hpc.json](../configs/training_hpc.json): training recipe and evaluation schedule |
-| HPC validation and prediction exports: `hpc/common.py` | Same entry points | [training/common.py](../src/mofinder/training/common.py): `inspect_jsonl`, `binary_metrics`, `export_predictions` |
-| Holdout evaluation: cells 1, 3, 4 | [07_holdout_evaluation.ipynb](../notebooks/07_holdout_evaluation.ipynb) | [evaluation/holdout.py](../src/mofinder/evaluation/holdout.py): `build_messages`, `extract_logprobs_for_label`, `evaluate_holdout`, `sanity_test` |
-| MOF Quest conditions, evaluation, and model groups: cells 0–7 | [08_quest_evaluation.ipynb](../notebooks/08_quest_evaluation.ipynb) | [evaluation/quest.py](../src/mofinder/evaluation/quest.py): `build_messages_from_question`, `call_model_generic`, `evaluate_mof_classifier`, `analyze_results` |
-| Human response workbook and calculations | [09_human_benchmark.ipynb](../notebooks/09_human_benchmark.ipynb) | [evaluation/human_quest.py](../src/mofinder/evaluation/human_quest.py): `read_workbook`, `export_workbook`, `analyse` |
+| Abstract screening and resume | [literature/triage.py](../src/mofinder/literature/triage.py): `validate_inputs`, `classify_one`, `screen` | [Triage](triage.md) |
+| Triage statistics and figures | [evaluation/triage.py](../src/mofinder/evaluation/triage.py): `evaluate_run`; [plotting/triage.py](../src/mofinder/plotting/triage.py): `plot_results` | [Saved-run analysis](triage.md#saved-run-analysis) and [human agreement](triage.md#human-agreement) |
+| Article and SI retrieval | [literature_retrieval/papers.py](../src/mofinder/literature_retrieval/papers.py), [literature_retrieval/si.py](../src/mofinder/literature_retrieval/si.py) | [Desktop retrieval](literature_retrieval.md); launchers in [tools/literature_retrieval/](../tools/literature_retrieval/) |
+| Article/SI matching and counts | [literature/match_documents.py](../src/mofinder/literature/match_documents.py): `match_documents`, `count_documents`, `plot_counts` | [Document matching](document_matching.md) |
+| Positive extraction and response schema | [extraction/positive.py](../src/mofinder/extraction/positive.py): `extract_one`, `flatten_row`, `save_json_payloads`, `run`; [schemas.py](../src/mofinder/extraction/schemas.py): `ArticleExtraction` | [Positive extraction](positive_extraction.md) |
+| Recover CSV rows from saved positive JSON | [extraction/backfill.py](../src/mofinder/extraction/backfill.py): `backfill_from_json` | [Positive extraction](positive_extraction.md) |
+| Negative plan mining | [extraction/negative.py](../src/mofinder/extraction/negative.py): `_neg_build_plan`, `flatten_plan_rows`, `run_negative` | [Negative reconstruction](negative_extraction.md) |
+| Negative enumeration and corrections | [extraction/enumerate_failures.py](../src/mofinder/extraction/enumerate_failures.py): `enumerate_failures`, `apply_option_corrections` | [Negative reconstruction](negative_extraction.md) |
+| Curation sequence and reports | [curation/pipeline.py](../src/mofinder/curation/pipeline.py), [reporting.py](../src/mofinder/curation/reporting.py): `summarize` | [Curation](curation.md) |
+| Initial cleaning and durations | [curation/initial.py](../src/mofinder/curation/initial.py): `clean_positive`, `clean_negative`; [times.py](../src/mofinder/curation/times.py): `parse_time_hours`, `normalize_time_hours` | [Curation operations](curation.md#operations-and-outputs) and [reaction times](curation.md#reaction-time-text) |
+| Precursors and formula masses | [curation/metals.py](../src/mofinder/curation/metals.py): `clean`; [formula.py](../src/mofinder/curation/formula.py): `parse_formula_counts`, `molar_mass` | [Curation](curation.md) |
+| Linker and solvent normalization | [curation/linkers.py](../src/mofinder/curation/linkers.py): `clean_positive`, `clean_negative`; [solvents.py](../src/mofinder/curation/solvents.py): `clean` | [Branch-specific rules](curation.md#positive-and-negative-differences) |
+| Ratios, concentration, connectivity, and descriptions | [curation/features.py](../src/mofinder/curation/features.py), [connectivity.py](../src/mofinder/curation/connectivity.py), [descriptions.py](../src/mofinder/curation/descriptions.py) | [Curation operations](curation.md#operations-and-outputs) |
+| Final JSONL, grouped splits, and year subsets | [datasets/prepare.py](../src/mofinder/datasets/prepare.py): `row_to_conditions`, `build_cluster_key`, `choose_holdout_clusters`, `enforce_equal_pn_ratio`, `prepare` | [Dataset preparation](datasets.md) |
+| HPC records and training bundles | [training/records.py](../src/mofinder/training/records.py): `read_message_rows`, `read_manual_rows`, `render_prompt`; [prepare.py](../src/mofinder/training/prepare.py): `prepare_bundle`, `validate_bundle` | [HPC training](training_hpc.md); [prepare_hpc.py](../tools/training/prepare_hpc.py) |
+| HPC LoRA, P/N loss, and training loop | [training/modeling.py](../src/mofinder/training/modeling.py), [train.py](../src/mofinder/training/train.py), [common.py](../src/mofinder/training/common.py) | [HPC training](training_hpc.md); [train_hpc.py](../tools/training/train_hpc.py) |
+| Reaction holdout evaluation | [evaluation/holdout.py](../src/mofinder/evaluation/holdout.py): `evaluate_holdout`, `sanity_test`, `analyze_saved` | [Holdout evaluation](holdout_evaluation.md) |
+| MOF Quest model evaluation | [evaluation/quest.py](../src/mofinder/evaluation/quest.py): `run_evaluation`, `analyze_results` | [Question-panel evaluation](quest_evaluation.md) |
+| Human benchmark analysis | [evaluation/human_quest.py](../src/mofinder/evaluation/human_quest.py): `load_benchmark`, `write_analysis`, `export_workbook` | [Human benchmark](human_benchmark.md) |
+
+## Original research code
+
+The original numbered scripts remain browsable at [commit `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). These links stay fixed to that implementation:
+
+| Original code | Historical source |
+| --- | --- |
+| Literature classification | [step_1_literature_classification/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/step_1_literature_classification) |
+| Article and SI retrieval | [step_2_fetching/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/step_2_fetching) |
+| Positive and negative extraction | [step_3_mining/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/step_3_mining) |
+| Data cleaning | [step_4_cleansing/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/step_4_cleansing) |
+| Dataset assembly | [step_5_assembly/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/step_5_assembly) |
+| Model evaluation | [eval/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/eval) |
+| Plotting | [visualization/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/visualization) |
+| Original demos and recorded notebook output | [Demo/](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/Demo) |
+
+[The historical workflow](legacy_workflow.md) documents commands and counts for that checkout. [workflow_sources.json](workflow_sources.json) separately records the supplied research notebooks and training scripts used during the Python migration, their hashes, active source-cell indices, and corresponding modules. That manifest identifies comparison sources; it does not imply that every supplied research notebook was committed in the historical GitHub tree.
 
 ## Prompts and configuration
 

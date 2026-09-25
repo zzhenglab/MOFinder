@@ -11,7 +11,7 @@ def clean(input_path, output_path):
     # - Uses specific labels for cluster shape and connectivity
     # - Writes to `metal_cluster_connectivity_classified` next to the original column
     #
-    # Input/Output: mof_extraction_1_2_3_4_5.csv (overwrite in place)
+    # Augment the fifth intermediate CSV in place.
 
     import re
     import pandas as pd

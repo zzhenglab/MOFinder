@@ -9,7 +9,7 @@ Windows PowerShell, from the repository folder:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[api,plotting]"
-.\.venv\Scripts\python.exe Demo/03_api_demo/run_demo.py triage
+.\.venv\Scripts\python.exe Demo/03_api_demo/mof_api_demo.py triage
 .\.venv\Scripts\python.exe -m mofinder.literature.triage --help
 ```
 
@@ -20,7 +20,7 @@ Linux or macOS:
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[api,plotting]"
-.venv/bin/python Demo/03_api_demo/run_demo.py triage
+.venv/bin/python Demo/03_api_demo/mof_api_demo.py triage
 .venv/bin/python -m mofinder.literature.triage --help
 ```
 
@@ -35,7 +35,7 @@ Use `.venv/bin/python` in place of `python` while the environment is inactive. T
 | `pip install -e ".[plotting]"` | Add saved-run figure generation |
 | `pip install -e ".[api,plotting]"` | Complete command-line triage workflow |
 | `pip install -e ".[notebook]"` | Add Jupyter and plotting for local interactive analysis |
-| `pip install -e ".[triage]"` | Complete triage environment, including the API client and optional notebook |
+| `pip install -e ".[triage]"` | Complete triage environment, including the API client and Jupyter for demos |
 | `pip install -e ".[legacy]"` | Dependencies for the earlier numbered scripts, available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) |
 | `pip install -e ".[literature-retrieval]"` | Offline literature retrieval-inventory and image-template checks |
 | `pip install -e ".[fetch-gui]"` | Complete desktop literature retrieval dependencies |
@@ -75,15 +75,16 @@ Set `OPENAI_API_KEY` in the environment before live screening or document mining
 
 Check model settings and account access before scheduling a full run. The packaged screening, mining, and evaluation commands have been checked offline; live verification of these commands remains pending. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
 
-## Optional notebook
+## Demo notebooks
 
-After installing `.[triage]`, open the walkthrough from the repository root:
+The workflow commands and Markdown guides work without Jupyter. To view or rerun the saved demo notebooks, install the demo dependencies and open `Demo/` from the repository root:
 
 ```bash
-python -m jupyter lab notebooks/01_abstract_triage.ipynb
+python -m pip install -e ".[curation,datasets,mining,notebook]"
+python -m jupyter lab Demo/
 ```
 
-The notebook calls the same Python functions as the terminal workflow. Screening is disabled by default and must be enabled explicitly.
+The notebooks call the same Python functions as the terminal workflow. Keep their saved outputs to inspect the recorded run, then execute the verification cells when rerunning. Live model calls in the API demo are disabled by default and must be enabled explicitly.
 
 Select the same environment for the notebook kernel and for running `.py` files. In VS Code, **Python: Select Interpreter** controls script execution; the notebook's kernel selector is independent. An import that works in a notebook can still fail in a terminal using another Python installation. Register a named kernel from the installed environment if needed:
 
@@ -100,7 +101,7 @@ The full test suite covers more stages than the minimal triage installation. Ins
 ```bash
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_api_demo/run_demo.py triage
+python Demo/03_api_demo/mof_api_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
@@ -108,10 +109,10 @@ Recorded environment and execution results are in [validation.md](validation.md)
 
 ## Downstream workflow
 
-Install `.[mining,curation,datasets]` for the revised extraction-to-dataset modules and add `notebook` for the optional walkthroughs. See [the workflow guide](workflow.md). PDF readers extract embedded text; no OCR pipeline is enabled. Legacy DOC conversion may require additional system software, while DOCX handling uses the supported Python readers.
+Install `.[mining,curation,datasets]` for the revised extraction-to-dataset modules and add `notebook` for interactive demos. See [the workflow guide](workflow.md). PDF readers extract embedded text; no OCR pipeline is enabled. Legacy DOC conversion may require additional system software, while DOCX handling uses the supported Python readers.
 
 The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive/negative tables in `data/processed_data/` and final JSONL in `data/final_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
 
 ## Evaluation
 
-Install `.[evaluation]` for the holdout and 22-question evaluation modules and anonymous human benchmark analysis. Install `.[notebook]` to use the corresponding walkthroughs. Live model evaluation requests an API key through a hidden notebook prompt when `OPENAI_API_KEY` is not set. Terminal commands use the environment variable. See [evaluation](evaluation.md).
+Install `.[evaluation]` for the holdout and 22-question evaluation modules and anonymous human benchmark analysis. Live model evaluation commands read `OPENAI_API_KEY` from the environment. Human analysis and saved-run analysis require no API key. See [evaluation](evaluation.md) for commands and source links.

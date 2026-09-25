@@ -1,0 +1,48 @@
+{
+  "counts": {
+    "input_rows_total": 321,
+    "rows_after_required_field_checks": 321,
+    "rows_skipped_required": 0,
+    "rows_with_conflicting_input_labels": 10,
+    "rows_after_conflict_filter": 316,
+    "rows_deduped_exact_input_within_label": 32,
+    "rows_final": 280,
+    "rows_with_publication_year_final": 280,
+    "train_rows": 252,
+    "holdout_rows": 28,
+    "train_missing_publication_year_rows": 0,
+    "holdout_missing_publication_year_rows": 0
+  },
+  "labels": {
+    "input": {
+      "P": 146,
+      "N": 175
+    },
+    "after_required_field_checks": {
+      "P": 146,
+      "N": 175
+    },
+    "after_conflict_filter": {
+      "P": 146,
+      "N": 170
+    },
+    "after_all_drops": {
+      "P": 120,
+      "N": 160
+    },
+    "train": {
+      "P": 108,
+      "N": 144
+    },
+    "holdout": {
+      "P": 12,
+      "N": 16
+    }
+  },
+  "clusters": {
+    "unique_clusters_final": 145,
+    "holdout_clusters": 15,
+    "train_clusters": 130
+  },
+  "shared_clusters": 0
+}

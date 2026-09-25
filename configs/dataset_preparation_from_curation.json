@@ -1,7 +1,7 @@
 {
   "project_root": "..",
-  "positive_csv": "results/curation/positive/mof_extraction_1_2_3_4_5_6.csv",
-  "negative_csv": "results/curation/negative/mof_extraction_failures_enum_1_2_3_4_5_6.csv",
+  "positive_csv": "results/curation/positive/mof_extraction_6.csv",
+  "negative_csv": "results/curation/negative/mof_extraction_failures_enum_6.csv",
   "metadata_file": "data/processed_data/publication_years.csv",
   "output_dir": "results/datasets/curated_conditions",
   "prompt_file": "prompts/training/reaction_prediction.txt",
@@ -21,7 +21,7 @@
   "holdout_search_trials": 64,
   "holdout_search_swaps": 1200,
   "input_provenance": {
-    "positive": "Processed positive output from the current curation run, before optional trimming.",
+    "positive": "Processed positive output from the current curation run.",
     "negative": "Processed negative output from the current curation run. Use dataset_preparation.json for the included processed tables."
   }
 }

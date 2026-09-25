@@ -14,7 +14,44 @@ python -m mofinder.evaluation.human_quest analyse \
   --output-dir results/evaluation/human_quest
 ```
 
-The walkthrough is `notebooks/09_human_benchmark.ipynb`. Analysis is local and does not require an API key. It writes `summary.json` plus participant, question, experience and confidence CSV tables.
+The implementation is in [evaluation/human_quest.py](../src/mofinder/evaluation/human_quest.py). Analysis is local and does not require an API key. It writes `summary.json` plus participant, question, experience and confidence CSV tables.
+
+## Inputs and another cohort
+
+| Input | Required columns |
+| --- | --- |
+| `benchmarks/mof_quest/human_questions.csv` | `question`, `reaction_id`, `label`, `difficulty`, `doi`, `conditions_json` |
+| `benchmarks/mof_quest/human_responses.csv` | `participant_id`, `experience`, `reaction_id`, `response`, `stored_score` |
+
+For another cohort, pass replacement anonymous tables with `--questions` and `--responses`, retaining reaction IDs and response-category spellings. Choose a new `--output-dir` to preserve the previous analysis.
+
+## Plot per-question accuracy
+
+After running the analysis, save this Python code to a local script and run it from the repository root. It reads the exported question table and saves a figure beside it. Install `.[plotting]` if needed. Bars use teal for reference-positive questions and grey for reference-negative questions; error bars are the reported 95% Wilson intervals.
+
+```python
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+output_dir = Path("results/evaluation/human_quest")
+items = pd.read_csv(output_dir / "questions.csv")
+fig, ax = plt.subplots(figsize=(10, 4))
+colors = ["#285953" if label == "P" else "#91999B" for label in items["label"]]
+ax.bar(items["question"], items["accuracy"], color=colors)
+ax.errorbar(
+    items["question"], items["accuracy"],
+    yerr=[items["accuracy"] - items["wilson_lower"],
+          items["wilson_upper"] - items["accuracy"]],
+    fmt="none", ecolor="#333333", capsize=2, linewidth=1,
+)
+ax.set(xlabel="Question", ylabel="Accuracy", ylim=(0, 1))
+ax.tick_params(axis="x", rotation=45)
+fig.tight_layout()
+fig.savefig(output_dir / "question_accuracy.png", dpi=200)
+plt.close(fig)
+```
 
 ## Scoring and uncertainty
 

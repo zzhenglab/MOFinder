@@ -39,7 +39,7 @@ python -m mofinder.evaluation.quest run --config configs/quest_evaluation.json -
 
 The configurations record model IDs and run settings. Fine-tuned model access depends on the account. The holdout evaluator supports a ten-pending-record check with `--test-mode`. The question evaluator retains named model groups and repeated rounds. Details of source API branches and their settings are in the individual guides.
 
-The optional notebooks `07_holdout_evaluation.ipynb` and `08_quest_evaluation.ipynb` request a key through a hidden prompt when a live run is enabled and no environment key is set. Live execution is disabled initially. `09_human_benchmark.ipynb` performs local analysis without a key.
+The [source code map](source_to_code.md) links each command to its Python implementation. Human benchmark analysis runs locally without an API key.
 
 Model requests exclude reference answers. Reference labels and benchmark metadata remain local for scoring. New responses must contain only `P` or `N` after case and whitespace normalization; ordinary prose is no longer parsed for embedded label characters. Metric definitions are unchanged, and reports expose attempted, scored, failed, and invalid counts so the denominator is explicit. The parsing protocol is recorded in each new run's manifest. Existing CSV analysis uses its recorded labels without reparsing historical text; earlier holdout runs need a fresh output name for new requests.
 

@@ -9,9 +9,5 @@
   "negative": {
     "input_csv": "results/extraction/negative/mof_extraction_failures_enum.csv",
     "output_dir": "results/curation/negative"
-  },
-  "trimming": {
-    "top_n": 10,
-    "yield_bottom_frac": 0.10
   }
 }

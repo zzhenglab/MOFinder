@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Kept executed demo notebooks and verified run snapshots, added persistent offline run records and explicit expected-output comparisons, and named the demo scripts/notebooks by workflow. Simplified curation CSV names and finished both branches at processed descriptions. Replaced the separate notebook walkthrough folder with Python source links and Markdown guides.
+
 - Combined processed positive/negative tables and literature metadata in `data/processed_data/`, and training/holdout JSONL with split records in `data/final_json/`. Replaced stage/version filenames with `processed_positive.csv` and `processed_negative.csv`; the default preparation configuration now reads these included inputs. Kept fresh curation and linker-corrected preparation as named alternatives, and updated scripts, notebooks, manifests, tests, and CI paths without changing scientific data or dataset partitions.
 
 - Simplified literature classification documentation and removed redundant public classification CSVs; the labels remain in the article and SI inventories, with detailed analysis retained locally.
@@ -10,14 +12,14 @@
 
 - Published rough non-LLM topic classifications for the full literature corpus, with separate historical triage Y/N labels, evidence, and uncertainty flags. Replaced download-state columns in public article/SI inventories with `Classification`; local retrieval progress remains supported.
 
-- Consolidated demonstrations into offline cleaning, offline JSON preparation, and `Demo/03_api_demo/api_demo.ipynb` for abstract triage and positive/negative mining. The API notebook displays complete abstracts and exact requests before explicitly enabled calls, then compares predictions with reference labels held out of the requests.
+- Consolidated demonstrations into offline cleaning, offline JSON preparation, and `Demo/03_api_demo/mof_api_demo.ipynb` for abstract triage and positive/negative mining. The API notebook displays complete abstracts and exact requests before explicitly enabled calls, then compares predictions with reference labels held out of the requests.
 - Added holdout-first and training-example previews with reaction parameters and complete JSON records to the JSON preparation notebook. Shortened displayed checkout paths while preserving paths used for files and saved run provenance.
 - Standardized dataset preparation, question-panel evaluation, and HPC training on `prompts/training/reaction_prediction.txt`. Removed the short training prompt while preserving the full prompt text and archived JSONL bytes. HPC bundles now use schema version 2, and the default 512-token input limit rejects overlength records instead of truncating them; rebuild older bundles into new directories.
 - Corrected reaction-evaluation parsing to require a standalone P/N response after whitespace and case normalization, and corrected fallback token-probability attribution. New runs record `standalone_pn_v1`; historical prediction CSVs remain unchanged, and incompatible holdout runs cannot be resumed under the new protocol.
 - Audited documentation links, demo paths, installation requirements, and execution notes. Historical validation reports retain their original results and are explicitly identified as checkpoints.
 - Made the API notebook reject stale triage previews and compare predictions with the run's saved reference labels. The negative-mining demo now stops when YES-labelled positive DOIs are missing from the selected document manifest.
 - Made negative mining reject unreadable existing plan CSVs before requests and replace prior DOI rows during explicit in-place reruns even when CSV skipping is disabled.
-- Fixed pandas 3 compatibility for document download flags, missing solvent names and abbreviations, and empty trimming inputs, and made extraction and filename-collision tests portable on Windows.
+- Fixed pandas 3 compatibility for document download flags and missing solvent names and abbreviations, and made extraction and filename-collision tests portable on Windows.
 - Made the JSON demonstration's expected-output comparison tolerate platform line endings while still requiring matching UTF-8 text and split assignments.
 - Replaced the earlier numbered scripts, `eval/`, `visualization/`, top-level demo files, and old data with the reorganized package contents. Preserved the three existing submodule commits, their configuration, and the MIT license.
 - Consolidated example inputs and walkthroughs under `Demo/` and updated paths without changing their datasets or expected results.
@@ -58,7 +60,7 @@
 - Added JSON-backed positive extraction and independent CSV recovery. API credentials are read from the environment.
 - Preserved active positive/negative mining and classification prompts in separate text files, with explicit configurations and concise calling notebooks.
 - Integrated negative planning and Cartesian failure enumeration with documented DOI-specific corrections and preserved parent snapshots. Fixed the exclusion that previously depended on logging verbosity.
-- Integrated positive/negative chemical curation, optional reports, and final positive trimming. Required an explicit molecular-weight lookup and corrected hydrate-fragment stoichiometry in metal mass conversion.
+- Integrated positive/negative chemical curation and optional reports. Required an explicit molecular-weight lookup and corrected hydrate-fragment stoichiometry in metal mass conversion.
 - Integrated classification JSONL preparation, seeded grouped splitting, forced benchmark conditions, and publication-year training subsets. Recorded split assignments and input identities.
 - Preserved the archived cleaned snapshots unchanged and added an archived-input preparation route. Verified all 16 JSONL outputs and class map against the original notebook on those inputs.
 - Documented the grouped split definitions, input identities, and remaining research inputs.

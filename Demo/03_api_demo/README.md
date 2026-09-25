@@ -4,11 +4,18 @@ This demo runs literature triage, positive synthesis extraction, and negative
 condition reconstruction through the same Python modules used in the main
 workflow. Model calls require an API key and access to the configured models.
 
-Start with [api_demo.ipynb](api_demo.ipynb). It displays four complete abstracts,
+Start with [mof_api_demo.ipynb](mof_api_demo.ipynb). It displays four complete abstracts,
 previews the exact requests, and compares GPT predictions with human labels.
 Continue in the same notebook to extract positive synthesis records from the
 included article/SI pair and reconstruct negative conditions from the extracted
-evidence. The corresponding terminal commands use [run_demo.py](run_demo.py).
+evidence. The corresponding terminal commands use [mof_api_demo.py](mof_api_demo.py).
+
+The checked-in notebook retains an executed offline preview: complete abstracts,
+request previews, and document validation. All live switches remain `False` in
+that example. It contains no generated model predictions or extraction results.
+After a live triage run, the notebook's comparison section shows the predictions,
+human references, agreement, request status, and errors, and saves that table in
+the run folder.
 
 The two offline demos remain in [`Demo/01_data_cleaning`](../01_data_cleaning/README.md)
 and [`Demo/02_json_preparation`](../02_json_preparation/README.md).
@@ -19,8 +26,8 @@ From the repository root:
 
 ```bash
 python -m pip install -e ".[mining,notebook]"
-python Demo/03_api_demo/run_demo.py
-jupyter lab Demo/03_api_demo/api_demo.ipynb
+python Demo/03_api_demo/mof_api_demo.py
+jupyter lab Demo/03_api_demo/mof_api_demo.ipynb
 ```
 
 The default command makes no API requests. It checks the triage inputs, matches
@@ -28,11 +35,11 @@ the sample article/SI pair, and reads both document texts. Before positive minin
 has run, the negative-stage report lists the positive extraction CSV as a missing
 input. That CSV and its synthesis JSON files are created by the positive stage.
 
-Commands also work from this folder using `python run_demo.py`, or from another
+Commands also work from this folder using `python mof_api_demo.py`, or from another
 directory with an absolute path to the script. Configuration paths are resolved
 relative to the repository, independently of the current working directory.
 
-To check only the triage inputs, run `python Demo/03_api_demo/run_demo.py triage`.
+To check only the triage inputs, run `python Demo/03_api_demo/mof_api_demo.py triage`.
 The included tables contain 12 abstracts and reference labels (9 Y and 3 N).
 The configuration schedules the first four abstracts (3 Y and 1 N). The validation
 summary counts the eight unscheduled references under `missing_reference_publications`;
@@ -57,9 +64,9 @@ environment variable is reused; otherwise, the script requests the key through
 a hidden prompt. The key is not written to the configuration files.
 
 ```bash
-python Demo/03_api_demo/run_demo.py triage --live
-python Demo/03_api_demo/run_demo.py positive --live
-python Demo/03_api_demo/run_demo.py negative --live
+python Demo/03_api_demo/mof_api_demo.py triage --live
+python Demo/03_api_demo/mof_api_demo.py positive --live
+python Demo/03_api_demo/mof_api_demo.py negative --live
 ```
 
 Run positive mining before negative mining. The last command mines modification
@@ -98,9 +105,9 @@ article/SI pair under `Demo/03_api_demo/inputs/mining/` remains available for th
 From the repository root:
 
 ```bash
-python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
-python Demo/03_api_demo/run_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
-python Demo/03_api_demo/run_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/mof_api_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
+python Demo/03_api_demo/mof_api_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_api_demo/mof_api_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
 ```
 
 The validation report identifies any placeholder PDFs. Live extraction stops

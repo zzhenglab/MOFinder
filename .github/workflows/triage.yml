@@ -42,7 +42,7 @@ jobs:
       - name: Run offline regression tests
         run: python -m unittest discover -s tests -v
       - name: Validate the small example
-        run: python Demo/03_api_demo/run_demo.py triage
+        run: python Demo/03_api_demo/mof_api_demo.py triage
       - name: Validate all reference abstracts
         run: python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
       - name: Audit article literature retrieval without a desktop
@@ -50,9 +50,7 @@ jobs:
       - name: Audit SI literature retrieval without a desktop
         run: python tools/literature_retrieval/fetch_si.py --validate
       - name: Execute the API demo with model requests disabled
-        run: python -m jupyter nbconvert --to notebook --execute Demo/03_api_demo/api_demo.ipynb --output api_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
-      - name: Execute the optional walkthrough with screening disabled
-        run: python -m jupyter nbconvert --to notebook --execute notebooks/01_abstract_triage.ipynb --output triage_walkthrough_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+        run: python -m jupyter nbconvert --to notebook --execute Demo/03_api_demo/mof_api_demo.ipynb --output api_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Match demonstration documents offline
         run: python -m mofinder.literature.match_documents match --config configs/example_document_matching.json
       - name: Validate demonstration PDF text
@@ -60,26 +58,17 @@ jobs:
       - name: Validate processed positive and negative data
         run: python -m mofinder.datasets.prepare validate --config configs/dataset_preparation.json
       - name: Run the cleaning demonstration
-        run: python Demo/01_data_cleaning/run_demo.py --check
+        run: python Demo/01_data_cleaning/mof_cleaning_demo.py --check
       - name: Run the JSON preparation demonstration
-        run: python Demo/02_json_preparation/run_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_1_2_3_4_5_6.csv --check
+        run: python Demo/02_json_preparation/mof_json_preparation_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_6.csv --check
       - name: Execute the cleaning notebook
-        run: python -m jupyter nbconvert --to notebook --execute Demo/01_data_cleaning/demo.ipynb --output cleaning_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+        run: python -m jupyter nbconvert --to notebook --execute Demo/01_data_cleaning/mof_cleaning_demo.ipynb --output cleaning_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Execute the JSON preparation notebook
-        run: python -m jupyter nbconvert --to notebook --execute Demo/02_json_preparation/demo.ipynb --output json_preparation_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
+        run: python -m jupyter nbconvert --to notebook --execute Demo/02_json_preparation/mof_json_preparation_demo.ipynb --output json_preparation_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Validate the API demonstrations without requests
-        run: python Demo/03_api_demo/run_demo.py validate
+        run: python Demo/03_api_demo/mof_api_demo.py validate
       - name: Validate the local article and SI templates
-        run: python Demo/03_api_demo/run_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
-      - name: Execute downstream walkthroughs with processing disabled
-        run: >-
-          python -m jupyter nbconvert --to notebook --execute
-          notebooks/02_document_matching.ipynb notebooks/03_positive_extraction.ipynb
-          notebooks/04_negative_reconstruction.ipynb notebooks/05_data_curation.ipynb
-          notebooks/06_dataset_preparation.ipynb notebooks/07_holdout_evaluation.ipynb
-          notebooks/08_quest_evaluation.ipynb notebooks/09_human_benchmark.ipynb
-          --output-dir results/local
-          --ExecutePreprocessor.timeout=120
+        run: python Demo/03_api_demo/mof_api_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
       - name: Validate holdout inputs
         run: python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
       - name: Validate question evaluation

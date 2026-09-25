@@ -1,6 +1,6 @@
 # Mining, curation, and dataset preparation
 
-The workflow uses Python modules, with a short notebook for each stage. Configurations define paths and run settings; model instructions are stored in `prompts/`. Run commands from the repository root after installing:
+The workflow uses [Python source modules and Markdown guides](source_to_code.md). Configurations define paths and run settings; model instructions are stored in `prompts/`. Run commands from the repository root after installing:
 
 ```bash
 python -m pip install -e ".[mining,curation,datasets]"
@@ -66,7 +66,7 @@ python -m mofinder.extraction.negative mine --config configs/negative_extraction
 python -m mofinder.extraction.negative enumerate --config configs/negative_extraction.json
 ```
 
-Mining commands send document text to the configured model. Matching, recovery, enumeration, curation, and dataset preparation require no model requests. Notebook switches disable live mining by default.
+Mining commands send document text to the configured model. Matching, recovery, enumeration, curation, and dataset preparation require no model requests.
 
 Validate the required lookup, run both curation branches, and prepare their generated records:
 
@@ -84,7 +84,7 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-This offline route reads `data/processed_data/processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv`, then writes training/holdout JSONL and split records to `results/datasets/conditions/`. The bundled final files and assignments are together in `data/final_json/`. The curation-output configuration writes to `results/datasets/curated_conditions/` and selects the untrimmed positive output. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual operations and alternatives.
+This offline route reads `data/processed_data/processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv`, then writes training/holdout JSONL and split records to `results/datasets/conditions/`. The bundled final files and assignments are together in `data/final_json/`. The curation-output configuration writes to `results/datasets/curated_conditions/`. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual operations and alternatives.
 
 ## Train a model
 

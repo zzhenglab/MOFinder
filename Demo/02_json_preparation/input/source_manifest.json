@@ -181,5 +181,5 @@
     ],
     "selection": "First ten negative rows per selected DOI, preserving source order."
   },
-  "positive": "Expected stage 6 output from Demo/01_data_cleaning."
+  "positive": "Expected processed positive output from Demo/01_data_cleaning."
 }

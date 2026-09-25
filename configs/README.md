@@ -1,6 +1,6 @@
 # Experiment configurations
 
-`abstract_triage.json` records the settings shared by the Python screening command and the optional notebook. Each run writes its effective settings and input hashes to a manifest.
+`abstract_triage.json` records the settings used by the Python screening command. Each run writes its effective settings and input hashes to a manifest.
 
 | Setting | Purpose |
 | --- | --- |
@@ -62,4 +62,4 @@ Paths are resolved from `project_root`. The default dataset configuration reads 
 | `holdout_evaluation.json` | Final holdout JSONL, model IDs, concurrency, seed, retry settings, and output names |
 | `quest_evaluation.json` | Question definitions, classifier prompt, model groups, repeated rounds, and reasoning settings |
 
-Model credentials are read from `OPENAI_API_KEY`; notebooks can request the key through a hidden prompt when a live run is enabled. Human analysis uses the anonymous files under `benchmarks/mof_quest/` and requires no credentials. See [evaluation](../docs/evaluation.md).
+Model credentials are read from `OPENAI_API_KEY`; the API demo can request the key through a hidden prompt when a live run is enabled. Human analysis uses the anonymous files under `benchmarks/mof_quest/` and requires no credentials. See [evaluation](../docs/evaluation.md).

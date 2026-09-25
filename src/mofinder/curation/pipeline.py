@@ -14,9 +14,10 @@ import sys
 from .times import TIME_PARSER_VERSION
 from mofinder.display import display_path, display_paths
 
-STAGES = ("initial", "metals", "linkers", "solvents", "features", "connectivity", "descriptions", "trimming")
+STAGES = ("initial", "metals", "linkers", "solvents", "features", "connectivity", "descriptions")
 PREFIXES = {"positive": "mof_extraction", "negative": "mof_extraction_failures_enum"}
-STAGE_SUFFIXES = dict(zip(STAGES, ("_1", "_1_2", "_1_2_3", "_1_2_3_4", "_1_2_3_4_5", "_1_2_3_4_5", "_1_2_3_4_5_6", "_1_2_3_4_5_6_7")))
+# Connectivity augments the feature table in place before descriptions are added.
+STAGE_SUFFIXES = dict(zip(STAGES, ("_1", "_2", "_3", "_4", "_5", "_5", "_6")))
 
 
 def load_config(path):
@@ -40,7 +41,7 @@ def load_config(path):
 def stage_paths(settings, mode, stage):
     if mode not in PREFIXES:
         raise ValueError(f"Unknown curation mode: {mode}")
-    if stage not in STAGES or (mode == "negative" and stage == "trimming"):
+    if stage not in STAGES:
         raise ValueError(f"Stage {stage!r} is not available for {mode} curation")
     prefix = PREFIXES[mode]
     output_dir = Path(settings[mode]["output_dir"])
@@ -135,13 +136,6 @@ def validate_inputs(settings, mode="both", stage="all"):
                 "known_weight_names": len(names),
                 "unknown_weight_names": len(unresolved - set(names)),
             })
-    trim = settings.get("trimming", {})
-    if stage in ("all", "trimming") and "positive" in modes:
-        top_n, fraction = trim.get("top_n", 10), trim.get("yield_bottom_frac", 0.10)
-        if not isinstance(top_n, int) or isinstance(top_n, bool) or top_n < 0:
-            issues.append("trimming.top_n must be a nonnegative integer")
-        if not isinstance(fraction, (int, float)) or isinstance(fraction, bool) or not 0 < fraction < 1:
-            issues.append("trimming.yield_bottom_frac must be between 0 and 1")
     return {"valid": not issues, "checks": checks, "issues": issues}
 
 
@@ -162,8 +156,6 @@ def run_stage(settings, mode, stage, *, reports=True, plots=False):
     elif stage == "linkers":
         kwargs["linker_mw_path"] = settings["linker_mw_csv"]
         kwargs["linker_prime_corrections"] = settings.get("linker_prime_corrections")
-    elif stage == "trimming":
-        kwargs.update(settings.get("trimming", {}))
     if reports:
         report_dir = output.parent / "reports"
         report_dir.mkdir(parents=True, exist_ok=True)
@@ -177,7 +169,7 @@ def run_stage(settings, mode, stage, *, reports=True, plots=False):
 
 
 def write_report(settings, mode, *, top_n_metals=None, top_n_linkers=None):
-    """Describe the untrimmed stage-6 records, matching the source report order."""
+    """Describe the processed records, matching the source report order."""
     validation = validate_inputs(settings, mode, "report")
     if not validation["valid"]:
         raise ValueError("\n".join(validation["issues"]))
@@ -190,7 +182,7 @@ def write_report(settings, mode, *, top_n_metals=None, top_n_linkers=None):
     return report_dir
 
 
-def run_pipeline(settings, mode="both", *, reports=True, plots=False, trim_positive=True):
+def run_pipeline(settings, mode="both", *, reports=True, plots=False):
     """Write intermediate and final tables for the requested extraction branches."""
     validation = validate_inputs(settings, mode, "all")
     if not validation["valid"]:
@@ -198,12 +190,11 @@ def run_pipeline(settings, mode="both", *, reports=True, plots=False, trim_posit
     modes = tuple(PREFIXES) if mode == "both" else (mode,)
     results = {}
     for current in modes:
-        stages = STAGES if current == "positive" and trim_positive else STAGES[:-1]
         completed = []
-        for stage in stages:
+        for stage in STAGES:
             record = run_stage(settings, current, stage, reports=reports, plots=plots)
             completed.append(record)
-            if record["rows"] == 0 and stage != stages[-1]:
+            if record["rows"] == 0 and stage != STAGES[-1]:
                 raise ValueError(
                     f"No records remain after {current} {stage}; saved {record['output_csv']}. "
                     "Inspect the stage report before continuing."
@@ -221,7 +212,6 @@ def run_pipeline(settings, mode="both", *, reports=True, plots=False, trim_posit
             "input_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
             "linker_mw_csv": str(lookup),
             "linker_mw_sha256": hashlib.sha256(lookup.read_bytes()).hexdigest(),
-            "trimming": settings.get("trimming", {}) if current == "positive" and trim_positive else None,
             "stages": completed,
             "output_csv": completed[-1]["output_csv"],
         }
@@ -243,7 +233,6 @@ def main(argv=None):
     parser.add_argument("--stage", choices=("all", *STAGES), default="all")
     parser.add_argument("--no-reports", action="store_true")
     parser.add_argument("--plots", action="store_true", help="Save initial-stage histograms without opening a window")
-    parser.add_argument("--no-trim", action="store_true", help="Finish positive curation at stage 6")
     args = parser.parse_args(argv)
     try:
         settings = load_config(args.config)
@@ -255,7 +244,7 @@ def main(argv=None):
             modes = tuple(PREFIXES) if args.mode == "both" else (args.mode,)
             result = {mode: str(write_report(settings, mode)) for mode in modes}
         elif args.stage == "all":
-            result = run_pipeline(settings, args.mode, reports=not args.no_reports, plots=args.plots, trim_positive=not args.no_trim)
+            result = run_pipeline(settings, args.mode, reports=not args.no_reports, plots=args.plots)
         else:
             modes = tuple(PREFIXES) if args.mode == "both" else (args.mode,)
             result = {mode: run_stage(settings, mode, args.stage, reports=not args.no_reports, plots=args.plots) for mode in modes}
