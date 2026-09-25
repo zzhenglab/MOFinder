@@ -20,7 +20,7 @@ from mofinder.literature import triage
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "Demo/03_api_demo/mof_api_demo.ipynb"
+NOTEBOOK = ROOT / "Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb"
 
 
 class DemoTriageTests(unittest.TestCase):
@@ -57,7 +57,7 @@ class DemoTriageTests(unittest.TestCase):
         self.start_patch(patch("pathlib.Path.cwd", return_value=ROOT))
 
         self.execute("load-abstracts")
-        config = json.loads((ROOT / "Demo/03_api_demo/configs/triage.json").read_text())
+        config = json.loads((ROOT / "Demo/03_triage_extraction/configs/triage.json").read_text())
         config.update(project_root=str(ROOT), output_root=str(self.output_root))
         for key in ("input_file", "ground_truth_file", "prompt_file"):
             source = ROOT / config[key]
@@ -114,7 +114,7 @@ class DemoTriageTests(unittest.TestCase):
                         flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)
 
     def test_cli_and_notebook_validate_the_same_four_abstracts(self):
-        runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_demo.py"))
+        runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
         output = io.StringIO()
         with redirect_stdout(output):
             self.assertEqual(runner["main"](["triage"]), 0)
@@ -131,8 +131,8 @@ class DemoTriageTests(unittest.TestCase):
             "run_negative": Mock(),
         }
         with patch("runpy.run_path", return_value=runner) as load_runner:
-            self.execute("mining-setup")
-        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "mof_api_demo.py"))
+            self.execute("extraction-setup")
+        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
         runner["validate_positive"].assert_called_once_with(NOTEBOOK.parent / "configs")
         self.execute("positive-api")
         self.execute("negative-api")
@@ -146,13 +146,13 @@ class DemoTriageTests(unittest.TestCase):
             "run_positive": Mock(return_value={"positive": "completed"}),
             "run_negative": Mock(return_value={"negative": "completed"}),
         }
-        self.namespace.update(api_runner=runner, MINING_CONFIG_DIR=self.folder)
-        self.execute("positive-api", live=True, switch="RUN_POSITIVE_MINING")
+        self.namespace.update(api_runner=runner, EXTRACTION_CONFIG_DIR=self.folder)
+        self.execute("positive-api", live=True, switch="RUN_POSITIVE_EXTRACTION")
         runner["run_positive"].assert_called_once_with(self.folder)
         self.assertEqual(self.namespace["positive_result"], {"positive": "completed"})
         self.execute("negative-api")
         runner["run_negative"].assert_not_called()
-        self.execute("negative-api", live=True, switch="RUN_NEGATIVE_MINING")
+        self.execute("negative-api", live=True, switch="RUN_NEGATIVE_RECONSTRUCTION")
         runner["run_negative"].assert_called_once_with(live=True, config_dir=self.folder)
         self.assertEqual(self.namespace["negative_result"], {"negative": "completed"})
         runner["run_positive"].assert_called_once()
@@ -324,7 +324,7 @@ class DemoTriageTests(unittest.TestCase):
 
 class DemoMiningTests(unittest.TestCase):
     def setUp(self):
-        self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_demo.py"))
+        self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
         self.namespace = self.runner["run_negative"].__globals__
         self.folder_context = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder_context.cleanup)

@@ -12,12 +12,14 @@ Demo notebooks should execute in order, with live screening disabled until expli
 
 Use descriptive filenames. Update configuration, documentation, and references together when renaming an input or output. Preserve original annotations and evidence notes as source data.
 
+Use the [canonical workflow terminology](docs/workflow.md#workflow-terminology) in documentation, demo titles, and command descriptions. In particular, use **data curation** for processing synthesis records and **dataset preparation** for generating training and holdout JSONL. Distinguish **positive extraction** from **negative reconstruction**. Name processed artifacts consistently and identify JSONL separately from JSON. Preserve original source filenames and recorded run metadata when documenting provenance.
+
 Install the verification dependencies and run the offline checks from the repository root:
 
 ```bash
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_api_demo/mof_api_demo.py triage
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 ```
 
 Use the same environment for terminal commands and the selected notebook kernel. See [installation](docs/installation.md) for setup and [the pre-upload checklist](docs/preupload_checklist.md) for the demo and workflow checks. Live API, desktop-download, and GPU checks are separate from this offline suite.

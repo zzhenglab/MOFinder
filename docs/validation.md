@@ -2,7 +2,7 @@
 
 Validation performed on 21 September 2026 used a fresh Linux environment with Python 3.12.14. Installation of the source checkout and the `triage` dependency group completed successfully.
 
-This is the original triage migration checkpoint, retained as historical evidence. Its test count, example size, and environment limitations describe that checkpoint. The current small API demo selects four of its 12 reference abstracts and requires an explicitly enabled live stage for predictions; see [the demo guide](../Demo/03_api_demo/README.md).
+This is the original triage migration checkpoint, retained as historical evidence. Its test count, example size, and environment limitations describe that checkpoint. The current small API demo selects four of its 12 reference abstracts and requires an explicitly enabled live stage for predictions; see [the demo guide](../Demo/03_triage_extraction/README.md).
 
 | Check | Result |
 | --- | --- |

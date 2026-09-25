@@ -1,4 +1,4 @@
-# Reaction and human benchmark evaluation
+# Model evaluation and human benchmark analysis
 
 The evaluation modules score model predictions on the reaction holdout and 22-question panel and analyze anonymous human responses. Live model calls, saved-result analysis, and human calculations have separate commands.
 
@@ -16,7 +16,7 @@ python -m pip install -e ".[evaluation]"
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
 
-The training set is `data/final_json/train.jsonl`, and the validation set is `data/final_json/holdout.jsonl`. Both preserve the original experiment records byte for byte. Their identities are recorded in `data/final_json/manifest.json`, and their record assignments are in `data/final_json/split_assignments.csv`.
+The training set is `data/final_json/train.jsonl`, and the holdout set is `data/final_json/holdout.jsonl`. Both preserve the original experiment records byte for byte. Their identities are recorded in `data/final_json/manifest.json`, and their record assignments are in `data/final_json/split_assignments.csv`.
 
 ## Offline checks
 
@@ -56,4 +56,4 @@ Use the filenames produced by the configured run. The stage guides describe outp
 
 ## Subsequent evaluation stages
 
-Separate positive and negative extraction-evaluation workflows are planned. They require their own reference records and scoring definitions. Model-performance results require corresponding saved predictions.
+Separate positive extraction and negative reconstruction evaluation workflows are planned. They require their own reference records and scoring definitions. Model-performance results require corresponding saved predictions.

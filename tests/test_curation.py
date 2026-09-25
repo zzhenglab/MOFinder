@@ -262,7 +262,7 @@ class CurationTests(unittest.TestCase):
         before = set(self.root.rglob("*"))
         result = validate_inputs(settings)
         self.assertFalse(result["valid"])
-        self.assertIn("revised", " ".join(result["issues"]))
+        self.assertIn("used for data curation", " ".join(result["issues"]))
         self.assertEqual(before, set(self.root.rglob("*")))
         self.lookup.write_text("linker_name,mw\nterephthalic acid,0\n")
         self.assertFalse(validate_inputs(settings)["valid"])

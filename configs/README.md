@@ -37,25 +37,25 @@ Run `python tools/literature_retrieval/fetch_papers.py --validate` or
 `python tools/literature_retrieval/fetch_si.py --validate` to inspect the configured inputs
 without opening a browser. See [literature-retrieval](../docs/literature_retrieval.md) for setup.
 
-## Mining and dataset settings
+## Synthesis records and dataset preparation
 
 | Configuration | Purpose |
 | --- | --- |
 | `document_matching.json` | Match local article and SI files against the selected inventory |
 | `example_document_matching.json` | Match the included demonstration PDFs |
-| `example_positive_extraction.json`, `example_negative_extraction.json` | Mine only the included demonstration pair into separate example results |
+| `example_positive_extraction.json`, `example_negative_reconstruction.json` | Run positive extraction and negative reconstruction on the included demonstration pair, saving separate example results |
 | `positive_extraction.json` | Model, document paths, prompts, concurrency, and saved positive outputs |
-| `negative_extraction.json` | Negative planning and enumeration inputs and outputs |
+| `negative_reconstruction.json` | Negative reconstruction: planning and enumeration inputs and outputs |
 | `negative_corrections.json` | Explicit DOI-specific enumeration rules retained from the notebook |
-| `curation.json` | Positive/negative cleaning paths and required molecular-weight lookup |
-| `dataset_preparation.json` | Prepare final JSONL and split records from the included processed positive/negative CSVs and publication years |
-| `dataset_preparation_from_curation.json` | Prepare a new dataset from generated positive/negative curation outputs |
+| `curation.json` | Positive and negative curation paths and required molecular-weight lookup |
+| `dataset_preparation.json` | Prepare final JSONL and split records from the included processed positive and negative CSVs and publication years |
+| `dataset_preparation_from_curation.json` | Prepare a new dataset from generated positive and negative curation outputs |
 | `dataset_preparation_corrected.json` | Prepare a separate dataset using the linker-corrected processed negative CSV |
 | `dataset_forced_questions.json` | Fixed benchmark conditions used to select holdout clusters |
 
 Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/final_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
 
-## Evaluation settings
+## Model evaluation settings
 
 | Configuration | Purpose |
 | --- | --- |

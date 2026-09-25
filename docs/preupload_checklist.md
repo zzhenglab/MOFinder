@@ -22,15 +22,15 @@ No input replacement is needed for these commands. The desktop validation comman
 
 ```bash
 python -m unittest discover -s tests -v
-python Demo/03_api_demo/mof_api_demo.py triage
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 python tools/literature_retrieval/fetch_papers.py --validate
 python tools/literature_retrieval/fetch_si.py --validate
 python -m mofinder.literature.match_documents match --config configs/example_document_matching.json
 python -m mofinder.extraction.positive validate --config configs/example_positive_extraction.json
-python Demo/01_data_cleaning/mof_cleaning_demo.py --check
-python Demo/02_json_preparation/mof_json_preparation_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_6.csv --check
-python Demo/03_api_demo/mof_api_demo.py validate
+python Demo/01_data_curation/mof_data_curation_demo.py --check
+python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-csv Demo/01_data_curation/outputs/mof_extraction_6.csv --check
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py validate
 python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
 python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
 python -m mofinder.evaluation.human_quest analyze
@@ -42,15 +42,15 @@ python -m mofinder.evaluation.human_quest analyze
 | Small triage example | 12 reference publications (9 Y and 3 N); four scheduled (3 Y and 1 N), with eight outside the selected subset. All 12 abstracts are available. |
 | Full triage reference | 478 publications, 293 Y and 185 N; no missing reference abstracts. |
 | Retrieval inventory validation | Both inventories and required image templates load. Unmapped publisher profiles and the optional missing cookie template remain listed for local review. |
-| Demonstration document matching | One main article and one SI match the DOI in `Demo/03_api_demo/inputs/mining/inventory.csv`; both have readable text. |
-| Cleaning demo | 174 raw records produce 146 stage-6 records; the expected output comparison passes. |
-| JSON preparation demo | 252 training records and 28 holdout records; zero shared clusters; expected JSONL and split assignments match. |
-| API demo validation | Four selected abstracts and the sample PDF pair are readable. Before positive mining runs, its missing output CSV is expected in the negative-input report. |
+| Demonstration document matching | One main article and one SI match the DOI in `Demo/03_triage_extraction/inputs/extraction/inventory.csv`; both have readable text. |
+| Data curation demo | 174 raw records produce 146 processed positive records; the expected output comparison passes. |
+| Dataset preparation demo | 252 training records and 28 holdout records; zero shared clusters; expected JSONL and split assignments match. |
+| API demo validation | Four selected abstracts and the sample PDF pair are readable. Before positive extraction runs, its missing output CSV is expected in the negative-input report. |
 | Holdout validation | 2,595 bundled records with P/N labels and valid message structure. |
 | Question validation | 22 questions, 11 P and 11 N; configured model settings are reported. This does not establish account access. |
 | Human analysis | 98 participants, 22 questions, 2,156 responses; summary and participant/question tables are written locally. |
 
-The duration conventions are regression-tested in `tests/test_curation_times.py` and used by both cleaning branches. They supplement the existing cleaning rules. Reported numeric `time_h` values and original `time_text` remain intact; supported text fills missing or nonnumeric durations.
+The duration conventions are regression-tested in `tests/test_curation_times.py` and used by both curation branches. They supplement the existing curation rules. Reported numeric `time_h` values and original `time_text` remain intact; supported text fills missing or nonnumeric durations.
 
 ## 3. Reproduce the included datasets
 
@@ -67,14 +67,14 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 | --- | --- | --- | ---: |
 | Processed positive and negative | `data/processed_data/processed_positive.csv` and `data/processed_data/processed_negative.csv` | `results/datasets/conditions/` | 23,528 / 2,595 |
 | Corrected linker spellings | Same positive table and `data/processed_data/linker_corrected/processed_negative.csv` | `results/datasets/corrected_conditions/` | 23,436 / 2,604 |
-| Newly mined and cleaned records | Generated positive/negative CSVs under `results/curation/` | `results/datasets/curated_conditions/` | Determined by the new inputs |
+| New data curation outputs | Generated processed positive and negative records under `results/curation/` | `results/datasets/curated_conditions/` | Determined by the new inputs |
 
 - [ ] For the default processed-data run, compare `mof_ft_train.jsonl` byte-for-byte with `data/final_json/train.jsonl`, and `mof_ft_holdout.jsonl` with `data/final_json/holdout.jsonl`.
 - [ ] Check each run's `mof_ft_split_summary.json` for filtering counts, P/N counts, year coverage, input hashes, and benchmark coverage.
 - [ ] Confirm that training and holdout have no shared cluster keys or exact condition inputs. Dataset preparation enforces these checks before writing outputs.
 - [ ] Keep the corrected run's new assignments. Linker names enter cluster identity, so bundled assignments cannot be transferred to corrected names.
 
-The included partition is a grouped training/holdout split. It does not include a third independent test partition, and it is not DOI- or parent-disjoint. If the holdout is supplied as validation data during training, record that use with the training job.
+The included partition is a grouped training and holdout split. It does not include a third independent test partition, and it is not DOI- or parent-disjoint. If the holdout is supplied as validation data during training, record that use with the training job.
 
 ### Publication-year subsets and future-year evaluation
 
@@ -92,11 +92,11 @@ The publication-year metadata is available. The confirmed temporal protocol or r
 
 One record in the bundled holdout has no mapped publication year (`10.1021/jacs.5c08726`). Check its bibliographic year before building future-year partitions; do not infer its year from the DOI string.
 
-## 4. Test literature retrieval and mining with local papers
+## 4. Test literature retrieval and extraction with local papers
 
 ### Three to five article/SI pairs
 
-For this small test, use `Demo/03_api_demo/literature_input/`. Replace the six blank PDFs below with the corresponding real documents. To use different papers, change `inventory.csv` and both filenames for each DOI.
+For this small test, use `Demo/03_triage_extraction/literature_input/`. Replace the six blank PDFs below with the corresponding real documents. To use different papers, change `inventory.csv` and both filenames for each DOI.
 
 | DOI | Replace under `literature_input/main/` | Replace under `literature_input/si/` |
 | --- | --- | --- |
@@ -104,36 +104,36 @@ For this small test, use `Demo/03_api_demo/literature_input/`. Replace the six b
 | `10.1002/adfm.200600944` | `10.1002_adfm.200600944.pdf` | `10.1002_adfm.200600944_SI.pdf` |
 | `10.1002/adfm.201002517` | `10.1002_adfm.201002517.pdf` | `10.1002_adfm.201002517_SI.pdf` |
 
-The DOI list controls selection. The local configuration accepts up to five papers and uses concurrency 1. Use documents with extractable text; scanned pages need OCR before this workflow. The illustrative pair in `Demo/03_api_demo/inputs/mining/` is ready for a separate demonstration and does not need replacement.
+The DOI list controls selection. The local configuration accepts up to five papers and uses concurrency 1. Use documents with extractable text; scanned pages need OCR before this workflow. The illustrative pair in `Demo/03_triage_extraction/inputs/extraction/` is ready for a separate demonstration and does not need replacement.
 
 ```bash
-python Demo/03_api_demo/mof_api_demo.py validate --config-dir Demo/03_api_demo/configs/local_papers
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py validate --config-dir Demo/03_triage_extraction/configs/local_papers
 ```
 
 - [ ] Confirm that the selected article/SI pairs match the inventory and have readable text.
-- [ ] Confirm that `placeholder_documents` is empty before live mining. The live runner rejects remaining templates.
+- [ ] Confirm that `placeholder_documents` is empty before live extraction. The live runner rejects remaining templates.
 - [ ] Check the models in the selected configuration files. Provide the API key through the hidden prompt or `OPENAI_API_KEY`.
 
 ```bash
-python Demo/03_api_demo/mof_api_demo.py triage --live
-python Demo/03_api_demo/mof_api_demo.py positive --config-dir Demo/03_api_demo/configs/local_papers --live
-python Demo/03_api_demo/mof_api_demo.py negative --config-dir Demo/03_api_demo/configs/local_papers --live
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage --live
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py positive --config-dir Demo/03_triage_extraction/configs/local_papers --live
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py negative --config-dir Demo/03_triage_extraction/configs/local_papers --live
 ```
 
-The triage command selects the first four of the 12 abstracts in `Demo/03_api_demo/inputs/`. It is independent of the PDF selection. Positive mining must finish before negative mining. Negative mining can legitimately return no records when the chosen papers contain no eligible trial/failure evidence.
+The triage command selects the first four of the 12 abstracts in `Demo/03_triage_extraction/inputs/`. It is independent of the PDF selection. Positive extraction must finish before negative reconstruction. Negative reconstruction can legitimately return no records when the chosen papers contain no eligible trial/failure evidence.
 
-Inspect the local-paper outputs under `results/examples/03_api_demo/local_papers/`:
+Inspect the local-paper outputs under `results/examples/03_triage_extraction/local_papers/`:
 
 - [ ] `positive/mof_extraction.csv`: fields agree with the source passages for the selected papers.
 - [ ] `positive/mof_json_store/`: article and numbered synthesis JSONs exist and retain all extracted fields.
 - [ ] `negative/`: plans identify their supporting text and correct successful parent; parent snapshots and enumerated records are retained.
 - [ ] Enumerated modifications correspond to the saved plan options. Their Cartesian combinations are reconstructed conditions, not a count of independently reported failed experiments.
 
-See [the API demo](../Demo/03_api_demo/README.md) for configuration names and output details. A new run with different inputs or settings needs fresh connected output paths; otherwise resume rules skip existing records.
+See [the API demo](../Demo/03_triage_extraction/README.md) for configuration names and output details. A new run with different inputs or settings needs fresh connected output paths; otherwise resume rules skip existing records.
 
 ### Desktop download check
 
-Install `.[fetch-gui]` on the target desktop. Start with a local copy of `Demo/03_api_demo/literature_input/inventory.csv`, which contains three DOIs, their links, and supported neutral publisher profiles. Update the rows for the papers being tested; the apps add their download-state columns. For an existing working inventory, clear only the download-state cells intended for this test. Launch each app with the selected file:
+Install `.[fetch-gui]` on the target desktop. Start with a local copy of `Demo/03_triage_extraction/literature_input/inventory.csv`, which contains three DOIs, their links, and supported neutral publisher profiles. Update the rows for the papers being tested; the apps add their download-state columns. For an existing working inventory, clear only the download-state cells intended for this test. Launch each app with the selected file:
 
 ```bash
 python tools/literature_retrieval/fetch_papers.py --workbook path/to/paper_test.csv
@@ -159,14 +159,14 @@ Use the paths below for the main configuration. Files generated by an upstream s
 | Main articles | `data/local/articles/` | Add real PDFs, for example `10.1021_jacs.2c09756.pdf`. |
 | Supporting information | `data/local/supporting_information/` | Add the corresponding `_SI.pdf` or supported text document. |
 | Positive extraction | `results/extraction/document_manifest.csv` | Generated by matching; contains `DOI`, `Main File`, and `SI File`. |
-| Negative planning | `results/extraction/positive/mof_extraction.csv` and `results/extraction/positive/mof_json_store/` | Generated together by positive extraction. Retain the trial/failure flag, notes, and complete DOI directories. A cleaned stage-6 CSV is not a substitute. |
-| Negative enumeration | `results/extraction/negative/mof_extraction_failplans.csv` and `results/extraction/negative/mof_negative_plan_store/` | Generated by planning. Retain the plan JSONs, ordered successful-parent snapshots, and provenance files. |
-| Positive cleaning | `results/extraction/positive/mof_extraction.csv` | Full raw extraction table. Preserve the original extraction schema and document-availability information. The existing source CSV can be selected here; the package currently distributes a smaller raw demo. |
-| Negative cleaning | `results/extraction/negative/mof_extraction_failures_enum.csv` | Raw enumerated table produced before cleaning. The bundled processed negative table belongs in dataset preparation. |
+| Negative reconstruction: planning | `results/extraction/positive/mof_extraction.csv` and `results/extraction/positive/mof_json_store/` | Generated together by positive extraction. Retain the trial/failure flag, notes, and complete DOI directories. The processed positive CSV is not a substitute for these raw inputs. |
+| Negative reconstruction: enumeration | `results/extraction/negative/mof_extraction_failplans.csv` and `results/extraction/negative/mof_negative_plan_store/` | Generated by planning. Retain the plan JSONs, ordered successful-parent snapshots, and provenance files. |
+| Data curation: positive records | `results/extraction/positive/mof_extraction.csv` | Full raw extraction table. Preserve the original extraction schema and document-availability information. The existing source CSV can be selected here; the package currently distributes a smaller raw demo. |
+| Data curation: negative records | `results/extraction/negative/mof_extraction_failures_enum.csv` | Raw enumerated table produced before curation. The bundled processed negative table belongs in dataset preparation. |
 | Organic linker information | `data/organic_linker_info/linker_molecular_weights.csv`; `data/organic_linker_info/linker_prime_corrections.json` | Included. MW CSV has no header. Leave unresolved weights blank until established. |
 | Dataset preparation after curation | Generated CSVs under `results/curation/`; `data/processed_data/publication_years.csv` | Use `configs/dataset_preparation_from_curation.json`. Use the completed positive and negative description tables. |
 
-Run the matching, extraction, and enumeration commands in [the workflow guide](workflow.md). Then test both cleaning branches and the newly generated dataset:
+Run the matching, extraction, and enumeration commands in [the workflow guide](workflow.md). Then test both curation branches and the newly generated dataset:
 
 ```bash
 python -m mofinder.curation validate-inputs --config configs/curation.json --mode both
@@ -175,7 +175,7 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_from_curation.json
 ```
 
-- [ ] Inspect every numbered cleaning table and branch report, including row removals, aliases, quantities, temperatures, times, and derived ratios/concentrations.
+- [ ] Inspect every numbered curation table and branch report, including row removals, aliases, quantities, temperatures, times, and derived ratios/concentrations.
 - [ ] Compare corresponding stages with the original notebooks using identical raw inputs and lookup files. Use [the code map](source_to_code.md) to locate the original operations.
 - [ ] Account for the documented H3BTB, hydrate-mass, duration-text, and DOI-specific prime corrections when comparing new output with bundled tables. Bundled JSONL files remain unchanged.
 - [ ] Retain the curation and split manifests with the generated data.
@@ -186,13 +186,13 @@ Install `.[notebook]` in the same environment as the demo packages. Open each no
 
 | Notebook | Input preparation | Switches or settings for execution |
 | --- | --- | --- |
-| `Demo/01_data_cleaning/mof_cleaning_demo.ipynb` | Included raw records and lookups | Local cleaning demonstration |
-| `Demo/02_json_preparation/mof_json_preparation_demo.ipynb` | Included cleaned tables or the cleaning demo output | Local JSONL preparation |
-| `Demo/03_api_demo/mof_api_demo.ipynb` | Four abstracts selected from the included 12-paper subset and the sample article/SI pair; `.[mining,notebook]` installed; optionally select the local-paper configuration directory | Preview abstracts and exact requests locally; use `RUN_TRIAGE` for GPT predictions/reference comparison, then `RUN_POSITIVE_MINING` before `RUN_NEGATIVE_MINING`; all default to `False` |
+| `Demo/01_data_curation/mof_data_curation_demo.ipynb` | Included raw records and lookups | Local data curation demonstration |
+| `Demo/02_dataset_preparation/mof_dataset_preparation_demo.ipynb` | Included processed tables or the data curation demo output | Local dataset preparation |
+| `Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb` | Four abstracts selected from the included 12-paper subset and the sample article/SI pair; `.[mining,notebook]` installed; optionally select the local-paper configuration directory | Preview abstracts and exact requests locally; use `RUN_TRIAGE` for GPT predictions/reference comparison, then `RUN_POSITIVE_EXTRACTION` before `RUN_NEGATIVE_RECONSTRUCTION`; all default to `False` |
 
 Default API demo execution leaves live model calls disabled. Preserve checked, shareable notebook outputs and execution counts as demonstration run records. Keep complete generated files, reference comparisons, and manifests with each run. Remove credentials, private text, and machine-specific paths before committing outputs; retain the underlying records locally when they cannot be shared.
 
-For the API demo's triage stage, confirm that the displayed requests contain the bibliographic fields and abstracts, with human labels used only in the results comparison. A preview with `RUN_TRIAGE = False` validates setup only. A live run sends four abstracts to OpenAI, incurs API charges, and saves its outputs under `results/examples/03_api_demo/triage/`; inspect request statuses as well as predictions.
+For the API demo's triage stage, confirm that the displayed requests contain the bibliographic fields and abstracts, with human labels used only in the results comparison. A preview with `RUN_TRIAGE = False` validates setup only. A live run sends four abstracts to OpenAI, incurs API charges, and saves its outputs under `results/examples/03_triage_extraction/triage/`; inspect request statuses as well as predictions.
 
 ## 7. Check training and model evaluation
 
@@ -242,11 +242,11 @@ python -m mofinder.evaluation.quest run --config configs/local/quest_smoke.json 
 
 | Material | Current availability | Destination or next action |
 | --- | --- | --- |
-| Full raw positive extraction CSV | Source file exists; only the raw cleaning subset is distributed | Select the complete source in `configs/curation.json` for full cleaning; prepare a portable release export if distributing it. |
-| Successful-synthesis JSON store | Not distributed | Restore under `results/extraction/positive/mof_json_store/` or select its location in a local configuration. Needed for negative mining and CSV recovery. |
-| Full negative plan, parent, and enumerated JSON stores | Not distributed | Restore the connected stores under `results/extraction/negative/`, with the pre-cleaning enumeration CSV. Needed to reproduce planning/enumeration independently of a new model run. |
-| Real research PDFs | Local inputs | Add to the documented local folders for retrieval/mining checks; the supplied sample and blank templates do not replace the research corpus. |
-| Positive and negative extraction evaluation | Separate scoring code and ground-truth records pending | Integrate each evaluation's actual schema and reference data before assigning public input paths. |
+| Full raw positive extraction CSV | Source file exists; only the raw curation subset is distributed | Select the complete source in `configs/curation.json` for full curation; prepare a portable release export if distributing it. |
+| Successful-synthesis JSON store | Not distributed | Restore under `results/extraction/positive/mof_json_store/` or select its location in a local configuration. Needed for negative reconstruction and CSV recovery. |
+| Full negative plan, parent, and enumerated JSON stores | Not distributed | Restore the connected stores under `results/extraction/negative/`, with the pre-curation enumeration CSV. Needed to reproduce planning/enumeration independently of a new model run. |
+| Real research PDFs | Local inputs | Add to the documented local folders for retrieval/extraction checks; the supplied sample and blank templates do not replace the research corpus. |
+| Positive extraction and negative reconstruction evaluation | Separate scoring code and ground-truth records pending | Integrate each evaluation's actual schema and reference data before assigning public input paths. |
 | Full triage, holdout, and question-panel model predictions | Complete run archives pending | Retain the associated manifests and CSV/JSONL outputs in their documented run layouts; connect released results to immutable input and model identities. |
 | Training job provenance | Recipes included; completed job records pending | Record the exact dataset version, API job or HPC run, trained model, and downstream evaluation run. |
 | Future-year validation/test split | Publication years included; temporal protocol pending | Confirm the protocol described above, then generate versioned partitions and evaluation outputs. |
@@ -256,7 +256,7 @@ python -m mofinder.evaluation.quest run --config configs/local/quest_smoke.json 
 | Prospective and structural source data | Historical Reactome files are available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) | Link any revised candidate scores, selection records, measured outcomes, replicate identifiers, PXRD source data, and structure/archive identifiers used in the final figures. |
 | Final figure/table inputs | Reproduction map incomplete | Complete [the figure/table map](figure_table_map.md) with saved inputs and commands for each final result. |
 
-The anonymous human benchmark inputs, processed positive/negative tables, original train/holdout files, split assignments, prompts, molecular-weight lookup, and name/SMILES mappings are included. Their source workbooks are not required to run the included analyses. A new human workbook can be exported with `mofinder.evaluation.human_quest export-workbook` as documented in [human analysis](human_benchmark.md).
+The anonymous human benchmark inputs, processed positive and negative tables, original training and holdout files, split assignments, prompts, molecular-weight lookup, and name/SMILES mappings are included. Their source workbooks are not required to run the included analyses. A new human workbook can be exported with `mofinder.evaluation.human_quest export-workbook` as documented in [human analysis](human_benchmark.md).
 
 ## 9. Inspect the GitHub payload
 

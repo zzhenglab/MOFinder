@@ -1,4 +1,4 @@
-# MOF Quest model evaluation
+# Model evaluation: MOF Quest
 
 This stage evaluates a fixed panel of 22 reaction conditions with 11 positive and 11 negative reference labels. Each configured model is evaluated over repeated rounds using the same classification prompt and metric definitions.
 

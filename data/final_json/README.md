@@ -5,7 +5,7 @@ This folder keeps the final model inputs and their split information together. T
 | File | Contents |
 | --- | --- |
 | [train.jsonl](train.jsonl) | Fine-tuning training records |
-| [holdout.jsonl](holdout.jsonl) | Validation and holdout evaluation records |
+| [holdout.jsonl](holdout.jsonl) | Holdout records for model evaluation |
 | [split_assignments.csv](split_assignments.csv) | Retained source rows, condition keys, cluster keys, labels, and partition |
 | [split_summary.json](split_summary.json) | Input hashes, preparation settings, filtering counts, split counts, and output identities |
 | [class_map.json](class_map.json) | P = success; N = failure |
@@ -14,9 +14,11 @@ This folder keeps the final model inputs and their split information together. T
 | Partition | P | N | Total | Clusters |
 | --- | ---: | ---: | ---: | ---: |
 | Training | 11,968 | 11,560 | 23,528 | 11,157 |
-| Validation/holdout | 1,320 | 1,275 | 2,595 | 1,231 |
+| Holdout | 1,320 | 1,275 | 2,595 | 1,231 |
 
 Each JSONL record contains the original system instruction, eight-field reaction conditions, and a P/N reference answer. The files match the outputs from the source dataset-preparation notebook. Training and holdout have no shared clusters or exact condition inputs, and both have a P:N ratio of 88:85. Distinct clusters from the same DOI can occur in both partitions.
+
+Some training workflows also use the holdout as validation data. Record that use with the training job; this folder does not contain an additional independent test partition.
 
 ## Regenerate from processed data
 

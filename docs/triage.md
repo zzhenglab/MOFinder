@@ -1,6 +1,6 @@
 # Abstract triage
 
-The triage workflow runs from Python modules and command-line commands. Screening preserves response records, evaluation compares saved predictions with the human reference, and plotting generates figures from the same analysis. The [API demo](../Demo/03_api_demo/README.md) provides a four-abstract example with saved reference comparisons.
+The triage workflow runs from Python modules and command-line commands. Screening preserves response records, evaluation compares saved predictions with the human reference, and plotting generates figures from the same analysis. The [API demo](../Demo/03_triage_extraction/README.md) provides a four-abstract example with saved reference comparisons.
 
 ## Inputs
 

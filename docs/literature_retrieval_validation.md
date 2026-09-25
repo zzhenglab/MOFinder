@@ -15,7 +15,7 @@ This report preserves the original literature-retrieval integration checkpoint; 
 | Image templates | 48 renamed files, all byte-identical to the source images (47 from the original archive and one additional capture) |
 | Publisher W SI entry template | `publisher_W_SI_1.png` included unchanged |
 | Missing optional SI template | `publisher_S_SI_Accept2.png` |
-| Documents | Research downloads remain local; demonstration PDFs are documented in `Demo/03_api_demo/inputs/mining/README.md` |
+| Documents | Research downloads remain local; demonstration PDFs are documented in `Demo/03_triage_extraction/inputs/extraction/README.md` |
 | Calibration | Calibration starts without coordinates or workstation-specific paths |
 
 The article inventory has 422 blank-status rows, of which 412 remain `unmapped` under the original matching rules. The SI inventory has 475 blank-status rows, of which three are `unmapped`. The downloaders require explicit supported profile IDs for these rows. Review neutral profile assignments in a working copy before scheduling affected records.

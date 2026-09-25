@@ -11,8 +11,8 @@ dist/
 Demo/out/
 Demo/*_executed.ipynb
 Demo/**/outputs/
-!Demo/**/saved_run/outputs/
-!Demo/**/saved_run/outputs/**
+!Demo/**/recorded_runs/**/outputs/
+!Demo/**/recorded_runs/**/outputs/**
 Demo/**/run_history/
 Demo/**/*_executed.ipynb
 demo/out/

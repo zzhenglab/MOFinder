@@ -1,4 +1,4 @@
-# Condition classification datasets
+# Dataset preparation
 
 `mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The prepared research files and their assignments are together in [data/final_json](../data/final_json/README.md).
 
@@ -10,7 +10,7 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 `validate` reads inputs and reports missing files, column requirements, and input provenance without creating outputs. `prepare` runs the configured split and writes to `results/datasets/conditions`. Use `--output-dir` to select another run directory. Each run should have its own directory so files from an earlier year-bin configuration cannot be mistaken for current outputs.
 
-The implementation is in [datasets/prepare.py](../src/mofinder/datasets/prepare.py). For a small example with expected outputs, use [the JSON preparation demo](../Demo/02_json_preparation/README.md).
+The implementation is in [datasets/prepare.py](../src/mofinder/datasets/prepare.py). For a small example with expected outputs, use [the dataset preparation demo](../Demo/02_dataset_preparation/README.md).
 
 ## Input selection
 
@@ -35,7 +35,7 @@ This reads the positive and negative description-stage CSVs under `results/curat
 
 For the source-confirmed linker corrections, use `configs/dataset_preparation_corrected.json`. It reads `data/processed_data/linker_corrected/processed_negative.csv` with the same processed positive table and writes to `results/datasets/corrected_conditions/`. Linker corrections change cluster identities, so this version calculates new assignments.
 
-A run from newly mined or curated data is a new dataset and can produce different split assignments. Each run records its input notes and SHA-256 hashes in the summary. The default bundled inputs retain the scientific values used for the original research dataset.
+A run from newly extracted or curated records is a new dataset and can produce different split assignments. Each run records its input notes and SHA-256 hashes in the summary. The default bundled inputs retain the scientific values used for the original research dataset.
 
 CSV and Excel publication metadata are supported; both must contain `DOI` and `Publication Year`. Duplicate metadata DOI entries use the modal valid year, with the lowest year resolving a tie. DOI recognition accepts canonical DOI strings, DOI URLs, and article/SI filenames such as `10.1021_jacs.2c09756_SI.pdf`.
 
@@ -73,7 +73,7 @@ The split is **not grouped by DOI or by a successful synthesis parent**. Distinc
 | `mof_cls_train_<years>.jsonl` | Four contiguous year bins and cumulative bins 1–2 and 1–3 |
 | `mof_cls_train_5periods_<years>.jsonl` | Five contiguous year bins and cumulative bins 1–2, 1–3, and 1–4 |
 
-Publication-year bins use training rows only and keep whole years together. Fewer distinct years produce fewer bins. Records without a publication year remain in full training/holdout but are excluded from year subsets. Source row IDs are zero-based in the original positive-then-negative concatenation before filtering.
+Publication-year bins use training rows only and keep whole years together. Fewer distinct years produce fewer bins. Records without a publication year remain in full training and holdout but are excluded from year subsets. Source row IDs are zero-based in the original positive-then-negative concatenation before filtering.
 
 These files support training-history comparisons against the existing holdout. They do not define a future-year test partition. A chronological evaluation needs explicit cutoff years, publication/parent grouping rules, and separate dated train/test assignments. The current preparation command produces one training partition and one holdout partition; it does not create an additional independent test set.
 
@@ -89,7 +89,7 @@ Using `processed_positive.csv`, `processed_negative.csv`, and the included publi
 | Training | 11,968 | 11,560 | 23,528 |
 | Holdout | 1,320 | 1,275 | 2,595 |
 
-The final train/holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row lacks a publication year. These results describe the bundled processed inputs; fresh mining and curation can change them.
+The final training and holdout P:N ratio is 88:85. The retained split has zero shared clusters and **864 shared DOIs**. One holdout row lacks a publication year. These results describe the bundled processed inputs; fresh extraction and curation can change them.
 
 The implementation also adds explicit failure messages for infeasible splits and handles the case where all selected holdout clusters are forced. Those changes affect edge cases in which the original notebook failed; they did not alter the final outputs above.
 

@@ -1,4 +1,4 @@
-# Article and supporting-information literature retrieval
+# Literature retrieval
 
 The literature retrieval tools are Python desktop applications that open article landing
 pages, follow recorded browser actions, and save documents under DOI-derived
@@ -114,7 +114,7 @@ and flow references.
 
 The required `publisher_W_SI_1.png` entry template is included. The optional `publisher_S_SI_Accept2.png` cookie-button alternative remains absent. Image matching still requires a compatible local browser appearance.
 
-The [mining example](../Demo/03_api_demo/inputs/mining/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
+The [extraction example](../Demo/03_triage_extraction/inputs/extraction/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
 
 ## Download articles
 
@@ -157,11 +157,11 @@ workflow. The SI test option limits execution to five pending rows; both
 applications support pointer-corner interruption.
 
 Research article and SI downloads remain local. The API demo's
-[literature input folder](../Demo/03_api_demo/literature_input/README.md)
+[literature input folder](../Demo/03_triage_extraction/literature_input/README.md)
 contains replaceable article/SI templates and a three-paper DOI inventory.
 Document matching builds a DOI-to-file manifest from local documents before
 positive extraction and negative reconstruction. The separate
-[mining example](../Demo/03_api_demo/inputs/mining/README.md) contains demonstration PDFs.
+[extraction example](../Demo/03_triage_extraction/inputs/extraction/README.md) contains demonstration PDFs.
 
 Live Chrome literature retrieval remains to be validated on the configured desktop.
 Offline validation and its limits are recorded in

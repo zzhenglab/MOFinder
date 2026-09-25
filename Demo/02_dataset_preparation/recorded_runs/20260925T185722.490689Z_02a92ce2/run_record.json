@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "demo": "02_dataset_preparation",
+  "started_at": "2026-09-25T18:57:22.490689+00:00",
+  "finished_at": "2026-09-25T18:57:23.520249+00:00",
+  "elapsed_seconds": 1.03,
+  "status": "completed",
+  "python_version": "3.11.9",
+  "pandas_version": "3.0.3",
+  "source_revision": "f74b49e4665ad5ebf68397f668ad8a8b349131ea",
+  "source_has_local_changes": true,
+  "inputs": {
+    "positive_csv": {
+      "path": "Demo/02_dataset_preparation/input/processed_positive.csv",
+      "hash_format": "bytes",
+      "sha256": "5a0fb659694a8f70faf6f4249aa1449a5eb0c2b27ac61c10e4dc792b2359e77a"
+    },
+    "negative_csv": {
+      "path": "Demo/02_dataset_preparation/input/processed_negative.csv",
+      "hash_format": "bytes",
+      "sha256": "8227b2fa97c3da7fe168ed0af941d5ef131237901ba9e64cec009925edf89fec"
+    },
+    "metadata_file": {
+      "path": "Demo/02_dataset_preparation/input/publication_years.csv",
+      "hash_format": "bytes",
+      "sha256": "0859868a3baf40e12afddce02471132cd39599436be1134676be4477e51beb63"
+    },
+    "prompt_file": {
+      "path": "prompts/training/reaction_prediction.txt",
+      "hash_format": "bytes",
+      "sha256": "26dec7168e91ad13cb39dfb5e9782ac26f5b8fc0bcfc9e19fd239c8c61c435e6"
+    },
+    "forced_questions_file": {
+      "path": "Demo/02_dataset_preparation/input/forced_questions.json",
+      "hash_format": "bytes",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    "config": {
+      "path": "Demo/02_dataset_preparation/config.json",
+      "hash_format": "bytes",
+      "sha256": "7588f6de2014f882eb25ad07924a3956cdf4f6d8ee20a2d4d8aa32bc187d9234"
+    },
+    "runner": {
+      "path": "Demo/02_dataset_preparation/mof_dataset_preparation_demo.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "9372efc1571076cdf1cae725fb859b32f2d68d9c86ff234fc396b428580ae5f5"
+    },
+    "preparation_code": {
+      "path": "src/mofinder/datasets/prepare.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "0c152be32ef53655798f401478ac625c451b61cac9a1b68bb9dcc10eae33edbf"
+    },
+    "run_record_code": {
+      "path": "src/mofinder/demo_records.py",
+      "hash_format": "utf-8-lf",
+      "sha256": "70f3826ec828b226a235df4ac5d38ef50f8e9da8e48d5652f5329cd5c3d10c3a"
+    }
+  },
+  "verification": {
+    "passed": true,
+    "checks": [
+      {
+        "file": "mof_ft_train.jsonl",
+        "expected_rows": 252,
+        "actual_rows": 252,
+        "passed": true,
+        "expected_sha256": "a7f37ba11339df5e803bb0d444c0f7efab51ab5c279964be26d744017e9e58d4",
+        "actual_sha256": "a7f37ba11339df5e803bb0d444c0f7efab51ab5c279964be26d744017e9e58d4",
+        "detail": "All JSONL records match, including order and labels."
+      },
+      {
+        "file": "mof_ft_holdout.jsonl",
+        "expected_rows": 28,
+        "actual_rows": 28,
+        "passed": true,
+        "expected_sha256": "e0f33138466d4da18d99b9fb0c6d98db34ac75ac4e88dfbe2f0f59d70e613658",
+        "actual_sha256": "e0f33138466d4da18d99b9fb0c6d98db34ac75ac4e88dfbe2f0f59d70e613658",
+        "detail": "All JSONL records match, including order and labels."
+      },
+      {
+        "file": "mof_ft_class_map.json",
+        "expected_rows": null,
+        "actual_rows": null,
+        "passed": true,
+        "expected_sha256": "94a210943b6ca069fe6974dbc7a99583931dd552c3d8d2d2ca49e86621bdc7c1",
+        "actual_sha256": "27b04c38d5d438de210b603169371a1bcc8862fccd4bab6b3d874b6893143185",
+        "detail": "All JSON values match the expected output."
+      },
+      {
+        "file": "demo_summary.json",
+        "expected_rows": null,
+        "actual_rows": null,
+        "passed": true,
+        "expected_sha256": "742bbe9e6f0c0d676492c8574021732b8abe9dd73dbde9b989324fe574db51a0",
+        "actual_sha256": "7c2ca88797f3d6f05ef1d2f9902494821dd42daaba0b33d72bd36852b138bd99",
+        "detail": "All JSON values match the expected output."
+      },
+      {
+        "file": "mof_ft_split_assignments.csv",
+        "expected_rows": 280,
+        "actual_rows": 280,
+        "passed": true,
+        "expected_sha256": "6b712ebf1d4a065d2f257db15436ad31c3358687a19d40c281c193d7857e7b03",
+        "actual_sha256": "3f3c3d7b3df66ca7bcbc42e32557d8d78b05feb41fee67e608d6bd02662bac0d",
+        "detail": "All columns, rows, and values match the expected table."
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "outputs/demo_summary.json",
+      "sha256": "7c2ca88797f3d6f05ef1d2f9902494821dd42daaba0b33d72bd36852b138bd99",
+      "generated_sha256": "7c2ca88797f3d6f05ef1d2f9902494821dd42daaba0b33d72bd36852b138bd99"
+    },
+    {
+      "path": "outputs/mof_cls_train_2000to2010.jsonl",
+      "sha256": "0ffd386747087b466a1773e1e80f4240e4c0ba392abb56cf5c2375bcb7cce88c",
+      "generated_sha256": "0ffd386747087b466a1773e1e80f4240e4c0ba392abb56cf5c2375bcb7cce88c"
+    },
+    {
+      "path": "outputs/mof_cls_train_2000to2014.jsonl",
+      "sha256": "3be33e89317a2b62b25635c245acefd788ab140acf527069b2ed39f15e3fd48b",
+      "generated_sha256": "3be33e89317a2b62b25635c245acefd788ab140acf527069b2ed39f15e3fd48b"
+    },
+    {
+      "path": "outputs/mof_cls_train_2000to2018.jsonl",
+      "sha256": "1bb657114adf1ecf7b14b801c78fa4c1f45eb6e1e6feeb7d3585939ab235de60",
+      "generated_sha256": "1bb657114adf1ecf7b14b801c78fa4c1f45eb6e1e6feeb7d3585939ab235de60"
+    },
+    {
+      "path": "outputs/mof_cls_train_2012to2014.jsonl",
+      "sha256": "180035fa1f636dcde512553e64868bcc0870a903b900c7266c67e1a2c0faa0cb",
+      "generated_sha256": "180035fa1f636dcde512553e64868bcc0870a903b900c7266c67e1a2c0faa0cb"
+    },
+    {
+      "path": "outputs/mof_cls_train_2015to2018.jsonl",
+      "sha256": "11a99a24150f5c2d3ae287c88a503d5790d489b8dbe07cab73828328405b7af8",
+      "generated_sha256": "11a99a24150f5c2d3ae287c88a503d5790d489b8dbe07cab73828328405b7af8"
+    },
+    {
+      "path": "outputs/mof_cls_train_2019to2025.jsonl",
+      "sha256": "9f50f321a3c3f3987d569cd91070a31ce4eda4f5d32b775a517eadae60f67ed9",
+      "generated_sha256": "9f50f321a3c3f3987d569cd91070a31ce4eda4f5d32b775a517eadae60f67ed9"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2000to2009.jsonl",
+      "sha256": "fb7caf830350777f749a3d0397c5f8533f2a719859bcf190c744b6835ec91467",
+      "generated_sha256": "fb7caf830350777f749a3d0397c5f8533f2a719859bcf190c744b6835ec91467"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2000to2012.jsonl",
+      "sha256": "92b472be5c6711cd2c54f3490bf8b4f807fa2b4b472421d65c67931ad578e13a",
+      "generated_sha256": "92b472be5c6711cd2c54f3490bf8b4f807fa2b4b472421d65c67931ad578e13a"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2000to2015.jsonl",
+      "sha256": "c6cd6daaabce793796e289a097c806de04179aab5c152cdc7c0354e92450f8ee",
+      "generated_sha256": "c6cd6daaabce793796e289a097c806de04179aab5c152cdc7c0354e92450f8ee"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2000to2019.jsonl",
+      "sha256": "1b155f49a253ab3ddb24763c4cd744d9c78b289e2bcd1843eefdcee95a641ba6",
+      "generated_sha256": "1b155f49a253ab3ddb24763c4cd744d9c78b289e2bcd1843eefdcee95a641ba6"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2010to2012.jsonl",
+      "sha256": "fce731221fe15c07502638ca523784e0ed421551a5b2e9083f3f0dbf16e41125",
+      "generated_sha256": "fce731221fe15c07502638ca523784e0ed421551a5b2e9083f3f0dbf16e41125"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2013to2015.jsonl",
+      "sha256": "03b875e9da44014f2b2403ca17fcebc170fdb8aa267967039e3daa9a61f95d2d",
+      "generated_sha256": "03b875e9da44014f2b2403ca17fcebc170fdb8aa267967039e3daa9a61f95d2d"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2016to2019.jsonl",
+      "sha256": "2a61637decf6b254fb4d12847bc9a8e8b244d800f44f47a67e3273d088909dc1",
+      "generated_sha256": "2a61637decf6b254fb4d12847bc9a8e8b244d800f44f47a67e3273d088909dc1"
+    },
+    {
+      "path": "outputs/mof_cls_train_5periods_2020to2025.jsonl",
+      "sha256": "4334c8ecd31a6fcf1cad39fdeda7900c58786e8396e5e1b805951a20196e0a73",
+      "generated_sha256": "4334c8ecd31a6fcf1cad39fdeda7900c58786e8396e5e1b805951a20196e0a73"
+    },
+    {
+      "path": "outputs/mof_ft_class_map.json",
+      "sha256": "27b04c38d5d438de210b603169371a1bcc8862fccd4bab6b3d874b6893143185",
+      "generated_sha256": "27b04c38d5d438de210b603169371a1bcc8862fccd4bab6b3d874b6893143185"
+    },
+    {
+      "path": "outputs/mof_ft_holdout.jsonl",
+      "sha256": "e0f33138466d4da18d99b9fb0c6d98db34ac75ac4e88dfbe2f0f59d70e613658",
+      "generated_sha256": "e0f33138466d4da18d99b9fb0c6d98db34ac75ac4e88dfbe2f0f59d70e613658"
+    },
+    {
+      "path": "outputs/mof_ft_split_assignments.csv",
+      "sha256": "3f3c3d7b3df66ca7bcbc42e32557d8d78b05feb41fee67e608d6bd02662bac0d",
+      "generated_sha256": "3f3c3d7b3df66ca7bcbc42e32557d8d78b05feb41fee67e608d6bd02662bac0d"
+    },
+    {
+      "path": "outputs/mof_ft_split_summary.json",
+      "sha256": "ddee1b304cef611fd4878cfd7146780fc4af0db98917f4c24f4b29e287f0148c",
+      "generated_sha256": "3a0dce447e87074ed937f59e0fae0d7d4a943885f171f68ce69555802714b210"
+    },
+    {
+      "path": "outputs/mof_ft_train.jsonl",
+      "sha256": "a7f37ba11339df5e803bb0d444c0f7efab51ab5c279964be26d744017e9e58d4",
+      "generated_sha256": "a7f37ba11339df5e803bb0d444c0f7efab51ab5c279964be26d744017e9e58d4"
+    }
+  ],
+  "log": "run.log"
+}

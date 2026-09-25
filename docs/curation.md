@@ -1,6 +1,6 @@
-# Synthesis record curation
+# Data curation
 
-The curation package normalizes positive synthesis records and enumerated negative records through separate cleaning branches. Each branch applies chemical mappings, record filters, amount conversions, and derived descriptions. The sequence is implemented in [curation/pipeline.py](../src/mofinder/curation/pipeline.py); [the cleaning demo](../Demo/01_data_cleaning/README.md) provides a small run with expected-output checks.
+The data curation package normalizes positive synthesis records and enumerated negative records through separate branches. Each branch applies chemical mappings, record filters, amount conversions, and derived descriptions. The sequence is implemented in [curation/pipeline.py](../src/mofinder/curation/pipeline.py); [the data curation demo](../Demo/01_data_curation/README.md) provides a small run with expected-output checks.
 
 ## Inputs
 
@@ -9,7 +9,7 @@ The curation package normalizes positive synthesis records and enumerated negati
 | Input | Default location |
 | --- | --- |
 | Positive extraction | `results/extraction/positive/mof_extraction.csv` |
-| Enumerated negative extraction | `results/extraction/negative/mof_extraction_failures_enum.csv` |
+| Enumerated negative records | `results/extraction/negative/mof_extraction_failures_enum.csv` |
 | Linker molecular weights | `data/organic_linker_info/linker_molecular_weights.csv` |
 
 The molecular-weight table is a UTF-8 CSV with **no header**, containing linker name and molecular weight in g/mol. Quote names that contain commas. Names are matched case-insensitively after stripping whitespace. Numeric molecular weights must be positive and finite; conflicting duplicate numeric weights are rejected. A blank weight indicates an unresolved value and remains blank.
@@ -93,7 +93,7 @@ The two branches retain these distinct rules. In both branches, `h3btb` and `H3B
 
 `linker_prime_corrections` in `configs/curation.json` points to [167 documented spellings](../data/organic_linker_info/linker_prime_corrections.json) restored from intact same-publication records. The linker stage applies each rule only when the DOI and entire linker name or abbreviation match. Single, double, triple, and quadruple primes are distinguished. Missing or null configuration disables this lookup. The run manifest records the correction file and its SHA-256 hash.
 
-The [corrected processed negative table](../data/processed_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. The processed inputs and final training/holdout files remain available for reproducing the original runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
+The [corrected processed negative table](../data/processed_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. The processed inputs and final training and holdout files remain available for reproducing the original runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
 
 The Python mass parser corrects two related formula parsing errors found in the notebooks. A leading coefficient now multiplies the complete dot-separated fragment, and square brackets remain intact during abbreviation expansion. Thus `6H2O` contributes H12O6, fractional hydrates are handled consistently, and bracketed complexes can be parsed.
 
@@ -101,7 +101,7 @@ For example, using the source atomic weights, `Zn(NO3)2·6H2O` has a calculated 
 
 ## Prepare final JSONL
 
-After curation, `configs/dataset_preparation_from_curation.json` reads the completed positive and negative description tables. Validate them and prepare the training/holdout files with:
+After curation, `configs/dataset_preparation_from_curation.json` reads the completed positive and negative description tables. Validate them and prepare the training and holdout files with:
 
 ```bash
 python -m mofinder.datasets.prepare validate --config configs/dataset_preparation_from_curation.json
@@ -114,4 +114,4 @@ The default `configs/dataset_preparation.json` instead reads the bundled `proces
 
 An earlier offline comparison ran the original notebook operations and the Python functions on the same 52-row controlled fixture for each branch. All 15 corresponding intermediate/final and positive coverage-report CSVs were byte-identical. The fixture covered missing PDF paths, invalid flags, temperature exclusions, linker aliases and units, precursor forms, solvent amounts, pore outliers, connectivity, and topology codes. This comparison predates the formula, alias, and time changes described above.
 
-The curation tests check branch-specific rules, anhydrous and hydrated precursor mass conversion, fractional hydrates and bracketed formulas, linker mass/molar/equivalent units, solvent density conversion, ratio/concentration units, descriptions, explicit paths, and lookup validation. They also check both routes through the corrected `h3btb` mapping, case-insensitive resolution against the reference lookup, and handling of unresolved molecular weights. Time tests cover the supported phrase conventions, numeric-value precedence, and both cleaning branches. The unchanged-rule comparison is separate from the documented formula, alias, and time changes. Corrected element counts and molar masses are checked against explicit stoichiometry using the original atomic-weight table.
+The curation tests check branch-specific rules, anhydrous and hydrated precursor mass conversion, fractional hydrates and bracketed formulas, linker mass/molar/equivalent units, solvent density conversion, ratio/concentration units, descriptions, explicit paths, and lookup validation. They also check both routes through the corrected `h3btb` mapping, case-insensitive resolution against the reference lookup, and handling of unresolved molecular weights. Time tests cover the supported phrase conventions, numeric-value precedence, and both curation branches. The unchanged-rule comparison is separate from the documented formula, alias, and time changes. Corrected element counts and molar masses are checked against explicit stoichiometry using the original atomic-weight table.

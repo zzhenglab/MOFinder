@@ -9,7 +9,7 @@ Windows PowerShell, from the repository folder:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[api,plotting]"
-.\.venv\Scripts\python.exe Demo/03_api_demo/mof_api_demo.py triage
+.\.venv\Scripts\python.exe Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 .\.venv\Scripts\python.exe -m mofinder.literature.triage --help
 ```
 
@@ -20,7 +20,7 @@ Linux or macOS:
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[api,plotting]"
-.venv/bin/python Demo/03_api_demo/mof_api_demo.py triage
+.venv/bin/python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 .venv/bin/python -m mofinder.literature.triage --help
 ```
 
@@ -39,10 +39,10 @@ Use `.venv/bin/python` in place of `python` while the environment is inactive. T
 | `pip install -e ".[legacy]"` | Dependencies for the earlier numbered scripts, available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) |
 | `pip install -e ".[literature-retrieval]"` | Offline literature retrieval-inventory and image-template checks |
 | `pip install -e ".[fetch-gui]"` | Complete desktop literature retrieval dependencies |
-| `pip install -e ".[mining]"` | Document matching, positive/negative mining, and offline recovery/enumeration |
+| `pip install -e ".[mining]"` | Document matching, positive extraction, negative reconstruction, and offline CSV recovery |
 | `pip install -e ".[document-counts]"` | Optional PDF word/token counts and plots |
-| `pip install -e ".[curation,datasets]"` | Chemical curation and training/holdout dataset preparation |
-| `pip install -e ".[evaluation]"` | Holdout, question-panel, and anonymous human benchmark evaluation |
+| `pip install -e ".[curation,datasets]"` | Data curation and dataset preparation |
+| `pip install -e ".[evaluation]"` | Model evaluation on the holdout and question panel; human benchmark analysis |
 | `pip install -e ".[all]"` | All declared optional dependencies |
 
 Desktop literature retrieval also needs an interactive desktop, Tk, and calibrated browser controls. It is separate from triage installation. Submodule dependencies remain documented in their own repositories.
@@ -71,9 +71,9 @@ and missing templates. No API credentials are used by these tools.
 
 ## API credentials
 
-Set `OPENAI_API_KEY` in the environment before live screening or document mining. `.env.example` shows the variable name; the workflow does not automatically load an `.env` file. Offline commands do not use API credentials.
+Set `OPENAI_API_KEY` in the environment before live screening or synthesis extraction. `.env.example` shows the variable name; the workflow does not automatically load an `.env` file. Offline commands do not use API credentials.
 
-Check model settings and account access before scheduling a full run. The packaged screening, mining, and evaluation commands have been checked offline; live verification of these commands remains pending. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
+Check model settings and account access before scheduling a full run. The packaged screening, extraction, and evaluation commands have been checked offline; live verification of these commands remains pending. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
 
 ## Demo notebooks
 
@@ -92,7 +92,7 @@ Select the same environment for the notebook kernel and for running `.py` files.
 python -m ipykernel install --user --name mofinder-demo --display-name "Python (MOFinder demos)"
 ```
 
-Use the environment's Python executable for that command. For the cleaning and JSON notebooks, also install `.[curation,datasets]`; for the combined API notebook, install `.[mining,notebook]`. On Windows, a short environment directory such as `%USERPROFILE%\.venvs\mofinder-demo` can avoid package-installation path-length errors in a deeply nested checkout.
+Use the environment's Python executable for that command. For the data curation and dataset preparation notebooks, also install `.[curation,datasets]`; for the combined API notebook, install `.[mining,notebook]`. On Windows, a short environment directory such as `%USERPROFILE%\.venvs\mofinder-demo` can avoid package-installation path-length errors in a deeply nested checkout.
 
 ## Offline verification
 
@@ -101,7 +101,7 @@ The full test suite covers more stages than the minimal triage installation. Ins
 ```bash
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_api_demo/mof_api_demo.py triage
+python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
@@ -111,7 +111,7 @@ Recorded environment and execution results are in [validation.md](validation.md)
 
 Install `.[mining,curation,datasets]` for the revised extraction-to-dataset modules and add `notebook` for interactive demos. See [the workflow guide](workflow.md). PDF readers extract embedded text; no OCR pipeline is enabled. Legacy DOC conversion may require additional system software, while DOCX handling uses the supported Python readers.
 
-The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive/negative tables in `data/processed_data/` and final JSONL in `data/final_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
+The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive and negative tables in `data/processed_data/` and final JSONL in `data/final_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
 
 ## Evaluation
 

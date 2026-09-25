@@ -307,7 +307,7 @@ def clean_positive(input_path, output_path, *, linker_mw_path, linker_prime_corr
     # Save
     df = df.fillna("")
     df.to_csv(OUT_PATH, index=False, encoding="utf-8-sig")
-    print_header(f"Wrote cleaned CSV to {OUT_PATH.name}")
+    print_header(f"Wrote processed CSV to {OUT_PATH.name}")
     return df
 
 
@@ -599,5 +599,5 @@ def clean_negative(input_path, output_path, *, linker_mw_path, linker_prime_corr
     # Save
     df = df.fillna("")
     df.to_csv(OUT_PATH, index=False, encoding="utf-8-sig")
-    print_header(f"Wrote cleaned CSV to {OUT_PATH.name}")
+    print_header(f"Wrote processed CSV to {OUT_PATH.name}")
     return df

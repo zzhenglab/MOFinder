@@ -1,6 +1,6 @@
-# Reaction holdout evaluation
+# Model evaluation: reaction holdout
 
-`mofinder.evaluation.holdout` evaluates the reaction-classification holdout using the recorded request settings and statistical definitions. It reads the validation JSONL directly without retraining a model or generating a new split.
+`mofinder.evaluation.holdout` evaluates the reaction-classification holdout using the recorded request settings and statistical definitions. It reads the holdout JSONL directly without retraining a model or generating a new split.
 
 ```bash
 python -m pip install -e ".[evaluation]"

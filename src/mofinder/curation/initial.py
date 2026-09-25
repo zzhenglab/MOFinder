@@ -477,7 +477,7 @@ def clean_positive(input_path, output_path, *, plot_dir=None):
     
     
     # ---------- 5) Summary tables ----------
-    print_header("Summary after cleaning and filtering")
+    print_header("Summary after initial curation and filtering")
 
     if "doi" not in df.columns:
         df["doi"] = np.nan
@@ -593,7 +593,7 @@ def clean_positive(input_path, output_path, *, plot_dir=None):
     # Use UTF-8 with BOM to preserve all special symbols like "·"
     df.to_csv(out_path, index=False, encoding="utf-8-sig")
 
-    print_header(f"Wrote cleaned CSV to {out_path.name}")
+    print_header(f"Wrote processed CSV to {out_path.name}")
     return df
 
 
@@ -1084,7 +1084,7 @@ def clean_negative(input_path, output_path, *, plot_dir=None):
     df.loc[invalid_mask, "topology_code"] = ""
 
     # ---------- 5) Summary tables ----------
-    print_header("Summary after cleaning and filtering")
+    print_header("Summary after initial curation and filtering")
 
     if "doi" not in df.columns:
         df["doi"] = np.nan
@@ -1193,5 +1193,5 @@ def clean_negative(input_path, output_path, *, plot_dir=None):
     # Use UTF-8 with BOM to preserve all special symbols like "·"
     df.to_csv(out_path, index=False, encoding="utf-8-sig")
 
-    print_header(f"Wrote cleaned CSV to {out_path.name}")
+    print_header(f"Wrote processed CSV to {out_path.name}")
     return df

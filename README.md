@@ -6,7 +6,7 @@ MOFinder extracts MOF synthesis information from the literature, reconstructs ev
   <img src="data/mofinder.png" alt="MOFinder web application" width="750">
 </p>
 
-[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demo](Demo/README.md) · [Source code](docs/source_to_code.md) · [Triage workflow](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Mining and datasets](docs/workflow.md) · [Evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
+[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demos](Demo/README.md) · [Source code](docs/source_to_code.md) · [Abstract triage](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Workflow guide](docs/workflow.md) · [Model evaluation](docs/evaluation.md) · [Pre-upload checklist](docs/preupload_checklist.md) · [Development status](#development-status)
 
 ## Quick start
 
@@ -21,13 +21,13 @@ Start with the two offline demonstrations:
 
 ```bash
 python -m pip install -e ".[curation,datasets]"
-python Demo/01_data_cleaning/mof_cleaning_demo.py --check
-python Demo/02_json_preparation/mof_json_preparation_demo.py --positive-csv Demo/01_data_cleaning/outputs/mof_extraction_6.csv --check
+python Demo/01_data_curation/mof_data_curation_demo.py --check
+python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-csv Demo/01_data_curation/outputs/mof_extraction_6.csv --check
 ```
 
-These regenerate cleaned synthesis records and prepare grouped training/holdout JSONL. `--check` compares the files with the bundled expected outputs. Abstract triage and data mining are grouped under [`Demo/03_api_demo/`](Demo/03_api_demo/README.md).
+These regenerate processed synthesis records and prepare grouped training and holdout JSONL. `--check` compares the files with the bundled expected outputs. Abstract triage and synthesis extraction are grouped under [`Demo/03_triage_extraction/`](Demo/03_triage_extraction/README.md).
 
-To try abstract triage and data mining, install `.[mining,notebook]` and open the [API demo](Demo/03_api_demo/mof_api_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive and negative mining stages for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_demo/README.md).
+To try abstract triage and synthesis extraction, install `.[mining,notebook]` and open the [API demo](Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive extraction and negative reconstruction for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_triage_extraction/README.md).
 
 Install the API and plotting dependencies, then validate the full triage inputs:
 
@@ -52,27 +52,27 @@ See [installation](docs/installation.md) and [triage](docs/triage.md) for creden
 
 ## Source code
 
-The current implementation is in [`src/mofinder/`](src/mofinder/). [Source code and workflow guides](docs/source_to_code.md) pairs each task with its Python file and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, cleaning, assembly, evaluation, and plotting code.
+The current implementation is in [`src/mofinder/`](src/mofinder/). The [source code map](docs/source_to_code.md) pairs each task with its Python file and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, data curation, dataset preparation, model evaluation, and plotting code.
 
 ## Development status
 
-The core workflow and reaction evaluation routines are implemented in [Python source modules](src/mofinder/), with commands and explanations in the [workflow guides](docs/source_to_code.md). Demo notebooks retain executable examples and saved displays. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive and negative extraction-evaluation workflows are pending.
+The core workflow and reaction evaluation routines are implemented in [Python source modules](src/mofinder/), with commands and explanations in the [workflow guides](docs/source_to_code.md). Demo notebooks retain executable examples and saved displays. This version replaces the earlier numbered scripts, evaluation and visualization scripts, demonstrations, and data with the reorganized workflows and datasets. The earlier files remain accessible in [repository history at `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Separate positive extraction and negative reconstruction evaluation workflows are pending.
 
 | Component | Completed | Next work |
 | --- | --- | --- |
 | Repository structure | Python package, configurations, prompts, benchmarks, guides, examples, and tests | Complete paper-associated release metadata |
-| Demonstrations | Offline raw-data cleaning and JSON preparation with expected outputs; API examples for triage and positive/negative mining | Check the live examples with the configured model access |
+| Demonstrations | Offline data curation and dataset preparation with expected outputs; API examples for abstract triage, positive extraction, and negative reconstruction | Check the live examples with the configured model access |
 | Abstract triage | Python screening, saved-run analysis, plotting, and command-line entry points; preserved prompt and model settings | Add complete saved prediction runs and verify live configurations |
 | Human reference | 478-paper workbook included unchanged; 293 Y and 185 N labels | Archive the model comparisons associated with this reference |
 | Bibliographic input | Six-field export of 13,773 records; all 478 reference abstracts present | Reconcile three conflicting duplicate DOI groups before whole-corpus screening |
 | Offline validation | Input checks, human-agreement calculations, examples, and regression tests | Run Windows/Linux CI on the release commit and verify packaged commands with live model access |
-| Article and SI literature retrieval | Python desktop applications; neutral publisher profiles and image names; selected input tables; local calibration and working inventories | Review unmapped pending rows and validate live desktop downloading |
-| Positive and negative extraction | Python document matching, JSON-backed positive mining, offline CSV recovery, negative plans, and failure enumeration; separate prompts and configurations | Compare saved research runs and validate live extraction |
-| Cleaning and dataset construction | Chemical lookups, processed positive/negative records, grouped splitting, publication-year training subsets, and final training/holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
-| Reaction evaluation | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive/negative evaluation code and ground truth |
-| Fine-tuning | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training/holdout JSONL | Record completed job provenance and validate training on the target GPU system |
+| Literature retrieval | Python desktop applications for articles and supporting information; neutral publisher profiles and image names; selected input tables; local calibration and working inventories | Review unmapped pending rows and validate live desktop downloading |
+| Positive extraction and negative reconstruction | Python document matching, JSON-backed positive extraction, offline CSV recovery, negative plans, and failure enumeration; separate prompts and configurations | Compare saved research runs and validate live extraction |
+| Data curation and dataset preparation | Chemical lookups, processed positive and negative records, grouped splitting, publication-year training subsets, and final training and holdout JSONL | Compare full upstream runs and finalize the separate future-year evaluation protocol |
+| Model evaluation and human benchmark analysis | Python holdout and 22-question model workflows; anonymous human benchmark analysis | Add saved model predictions and the separate positive extraction and negative reconstruction evaluation code and ground truth |
+| Model training | [OpenAI interface training](docs/training_openai.md), [single-dataset HPC training](docs/training_hpc.md), and prepared training and holdout JSONL | Record completed job provenance and validate training on the target GPU system |
 
-See [the mining and dataset guide](docs/workflow.md) for extraction, curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md). The [22 September 2026 release audit](docs/release_audit.md) records the current checks and links to the earlier validation checkpoints.
+See [the workflow guide](docs/workflow.md) for positive extraction, negative reconstruction, data curation, and dataset preparation. Literature retrieval instructions are in [the literature retrieval guide](docs/literature_retrieval.md). Remaining input requirements are in [next stages](docs/next_stages.md). Implementation changes are recorded in [CHANGELOG.md](CHANGELOG.md). The [22 September 2026 release audit](docs/release_audit.md) records the current checks and links to the earlier validation checkpoints.
 
 The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replacement files, commands, and remaining research artifacts for each workflow.
 
@@ -80,22 +80,22 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 
 | Task | Start here |
 | --- | --- |
-| Run data cleaning and JSON preparation without API access | [Offline demos](Demo/README.md) |
-| Inspect abstracts, obtain GPT triage predictions, and try positive/negative mining | [API demo](Demo/03_api_demo/README.md) |
+| Run data curation and dataset preparation without API access | [Offline demos](Demo/README.md) |
+| Inspect abstracts, obtain GPT triage predictions, and try positive extraction and negative reconstruction | [API demo](Demo/03_triage_extraction/README.md) |
 | Look up chemical names and SMILES | [Original mapping tables](data/name_SMILES_mappers/README.md) |
-| Check installation and example inputs | [Offline input check](Demo/03_api_demo/README.md#install-and-check-the-inputs) |
+| Check installation and example inputs | [Offline input check](Demo/03_triage_extraction/README.md#install-and-check-the-inputs) |
 | Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
 | Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
 | Inspect human annotations | [Abstract triage benchmark](benchmarks/abstract_triage/README.md) |
 | Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
-| Match documents and extract synthesis records | [Mining workflow](docs/workflow.md) |
-| Clean records and prepare training/holdout JSONL | [Curation](docs/curation.md) and [datasets](docs/datasets.md) |
-| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_demo/literature_input/README.md) |
+| Match documents and extract synthesis records | [Workflow guide](docs/workflow.md) |
+| Curate records and prepare training and holdout JSONL | [Data curation](docs/curation.md) and [dataset preparation](docs/datasets.md) |
+| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_triage_extraction/literature_input/README.md) |
 | Read the Python implementation and its instructions | [Source code and workflow guides](docs/source_to_code.md) |
-| Inspect processed positive/negative records and publication metadata | [Processed data](data/processed_data/README.md) |
+| Inspect processed positive and negative records and publication metadata | [Processed data](data/processed_data/README.md) |
 | Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
-| Check the DOI-named sample documents locally | [Mining example](Demo/03_api_demo/inputs/mining/README.md) |
+| Check the DOI-named sample documents locally | [Extraction example](Demo/03_triage_extraction/inputs/extraction/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
 | Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
 | Inspect data identities and transformations | [Data manifest](data/manifest.json) |
@@ -108,7 +108,7 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | --- | --- |
 | `src/mofinder/literature/` | Input validation, screening, document matching, and local document counts |
 | `src/mofinder/literature_retrieval/` | Article and SI desktop applications, configuration loading, and inventory handling |
-| `src/mofinder/extraction/` | Positive mining, JSON recovery, negative plans, and enumeration |
+| `src/mofinder/extraction/` | Positive extraction, JSON recovery, negative plans, and enumeration |
 | `src/mofinder/curation/` | Chemical normalization, amount conversion, derived features, and reports |
 | `src/mofinder/datasets/` | Condition-classification records, grouped splits, and training JSONL |
 | `src/mofinder/training/` | Single-dataset training input preparation and HPC fine-tuning |
@@ -122,8 +122,8 @@ The [pre-upload checklist](docs/preupload_checklist.md) lists the inputs, replac
 | `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
 | `data/final_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
-| `Demo/` | Offline cleaning and JSON preparation; one API demo for abstract triage and mining |
-| `docs/` | Installation, methods, stage status, and reproduction instructions |
+| `Demo/` | Offline data curation and dataset preparation; API examples for abstract triage, positive extraction, and negative reconstruction |
+| `docs/` | Installation, workflow guides, validation records, and reproduction instructions |
 | `tools/literature_retrieval/` | Entry points for optional desktop download tools |
 | `tools/training/` | Training-bundle preparation and GPU training entry points |
 | `docs/environments/` | Recorded dependency environment |
@@ -133,12 +133,12 @@ Python modules contain the reusable implementation and support terminal or HPC e
 
 ## Data and reproducibility
 
-Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/final_json/README.md). Processed positive/negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training/holdout files and their assignments are together in `data/final_json/`.
+Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/final_json/README.md). Processed positive and negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training and holdout files and their assignments are together in `data/final_json/`.
 
 | File | Contents | Records |
 | --- | --- | ---: |
-| [`data/processed_data/processed_positive.csv`](data/processed_data/processed_positive.csv) | Positive records after cleaning, before dataset filtering | 15,340 |
-| [`data/processed_data/processed_negative.csv`](data/processed_data/processed_negative.csv) | Reconstructed negative records after cleaning, before dataset filtering | 15,063 |
+| [`data/processed_data/processed_positive.csv`](data/processed_data/processed_positive.csv) | Positive records after curation, before dataset filtering | 15,340 |
+| [`data/processed_data/processed_negative.csv`](data/processed_data/processed_negative.csv) | Reconstructed negative records after curation, before dataset filtering | 15,063 |
 | [`data/processed_data/linker_corrected/processed_negative.csv`](data/processed_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
 | [`data/final_json/train.jsonl`](data/final_json/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
 | [`data/final_json/holdout.jsonl`](data/final_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
@@ -158,7 +158,7 @@ Each new run records its settings, prompt, input hashes, response status, and pr
 
 This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/processed_data/literature_retrieval/README.md).
 
-Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_demo/inputs/mining/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
+Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_triage_extraction/inputs/extraction/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
 
 The default [dataset configuration](configs/dataset_preparation.json) reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from `data/processed_data/`. Regenerate their final JSONL and split records locally with:
 
@@ -189,7 +189,7 @@ git submodule update --init --recursive
 
 ## Open-weight model
 
-The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is available for local synthesis-outcome prediction. Local inference requires hardware suitable for a 20B-parameter model. The checkpoint is optional; data cleaning and JSONL preparation run on a CPU without model downloads.
+The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is available for local synthesis-outcome prediction. Local inference requires hardware suitable for a 20B-parameter model. The checkpoint is optional; data curation and dataset preparation run on a CPU without model downloads.
 
 ## Citation and license
 

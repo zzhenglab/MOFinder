@@ -5,8 +5,8 @@ The original evaluation-integration checkpoint passed **147 tests**. No live eva
 | Check | Result |
 | --- | --- |
 | Final training and holdout JSONL | Exact byte matches to original source files and verified preparation outputs |
-| Final split assignments | 26,123 retained records agree with the training/holdout JSONL; regenerated outputs are byte-identical and clusters do not overlap |
-| Cleaned public tables | All retained values and row order match; four local-path columns removed and UTF-8 byte-order marks added |
+| Final split assignments | 26,123 retained records agree with the training and holdout JSONL; regenerated outputs are byte-identical and clusters do not overlap |
+| Processed public tables | All retained values and row order match; four local-path columns removed and UTF-8 byte-order marks added |
 | Dataset features after column removal | All 30,403 condition inputs, cluster keys, and DOI mappings unchanged |
 | H3BTB correction | Both curation branches resolve the confirmed full name and reference lookup value of 438.4 g/mol |
 | Holdout requests | Twelve captured requests and their scientific result rows match the source, including ten-record execution followed by two-record resume |
@@ -30,4 +30,4 @@ New holdout and question-panel requests now accept only a standalone `P` or `N` 
 
 The source API parameters and fine-tuned model identifiers are preserved; access and live behavior still require an account-specific run. At this checkpoint, notebook API prompts required their live execution switch, and GitHub Actions was configured for offline tests and notebook execution. The validation reported here was performed locally; current commands and demo checks are listed in [the pre-upload checklist](preupload_checklist.md).
 
-The separate positive/negative evaluation workflows await their source code and ground-truth files.
+The separate positive extraction and negative reconstruction evaluation workflows await their source code and ground-truth files.

@@ -1,4 +1,4 @@
-# Match articles and supporting information
+# Document matching
 
 Document matching connects the literature retrieval inventory to local article and
 supporting-information files. The implementation is in
@@ -65,7 +65,7 @@ SI formats sharing a known DOI are not listed as unmatched.
 
 ## Optional word and token counts
 
-Counting is a separate local analysis step and is not required for mining:
+Counting is a separate local analysis step and is not required for extraction:
 
 ```bash
 python -m mofinder.literature.match_documents count --config configs/document_matching.json --plots

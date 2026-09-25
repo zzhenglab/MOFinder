@@ -24,7 +24,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from mofinder.display import display_path, display_paths
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "negative_extraction.json"
+DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "negative_reconstruction.json"
 NEG_SYSTEM_PROMPT = (PROJECT_ROOT / "prompts" / "negative_system.txt").read_text(encoding="utf-8")
 NEG_USER_PROMPT_TEMPLATE = (PROJECT_ROOT / "prompts" / "negative_user.txt").read_text(encoding="utf-8")
 ALLOWED_CHANGED_SECTIONS = ["metal_1", "linker_1", "modulator_1", "solvent_main", "conditions.temperature", "conditions.time"]

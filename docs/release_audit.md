@@ -4,9 +4,9 @@ This audit records the documentation, demonstrations, execution logic, and bundl
 
 ## Corrections reviewed
 
-- Demonstrations now comprise offline cleaning, offline JSON preparation, and one [API notebook](../Demo/03_api_demo/mof_api_demo.ipynb). Its triage preview shows the selected abstracts and exact requests, rejects changed inputs or settings before dispatch, and compares predictions with the run's saved reference labels. Model calls remain disabled by default.
+- Demonstrations now comprise offline data curation, offline dataset preparation, and one [API notebook](../Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb). Its triage preview shows the selected abstracts and exact requests, rejects changed inputs or settings before dispatch, and compares predictions with the run's saved reference labels. Model calls remain disabled by default.
 - New reaction evaluations accept only standalone P/N responses after case and whitespace normalization. The `standalone_pn_v1` protocol and corrected label-token probability attribution prevent ordinary prose from becoming a prediction. Saved CSV analysis retains recorded labels; earlier holdout runs require fresh outputs for new requests. See [evaluation](evaluation.md).
-- Negative mining rejects unreadable saved plan CSVs before requests and correctly replaces prior DOI rows during explicit in-place reruns. The API demo also rejects YES-labelled positive DOIs missing from its selected document manifest.
+- Negative reconstruction rejects unreadable saved plan CSVs before requests and correctly replaces prior DOI rows during explicit in-place reruns. The API demo also rejects YES-labelled positive DOIs missing from its selected document manifest.
 - Dataset preparation, question-panel evaluation, and HPC training use the full [reaction-prediction prompt](../prompts/training/reaction_prediction.txt). HPC bundles use schema version 2; the default 512-token limit raises an error for overlength inputs. Older bundles must be rebuilt. Displayed paths are shortened without changing file-access paths or saved provenance.
 - Demo paths, installation dependencies, interpreter/kernel instructions, and validation notes were reconciled. Demo01 preserves the edited input's uppercase availability flags and explicit 72-hour first-record duration, with separate bundled-input provenance. Byte-preservation rules protect hashed prompt and data files across checkouts.
 
@@ -21,7 +21,7 @@ This audit records the documentation, demonstrations, execution logic, and bundl
 | Provenance hashes | All 16 checked hashes match their distributed artifacts and recorded provenance |
 | Final JSONL integrity | All 26,123 records contain the canonical full prompt, eight reaction fields, and manifest-consistent P/N labels |
 | Final split integrity | Unique source-row IDs; no shared chemical clusters or exact condition inputs; reserved question conditions absent from training |
-| Processed dataset reproduction | 23,528 training and 2,595 holdout records; regenerated training/holdout JSONL are byte-identical to the bundled files |
+| Processed dataset reproduction | 23,528 training and 2,595 holdout records; regenerated training and holdout JSONL are byte-identical to the bundled files |
 | Corrected dataset reproduction | 23,436 training and 2,604 holdout records; configured preparation completed successfully |
 
 The 16 hash checks cover five files in [the data manifest](../data/manifest.json), two in [the training manifest](../data/final_json/manifest.json), two in [the processed-table manifest](../data/processed_data/manifest.json), six preparation inputs/configuration/prompt entries in [the split summary](../data/final_json/split_summary.json), and its split-assignment CSV.
@@ -34,4 +34,4 @@ Install the verification dependencies and run the commands in [the pre-upload ch
 
 Live API calls, desktop downloading, and GPU training were **not executed** in this audit. Mocked responses verify request and scoring behavior, not model performance. GPU tokenization, memory use, and training still require checks in the target environment. GitHub Actions results must be inspected for the published commit; local results do not establish remote CI status.
 
-The earlier [triage](validation.md), [retrieval](literature_retrieval_validation.md), [mining](mining_validation.md), and [evaluation](evaluation_validation.md) reports remain historical evidence of their respective integration checkpoints.
+The earlier [triage](validation.md), [retrieval](literature_retrieval_validation.md), [extraction](extraction_validation.md), and [evaluation](evaluation_validation.md) reports remain historical evidence of their respective integration checkpoints.

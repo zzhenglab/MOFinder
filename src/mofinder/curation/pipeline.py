@@ -94,7 +94,7 @@ def validate_inputs(settings, mode="both", stage="all"):
         if not lookup.is_file():
             issues.append(
                 f"Missing linker molecular-weight table: {lookup}. Supply the headerless "
-                "two-column linker-name/MW CSV used for the revised cleaning run and set "
+                "two-column linker-name/MW CSV used for data curation and set "
                 "linker_mw_csv in configs/curation.json. The supplied lookup is available "
                 "at data/organic_linker_info/linker_molecular_weights.csv."
             )
@@ -140,7 +140,7 @@ def validate_inputs(settings, mode="both", stage="all"):
 
 
 def run_stage(settings, mode, stage, *, reports=True, plots=False):
-    """Run one configured cleaning stage and save its CSV output."""
+    """Run one configured data curation stage and save its CSV output."""
     validation = validate_inputs(settings, mode, stage)
     if not validation["valid"]:
         raise ValueError("\n".join(validation["issues"]))

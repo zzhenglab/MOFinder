@@ -1,4 +1,4 @@
-# GPT-4.1 fine-tuning in the OpenAI dashboard
+# Model training: GPT-4.1 in the OpenAI dashboard
 
 The GPT-4.1 training workflow uses the OpenAI fine-tuning interface. The settings are recorded in [training_openai.json](../configs/training_openai.json), which is a manual training recipe. Dataset preparation is described in [datasets.md](datasets.md).
 
@@ -11,7 +11,7 @@ The GPT-4.1 training workflow uses the OpenAI fine-tuning interface. The setting
 
 Each line is a complete JSON object containing `system`, `user`, and `assistant` messages. The assistant message contains the reference label, `P` or `N`. Upload the `.jsonl` file directly, without converting it to a JSON array. File hashes and label counts are recorded in the [training manifest](../data/final_json/manifest.json).
 
-The system message uses the full [reaction-prediction instructions](../prompts/training/reaction_prediction.txt), shared with dataset preparation, MOF Quest evaluation, and HPC training. Renaming the prompt file preserves its text and the existing training/holdout JSONL bytes.
+The system message uses the full [reaction-prediction instructions](../prompts/training/reaction_prediction.txt), shared with dataset preparation, MOF Quest evaluation, and HPC training. Renaming the prompt file preserves its text and the existing training and holdout JSONL bytes.
 
 ## Create the job
 

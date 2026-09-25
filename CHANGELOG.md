@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Standardized workflow terminology across documentation, demonstration names, configurations, notebook controls, and displayed messages: data curation, dataset preparation, positive extraction, and negative reconstruction. Preserved prior run artifacts unchanged in indexed recorded-run directories and added executions using the current names.
+
 - Kept executed demo notebooks and verified run snapshots, added persistent offline run records and explicit expected-output comparisons, and named the demo scripts/notebooks by workflow. Simplified curation CSV names and finished both branches at processed descriptions. Replaced the separate notebook walkthrough folder with Python source links and Markdown guides.
 
 - Combined processed positive/negative tables and literature metadata in `data/processed_data/`, and training/holdout JSONL with split records in `data/final_json/`. Replaced stage/version filenames with `processed_positive.csv` and `processed_negative.csv`; the default preparation configuration now reads these included inputs. Kept fresh curation and linker-corrected preparation as named alternatives, and updated scripts, notebooks, manifests, tests, and CI paths without changing scientific data or dataset partitions.
