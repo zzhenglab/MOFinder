@@ -1,6 +1,6 @@
 # Dataset preparation: recorded run
 
-Recorded at: `2026-09-25T18:57:22.490689+00:00`.
+Recorded at: `2026-09-25T21:51:41.303739+00:00`.
 
 All expected-output checks passed.
 
@@ -12,7 +12,7 @@ All expected-output checks passed.
 | [demo_summary.json](outputs/demo_summary.json) | JSON values | JSON values | PASS |
 | [mof_ft_split_assignments.csv](outputs/mof_ft_split_assignments.csv) | 280 | 280 | PASS |
 
-- [Executed notebook](../../mof_dataset_preparation_demo.ipynb)
+- [Demonstration notebook](../../mof_dataset_preparation_demo.ipynb)
 - [Output files](outputs/)
 - [Run metadata and hashes](run_record.json)
 - [Console log](run.log)

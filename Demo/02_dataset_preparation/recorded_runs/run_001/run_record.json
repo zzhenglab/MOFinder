@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
-  "demo": "02_json_preparation",
-  "started_at": "2026-09-25T18:47:37.788901+00:00",
-  "finished_at": "2026-09-25T18:47:38.694849+00:00",
-  "elapsed_seconds": 0.906,
+  "demo": "02_dataset_preparation",
+  "started_at": "2026-09-25T21:51:41.303739+00:00",
+  "finished_at": "2026-09-25T21:51:42.177134+00:00",
+  "elapsed_seconds": 0.873,
   "status": "completed",
   "python_version": "3.11.9",
-  "pandas_version": "3.0.3",
-  "source_revision": "0f54a500bc748fce9c8d43b7e296188dea987a93",
+  "pandas_version": "3.0.6",
+  "source_revision": "864306d427c36afa516ec0cf2a5ed2c55bad5e4c",
   "source_has_local_changes": true,
   "inputs": {
     "positive_csv": {
-      "path": "Demo/02_json_preparation/input/positive_cleaned.csv",
+      "path": "Demo/02_dataset_preparation/input/processed_positive.csv",
       "hash_format": "bytes",
       "sha256": "5a0fb659694a8f70faf6f4249aa1449a5eb0c2b27ac61c10e4dc792b2359e77a"
     },
     "negative_csv": {
-      "path": "Demo/02_json_preparation/input/negative_cleaned.csv",
+      "path": "Demo/02_dataset_preparation/input/processed_negative.csv",
       "hash_format": "bytes",
       "sha256": "8227b2fa97c3da7fe168ed0af941d5ef131237901ba9e64cec009925edf89fec"
     },
     "metadata_file": {
-      "path": "Demo/02_json_preparation/input/publication_years.csv",
+      "path": "Demo/02_dataset_preparation/input/publication_years.csv",
       "hash_format": "bytes",
       "sha256": "0859868a3baf40e12afddce02471132cd39599436be1134676be4477e51beb63"
     },
@@ -31,19 +31,19 @@
       "sha256": "26dec7168e91ad13cb39dfb5e9782ac26f5b8fc0bcfc9e19fd239c8c61c435e6"
     },
     "forced_questions_file": {
-      "path": "Demo/02_json_preparation/input/forced_questions.json",
+      "path": "Demo/02_dataset_preparation/input/forced_questions.json",
       "hash_format": "bytes",
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
     },
     "config": {
-      "path": "Demo/02_json_preparation/config.json",
+      "path": "Demo/02_dataset_preparation/config.json",
       "hash_format": "bytes",
-      "sha256": "d3b16bdea44a30d8963fb2d5b4bd9682a03788e13b0cc96351f2a01f3fecdc0e"
+      "sha256": "7588f6de2014f882eb25ad07924a3956cdf4f6d8ee20a2d4d8aa32bc187d9234"
     },
     "runner": {
-      "path": "Demo/02_json_preparation/mof_json_preparation_demo.py",
+      "path": "Demo/02_dataset_preparation/mof_dataset_preparation_demo.py",
       "hash_format": "utf-8-lf",
-      "sha256": "e139978d95bedf9e71f086b8b531b290036590690738ecda0b4980873bd5fe96"
+      "sha256": "9372efc1571076cdf1cae725fb859b32f2d68d9c86ff234fc396b428580ae5f5"
     },
     "preparation_code": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -53,7 +53,7 @@
     "run_record_code": {
       "path": "src/mofinder/demo_records.py",
       "hash_format": "utf-8-lf",
-      "sha256": "70f3826ec828b226a235df4ac5d38ef50f8e9da8e48d5652f5329cd5c3d10c3a"
+      "sha256": "b87c613cd3377def90a7b8cb22feddb7f6edc944376038a536bfa4504023da7a"
     }
   },
   "verification": {
@@ -199,8 +199,8 @@
     },
     {
       "path": "outputs/mof_ft_split_summary.json",
-      "sha256": "7b425a3b1ceab2ad8bfa51aded112e128d51aa5d9172c0d10a296b4b41ed2391",
-      "generated_sha256": "1484d3ce55b43a3e919fa88ec4aee5f522d33146c0849364b2991d8d289ccc04"
+      "sha256": "cab771bbd3ddde9699744969f70177a7641f1d003f6a23a2d26020465ddf4d4d",
+      "generated_sha256": "707d0af1d407229a0669dcb4a3d773fe7a3e741a3a56f5aa87cc465b898491ca"
     },
     {
       "path": "outputs/mof_ft_train.jsonl",

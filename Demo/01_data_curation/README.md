@@ -33,7 +33,7 @@ Each run writes intermediate CSVs, compact raw and processed previews, and `demo
 
 The notebook's **Verify against expected output** section is a separate, rerunnable check. Its table shows expected rows, actual rows, **PASS** or **FAIL**, and comparison details. The check compares the contents of the processed positive CSV with `expected/`, as well as its row count. The command-line `--check` option performs the same verification.
 
-Open the checked-in [recorded runs](recorded_runs/README.md) to inspect run records and output snapshots on GitHub. The notebook also retains its executed tables. A new run updates `outputs/` and adds the next available numbered history folder, preserving earlier runs. Earlier recorded examples keep their original folder names.
+Open the checked-in [recorded runs](recorded_runs/README.md) to inspect run records and output snapshots on GitHub. The notebook also retains its executed tables. A new run updates `outputs/` and adds the next available numbered history folder, preserving earlier runs.
 
 ## Input provenance
 

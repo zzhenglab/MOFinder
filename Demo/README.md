@@ -22,7 +22,7 @@ python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-cs
 
 The first demonstration regenerates processed records from the raw example. The second prepares classification records and grouped splits. `--check` compares the generated files with the saved expected results. Each notebook has a separate **Verify against expected output** section with expected/actual counts and **PASS** or **FAIL** results. See each folder's README for inputs, settings, output files, and use with other data.
 
-Each offline run keeps its output snapshot and run record in a numbered folder such as `run_history/run_001/`. `outputs/` holds the latest files. Run records retain execution times and file hashes. Local histories are excluded from Git by default; the checked-in [data curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md), together with executed notebook outputs, preserve examples that can be viewed on GitHub. Earlier recorded examples keep their original folder names.
+Each offline run keeps its output snapshot and run record in a numbered folder such as `run_history/run_001/`. `outputs/` holds the latest files. Run records retain execution times and file hashes. Local histories are excluded from Git by default; the checked-in [data curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md), together with executed notebook outputs, preserve examples that can be viewed on GitHub.
 
 To check abstract inputs and match the included article/SI pair:
 
