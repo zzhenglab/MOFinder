@@ -9,7 +9,7 @@ Windows PowerShell, from the repository folder:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".[api,plotting]"
-.\.venv\Scripts\python.exe Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
+.\.venv\Scripts\python.exe Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 .\.venv\Scripts\python.exe -m mofinder.literature.triage --help
 ```
 
@@ -20,7 +20,7 @@ Linux or macOS:
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -e ".[api,plotting]"
-.venv/bin/python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
+.venv/bin/python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 .venv/bin/python -m mofinder.literature.triage --help
 ```
 
@@ -76,14 +76,14 @@ Check model settings and account access before scheduling a full run. Offline so
 
 ## Demo notebooks
 
-The workflow commands and Markdown guides work without Jupyter. To view or rerun the saved demo notebooks, install the demo dependencies and open `Demo/` from the repository root:
+The workflow commands and Markdown guides work without Jupyter. To use the demo notebooks, install the demo dependencies and open `Demo/` from the repository root:
 
 ```bash
 python -m pip install -e ".[curation,datasets,mining,notebook]"
 python -m jupyter lab Demo/
 ```
 
-The notebooks call the same Python functions as the terminal workflow. Keep their saved outputs to inspect the recorded run, then execute the verification cells when rerunning. Live model calls in the API demo are disabled by default and must be enabled explicitly.
+The notebooks call the same Python functions as the terminal workflow. The two offline demonstrations include saved outputs and verification cells for rerunning against expected results. The [data mining demo (API required)](../Demo/03_api_data_mining/README.md) starts with empty outputs and live model calls disabled. Run its preview cells before explicitly enabling a model workflow.
 
 Select the same environment for the notebook kernel and for running `.py` files. In VS Code, **Python: Select Interpreter** controls script execution; the notebook's kernel selector is independent. An import that works in a notebook can still fail in a terminal using another Python installation. Register a named kernel from the installed environment if needed:
 
@@ -100,7 +100,7 @@ The full test suite covers more stages than the minimal triage installation. Ins
 ```bash
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
+python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 

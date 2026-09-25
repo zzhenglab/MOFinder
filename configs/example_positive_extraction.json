@@ -1,8 +1,8 @@
 {
   "project_root": "..",
   "manifest_file": "results/examples/extraction/document_manifest.csv",
-  "article_dir": "Demo/03_triage_extraction/inputs/extraction/articles",
-  "si_dir": "Demo/03_triage_extraction/inputs/extraction/supporting_information",
+  "article_dir": "Demo/03_api_data_mining/inputs/extraction/articles",
+  "si_dir": "Demo/03_api_data_mining/inputs/extraction/supporting_information",
   "csv_out": "results/examples/extraction/positive/mof_extraction.csv",
   "json_out_dir": "results/examples/extraction/positive/mof_json_store",
   "system_prompt_file": "prompts/positive_system.txt",

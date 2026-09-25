@@ -25,9 +25,9 @@ python Demo/01_data_curation/mof_data_curation_demo.py --check
 python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-csv Demo/01_data_curation/outputs/mof_extraction_6.csv --check
 ```
 
-These regenerate processed synthesis records and prepare grouped training and holdout JSONL. `--check` compares the files with the bundled expected outputs. Abstract triage and synthesis extraction are grouped under [`Demo/03_triage_extraction/`](Demo/03_triage_extraction/README.md).
+These regenerate processed synthesis records and prepare grouped training and holdout JSONL. `--check` compares the files with the bundled expected outputs. The [data mining demo (API required)](Demo/03_api_data_mining/README.md) combines abstract triage, positive extraction, and negative reconstruction.
 
-To try abstract triage and synthesis extraction, install `.[mining,notebook]` and open the [API demo](Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb). It displays four abstracts and the exact request previews; set `RUN_TRIAGE = True` to generate GPT predictions and compare them with human labels. The same notebook provides positive extraction and negative reconstruction for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_triage_extraction/README.md).
+To try data mining, install `.[mining,notebook]` and open the [data mining notebook](Demo/03_api_data_mining/mof_api_data_mining_demo.ipynb). Run its preview cells to inspect four abstracts and the exact requests; set `RUN_TRIAGE = True` to generate predictions using GPT-5 with high reasoning effort and compare them with human labels. The same notebook provides positive extraction and negative reconstruction for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_data_mining/README.md).
 
 Install the API and plotting dependencies, then validate the full triage inputs:
 
@@ -59,21 +59,21 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). The [source c
 | Task | Start here |
 | --- | --- |
 | Run data curation and dataset preparation without API access | [Offline demos](Demo/README.md) |
-| Inspect abstracts, obtain GPT triage predictions, and try positive extraction and negative reconstruction | [API demo](Demo/03_triage_extraction/README.md) |
+| Inspect abstracts, obtain GPT triage predictions, and try positive extraction and negative reconstruction | [data mining demo (API required)](Demo/03_api_data_mining/README.md) |
 | Look up chemical names and SMILES | [Original mapping tables](data/name_SMILES_mappers/README.md) |
-| Check installation and example inputs | [Offline input check](Demo/03_triage_extraction/README.md#install-and-check-the-inputs) |
+| Check installation and example inputs | [Offline input check](Demo/03_api_data_mining/README.md#install-and-check-the-inputs) |
 | Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
 | Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
 | Inspect human annotations | [Abstract triage benchmark](benchmarks/abstract_triage/README.md) |
 | Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Workflow guide](docs/workflow.md) |
 | Curate records and prepare training and holdout JSONL | [Data curation](docs/curation.md) and [dataset preparation](docs/datasets.md) |
-| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_triage_extraction/literature_input/README.md) |
+| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_data_mining/literature_input/README.md) |
 | Read the Python implementation and its instructions | [Source code and workflow guides](docs/source_to_code.md) |
 | Inspect processed positive and negative records and publication metadata | [Processed data](data/processed_data/README.md) |
 | Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
-| Check the DOI-named sample documents locally | [Extraction example](Demo/03_triage_extraction/inputs/extraction/README.md) |
+| Check the DOI-named sample documents locally | [Extraction example](Demo/03_api_data_mining/inputs/extraction/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
 | Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
 | Inspect data identities and transformations | [Data manifest](data/manifest.json) |
@@ -134,7 +134,7 @@ Each new run records its settings, prompt, input hashes, response status, and pr
 
 This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/processed_data/literature_retrieval/README.md).
 
-Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_triage_extraction/inputs/extraction/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
+Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_data_mining/inputs/extraction/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
 
 The default [dataset configuration](configs/dataset_preparation.json) reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from `data/processed_data/`. Regenerate their final JSONL and split records locally with:
 

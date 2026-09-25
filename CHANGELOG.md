@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Renamed the combined example to Data mining demo (API required), covering abstract triage, positive extraction, and negative reconstruction. Configured demo triage for GPT-5 with high reasoning and cleared its notebook output for a fresh run.
+
 - Removed internal release checklists, historical integration reports, and empty placeholders from the public layout. Kept workflow instructions, scientific provenance, and recorded demo runs. Removed duplicate syntax/hash checks and consolidated triage tests while retaining distinct scientific and runtime regression coverage.
 
 - Standardized workflow terminology across documentation, demonstration names, configurations, notebook controls, and displayed messages: data curation, dataset preparation, positive extraction, and negative reconstruction. Preserved prior run artifacts unchanged in indexed recorded-run directories and added executions using the current names.

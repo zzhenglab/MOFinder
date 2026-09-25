@@ -23,8 +23,8 @@ class ScreeningTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.folder = Path(self.temporary.name)
         self.config = json.loads((ROOT / 'configs/abstract_triage.json').read_text())
-        self.config.update(project_root=str(ROOT), input_file='Demo/03_triage_extraction/inputs/triage_metadata.csv',
-                           ground_truth_file='Demo/03_triage_extraction/inputs/triage_ground_truth.csv',
+        self.config.update(project_root=str(ROOT), input_file='Demo/03_api_data_mining/inputs/triage_metadata.csv',
+                           ground_truth_file='Demo/03_api_data_mining/inputs/triage_ground_truth.csv',
                            models=[self.config['models'][0]], max_papers=3, bootstraps=20)
         self.config_file = self.folder / 'config.json'
         self.write_config()
@@ -149,7 +149,7 @@ class ScreeningTests(unittest.TestCase):
 
     def test_config_paths_are_relative_to_configured_project_root(self):
         loaded = load_triage_config(self.config_file)
-        self.assertEqual(loaded['input_file'], ROOT / 'Demo/03_triage_extraction/inputs/triage_metadata.csv')
+        self.assertEqual(loaded['input_file'], ROOT / 'Demo/03_api_data_mining/inputs/triage_metadata.csv')
         self.assertEqual(loaded['prompt_file'], ROOT / 'prompts/abstract_triage.txt')
         self.assertEqual(loaded['output_root'], ROOT / 'results/abstract_triage')
 

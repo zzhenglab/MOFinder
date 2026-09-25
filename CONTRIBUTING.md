@@ -19,7 +19,7 @@ Install the verification dependencies and run the offline checks from the reposi
 ```bash
 python -m pip install -e ".[triage,literature-retrieval,mining,curation,datasets,evaluation]"
 python -m unittest discover -s tests -v
-python Demo/03_triage_extraction/mof_triage_extraction_demo.py triage
+python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 ```
 
 The test command automatically discovers every `test_*.py` file in `tests/`. Tests cover scientific transformations, data integrity, model-response handling, and saved-run behavior. GitHub Actions also executes all three demo notebooks.

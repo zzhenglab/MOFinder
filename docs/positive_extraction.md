@@ -46,6 +46,6 @@ Backfill appends only unrecorded DOIs. It uses valid `article_extraction.json` a
 
 Payload files are replaced after complete writes. When a DOI is rerun with fewer syntheses, obsolete numbered synthesis files are removed after the new article payload is saved. This prevents stale records entering downstream synthesis indexing. Run only one process per output CSV and JSON store; concurrent independent runners are not supported.
 
-The [API demo](../Demo/03_triage_extraction/README.md) provides an interactive example. The sample PDFs illustrate file matching and local text extraction; their illustrative outcomes are not evidence of experimentally observed syntheses or failures.
+The [data mining demo (API required)](../Demo/03_api_data_mining/README.md) provides an interactive example. The sample PDFs illustrate file matching and local text extraction; their illustrative outcomes are not evidence of experimentally observed syntheses or failures.
 
 Offline tests compare all 83 flattened fields against the original active extraction function on synthetic records, verify schema and prompt hashes, inspect mocked request payloads, and exercise retries, resume, duplicate handling and JSON recovery. They do not validate live model responses.

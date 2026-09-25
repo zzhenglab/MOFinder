@@ -1,4 +1,4 @@
-# Sample documents for the triage and extraction demonstration
+# Sample documents for the data mining demo
 
 The sample article and supporting information provide inputs for document matching and synthesis extraction. They describe MOF-303 and CAU-23 using illustrative synthesis conditions and placeholder figures. The article contains the synthesis procedures; the supporting information contains characterization methods. Both documents identify DOI `10.1021/jacs.2c09756` as their literature source.
 
@@ -13,4 +13,4 @@ The documents contain synthetic sample text, illustrative synthesis conditions, 
 
 The filenames follow literature retrieval naming: replace the DOI slash with an underscore and append `_SI` for supporting information. [manifest.json](manifest.json) records document provenance, byte sizes, and SHA-256 checksums.
 
-Use these inputs in [mof_triage_extraction_demo.ipynb](../../mof_triage_extraction_demo.ipynb). The [triage and extraction instructions](../../README.md) give the commands for validation, positive extraction, and negative reconstruction. Model calls require API access; reference extraction outputs are not included. To try your own papers, use the separate [local PDF input folder](../../literature_input/README.md).
+Use these inputs in [mof_api_data_mining_demo.ipynb](../../mof_api_data_mining_demo.ipynb). The [data mining demo instructions](../../README.md) give the commands for validation, positive extraction, and negative reconstruction. Model calls require API access; reference extraction outputs are not included. To try your own papers, use the separate [local PDF input folder](../../literature_input/README.md).

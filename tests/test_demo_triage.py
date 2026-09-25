@@ -20,7 +20,7 @@ from mofinder.literature import triage
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK = ROOT / "Demo/03_triage_extraction/mof_triage_extraction_demo.ipynb"
+NOTEBOOK = ROOT / "Demo/03_api_data_mining/mof_api_data_mining_demo.ipynb"
 
 
 class DemoTriageTests(unittest.TestCase):
@@ -57,7 +57,7 @@ class DemoTriageTests(unittest.TestCase):
         self.start_patch(patch("pathlib.Path.cwd", return_value=ROOT))
 
         self.execute("load-abstracts")
-        config = json.loads((ROOT / "Demo/03_triage_extraction/configs/triage.json").read_text())
+        config = json.loads((ROOT / "Demo/03_api_data_mining/configs/triage.json").read_text())
         config.update(project_root=str(ROOT), output_root=str(self.output_root))
         for key in ("input_file", "ground_truth_file", "prompt_file"):
             source = ROOT / config[key]
@@ -105,10 +105,10 @@ class DemoTriageTests(unittest.TestCase):
     @staticmethod
     def response(answer):
         return SimpleNamespace(output_text=answer, status="completed",
-                               id="offline-response", model="gpt-4o")
+                               id="offline-response", model="gpt-5")
 
     def test_cli_and_notebook_validate_the_same_four_abstracts(self):
-        runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
+        runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_data_mining_demo.py"))
         output = io.StringIO()
         with redirect_stdout(output):
             self.assertEqual(runner["main"](["triage"]), 0)
@@ -126,7 +126,7 @@ class DemoTriageTests(unittest.TestCase):
         }
         with patch("runpy.run_path", return_value=runner) as load_runner:
             self.execute("extraction-setup")
-        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
+        load_runner.assert_called_once_with(str(NOTEBOOK.parent / "mof_api_data_mining_demo.py"))
         runner["validate_positive"].assert_called_once_with(NOTEBOOK.parent / "configs")
         self.execute("positive-api")
         self.execute("negative-api")
@@ -229,6 +229,10 @@ class DemoTriageTests(unittest.TestCase):
         self.assertIn("/3 valid answers with reference labels", self.stdout.getvalue())
 
     def test_live_requests_match_previews_and_failures_remain_unscored(self):
+        for request in self.namespace["preview_requests"]:
+            self.assertEqual(request["model"], "gpt-5")
+            self.assertEqual(request["reasoning"], {"effort": "high"})
+            self.assertEqual(request["max_output_tokens"], 25000)
         os.environ["OPENAI_API_KEY"] = "  offline-test-key  "
         self.create.side_effect = [
             self.response("Y"), self.response("N"), self.response("Yes"),
@@ -318,7 +322,7 @@ class DemoTriageTests(unittest.TestCase):
 
 class DemoExtractionTests(unittest.TestCase):
     def setUp(self):
-        self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_triage_extraction_demo.py"))
+        self.runner = runpy.run_path(str(NOTEBOOK.parent / "mof_api_data_mining_demo.py"))
         self.namespace = self.runner["run_negative"].__globals__
         self.folder_context = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder_context.cleanup)

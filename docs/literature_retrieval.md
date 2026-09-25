@@ -114,7 +114,7 @@ and flow references.
 
 The required `publisher_W_SI_1.png` entry template is included. The optional `publisher_S_SI_Accept2.png` cookie-button alternative remains absent. Image matching still requires a compatible local browser appearance.
 
-The [extraction example](../Demo/03_triage_extraction/inputs/extraction/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
+The [extraction example](../Demo/03_api_data_mining/inputs/extraction/README.md) includes DOI-named demonstration documents for checking the literature retrieval-to-extraction handoff.
 
 ## Download articles
 
@@ -156,11 +156,11 @@ Browser sequences, file-naming rules, and download detection follow the source
 workflow. The SI test option limits execution to five pending rows; both
 applications support pointer-corner interruption.
 
-Research article and SI downloads remain local. The API demo's
-[literature input folder](../Demo/03_triage_extraction/literature_input/README.md)
+Research article and SI downloads remain local. The data mining demo's
+[literature input folder](../Demo/03_api_data_mining/literature_input/README.md)
 contains replaceable article/SI templates and a three-paper DOI inventory.
 Document matching builds a DOI-to-file manifest from local documents before
 positive extraction and negative reconstruction. The separate
-[extraction example](../Demo/03_triage_extraction/inputs/extraction/README.md) contains demonstration PDFs.
+[extraction example](../Demo/03_api_data_mining/inputs/extraction/README.md) contains demonstration PDFs.
 
 Validate browser downloads, image matches, and institutional access on the configured desktop with a small inventory before a larger run. Offline input checks do not establish download success; inspect the saved files and corresponding working-inventory states.

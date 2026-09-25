@@ -1,4 +1,7 @@
-"""Demonstrate abstract triage, positive extraction, and negative reconstruction."""
+"""Data mining demo: triage, positive extraction, and negative reconstruction.
+
+Model calls require API access; input validation runs offline.
+"""
 
 import argparse
 import asyncio
