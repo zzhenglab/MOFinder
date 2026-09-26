@@ -2,6 +2,26 @@
 
 The working Python implementation is in [`src/mofinder/`](../src/mofinder/). Each guide below explains its inputs, commands, expected outputs, and saved records. Run commands from the repository root after [installation](installation.md). Interactive examples with saved output and verification live under [`Demo/`](../Demo/README.md).
 
+## Workflow reading order
+
+Use this order to follow records from literature screening through model evaluation. The demo folder numbers describe the demonstrations; the table follows the full research workflow.
+
+| Section | Folder | Read first |
+| --- | --- | --- |
+| Abstract triage | [src/mofinder/literature/](../src/mofinder/literature/) | [triage.py](../src/mofinder/literature/triage.py): input validation, request construction, screening, and resume |
+| Article and SI retrieval | [src/mofinder/literature_retrieval/](../src/mofinder/literature_retrieval/) | [papers.py](../src/mofinder/literature_retrieval/papers.py), then [si.py](../src/mofinder/literature_retrieval/si.py) |
+| Match PDFs to DOI records | [src/mofinder/literature/](../src/mofinder/literature/) | [match_documents.py](../src/mofinder/literature/match_documents.py) |
+| Positive data mining | [src/mofinder/extraction/](../src/mofinder/extraction/) | [schemas.py](../src/mofinder/extraction/schemas.py) for the record structure, then [positive.py](../src/mofinder/extraction/positive.py) for extraction and saving |
+| Negative data mining | [src/mofinder/extraction/](../src/mofinder/extraction/) | [negative.py](../src/mofinder/extraction/negative.py) for evidence-based plans, then [enumerate_failures.py](../src/mofinder/extraction/enumerate_failures.py) for generating condition combinations |
+| Data curation | [src/mofinder/curation/](../src/mofinder/curation/) | [pipeline.py](../src/mofinder/curation/pipeline.py) for operation order and the positive/negative branches, then the individual modules below |
+| Dataset preparation | [src/mofinder/datasets/](../src/mofinder/datasets/) | [prepare.py](../src/mofinder/datasets/prepare.py): record conversion, grouping, split selection, and JSONL export |
+| HPC model training | [src/mofinder/training/](../src/mofinder/training/) | [records.py](../src/mofinder/training/records.py), [prepare.py](../src/mofinder/training/prepare.py), [modeling.py](../src/mofinder/training/modeling.py), then [train.py](../src/mofinder/training/train.py) |
+| Evaluation and figures | [src/mofinder/evaluation/](../src/mofinder/evaluation/) and [src/mofinder/plotting/](../src/mofinder/plotting/) | Choose [triage.py](../src/mofinder/evaluation/triage.py), [holdout.py](../src/mofinder/evaluation/holdout.py), [quest.py](../src/mofinder/evaluation/quest.py), or [human_quest.py](../src/mofinder/evaluation/human_quest.py) for the corresponding benchmark |
+
+For data curation, follow `initial.py` → `metals.py` → `linkers.py` → `solvents.py` → `features.py` → `connectivity.py` → `descriptions.py`. Read `times.py`, `formula.py`, and `linker_primes.py` alongside the operations that use them. The same folder contains the positive and negative branches.
+
+For each section, read its Markdown guide, configuration in [configs/](../configs/), and relevant prompt in [prompts/](../prompts/), then trace the implementation above. Review its corresponding checks in [tests/](../tests/) to see the expected behavior and edge cases. The [Demo/](../Demo/README.md) runners and notebooks show how these modules are called with small examples. The [OpenAI training workflow](training_openai.md) is a dashboard recipe; the training folder above contains the HPC implementation.
+
 ## Current implementation
 
 | Task | Python source | Markdown instructions |

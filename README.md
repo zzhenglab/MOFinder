@@ -52,7 +52,7 @@ See [installation](docs/installation.md) and [triage](docs/triage.md) for creden
 
 ## Source code
 
-The current implementation is in [`src/mofinder/`](src/mofinder/). The [source code map](docs/source_to_code.md) pairs each task with its Python file and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, data curation, dataset preparation, model evaluation, and plotting code.
+The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [workflow reading order](docs/source_to_code.md#workflow-reading-order) to inspect each section's folder and main Python files. The [source code map](docs/source_to_code.md#current-implementation) pairs each task with its functions and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, data curation, dataset preparation, model evaluation, and plotting code.
 
 ## Choose a workflow
 
