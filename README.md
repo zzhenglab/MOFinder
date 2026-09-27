@@ -165,7 +165,7 @@ The historical data and counts described in [the earlier workflow](docs/legacy_w
 
 - `WebApplication/`: MOFinder web interface.
 - `MOF-Quest/`: reaction-prediction game.
-- [SMILESearcher](https://github.com/zach-zhiling-zheng/SMILESearcher): chemical name-to-SMILES resolution and molecular-weight calculation for MOF reagents and organic building blocks.
+- `SMILESearcher/`: chemical name-to-SMILES resolution and molecular-weight calculation.
 
 Initialize these Git submodules when needed:
 
