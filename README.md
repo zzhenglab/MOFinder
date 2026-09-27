@@ -72,7 +72,7 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | Read the Python implementation and its instructions | [Source code and workflow guides](docs/source_to_code.md) |
 | Inspect processed positive and negative records and publication metadata | [Processed data](data/processed_data/README.md) |
 | Explore metals, linkers, solvents, modulators, topology, properties, stability, pairwise conditions, and training/test t-SNE | [Dataset analysis and figures](docs/dataset_analysis/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
-| Redraw publisher coverage before literature triage | [Figure D11](docs/triage_figures/README.md) and [executed notebook](Demo/05_literature_triage_figures/literature_triage_figures.ipynb) |
+| Redraw publisher coverage before literature triage | [Literature coverage](docs/triage_figures/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
 | View the positive and negative workflows | [Author-drawn workflow diagrams](docs/workflows/README.md) |
 | Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |

@@ -22,6 +22,6 @@ python -m unittest discover -s tests -v
 python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 ```
 
-The test command automatically discovers every `test_*.py` file in `tests/`. Tests cover scientific transformations, data integrity, model-response handling, and saved-run behavior. GitHub Actions also executes all five demo notebooks, including the dataset analysis and literature-coverage figures.
+The test command automatically discovers every `test_*.py` file in `tests/`. Tests cover scientific transformations, data integrity, model-response handling, and saved-run behavior. GitHub Actions also executes all four demo notebooks, including the combined dataset and literature analysis.
 
 Use the same environment for terminal commands and the selected notebook kernel. See [installation](docs/installation.md) for setup and [the demo guide](Demo/README.md) for expected-output checks and saved run records. Live API, desktop-download, and GPU checks are separate from this offline suite.

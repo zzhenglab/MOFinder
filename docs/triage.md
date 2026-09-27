@@ -4,11 +4,9 @@ The triage workflow runs from Python modules and command-line commands. Screenin
 
 ## Starting-corpus publisher coverage
 
-![Figure S3: publisher coverage before abstract triage](triage_figures/Figure_S3_publisher_coverage.png)
+![Publisher coverage before abstract triage](triage_figures/Figure_D11_publisher_coverage.png)
 
-**Figure S3.** Publisher coverage in the starting literature corpus, grouped by publication period before abstract triage.
-
-The bars count the original bibliography records, with segments for 1996–2005, 2006–2015, and 2016–2025. This describes the input corpus rather than model performance or the number of extracted syntheses. See the [source rows, publisher mapping, and provenance](triage_figures/README.md) and the [executed plotting notebook](../Demo/05_literature_triage_figures/literature_triage_figures.ipynb) to reproduce the chart offline.
+The bars count bibliography records by publisher and publication period. Reproduce the plot in the [dataset analysis notebook](../Demo/04_dataset_analysis/dataset_analysis.ipynb), using the [publisher data](triage_figures/README.md).
 
 ## Inputs
 

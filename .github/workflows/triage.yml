@@ -35,7 +35,6 @@ jobs:
             /Demo/02_dataset_preparation/
             /Demo/03_api_data_mining/
             /Demo/04_dataset_analysis/
-            /Demo/05_literature_triage_figures/
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: ${{ matrix.python-version }}
@@ -69,8 +68,6 @@ jobs:
         run: python -m jupyter nbconvert --to notebook --execute Demo/02_dataset_preparation/mof_dataset_preparation_demo.ipynb --output dataset_preparation_demo_executed.ipynb --output-dir results/local --ExecutePreprocessor.timeout=120
       - name: Execute the dataset analysis notebook
         run: python -m jupyter nbconvert --to notebook --execute Demo/04_dataset_analysis/dataset_analysis.ipynb --output dataset_analysis_executed.ipynb --output-dir results/local --ExecutePreprocessor.kernel_name=python3 --ExecutePreprocessor.timeout=300
-      - name: Execute the literature coverage notebook
-        run: python -m jupyter nbconvert --to notebook --execute Demo/05_literature_triage_figures/literature_triage_figures.ipynb --output literature_triage_figures_executed.ipynb --output-dir results/local --ExecutePreprocessor.kernel_name=python3 --ExecutePreprocessor.timeout=120
       - name: Validate the API data mining demo without model requests
         run: python Demo/03_api_data_mining/mof_api_data_mining_demo.py validate
       - name: Validate the local article and SI templates

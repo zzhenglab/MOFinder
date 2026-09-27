@@ -24,8 +24,6 @@ Some training workflows also use the holdout as validation data. Record that use
 
 ![Training and test synthesis records](../../docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-Figure D10. t-SNE visualization of synthesis records. a, Combined dataset. b, Positive training records. c, Negative training records. d, Positive test records. e, Negative test records. All panels share coordinates and axis limits.
-
 The test panels use the holdout partition above. The [executed notebook](../../Demo/04_dataset_analysis/dataset_analysis.ipynb) redraws this figure from the included coordinates and checks the training/test labels against these files.
 
 ## Regenerate from processed data

@@ -2,9 +2,9 @@
 
 `mofinder.extraction.positive` extracts primary MOF syntheses from the article and supporting-information texts. The structured schema defines the extracted fields, and the prompts specify the extraction criteria. `prompts/positive_system.txt` and `prompts/positive_user.txt` contain the complete prompt texts; `src/mofinder/extraction/schemas.py` defines the structured response.
 
-![Author-drawn positive synthesis extraction workflow](workflows/positive_extraction.png)
+<img src="workflows/positive_extraction.png" alt="Positive synthesis extraction workflow" width="480">
 
-The original diagram shows the article-level response, individual synthesis records, and failure-evidence flag used to select papers for negative reconstruction. See the [workflow gallery](workflows/README.md#positive-synthesis-extraction) for image provenance and context.
+**Note:** Section S4 refers to the [negative data mining workflow](negative_reconstruction.md).
 
 The input manifest must contain `DOI`, `Main File` and `SI File`. CSV and Excel inputs are supported. An empty document field is allowed when the other document has readable text. Bare filenames resolve within the configured article or supporting-information directory; absolute document paths are accepted. Existing project-relative paths also work. Conflicting paths for one DOI, blank DOIs and colliding JSON directory names are rejected. Identical repeated DOI/document pairs produce one extraction job.
 

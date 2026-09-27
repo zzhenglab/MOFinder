@@ -1,21 +1,17 @@
 # Workflow illustrations
 
-These two author-drawn diagrams show positive synthesis extraction and negative-condition reconstruction. The original PNG exports are preserved unchanged; [provenance.json](provenance.json) records their filenames, dimensions, and checksums. See the [workflow guide](../workflow.md) for runnable commands.
+See the [workflow guide](../workflow.md) for runnable commands.
 
 ## Positive synthesis extraction
 
-![Positive extraction using article-specific text, extraction rules, and a Pydantic schema](positive_extraction.png)
+<img src="positive_extraction.png" alt="Positive synthesis extraction workflow" width="480">
 
-Figure. Schema-constrained extraction of reported successful syntheses into article-level JSON and a table with one synthesis per row.
-
-The article-level failure-evidence flag identifies papers to revisit during negative reconstruction; it does not label successful synthesis rows as negative. Source text and DOI provenance link the structured fields to the article.
+**Note:** Section S4 refers to the [negative data mining workflow](#negative-condition-reconstruction).
 
 ## Negative-condition reconstruction
 
-![Negative reconstruction from failure evidence and successful parent syntheses through modification plans and deterministic reconstruction](negative_reconstruction.png)
+<img src="negative_reconstruction.png" alt="Negative data mining workflow" width="480">
 
-Figure. Evidence-conditioned reasoning produces modification plans that are applied to linked successful syntheses to reconstruct negative condition sets.
-
-The reconstruction retains unspecified parent conditions and records the parent index, rationale, and modified classes. It enumerates the Cartesian product of permitted alternatives, so an enumerated negative row does not establish that the exact condition set was separately reported or experimentally tested. Inherited characterization fields are not independent measurements of failed syntheses.
+Negative records reconstruct conditions from linked positive syntheses and failure evidence. Enumerated combinations and inherited properties are not independent experimental measurements.
 
 For the corresponding implementation, see the [source code map](../source_to_code.md) and [extraction package](../../src/mofinder/extraction/).
