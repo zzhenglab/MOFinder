@@ -2,7 +2,7 @@
 
 This document describes the historical workflow at [commit `bb6502b`](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a). Dataset counts, model settings, dependency versions, and measured runtimes below refer to that implementation. See the [root README](../README.md) and [installation guide](installation.md) for the current workflow and environment.
 
-The current version replaces the old numbered scripts, `eval/`, `visualization/`, top-level demo files, and old datasets. The paths and commands below refer to the historical checkout. Use the links below to inspect those files, or check out that commit in a separate clone before following its commands. The current version preserves the `MOF-Quest`, `SMILESearcher`, and `WebApplication` submodule commits and configuration, together with the MIT license.
+The current version replaces the old numbered scripts, `eval/`, `visualization/`, top-level demo files, and old datasets. The paths and commands below refer to the historical checkout. Use the links below to inspect those files, or check out that commit in a separate clone before following its commands. See the [related applications](../README.md#related-applications) for current submodules.
 
 | Historical path | Files at `bb6502b` |
 | --- | --- |

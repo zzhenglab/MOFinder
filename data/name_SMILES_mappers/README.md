@@ -21,4 +21,4 @@ smiles = name_to_smiles.get("HCl (36–38%)")
 names = smiles_to_names.get(smiles, [])
 ```
 
-Run this example from the repository root. The original cache-based resolution workflow is described in the [historical workflow](../../docs/legacy_workflow.md). Molecular-weight conversion during curation uses the separate [linker lookup](../organic_linker_info/README.md).
+Run this example from the repository root. [SMILESearcher](https://github.com/zach-zhiling-zheng/SMILESearcher) uses the name-to-SMILES dictionary for cached resolution and molecular-weight calculation. Molecular-weight conversion during curation uses the separate [linker lookup](../organic_linker_info/README.md).

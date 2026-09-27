@@ -1,6 +1,6 @@
 [submodule "SMILESearcher"]
 	path = SMILESearcher
-	url = https://github.com/StarLiu714/SMILESearcher.git
+	url = https://github.com/zach-zhiling-zheng/SMILESearcher.git
 [submodule "MOFinder"]
 	path = WebApplication
 	url = https://github.com/CodeAPretzel/MOFinder.git

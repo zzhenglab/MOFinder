@@ -165,9 +165,9 @@ The historical data and counts described in [the earlier workflow](docs/legacy_w
 
 - `WebApplication/`: MOFinder web interface.
 - `MOF-Quest/`: reaction-prediction game.
-- `SMILESearcher/`: chemical name and SMILES resolution.
+- [SMILESearcher](https://github.com/zach-zhiling-zheng/SMILESearcher): chemical name-to-SMILES resolution and molecular-weight calculation for MOF reagents and organic building blocks.
 
-These three components retain their existing pinned Git submodule commits and configuration. Initialize them when needed:
+Initialize these Git submodules when needed:
 
 ```bash
 git submodule update --init --recursive
