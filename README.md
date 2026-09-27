@@ -127,7 +127,6 @@ Training and holdout records use chat-format JSONL. Each record contains a syste
 
 ![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-Figure D10. t-SNE visualization of synthesis records. a, Combined dataset. b, Positive training records. c, Negative training records. d, Positive test records. e, Negative test records. All panels share coordinates and axis limits.
 
 The [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) redraws this plot from the included coordinates and can recompute the embedding from the final training/test records.
 
