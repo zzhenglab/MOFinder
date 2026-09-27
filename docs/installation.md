@@ -104,7 +104,7 @@ python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
-The [GitHub Actions workflow](../.github/workflows/triage.yml) runs offline tests on Windows and Linux. The [demos](../Demo/README.md) provide expected-output checks for data curation and dataset preparation. These checks do not measure extraction accuracy or model performance.
+The [GitHub Actions workflow](../.github/workflows/offline_checks.yml) runs offline tests on Windows and Linux. The [demos](../Demo/README.md) provide expected-output checks for data curation and dataset preparation. These checks do not measure extraction accuracy or model performance.
 
 ## Downstream workflow
 
