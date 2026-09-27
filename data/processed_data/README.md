@@ -11,6 +11,12 @@ Start with the processed positive and negative synthesis records below to prepar
 | [literature_retrieval/](literature_retrieval/README.md) | Article and supporting-information inventories | 7,437 each |
 | [linker_corrected/](linker_corrected/README.md) | Optional negative table with documented linker prime glyphs restored | 15,063 |
 
+## Dataset analysis
+
+The [figure gallery](../../docs/dataset_analysis/README.md) and [executed notebook](../../Demo/04_dataset_analysis/dataset_analysis.ipynb) cover metals, linkers, solvents, modulators, topology, BET, TGA, and air/water stability in the positive dataset. Panels show synthesis records above unique DOI counts; property panels use one median eligible value per DOI. Pairwise condition plots use both the positive and negative datasets.
+
+The notebook also draws the final training/test t-SNE. See [publisher coverage](../../docs/triage_figures/README.md) for the bibliography before triage and [workflow diagrams](../../docs/workflows/README.md) for positive extraction and negative reconstruction.
+
 ## Prepare the final JSONL
 
 From the repository root:

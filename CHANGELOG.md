@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added reproducible dataset and literature figures (D1–D11), executed plotting notebooks, and positive/negative workflow diagrams. Pairwise plots and t-SNE use the supplied plotting code and included datasets.
+
 - Updated the triage demo selection to include `10.1002/anie.201504786` and `10.1002/zaac.201700108`, copying their original bibliography metadata and human annotations. The four scheduled examples now contain two Y and two N reference labels.
 
 - Renamed the combined example to Data mining demo (API required), covering abstract triage, positive extraction, and negative reconstruction. Configured demo triage for GPT-5 with high reasoning and cleared its notebook output for a fresh run.

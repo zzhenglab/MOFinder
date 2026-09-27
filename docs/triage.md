@@ -2,6 +2,14 @@
 
 The triage workflow runs from Python modules and command-line commands. Screening preserves response records, evaluation compares saved predictions with the human reference, and plotting generates figures from the same analysis. The [data mining demo (API required)](../Demo/03_api_data_mining/README.md) provides a four-abstract example using GPT-5 with high reasoning effort. After a live run, it saves comparisons with the human reference labels.
 
+## Starting-corpus publisher coverage
+
+![Figure S3: publisher coverage before abstract triage](triage_figures/Figure_S3_publisher_coverage.png)
+
+**Figure S3.** Publisher coverage in the starting literature corpus, grouped by publication period before abstract triage.
+
+The bars count the original bibliography records, with segments for 1996–2005, 2006–2015, and 2016–2025. This describes the input corpus rather than model performance or the number of extracted syntheses. See the [source rows, publisher mapping, and provenance](triage_figures/README.md) and the [executed plotting notebook](../Demo/05_literature_triage_figures/literature_triage_figures.ipynb) to reproduce the chart offline.
+
 ## Inputs
 
 | Input | Content |

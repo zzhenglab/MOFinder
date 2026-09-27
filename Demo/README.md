@@ -7,8 +7,21 @@ Start with data curation and dataset preparation, which run locally without an A
 | [Data curation](01_data_curation/README.md) | Raw positive extraction records to normalized synthesis records | No |
 | [Dataset preparation](02_dataset_preparation/README.md) | Processed positive and negative records to grouped training and holdout JSONL | No |
 | [Data mining demo (API required)](03_api_data_mining/README.md) | Abstract triage, positive extraction, and negative reconstruction | Required for model calls; input validation runs offline |
+| [Dataset analysis](04_dataset_analysis/README.md) | Composition, properties, stability, pairwise conditions, and training/test t-SNE (D1–D10) | No |
+| [Literature coverage figures](05_literature_triage_figures/README.md) | Publisher and year-period coverage before triage (D11) | No |
 
 The demonstrations include executable Python scripts, Markdown instructions, and notebooks. The two offline notebooks retain saved outputs and expected-result checks. The [data mining walkthrough](03_api_data_mining/mof_api_data_mining_demo.ipynb) starts with empty outputs; run its preview cells to inspect the abstracts, requests, and document validation before enabling model calls.
+
+## Redraw the dataset and literature figures
+
+The [dataset notebook](04_dataset_analysis/dataset_analysis.ipynb) and [literature notebook](05_literature_triage_figures/literature_triage_figures.ipynb) contain executed plotting cells and visible outputs. Both use included data and shared Python modules without API access.
+
+```bash
+python -m pip install -e ".[plotting,notebook]"
+jupyter lab
+```
+
+Run all cells to redraw Figures D1–D11. The dataset notebook exports eighteen PNGs, including synthesis-record and record/DOI versions of Figures D2–D9. All PNGs use 6-inch width and 600 dpi. The [positive and negative workflow diagrams](../docs/workflows/README.md) are provided separately.
 
 ## Run the offline demonstrations
 

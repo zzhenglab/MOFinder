@@ -1,0 +1,24 @@
+{
+  "figure": "Figure D11",
+  "caption": "Publisher coverage in the starting literature corpus, grouped by publication period before abstract triage.",
+  "counting_unit": "Bibliography records before abstract triage; duplicate DOI rows are retained.",
+  "record_count": 13773,
+  "unique_nonempty_doi_count": 13770,
+  "publication_year_range": [
+    1997,
+    2025
+  ],
+  "repository_metadata_doi_row_order_matches": true,
+  "expected_publisher_totals": {
+    "Elsevier": 4570,
+    "RSC": 3567,
+    "ACS": 3033,
+    "Wiley": 1980,
+    "Springer Nature": 623
+  },
+  "publisher_grouping": "Indexed publisher names mapped to five families.",
+  "files": {
+    "publisher_source_records.csv": "6040c5bd937efc2ab2a316febe46738fd32f6e469de0ba10dcd13df93868bf36",
+    "publisher_name_mapping.csv": "e871908dd4e9a22f6e8006fa3911065ed59dc9ff208f0cec0bba479abf2ae937"
+  }
+}

@@ -8,6 +8,8 @@ python -m pip install -e ".[mining,curation,datasets]"
 
 ## Workflow terminology
 
+The [author-drawn workflow gallery](workflows/README.md) illustrates positive extraction and negative reconstruction. The executable stages and their inputs are documented below.
+
 Each workflow has a distinct purpose. The guide below details the sequence from document matching through dataset preparation.
 
 | Workflow | Purpose |

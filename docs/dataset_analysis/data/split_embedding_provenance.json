@@ -1,0 +1,144 @@
+{
+  "figure": "D10",
+  "repository_inputs": [
+    {
+      "partition": "training",
+      "path": "data/final_json/train.jsonl",
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "records": 23528,
+      "outcomes": {
+        "P": 11968,
+        "N": 11560
+      }
+    },
+    {
+      "partition": "holdout",
+      "path": "data/final_json/holdout.jsonl",
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "records": 2595,
+      "outcomes": {
+        "P": 1320,
+        "N": 1275
+      }
+    }
+  ],
+  "coordinates": {
+    "path": "docs/dataset_analysis/data/tsne_coordinates.csv",
+    "sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d",
+    "rows": 26123,
+    "row_identity": "Partition and one-based JSONL line number."
+  },
+  "source_code_hashes": {
+    "feature_pipeline": "3045ee070840bd6c4b011fbf91e24f4e75a77e2ef442d3e700cb238864017d20",
+    "composite_plot": "b72ef109575fe950a62ca96391e000af01a123d6bacff27ac252f4a777afd406"
+  },
+  "source_inputs_match_repository": "Both JSONL inputs are byte-identical to the supplied inputs.",
+  "categorical_fields": [
+    "metal_precursor",
+    "organic_linker",
+    "modulator",
+    "solvent"
+  ],
+  "categorical_preprocessing": "NFKC, whitespace normalization, casefold, and sorted members; each complete combination is one category. Missing values use <missing>.",
+  "numeric_fields": [
+    "metal_concentration_mM",
+    "M_L_ratio",
+    "temperature_C",
+    "time_h"
+  ],
+  "numeric_preprocessing": "Median imputation, standard scaling, and four binary missingness indicators. No log transform or outlier removal.",
+  "feature_weighting": "One-hot categories, standardized numeric values, and missingness indicators concatenated without additional weighting.",
+  "fitting_scope": "All training and test condition descriptors; outcomes and partition labels enter display only.",
+  "display": {
+    "dimensions_inches": [
+      6,
+      3.9
+    ],
+    "dpi": 600,
+    "font": "Arial",
+    "text_size_pt": 8,
+    "panel_letter_size_pt": 12,
+    "point_draw_order_seed": 42,
+    "overview": {
+      "P": "#285953",
+      "N": "#8D969E",
+      "size_pt2": 1.4,
+      "alpha": 0.65
+    },
+    "subsets": {
+      "P": "#A2C4F1",
+      "N": "#F2DAE7",
+      "negative_edge": "#D9AEC6",
+      "size_pt2": 2.4
+    }
+  },
+  "fit": {
+    "categories_by_field": {
+      "metal_precursor": 804,
+      "organic_linker": 5399,
+      "modulator": 1792,
+      "solvent": 330
+    },
+    "numeric_missing_counts": {
+      "metal_concentration_mM": 2039,
+      "M_L_ratio": 580,
+      "temperature_C": 0,
+      "time_h": 884
+    },
+    "numeric_imputation_medians": {
+      "metal_concentration_mM": 40.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 120.0,
+      "time_h": 48.0
+    },
+    "numeric_scaler_means": {
+      "metal_concentration_mM": 4695.532021590169,
+      "M_L_ratio": 518.2211158749012,
+      "temperature_C": 114.94215442330514,
+      "time_h": 61.59530472253057
+    },
+    "numeric_scaler_scales": {
+      "metal_concentration_mM": 131937.20694837673,
+      "M_L_ratio": 13314.022059184392,
+      "temperature_C": 47.513924615502965,
+      "time_h": 110.33863054562075
+    },
+    "descriptor_shape": [
+      26123,
+      8333
+    ],
+    "descriptor_nonzero_entries": 212487,
+    "svd": {
+      "n_components": 50,
+      "algorithm": "randomized",
+      "n_iter": 5,
+      "random_state": 42,
+      "explained_variance_ratio_sum": 0.7760723829269409
+    },
+    "tsne": {
+      "n_components": 2,
+      "perplexity": 30,
+      "early_exaggeration": 12,
+      "learning_rate": "auto",
+      "effective_learning_rate": 544.2291666666666,
+      "max_iter": 1000,
+      "n_iter_without_progress": 300,
+      "min_grad_norm": 1e-07,
+      "metric": "euclidean",
+      "init": "pca",
+      "random_state": 42,
+      "method": "barnes_hut",
+      "angle": 0.5,
+      "n_jobs": 4,
+      "kl_divergence": 0.7812546491622925,
+      "n_iter_completed_zero_based": 999
+    },
+    "software": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "scikit_learn": "1.8.0",
+      "matplotlib": "3.10.8"
+    }
+  }
+}

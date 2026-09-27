@@ -1,0 +1,7 @@
+﻿field,label,count,denominator,percent_of_cohort
+air_stable,Yes,1281,15340,8.35071707953064
+air_stable,No,128,15340,0.834419817470665
+air_stable,Not reported,13931,15340,90.8148631029987
+water_stable,Yes,1357,15340,8.846153846153847
+water_stable,No,386,15340,2.516297262059974
+water_stable,Not reported,13597,15340,88.63754889178618

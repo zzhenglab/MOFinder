@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "cohort_records": 15340,
+  "cohort_unique_dois": 4568,
+  "cohort": "Positive dataset before training/test filtering.",
+  "repository_inputs": [
+    {
+      "path": "data/processed_data/processed_positive.csv",
+      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
+      "bytes": 11274305
+    },
+    {
+      "path": "docs/dataset_analysis/data/expected_statistics.json",
+      "sha256": "888130770c7b7e1c712cd1b1959749d11c1c21e6ff38c2996a1903f6079472e7",
+      "bytes": 1122489
+    }
+  ],
+  "category_normalization": {
+    "metal": {
+      "figure": "D2",
+      "source_column": "metal_1",
+      "top_n": 20,
+      "nonempty_records": 15340,
+      "missing_records": 0,
+      "unique_categories": 713,
+      "top_n_records": 8597,
+      "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
+      "normalization": "existing cleaned names; whitespace and prime-character normalization only"
+    },
+    "linker": {
+      "figure": "D3",
+      "source_column": "linker_1",
+      "top_n": 20,
+      "nonempty_records": 15340,
+      "missing_records": 0,
+      "unique_categories": 2712,
+      "top_n_records": 6195,
+      "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
+      "normalization": "existing cleaned names; whitespace and prime-character normalization only"
+    },
+    "solvent": {
+      "figure": "D4",
+      "source_column": "solvent_main",
+      "top_n": 10,
+      "nonempty_records": 15340,
+      "missing_records": 0,
+      "unique_categories": 75,
+      "top_n_records": 15089,
+      "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
+      "normalization": "existing cleaned names; whitespace and prime-character normalization only"
+    },
+    "modulator": {
+      "figure": "D5",
+      "source_column": "modulator_1",
+      "top_n": 10,
+      "nonempty_records": 8395,
+      "missing_records": 6945,
+      "unique_categories": 750,
+      "top_n_records": 5553,
+      "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
+      "normalization": "known modulator identities grouped across formula/name and solution/concentration descriptors"
+    }
+  },
+  "property_eligibility": "Omit missing, nonnumeric, nonfinite or physically invalid values. BET must be nonnegative; Celsius TGA temperature must be at least -273.15. No upper cutoff, percentile clipping or imputation.",
+  "doi_counting": "Count a DOI once per nonempty category; independently rank DOI categories. Different categories can share a DOI. Numeric panels use the median eligible value per DOI.",
+  "stability_normalization": "Trim/collapse whitespace and lowercase. Yes/no become Yes/No; blank and explicit not_reported become Not reported. Unexpected values raise an error.",
+  "stability_doi_counting": "A DOI counts once in every category represented by its synthesis records. Categories may overlap, including Not reported alongside Yes/No. Percentages use all 4568 DOIs and need not sum to 100%.",
+  "stability_layout": "Air and water labels; records in panel a and DOI counts in panel b."
+}

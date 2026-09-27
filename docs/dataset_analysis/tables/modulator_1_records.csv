@@ -1,0 +1,751 @@
+﻿rank,label,count
+1,sodium hydroxide,1632
+2,acetic acid,988
+3,hydrochloric acid,581
+4,nitric acid,492
+5,formic acid,480
+6,triethylamine,448
+7,benzoic acid,377
+8,potassium hydroxide,226
+9,hydrofluoric acid,209
+10,trifluoroacetic acid,120
+11,pyridine,119
+12,2-fluorobenzoic acid,112
+13,"2,6-difluorobenzoic acid",75
+14,water,70
+15,polyvinylpyrrolidone,55
+16,sodium azide,51
+17,sodium acetate,50
+18,cetyltrimethylammonium bromide,47
+19,"4,4'-bipyridine",36
+20,ethylenediamine,36
+21,l-proline,36
+22,sodium formate,31
+23,imidazole,26
+24,lithium hydroxide monohydrate,26
+25,oxalic acid,24
+26,sodium carbonate,23
+27,"n,n-dimethylformamide",22
+28,oxalic acid dihydrate,22
+29,titanium isopropoxide,22
+30,"1,1,1,5,5,5-hexafluoro-2,4-pentanedione",21
+31,ammonium hydroxide,21
+32,sodium bicarbonate,20
+33,sulfuric acid,20
+34,aqueous ammonia (25%),19
+35,difluoroacetic acid,19
+36,hexadecyltrimethylammonium bromide,19
+37,2-methylimidazole,18
+38,dichloroacetic acid,18
+39,"1,10-phenanthroline",16
+40,water (deionized),15
+41,1-methylimidazole,14
+42,pyrazine,14
+43,"2,6-dimethylpyridine",13
+44,"polyvinylpyrrolidone (pvp, m.w. 30000)",13
+45,tetrafluoroboric acid,13
+46,"1,2,4-triazole",12
+47,deionized water,12
+48,dodecanoic acid,12
+49,hbf4,12
+50,salicylic acid,12
+51,ammonium hydroxide (28–30% aqueous solution),11
+52,l-phenylalanine,11
+53,piperazine,11
+54,sodium dodecyl sulfate,11
+55,triethylamine + water,11
+56,agarose,10
+57,ammonia solution (nh3·h2o),10
+58,octadecyl dimethyl betaine,10
+59,pluronic f127 (eo106po70eo106),10
+60,pyrocatechol,10
+61,sodium fluoride,10
+62,ammonia (aq),9
+63,ammonia solution,9
+64,ammonium hydroxide (30%),9
+65,"hexamethylene-1,6-bis(hexadecyldimethylammonium bromide) (g16)",9
+66,hydrobromic acid,9
+67,n-propylamine,9
+68,propionic acid,9
+69,urea,9
+70,4-(dodecyloxy)benzoic acid,8
+71,ammonium thiocyanate,8
+72,"bis(2,2'-biimidazole)",8
+73,dodecyltrimethylammonium bromide,8
+74,iso-propanolamine,8
+75,methyl viologen diiodide,8
+76,na2co3,8
+77,p-toluylic acid,8
+78,sodium benzene sulfonate,8
+79,sodium chloride,8
+80,tetrabutylammonium hydroxide,8
+81,"1h-1,2,4-triazole (htz)",7
+82,"2,2'-bipyridine",7
+83,"2,5-thiophenedicarboxylic acid",7
+84,5-fluoroisophthalic acid,7
+85,ammonia aqueous (2 mol l−1),7
+86,lino3,7
+87,lithium hydroxide,7
+88,octanoic acid,7
+89,phosphorous acid,7
+90,potassium thiocyanate,7
+91,tetramethylammonium hydroxide,7
+92,"1,4-diazabicyclo[2.2.2]octane",6
+93,1-bromohexadecane,6
+94,"2,6-lutidine",6
+95,4-nitrobenzoic acid,6
+96,ammonium hydroxide solution (25–28% nh3),6
+97,aqueous ammonia,6
+98,caprolactam,6
+99,diethylamine,6
+100,ferrocenecarboxylic acid,6
+101,"g14−6−14 gemini surfactant, [(c14h29)(ch3)2n(ch2)6n(ch3)2(c14h29)]br2",6
+102,hydrogen fluoride (48%),6
+103,methylamine (40% in ethanol),6
+104,"n,n,n,n-tetramethyl-1,6-hexanediamine",6
+105,n-butylamine,6
+106,perchloric acid,6
+107,potassium iodide,6
+108,propylamine,6
+109,"1,2-di(4-pyridyl)ethylene",5
+110,"1,8-diazabicyclo[5.4.0]undec-7-ene",5
+111,3-aminopropyltriethoxysilane,5
+112,4-trifluoromethylsalicylic acid,5
+113,[c18h37-n+(ch3)2-(ch2)6-n+(ch3)2-c18h37]2br−,5
+114,acetonitrile,5
+115,ammonium hydroxide (28–30% aqueous),5
+116,aqueous ammonia (28%),5
+117,aqueous ammonia solution,5
+118,dimethylamine hydrochloride,5
+119,glycine,5
+120,lauric acid,5
+121,lioh,5
+122,melamine,5
+123,"n,n'-diformylhydrazine",5
+124,"n,n-diethylethanolamine",5
+125,nh4vo3,5
+126,oleic acid,5
+127,polystyrene-b-poly(ethylene oxide) diblock copolymer,5
+128,potassium ferricyanide,5
+129,sodium acetate anhydrous,5
+130,sodium acetate trihydrate (naac·3h2o),5
+131,sodium benzenesulfonate (sbs),5
+132,sodium methoxide,5
+133,sodium methoxide solution,5
+134,sodium perchlorate monohydrate,5
+135,triethylenetetramine,5
+136,"1,3,5-benzenetricarboxylic acid",4
+137,"1,3-propanediamine-n,n,n,n-tetraacetic acid (pdta)",4
+138,"1,4-butanediamine",4
+139,2-(n-morpholino)ethanesulfonic acid,4
+140,2-fluorobenzoic acid (in dmf),4
+141,3-(n-morpholino)propanesulfonic acid,4
+142,3-hydroxymethylpyridine,4
+143,"4,13-diaza-18-crown-6-ether",4
+144,"4-amino-3,5-bis(4-pyridyl)-1,2,4-triazole",4
+145,4-methoxybenzoic acid,4
+146,4-methoxysalicylic acid,4
+147,5-nitroisophthalic acid,4
+148,ammonia solution (25%),4
+149,"ammonia solution (nh3·h2o, 25%)",4
+150,ammonium chloride,4
+151,ascorbic acid,4
+152,caproic acid,4
+153,cetyltrimethylammonium bromide (ctab),4
+154,citric acid,4
+155,d-phenylalanine,4
+156,diethylenetriamine,4
+157,dimethylammonium chloride,4
+158,ethylenediamine (en),4
+159,fluoroboric acid (48 wt.% in water),4
+160,gelatin,4
+161,hbf4 (50% aqueous),4
+162,histidine,4
+163,hydrazine hydrate (n2h4·h2o),4
+164,"n,n-dimethyl-1,2-ethanediamine",4
+165,"n,n-dimethyloctadecylamine",4
+166,"n,n-dimethyloctylamine",4
+167,naphthalene,4
+168,nh3·h2o,4
+169,nh3·h2o (ammonia solution),4
+170,ni(ch2coo)2,4
+171,nicotinic acid,4
+172,pluronic f127 (eo97po69eo97),4
+173,potassium chloride,4
+174,propanoic acid,4
+175,sodium dodecylbenzene sulfonate,4
+176,sodium iodide,4
+177,succinic acid,4
+178,tetraethylenepentamine,4
+179,tetrafluoroboric acid (40% in water),4
+180,"tetramethyl-1,3-propanediamine",4
+181,tetramethylammonium bromide,4
+182,tetramethylammonium hydroxide (tmaoh),4
+183,valeric acid,4
+184,(+)-cinchonine,3
+185,(−)-cinchonidine,3
+186,12-tungstosilicic acid (h4siw12o40),3
+187,2-mercaptobenzoic acid,3
+188,2-methylimidazole (2-mi),3
+189,2-naphthalenecarboxylic acid,3
+190,2-propanolamine,3
+191,2-thiophenecarboxylic acid,3
+192,3-methyl pyridine,3
+193,3-thiophenecarboxylic acid,3
+194,"4,4'-bipyridyl",3
+195,5-aminoisophthalic acid,3
+196,6-methoxy-2-naphthoic acid,3
+197,9-anthracenecarboxylic acid,3
+198,aluminum acetate,3
+199,"amino-terminated polyethylene glycol (peg-nh2, mw ~5000)",3
+200,ammonia,3
+201,"ammonia (aqueous, 1 m)",3
+202,ammonium fluoride,3
+203,ammonium heptamolybdate tetrahydrate,3
+204,aqueous ammonia (28–30% nh3),3
+205,aqueous nh3 (25%),3
+206,biphenyl-4-carboxylic acid,3
+207,butyric acid,3
+208,cerium(iii) nitrate hexahydrate (used as modulator),3
+209,cetyltrimethylammonium chloride,3
+210,cocamidopropyl betaine (capb),3
+211,d-alanine,3
+212,d-panthenol,3
+213,dabco,3
+214,diethanolamine,3
+215,dimethylamine,3
+216,dimethylamine (33% aqueous solution),3
+217,dual-functional surfactant n2-ph-n2,3
+218,folic acid,3
+219,glutamic acid,3
+220,glutamine,3
+221,hydrogen peroxide solution 30% (aq),3
+222,isonicotinic acid,3
+223,isopropanol,3
+224,l-alanine,3
+225,l-valine,3
+226,lithium hydroxide (lioh),3
+227,mercaptoacetic acid,3
+228,mixed surfactant (span 80 and tween 80 in molar ratio 1:1.2),3
+229,perfluorohexanoic acid,3
+230,piperidine,3
+231,poly(acrylic acid) (paa),3
+232,poly(vinylpyrrolidone) (mw ≈ 30000),3
+233,polyethylene glycol 1500,3
+234,"polyvinylpyrrolidone (mw 40,000)",3
+235,pyrazole,3
+236,pyrene,3
+237,short-chain starch nanoparticles (snp) seeds,3
+238,sodium carbonate solution,3
+239,sodium dodecylbenzenesulfonate,3
+240,sodium formate dihydrate,3
+241,sodium methoxide (methanolic solution),3
+242,sulfuric acid (concentrated),3
+243,tetra-n-butylammonium chloride,3
+244,tetraethylammonium bromide,3
+245,tetraethylammonium hydroxide,3
+246,tetrafluoroboric acid (concentrated),3
+247,tetrapropylammonium bromide,3
+248,thioglycolic acid,3
+249,triethanolamine,3
+250,"trimethyl 1,3,5-benzenetricarboxylate",3
+251,trimethylstearylammonium chloride,3
+252,α-cyano-4-hydroxycinnamic acid,3
+253,(r)-(−)-2-amino-1-butanol (chiral dopant),2
+254,(s)-(+)-2-amino-1-butanol (chiral dopant),2
+255,"1,1',1″-(2,4,6-trimethylbenzene-1,3,5-triyl)tris(pyridinium-4-olate)",2
+256,"1,10-phenanthroline (phen)",2
+257,"1,3-propanediol",2
+258,"1,7-phenanthroline",2
+259,1-butyl-3-methylimidazolium bromide ([bmi]br),2
+260,"2,6-dimethylpyridine (2,6-lutidine)",2
+261,"2,6-pyridinedicarboxylic acid",2
+262,2-methyl imidazole,2
+263,4-aminopyridine,2
+264,4-cyanopyridine,2
+265,4-tert-butylbenzoic acid,2
+266,4-trifluoromethylbenzoic acid,2
+267,"5''-bromo-[1,1':4',1'':3'',1''':4''',1''''-quinquephenyl]-4,4''''-dicarboxylic acid",2
+268,"5,5'-(1,4-phenylene)bis(1h-tetrazole)",2
+269,5-hydroxyisophthalic acid,2
+270,[(c4h9)4n]h[pw11cu(h2o)o39],2
+271,alendronate,2
+272,ammonia solution (aqueous),2
+273,"ammonia solution (nh3·h2o, 12.5%)",2
+274,"ammonia, liquid",2
+275,ammonium hydroxide (12.5 wt% solution),2
+276,ammonium hydroxide (28% aqueous),2
+277,ammonium sulfate,2
+278,aniline,2
+279,anthracene,2
+280,aqueous ammonia (14%),2
+281,aqueous ammonia (20%),2
+282,aqueous ammonia (28 wt%),2
+283,aqueous nh3 solution,2
+284,benzene,2
+285,"benzene-1,2,4,5-tetracarboxylic acid",2
+286,benzenesulfonamide,2
+287,benzimidazole,2
+288,benzonitrile (guest),2
+289,biotin,2
+290,bis(diethylenetriamine)cobalt(iii) chloride,2
+291,calcium chloride,2
+292,catechol,2
+293,cesium fluoride,2
+294,cesium hydroxide,2
+295,concentrated ammonia,2
+296,concentrated ammonium hydroxide solution (~28%),2
+297,cyclohexane (hydrophobic template),2
+298,d-valine,2
+299,dextran 40000,2
+300,dibenzoylmethane,2
+301,diethylamine (deta),2
+302,ethanol,2
+303,ethanolamine,2
+304,ethyl glycol (eg),2
+305,ethyl viologen dibromide,2
+306,ethylenediamine solution,2
+307,fluoroboric acid (48% hbf4) aqueous,2
+308,fluoroboric acid (hbf4),2
+309,fumaric acid,2
+310,gemini surfactant 16–10–16 (bromide counter-ion),2
+311,glutaric acid,2
+312,guanidinium carbonate,2
+313,guanidinium chloride,2
+314,"guanidinium surfactant c12gua (alkyl guanidinium chloride, c12 chain)",2
+315,h2so4 (95–97%),2
+316,h3bo3,2
+317,h3pmo12o40 (keggin-type heteropolyacid),2
+318,h3pw12o40 (keggin-type heteropolyacid),2
+319,h4siw12o40 (keggin-type heteropolyacid),2
+320,hbf4 (40% in water),2
+321,hexamethylenetetramine,2
+322,hexylamine,2
+323,histamine,2
+324,hydrogen chloride in dry dmf (hcl/dmf),2
+325,ibuprofen,2
+326,imidazole (him),2
+327,kcl,2
+328,l-arginine,2
+329,l-histidine,2
+330,l-proline hydrochloride (preformed from 865 mg l-pro with conc. hcl),2
+331,leucine,2
+332,maleic acid,2
+333,malonic acid,2
+334,myristic acid,2
+335,"n,n,n-trimethylhexadecan-1-ammonium bromide",2
+336,"n,n-diethylformamide",2
+337,"n,n-dimethyldodecylamine",2
+338,n-hexylamine,2
+339,n-phenyldiethanolamine,2
+340,n2h4·h2o (hydrazine hydrate),2
+341,nbu4br,2
+342,nickel acetate,2
+343,nitrobenzene (guest),2
+344,o-dichlorobenzene (guest),2
+345,p-toluenesulfonic acid monohydrate,2
+346,perfluorooctanoic acid,2
+347,perylene,2
+348,phenanthrene,2
+349,phenazine,2
+350,phenol,2
+351,phenylphosphonic acid,2
+352,phosphoric acid,2
+353,phosphotungstic acid hydrate (h3pw12o40·nh2o),2
+354,piperazidine (for ph adjustment),2
+355,piperazine (pip),2
+356,pivalic acid,2
+357,pluronic f-127 surfactant,2
+358,pluronic f127,2
+359,poly(acrylic acid sodium salt) (average m.w. 2100),2
+360,poly(ethylene oxide)-b-poly(methacrylic acid) (peo68-b-pmaa8),2
+361,polyethylene glycol 20 (peg-20),2
+362,polyoxyethylene-(20)-oleyl ether,2
+363,polyvinylpyrrolidone (mw ≈ 40 000),2
+364,potassium bromide,2
+365,serine,2
+366,sodium azide (nan3),2
+367,sodium nitrite,2
+368,sodium p-toluenesulfonate,2
+369,sodium trifluoroacetate,2
+370,span-80 (sorbitan monooleate),2
+371,stearic acid,2
+372,sulfur,2
+373,sulfuric acid (3 m),2
+374,sulfuric acid (5 n aqueous),2
+375,teda·6h2o (triethylenediamine hexahydrate),2
+376,tetrabutylammonium bromide,2
+377,tetrabutylammonium hydroxide solution (10%),2
+378,tetraethylammonium chloride,2
+379,tetraethylammonium iodide,2
+380,tetrafluoroboric acid (48 wt% in water),2
+381,tetrafluoroboric acid (hbf4),2
+382,"tetrafluoroboric acid (hbf4), 48% aqueous solution",2
+383,tetramethyl ammonium bromide,2
+384,tetramethylammonium hydroxide (25 wt%),2
+385,tetramethylammonium hydroxide pentahydrate,2
+386,triethyleneamine (tea),2
+387,trimethylamine,2
+388,trioctylamine,2
+389,triphenylene,2
+390,valine,2
+391,vanillin,2
+392,zinc oxide,2
+393,(+/−)-2-methylpiperazine,1
+394,(r)-4-(1-hydroxyethyl)pyridine,1
+395,(r)-5-(1-carboxyethoxy)isophthalic acid,1
+396,(s)-4-(1-hydroxyethyl)pyridine,1
+397,(tba)4[w10o32],1
+398,"1,1'-(butane-1,4-diyl)bis(1,4-diazabicyclo[2.2.2]octan-1-ium) bromide",1
+399,"1,1'-bis(4-cyanobenzyl)-4,4'-bipyridinium dichloride",1
+400,"1,1,1,5,5,5-hexafluoroacetylacetone",1
+401,"1,10-phenanthroline monohydrate",1
+402,"1,10-phenanthroline·h2o",1
+403,"1,2,4-1h-triazole",1
+404,"1,2-bis(4-piperidyl)propane",1
+405,"1,2-bis(4-pyridyl)ethene",1
+406,"1,2-diaminoethane (ethylenediamine)",1
+407,"1,2-diaminopropane",1
+408,"1,2-diphenyldisulfane",1
+409,"1,2-ethanediamine",1
+410,"1,2-ethanedisulfonic acid",1
+411,"1,3,5-tris(4-carboxyphenyl)benzene",1
+412,"1,3-benzenedicarboxylic acid",1
+413,"1,3-bis(4-pyridyl)propane",1
+414,"1,3-bis(imidazole)propane",1
+415,"1,3-cyclohexane-dicarboxylic acid",1
+416,"1,3-di(1h-imidazol-1-yl)propane",1
+417,"1,3-propanediamine",1
+418,"1,4-bis(imidazol-1-yl)butane (bim)",1
+419,"1,4-butanediamine dihydrochloride",1
+420,"1,4-di(1h-imidazol-1-yl)benzene",1
+421,"1,4-diazabicyclo[2,2,2]octane (dabco)",1
+422,"1,4-diazabicyclo[2.2.2]octane (dabco)",1
+423,"1,4-diazabicyclo[2.2.2]octane (dabco) solution",1
+424,1-azabicyclo[2.2.2]octane (abco),1
+425,1-benzyl-2-methylimidazole,1
+426,1-bromodecane,1
+427,1-butyl-3-methylimidazolium bromide,1
+428,1-methyl-2-pyrrolidone,1
+429,12-phosphotungstic acid (h3pw12o40·nh2o),1
+430,"12.5% aqueous ammonia solution (to adjust ph to 3.0, dropwise)",1
+431,18-crown-6,1
+432,"1h-1,2,4-triazol-3-amine",1
+433,"2,2'-biimidazole",1
+434,"2,2'-bipyridine (bpy)",1
+435,"2,2'-bipyridine (template)",1
+436,"2,4,6-tri(4-pyridyl)-1,3,5-triazine",1
+437,"2,5-dihydroxyterephthalic acid",1
+438,"2,6-bis(1,2,4-triazol-1-yl)pyridine",1
+439,"2,6-diaminopurine",1
+440,"2,6-dimethylpyridine (lutidine)",1
+441,2-aminobenzoic acid,1
+442,2-aminopyridine,1
+443,2-ethylimidazole,1
+444,2-hydroxymethylpyridine,1
+445,2-hydroxypyridine,1
+446,2-methylpyridine,1
+447,2-propylimidazole,1
+448,28% aqueous ammonia,1
+449,"3,3',5,5'-biphenyltetracarboxylic acid",1
+450,"3,5-diaminobenzoic acid",1
+451,"3-amino-1,2,4-triazole",1
+452,3-aminobenzoic acid,1
+453,3-aminopyridine,1
+454,3-bromopropionic acid,1
+455,3-hydroxypropylpyridine,1
+456,3-mercaptopropionic acid,1
+457,"4,4'-azopyridine (azpy)",1
+458,"4,4'-biphenyl-dicarboxylic acid",1
+459,"4,4'-bipyridine (template)",1
+460,"4,4'-bipyridine dihydrate (template)",1
+461,"4,4'-diphenylbisphosphonic acid",1
+462,4-aminobenzoic acid,1
+463,4-aminotriazole,1
+464,4-bromosalicylic acid,1
+465,4-fluorobenzoic acid,1
+466,4-fluorosalicylic acid,1
+467,4-formylbenzoic acid (4-fba),1
+468,4-hydroxybenzoic acid,1
+469,4-hydroxymethylpyridine,1
+470,4-iodopyrazole,1
+471,4-methylbenzoic acid,1
+472,4-methylsalicylic acid,1
+473,4-nitroaniline,1
+474,4-nitrobenzoic acid (4-nba),1
+475,4-picoline,1
+476,4-piperidine/formic acid,1
+477,5-aminotetrazole,1
+478,5-bromo-1-methylimidazole,1
+479,5-methylisophthalic acid,1
+480,"5-nitro-1,3-benzenedicarboxylic acid",1
+481,5-sulfosalicylic acid,1
+482,5-sulfosalicylic acid (hydrate),1
+483,5-sulphosalicylic acid,1
+484,5-tert-butylisophthalic acid,1
+485,8-arm-peg-oh (40 kda),1
+486,[(n-c4h9)4n][w10o32] (tetrabutylammonium decatungstate),1
+487,[nh2et2]cl,1
+488,"[ru(2,2'-bipyridine)3]cl2",1
+489,acetamide,1
+490,acetylsalicylic acid,1
+491,adenine,1
+492,adipic acid,1
+493,alanine,1
+494,ammonia (3 wt % in water),1
+495,ammonia (aqueous),1
+496,ammonia solution (10%),1
+497,ammonia solution (25% nh3·h2o),1
+498,ammonia solution (25% nh3·h2o) for vapor diffusion,1
+499,"ammonia solution, concentrated",1
+500,ammonia·water (nh3·h2o),1
+501,ammonium,1
+502,ammonium acetate,1
+503,ammonium fluoride (anhydrous),1
+504,ammonium hydroxide (25% aq.),1
+505,ammonium hydroxide (25% in water),1
+506,ammonium hydroxide (25–28%),1
+507,ammonium hydroxide (28 wt%),1
+508,ammonium hydroxide (30% aq),1
+509,ammonium hydroxide (aq),1
+510,ammonium hydroxide (dilute),1
+511,ammonium hydroxide (nh4oh),1
+512,ammonium hydroxide (reagent concentrated),1
+513,"ammonium hydroxide (saturated, aqueous)",1
+514,ammonium hydroxide solution,1
+515,ammonium hydroxide solution (30–33%),1
+516,ammonium hydroxide solution (nh3),1
+517,ammonium metavanadate,1
+518,ammonium oxalate,1
+519,anthraquinone,1
+520,aqueous ammonia (35 wt%),1
+521,aqueous ammonia solution (nh3),1
+522,asparagine,1
+523,aspartic acid,1
+524,benzidine,1
+525,bis(cyclopentadienyl)cobalt hexafluorophosphate,1
+526,boric acid (hbo3),1
+527,bpe,1
+528,brij 78 (surfactant),1
+529,butanol,1
+530,calcium hydroxide,1
+531,cetrimonium bromide (ctab),1
+532,cetyl trimethyl ammonium bromide,1
+533,cetyltrimethylammonium chloride (ctac),1
+534,choline chloride,1
+535,cinchonine,1
+536,cinnamic acid,1
+537,co(en)3cl3,1
+538,cocamidopropyl betaine,1
+539,concentrated aqueous ammonia,1
+540,copper(ii) hydroxide (quasi-reactant at bottom; solid),1
+541,copper(ii) hydroxide suspension (quasi-reactant at bottom),1
+542,cupric acetate monohydrate,1
+543,cyanoacetic acid,1
+544,cysteine,1
+545,d-proline,1
+546,d-tryptophan,1
+547,"dabco (1,4-diazabicyclo[2.2.2]octane)",1
+548,decanoic acid,1
+549,dicyandiamide,1
+550,diethylamine (dea),1
+551,diisopropyl-ethylamine,1
+552,disodium sulfate,1
+553,dopamine hydrochloride (da-hcl),1
+554,ethanediamine (dilute) for ph adjustment,1
+555,ethyl glycol,1
+556,ethylamine,1
+557,ethyldiisopropylamine,1
+558,ethylene glycol,1
+559,"ethylenediamine (dilute solution, en:h2o = 1:100 v/v; to ph 6)",1
+560,fluconazole,1
+561,fluoroboric acid,1
+562,glycerol,1
+563,"guanidinium surfactant c10gua (alkyl guanidinium chloride, c10 chain)",1
+564,"guanidinium surfactant c14gua (alkyl guanidinium chloride, c14 chain)",1
+565,"guanidinium surfactant c16gua (alkyl guanidinium chloride, c16 chain)",1
+566,h2oba (oxydibenzoic acid),1
+567,h2so4 (3 m),1
+568,h2so4 (6 m),1
+569,hbf4 (48% water solution),1
+570,hbf4 (52%),1
+571,hbf4 (aqueous),1
+572,hbf4 solution,1
+573,hclo4,1
+574,hexacyanotriphenylene,1
+575,hexadecyltrimethylammonium bromide (ctab),1
+576,hf acid,1
+577,hin2o,1
+578,hydrazine hydrate,1
+579,hydrazine hydrate (80%),1
+580,hydrazine monohydrate,1
+581,hydroiodic acid (45 wt%),1
+582,hydroiodic acid (hi),1
+583,imidazole (structure-directing agent),1
+584,imidazole-2-carboxylic acid,1
+585,isoleucine,1
+586,isonicotinic acid (template),1
+587,isophthalic acid,1
+588,l-asparagine,1
+589,l-aspartic acid,1
+590,l-cysteine,1
+591,l-glutamic acid,1
+592,l-lactic acid,1
+593,l-mandelic acid,1
+594,l-methionine,1
+595,l-proline (pre-treated with hcl; see text),1
+596,l-proline (pretreated with conc. hcl),1
+597,l-tartaric acid,1
+598,l-tryptophan,1
+599,lactic acid,1
+600,lead(ii) acetate trihydrate,1
+601,lithium hydroxide (in water),1
+602,"lithium hydroxide monohydrate, lioh·h2o",1
+603,lysozyme (template),1
+604,m-phenylenediamine,1
+605,magnesium acetate tetrahydrate,1
+606,methacrylic acid,1
+607,methanesulfonic acid,1
+608,methanol,1
+609,methionine,1
+610,methylamine,1
+611,molecular sieves,1
+612,myristyltrimethylammonium bromide,1
+613,"n,n'-dimethylethylenediamine",1
+614,"n,n,n',n'-tetramethyl-1,6-hexanediamine",1
+615,"n,n,n',n'-tetramethylethylenediamine",1
+616,"n,n-diethylamine",1
+617,"n,n-dimethylacetamide",1
+618,"n,n-dimethylaniline (vapor diffusion in outer vial)",1
+619,"n,n-dimethylbenzenamine",1
+620,"n,n-dimethylhexadecylamine",1
+621,"n,n-dimethyltetradecylamine",1
+622,"n,n-dipropyl-1-propanamine",1
+623,n-octanoic acid,1
+624,n-propyl alcohol,1
+625,n-spirocyclicmorpholiniumpyrole bromide,1
+626,n-spirocyclicpiperidiniumpyrole bromide,1
+627,na2teo3,1
+628,"naphthalene-1,4-dicarboxylic acid",1
+629,nh3·h2o (ammonia water),1
+630,nh4no3,1
+631,nh4pf6,1
+632,nh4scn (ammonium thiocyanate),1
+633,nicotinate (hin),1
+634,orthofluorobenzoic acid,1
+635,p-azidomethylbenzoic acid,1
+636,p-phthalic acid (terephthalic acid),1
+637,palmitic acid,1
+638,para-bis(imidazol-1-ylmethyl)benzene (guest/template),1
+639,peg10k-l4,1
+640,pentaerythritol (template),1
+641,perfluorobenzoic acid,1
+642,perfluorostearic acid,1
+643,phenylalanine,1
+644,"phosphoric acid (h3po4, 85%)",1
+645,phosphorous acid (85%),1
+646,piperazine hexahydrate,1
+647,poly(diallyldimethylammonium chloride) (high molecular weight),1
+648,poly(ethylene glycol)-1000,1
+649,"poly(vinylpyrrolidone) (pvp, mw 58000)",1
+650,polyethyleneimine,1
+651,polyvinyl pyrrolidone (mw ≈ 55 000),1
+652,"polyvinyl pyrrolidone (mw ≈ 58 000, k29-32)",1
+653,polyvinylpyrrolidone (mw 55000),1
+654,"polyvinylpyrrolidone (pvp k30, m = 58000)",1
+655,"polyvinylpyrrolidone (pvp k30, m ≈ 58,000)",1
+656,"polyvinylpyrrolidone (pvp, mw 1,300,000)",1
+657,"polyvinylpyrrolidone (pvp, mw ≈ 40 000)",1
+658,"polyvinylpyrrolidone (~55,000)",1
+659,polyvinylpyrrolidone k30,1
+660,potassium acetate,1
+661,potassium perchlorate,1
+662,"pre-elm-11 seeds (stable phase), milled",1
+663,proline,1
+664,propanedioic acid (malonic acid),1
+665,"pyrazine-2,3-dicarboxylic acid",1
+666,"pyridine-2,6-dicarboxylic acid",1
+667,pyrophosphate (aqueous solution),1
+668,pyrrolidine,1
+669,rubidium chloride,1
+670,rubidium hydroxide,1
+671,s-(+)-2-methylpiperazine,1
+672,silica (particle size ~100 nm),1
+673,sodium (s)-2-(1h-imidazol-1-yl)-3-methylbutanoate,1
+674,sodium (s)-2-(1h-imidazol-1-yl)-3-phenylpropanoate,1
+675,sodium 1-hexadecylsulfonate,1
+676,sodium 4-hydroxybenzenesulfonate dihydrate,1
+677,sodium acetate trihydrate,1
+678,sodium acetate–acetic acid buffer,1
+679,sodium azide (azide source and cycloaddition reagent),1
+680,sodium borohydride,1
+681,sodium carbonate (10% w/v),1
+682,sodium chloride (nacl),1
+683,sodium dihydrogen phosphate (nah2po4),1
+684,sodium fluoride (naf),1
+685,sodium hypochlorite,1
+686,sodium molybdate,1
+687,sodium n-octanoate,1
+688,sodium nitrate,1
+689,sodium oxalate (anhydrous),1
+690,sodium perchlorate,1
+691,sodium perchlorate monohydrate (naclo4·h2o),1
+692,sodium sulfate,1
+693,sodium tetrafluoroborate (nabf4),1
+694,sodium thiocyanate,1
+695,sodium thiocyanate (thiocyanate source),1
+696,sorbitol–alkylamine surfactant (saas-c12),1
+697,spirocyclic morpholinium bromide,1
+698,spirocyclic piperidinium bromide,1
+699,spirocyclic piperidinium chloride,1
+700,squaric acid,1
+701,styrene,1
+702,sulfosalicylic acid,1
+703,sulfuric acid (95–98%),1
+704,"sulfuric acid, 95%",1
+705,t-butylphosphonic acid,1
+706,tbcl3,1
+707,terephthalic acid,1
+708,"terephthalic acid (1,4-benzenedicarboxylic acid)",1
+709,tert-butylammonium chloride,1
+710,tetrabutylammonium acetate (hydrate),1
+711,tetrabutylammonium hydroxide (40 wt % in water),1
+712,tetrabutylammonium hydroxide 40 wt% solution in water,1
+713,tetrabutylammonium hydroxide solution,1
+714,tetrabutylammonium nitrate,1
+715,tetradecanonitrile,1
+716,tetraethylammonium acetate,1
+717,tetraethylammonium perchlorate,1
+718,tetraethylammonium tetrafluoroborate,1
+719,tetrafluoroboric acid (48% in water),1
+720,tetrafluoroboric acid (48% w/w in water),1
+721,tetrafluoroboric acid (48%),1
+722,tetrafluoroboric acid (∼20 wt%),1
+723,"tetrafluoroboric acid, 45% aqueous (hbf4)",1
+724,tetrakis(4-pyridyloxymethylene)methane (template/countercation),1
+725,tetramethylammonium chloride,1
+726,tetramethylammonium hydroxide (10%),1
+727,tetramethylammonium hydroxide (12.5 wt% solution),1
+728,tetramethylammonium hydroxide (25% in water),1
+729,"tetramethylammonium hydroxide (me4noh), 25% in meoh",1
+730,tetramethyldiaminomethane,1
+731,threonine,1
+732,toluene,1
+733,trans-diaminocyclohexane,1
+734,triamylamine,1
+735,triazole,1
+736,triethanolamine (teoa),1
+737,triethylbutylammonium bromide,1
+738,triethylenediamine (teda),1
+739,trimethylstearylammonium bromide,1
+740,triphenylene (tp),1
+741,tripropylamine,1
+742,"tris(2,2'-bipyridine)ruthenium(ii) chloride (rubpy)",1
+743,tris(ethylenediamine)cobalt(iii) chloride,1
+744,tryptophan,1
+745,urea (co(nh2)2),1
+746,v2o5,1
+747,viologen diacetic acid dichloride,1
+748,zinc acetate,1
+749,zinc oxide (zno),1
+750,β-alanine,1

@@ -1,0 +1,227 @@
+{
+  "figure": "D1",
+  "caption": "Figure D1. Pairwise distributions of synthesis conditions. Columns show positive records, negative records, and their overlay; marker opacity reflects coincident records.",
+  "width_inches": 6,
+  "height_inches": 8.6,
+  "dpi": 600,
+  "font": "Arial",
+  "axis_font_pt": 8,
+  "panel_font_pt": 12,
+  "panel_columns": [
+    "Positive",
+    "Negative",
+    "Overlaid"
+  ],
+  "display_parameters": {
+    "temperature": {
+      "column": "temperature_c",
+      "label": "Temperature (°C)",
+      "limits": [
+        -100,
+        425
+      ],
+      "scale": "linear",
+      "ticks": [
+        0,
+        200,
+        400
+      ]
+    },
+    "time": {
+      "column": "time_h",
+      "label": "Time (h)",
+      "limits": [
+        0.001,
+        10000
+      ],
+      "scale": "log",
+      "ticks": [
+        0.001,
+        0.1,
+        10,
+        1000
+      ]
+    },
+    "concentration": {
+      "column": "metel_concnertation",
+      "label": "Metal concentration (mM)",
+      "limits": [
+        0.7,
+        10000000
+      ],
+      "scale": "log",
+      "ticks": [
+        1,
+        100,
+        10000,
+        1000000
+      ]
+    },
+    "ratio": {
+      "column": "M_L_ratio",
+      "label": "Metal-to-linker ratio",
+      "limits": [
+        0.007,
+        1000000
+      ],
+      "scale": "log",
+      "ticks": [
+        0.01,
+        1,
+        100,
+        10000,
+        1000000
+      ]
+    }
+  },
+  "base_marker_opacity": 0.24,
+  "png": "figures/Figure_D1_pairwise_condition_coverage.png",
+  "png_sha256": "90525a44de1be8253187f7c1fda290a13cfdcd3ba31690360ae1a137b0bb062b",
+  "provenance_sha256": "6bbea1dff55c92406207241475d4e11f83c40d8af2ac59868dcf7e891780e51b",
+  "counts": [
+    {
+      "pair_id": "time_temperature",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 14992,
+      "plotted_records": 14992,
+      "omitted_missing_or_nonpositive": 348,
+      "distinct_coordinates": 975,
+      "out_of_view": 0,
+      "coordinates_sha256": "e653a11c7d2e6a513918b166817c22e2eb2931b24c36174b915cf722afd6cb99",
+      "multiplicities_sha256": "edd6bbfd890c9665ed380cb6a7cbf0a116af601829b33891460855f5489da650"
+    },
+    {
+      "pair_id": "time_temperature",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 14397,
+      "plotted_records": 14389,
+      "omitted_missing_or_nonpositive": 674,
+      "distinct_coordinates": 778,
+      "out_of_view": 0,
+      "coordinates_sha256": "a5509580b625312f9d8a504751a80c2c2d74e90000be6dba22adb0367ff73515",
+      "multiplicities_sha256": "04f89b1184c6e7684467576c6d695b7b9bc70d3b208208ffe5670220e70e539d"
+    },
+    {
+      "pair_id": "ratio_concentration",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 13871,
+      "plotted_records": 13863,
+      "omitted_missing_or_nonpositive": 1477,
+      "distinct_coordinates": 3338,
+      "out_of_view": 0,
+      "coordinates_sha256": "a1b4b178a604775338a03aa35ff14bfa15cfcdc1e7de8c08c0dc38fe0fd191bb",
+      "multiplicities_sha256": "6b0f84ff0fa80ef177ab483c5874c977d33bd3bf889f611edde4519575018042"
+    },
+    {
+      "pair_id": "ratio_concentration",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 13053,
+      "plotted_records": 13025,
+      "omitted_missing_or_nonpositive": 2038,
+      "distinct_coordinates": 1863,
+      "out_of_view": 0,
+      "coordinates_sha256": "4e636f6689d6c505535bb81eeabc314058b6829d17e9183bc1377d7dcd8b3748",
+      "multiplicities_sha256": "e6ee1c65e01c17255e3da1645331c70efdd6c07d49603cb4421ce192df2672d7"
+    },
+    {
+      "pair_id": "temperature_concentration",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 14296,
+      "plotted_records": 14291,
+      "omitted_missing_or_nonpositive": 1049,
+      "distinct_coordinates": 2530,
+      "out_of_view": 0,
+      "coordinates_sha256": "34cae24c92b112b252477c0bf89eb3382f79eae62dc8785cb73cbbbc19653050",
+      "multiplicities_sha256": "23badc93334be6c709a917dd574994cd816276953f7f7250539c78e559f36708"
+    },
+    {
+      "pair_id": "temperature_concentration",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 13335,
+      "plotted_records": 13316,
+      "omitted_missing_or_nonpositive": 1747,
+      "distinct_coordinates": 1996,
+      "out_of_view": 0,
+      "coordinates_sha256": "11acc183156bacc41c279f7055d8f1cd4278b28f21f63a9049d5cbba9c223d00",
+      "multiplicities_sha256": "3bee4f23f96ef9f0733dcd6afdcd15f11050969032e1b3c6eec486d2cb30101f"
+    },
+    {
+      "pair_id": "time_concentration",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 13989,
+      "plotted_records": 13985,
+      "omitted_missing_or_nonpositive": 1355,
+      "distinct_coordinates": 2514,
+      "out_of_view": 0,
+      "coordinates_sha256": "66af9e02ef8e83f72d05ec9913edceea251ae56366e747f285fba8cd906b9f47",
+      "multiplicities_sha256": "446e9f56fd4b2f2bcf42f00edb7409fb2e735908d9b1392a9abad147eaaed30a"
+    },
+    {
+      "pair_id": "time_concentration",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 13019,
+      "plotted_records": 12992,
+      "omitted_missing_or_nonpositive": 2071,
+      "distinct_coordinates": 1619,
+      "out_of_view": 0,
+      "coordinates_sha256": "3a87ef99e64793855303d4b6abd833c8b2781256ed228a242fcd6b2830bdc769",
+      "multiplicities_sha256": "b19efe8a9f08e31d684c553f237b09f10f38dcd07db0cd41ce33e498a7d6dc14"
+    },
+    {
+      "pair_id": "temperature_ratio",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 14684,
+      "plotted_records": 14675,
+      "omitted_missing_or_nonpositive": 665,
+      "distinct_coordinates": 2440,
+      "out_of_view": 0,
+      "coordinates_sha256": "77c3f0b7503bb8e021b4aa15d8c6f0709975ac8d501956882724eb9be39963ce",
+      "multiplicities_sha256": "0e13546f088cb2a975a059dc851e1afd84442943a9439dd2d30d1a0ea8ebae6c"
+    },
+    {
+      "pair_id": "temperature_ratio",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 14466,
+      "plotted_records": 14450,
+      "omitted_missing_or_nonpositive": 613,
+      "distinct_coordinates": 1763,
+      "out_of_view": 0,
+      "coordinates_sha256": "2a42c078c22bcd158d7d59d5cd5f79f4cc06f93518119a2142de5bc9ad41ca06",
+      "multiplicities_sha256": "beed34561898808b20ff31d11228328d4417748c0cea7e8b1896f9d3aa318505"
+    },
+    {
+      "pair_id": "time_ratio",
+      "class": "Positive",
+      "total_records": 15340,
+      "finite_pair_records": 14369,
+      "plotted_records": 14360,
+      "omitted_missing_or_nonpositive": 980,
+      "distinct_coordinates": 2414,
+      "out_of_view": 0,
+      "coordinates_sha256": "dbe557db4fc77b8922c0ce9daa9f56364444dd7fb664195f78ec561c54d46909",
+      "multiplicities_sha256": "ea56c3f60e43f5e8b43292b273652043a6c9142ede814d38417ebbf40c89a10d"
+    },
+    {
+      "pair_id": "time_ratio",
+      "class": "Negative",
+      "total_records": 15063,
+      "finite_pair_records": 13804,
+      "plotted_records": 13785,
+      "omitted_missing_or_nonpositive": 1278,
+      "distinct_coordinates": 1517,
+      "out_of_view": 0,
+      "coordinates_sha256": "1fc261896a74b5a13816bff2f20479b2ed8aabfa0d537c451ff75665f7667c86",
+      "multiplicities_sha256": "4c051c1de84718927ce4717a0b34d418c5bd22b525d002fa2b64229a4685b860"
+    }
+  ]
+}

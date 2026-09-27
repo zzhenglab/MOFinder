@@ -5,6 +5,10 @@ the positive extraction CSV, and the stored successful synthesis JSON files. It
 produces literature-guided modification plans, then expands their option lists in
 a separate step.
 
+![Author-drawn negative-condition reconstruction workflow](workflows/negative_reconstruction.png)
+
+The original diagram follows the evidence, parent syntheses, modification plans, and deterministic reconstruction. See the [workflow gallery](workflows/README.md#negative-condition-reconstruction) for image provenance and context.
+
 These outputs have different meanings. A plan records the model's proposed
 alternatives, rationale, and evidence notes. The preserved prompt permits both
 explicitly reported failures and several forms of inference. Enumeration takes

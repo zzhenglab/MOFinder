@@ -1,0 +1,25 @@
+{
+  "description": "Author-drawn workflow images supplied for the repository on 2026-09-27. The matching original PNG exports are copied byte-for-byte; no redrawing or text changes.",
+  "assets": [
+    {
+      "file": "positive_extraction.png",
+      "source_export": "revisions/260709_Figures-08.png",
+      "size_pixels": [
+        2835,
+        3616
+      ],
+      "sha256": "9fd0dc960a23735dc325b9cd16696b139b2b359b084fa71baab02016f9e84eb1",
+      "source_sha256": "9fd0dc960a23735dc325b9cd16696b139b2b359b084fa71baab02016f9e84eb1"
+    },
+    {
+      "file": "negative_reconstruction.png",
+      "source_export": "revisions/260709_Figures-09.png",
+      "size_pixels": [
+        3067,
+        2999
+      ],
+      "sha256": "ce99dee085a7eadc5ff9dffd6586d1555331d94da99727eb131d316b55a64dd3",
+      "source_sha256": "ce99dee085a7eadc5ff9dffd6586d1555331d94da99727eb131d316b55a64dd3"
+    }
+  ]
+}

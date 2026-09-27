@@ -1,0 +1,36 @@
+{
+  "figure": "D10",
+  "caption": "Figure D10. t-SNE visualization of synthesis records. a, Combined dataset. b, Positive training records. c, Negative training records. d, Positive test records. e, Negative test records. All panels share coordinates and axis limits.",
+  "total_records": 26123,
+  "counts": {
+    "training": {
+      "P": 11968,
+      "N": 11560
+    },
+    "holdout": {
+      "P": 1320,
+      "N": 1275
+    }
+  },
+  "coordinate_source": "docs/dataset_analysis/data/tsne_coordinates.csv",
+  "embedding_refitted": false,
+  "dimensions_inches": [
+    6,
+    3.9
+  ],
+  "dpi": 600,
+  "limits_all_panels": {
+    "x": [
+      -145.32556405000003,
+      136.33974005
+    ],
+    "y": [
+      -140.88767555,
+      140.77762855
+    ]
+  },
+  "png": "figures/Figure_D10_training_test_tsne.png",
+  "png_sha256": "4e3510e3f39a61a66c59451c98b649a262a6d578af77365ef763d1bbca603b8b",
+  "provenance_sha256": "3d8154ba5c4c7f230bec3a03ba03df925027e5ac6af13d40a5667984b295da83",
+  "coordinates_sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d"
+}

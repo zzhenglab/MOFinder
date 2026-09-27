@@ -1,0 +1,139 @@
+{
+  "font": "Arial",
+  "label_font_pt": 8,
+  "axis_font_pt": 9,
+  "panel_font_pt": 12,
+  "panel_order": "a: synthesis records above b: unique DOIs",
+  "doi_category_gradient": [
+    "#285953",
+    "#63948B",
+    "#8D969E"
+  ],
+  "property_doi_reduction": "median of eligible values per DOI",
+  "stability_doi_counting": "Category presence; one DOI can belong to several labels, including Not reported",
+  "stability_axis_breaks": {
+    "records": [
+      1800,
+      12800
+    ],
+    "dois": [
+      950,
+      3600
+    ]
+  },
+  "stability_axis_break_style": "parallel diagonal cuts on the bar and matching count-axis marks",
+  "figures": [
+    {
+      "path": "figures/01_synthesis_records/Figure_D2_top20_metal_precursors.png",
+      "sha256": "264923744b1920b40dff7c042c62c81702e453aeaea4f06bfb2ca65b80585296",
+      "width_inches": 6,
+      "height_inches": 5.35,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D2_top20_metal_precursors.png",
+      "sha256": "4c502b2bb334c15e6f9ce32af6ec59df5fb3cf2fac61d7319be5d5dafa37ed64",
+      "width_inches": 6,
+      "height_inches": 10.7,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D3_top20_linkers.png",
+      "sha256": "8e2bff5c4acd00f41e988a3be27561e89c2d23a033a3fa00eafb70f6af5ae01e",
+      "width_inches": 6,
+      "height_inches": 5.49,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D3_top20_linkers.png",
+      "sha256": "61fa933f6463a6cfb0af34113ba95eb59b28530c46ec11511f97b2f88a5dfc33",
+      "width_inches": 6,
+      "height_inches": 10.98,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D4_top10_solvents.png",
+      "sha256": "ce27f895462451429055189f5d13af03edb13817a965ea52c662258a7c13198b",
+      "width_inches": 6,
+      "height_inches": 3.1,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D4_top10_solvents.png",
+      "sha256": "0a70d83ea9d6f6c19df00ac8457af8fe69e282fe444e0f1bcc5decf94a3c3850",
+      "width_inches": 6,
+      "height_inches": 6.2,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D5_top10_modulators.png",
+      "sha256": "931434134b95384f13ac19ca4d74b52879d198625ecd3bd1a995cda522f4a901",
+      "width_inches": 6,
+      "height_inches": 3.1,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D5_top10_modulators.png",
+      "sha256": "d82c028e71606108e2cca6a5d4744cb8637d37a815742f9a92fecb97db0adcc4",
+      "width_inches": 6,
+      "height_inches": 6.2,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D6_top20_topology_codes.png",
+      "sha256": "946a7a4b2a9f9a27d08bbab376b7f04dadcc91959b9e01fb1a6252ed47ad8c4b",
+      "width_inches": 6,
+      "height_inches": 5.35,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D6_top20_topology_codes.png",
+      "sha256": "53bd85f04085fcfc0431ef5d03686d00c5b8e0209789908a0a53b55f1a2a1c09",
+      "width_inches": 6,
+      "height_inches": 10.7,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D7_BET_surface_area.png",
+      "sha256": "3bd901848d58460d4812feb48a4c246c54c18c456d96807cc5b66b7ff99c096a",
+      "width_inches": 6,
+      "height_inches": 3.45,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D7_BET_surface_area.png",
+      "sha256": "15a511eca14cf0a8d26b27946ce2bd71331088ac6edb8064d1f315fbdc1c9b9a",
+      "width_inches": 6,
+      "height_inches": 6.9,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D8_TGA_temperature.png",
+      "sha256": "0b6827eef05509c73ae57b47adffa9130ee062800e288e25fcbd89dd2f071110",
+      "width_inches": 6,
+      "height_inches": 3.45,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D8_TGA_temperature.png",
+      "sha256": "0c5db69548b78a940e58fe4936fab38ea32c80d1120521de4f395bf0e8481960",
+      "width_inches": 6,
+      "height_inches": 6.9,
+      "dpi": 600
+    },
+    {
+      "path": "figures/01_synthesis_records/Figure_D9_air_water_stability.png",
+      "sha256": "b8ac193f334d93d56ac98df1e1cf5ca0722ac89fa0b10c800de44f8b02f3700b",
+      "width_inches": 6,
+      "height_inches": 4.2,
+      "dpi": 600
+    },
+    {
+      "path": "figures/02_records_and_DOI/Figure_D9_air_water_stability.png",
+      "sha256": "69cab5cc9c148cb6639b44bb91b2241de7d7900ae8fc0aee300147e2440ecb8a",
+      "width_inches": 6,
+      "height_inches": 8.4,
+      "dpi": 600
+    }
+  ]
+}

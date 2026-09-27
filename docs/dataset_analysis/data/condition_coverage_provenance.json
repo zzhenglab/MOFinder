@@ -1,0 +1,36 @@
+{
+  "figure": "D1",
+  "repository_inputs": [
+    {
+      "class": "Positive",
+      "path": "data/processed_data/processed_positive.csv",
+      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
+      "records": 15340
+    },
+    {
+      "class": "Negative",
+      "path": "data/processed_data/processed_negative.csv",
+      "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
+      "records": 15063
+    }
+  ],
+  "verification": {
+    "code_sha256": "c29e894d9792d7e8c04ce16d7e20cc91b0c5f1c492ed87f239dd641b18724bf8",
+    "input_sha256": "cf2fc7e9cc6d8a99a5d89333b0f70969266958acb453f569fa9a4713214d0d46",
+    "matched_records": 30403,
+    "matched_fields": [
+      "doi",
+      "time_h",
+      "temperature_c",
+      "metel_concnertation",
+      "M_L_ratio"
+    ]
+  },
+  "selection": {
+    "finite_values": "Each parameter pair is checked independently.",
+    "logarithmic_axes": "Nonpositive values are excluded.",
+    "coordinates": "Exact coordinates are grouped within each outcome.",
+    "opacity": "1 - (1 - 0.24) ** record_count",
+    "concentration_unit": "mM"
+  }
+}
