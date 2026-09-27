@@ -125,34 +125,14 @@ Start with [processed data](data/processed_data/README.md), then use it to prepa
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
-![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-
-The [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) redraws this plot from the included coordinates and can recompute the embedding from the final training/test records.
 
 <p align="center">
   <img src="data/Figures-03a.png" alt="Example reaction-condition input and P output" width="750">
 </p>
 
-### Dataset analysis
+![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-The [figure gallery](docs/dataset_analysis/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) summarize the positive and negative datasets. Composition, property, and stability plots show synthesis records above unique DOI counts. A DOI counts once per category; numeric DOI panels use its median eligible value. Stability includes Not reported.
-
-| Analysis | Figure |
-| --- | --- |
-| Pairwise synthesis conditions: positive, negative, and overlaid | D1 |
-| Top 20 primary metal precursors and linkers | D2–D3 |
-| Top 10 main solvents and primary modulators | D4–D5 |
-| Top 20 topology codes | D6 |
-| BET surface area and TGA decomposition temperature | D7–D8 |
-| Air and water stability | D9 |
-| Training and test t-SNE | D10 |
-
-Reported-property summaries use the positive dataset. The [plotting modules](src/mofinder/plotting/) and included input tables reproduce every figure.
-
-### Literature coverage and workflow diagrams
-
-[Figure D11](docs/triage_figures/README.md) shows publisher coverage before abstract triage. Its [executed notebook](Demo/05_literature_triage_figures/literature_triage_figures.ipynb) draws the included publisher/year records. The [workflow gallery](docs/workflows/README.md) contains the positive-extraction and negative-reconstruction diagrams.
 
 ### Reproduction and provenance
 
