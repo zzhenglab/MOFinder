@@ -1,19 +1,74 @@
 {
-  "source_hashes": {
-    "positive": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc",
-    "negative": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db"
+  "schema_version": 1,
+  "comparison": "Every JSONL line compared directly at the same one-based row number, without sorting or matching by content.",
+  "allowed_user_change": {
+    "appended_fields_in_order": [
+      "vessel_type",
+      "vessel_volume",
+      "stirring"
+    ]
   },
+  "allowed_system_change": {
+    "replace_once": "temperature_C, and time_h.",
+    "with": "temperature_C, time_h, vessel_type, vessel_volume, and stirring."
+  },
+  "checks": [
+    "same row count and sequence",
+    "eight original values and JSON types unchanged",
+    "original key order and user-message text preserved before appending fields",
+    "assistant labels and all other record/message metadata unchanged",
+    "system prompt byte-for-byte equal outside input-list expansion",
+    "source files unchanged during audit"
+  ],
   "splits": {
     "train": {
-      "rows_independently_verified": 23528,
+      "baseline_rows": 23528,
+      "enriched_rows": 23528,
+      "rows_compared_in_file_order": 23528,
       "baseline_sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
-      "enriched_sha256": "c9ac44385c7aa8bd309f8520c7af3b767fe89eed9d0aca0fac5a75229862895d"
+      "enriched_sha256": "240d68cdac78cb85bd970927cbf0264bd0da93fd86ce78ec0c897acc48c324f2",
+      "labels": {
+        "baseline": {
+          "N": 11560,
+          "P": 11968
+        },
+        "enriched": {
+          "N": 11560,
+          "P": 11968
+        }
+      },
+      "distinct_system_prompts": {
+        "baseline": 1,
+        "enriched": 1
+      },
+      "mismatches": {},
+      "mismatch_examples": [],
+      "passed": true
     },
     "holdout": {
-      "rows_independently_verified": 2595,
+      "baseline_rows": 2595,
+      "enriched_rows": 2595,
+      "rows_compared_in_file_order": 2595,
       "baseline_sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
-      "enriched_sha256": "fb8b042e7f61e2d0c7b797495880cc7b620b6604b1da4d5a4b2d5bfbd1e2495f"
+      "enriched_sha256": "198e4f07e37b1053c548db897161907d1947ea398f258d6237fdeeefc3f274e0",
+      "labels": {
+        "baseline": {
+          "N": 1275,
+          "P": 1320
+        },
+        "enriched": {
+          "N": 1275,
+          "P": 1320
+        }
+      },
+      "distinct_system_prompts": {
+        "baseline": 1,
+        "enriched": 1
+      },
+      "mismatches": {},
+      "mismatch_examples": [],
+      "passed": true
     }
   },
-  "verified": "Every original record value, order and label preserved; only the system prompt and three added process values differ."
+  "passed": true
 }

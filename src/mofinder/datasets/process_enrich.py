@@ -33,6 +33,15 @@ SOURCE_FIELDS = (
 )
 
 
+def extend_input_description(prompt):
+    """Change only the archived prompt's input list for the matched control."""
+    original = "temperature_C, and time_h."
+    expanded = "temperature_C, time_h, vessel_type, vessel_volume, and stirring."
+    if prompt.count(original) != 1:
+        raise ValueError("Baseline system prompt must contain exactly one original input list")
+    return prompt.replace(original, expanded, 1)
+
+
 def load_settings(config):
     config = Path(config).resolve()
     settings = json.loads(config.read_text(encoding="utf-8"))
@@ -193,6 +202,8 @@ def prepare_process_enrich(settings):
                 writer = csv.DictWriter(side, fieldnames=SOURCE_FIELDS, lineterminator="\n")
                 writer.writeheader()
                 for index, (record, conditions, label) in enumerate(_read_baseline(settings[f"baseline_{split}"]), 1):
+                    if prompt != extend_input_description(record["messages"][0]["content"]):
+                        raise ValueError(f"Process system prompt must change only the input list: {split} row {index}")
                     key = (forced_question_condition_key(conditions), label)
                     if key not in lookup:
                         raise ValueError(f"No archived source mapping: {split} row {index}")
@@ -247,6 +258,7 @@ def prepare_process_enrich(settings):
         manifest["validation"] = {
             "mapped_source_rows": len(seen), "all_assignments_consumed_once": True,
             "baseline_order_labels_and_eight_inputs_preserved": True,
+            "system_prompt_only_expands_original_input_list": True,
             "source_chemistry_and_doi_match_assignments": True,
             "condition_and_cluster_overlap": 0,
             "shared_train_holdout_dois": len(split_dois["train"] & split_dois["holdout"]),
@@ -255,7 +267,8 @@ def prepare_process_enrich(settings):
         (staged / "README.md").write_text(
             "# Process-enriched matched control\n\n"
             "`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
-            "They add only `vessel_type`, `vessel_volume` (capacity in mL), and `stirring`, using an updated system prompt. "
+            "They add only `vessel_type`, `vessel_volume` (capacity in mL), and `stirring`. "
+            "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. "
             "The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. "

@@ -2,6 +2,8 @@
 
 This control adds `vessel_type`, `vessel_volume`, and `stirring` to the original eight reaction-condition inputs. It retains the archived train/holdout split, row order, labels, and all eight original input values. The primary dataset and its preparation pipeline remain the baseline.
 
+The system prompt changes only the original input list: `temperature_C, and time_h.` becomes `temperature_C, time_h, vessel_type, vessel_volume, and stirring.` All other prompt text, including whitespace and the output instructions, is identical. The preparation code rejects any additional prompt changes. Run `python tools/audit_process_enrich_alignment.py` for an independent, row-by-row comparison of both released splits; the saved [verification report](../data/final_json/processed_enrich/independent_verification.json) records zero mismatches.
+
 The cleaned source files are `data/processed_data/with_process_details/Process_detail_positive.csv` and `Process_detail_negative.csv`. They retain all 15,340 positive and 15,063 negative source rows. Missing process information is `Not reported`; unresolved capacities are `Ambiguous`, and unresolved stirring descriptions are `Unclear / ambiguous`. Vessel volume is the nominal vessel capacity in mL; it is not inferred from solvent volume. The raw annotations remain available in source columns and audit files.
 
 ## Prepare the paired JSONL files

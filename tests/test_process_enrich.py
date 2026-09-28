@@ -9,10 +9,10 @@ import tempfile
 import unittest
 
 from mofinder.datasets.prepare import canonical_condition_key, row_to_conditions
-from mofinder.datasets.process_enrich import main, prepare_process_enrich
+from mofinder.datasets.process_enrich import extend_input_description, main, prepare_process_enrich
 from mofinder.training.common import sha256
 from mofinder.training.prepare import prepare_bundle, validate_bundle, validate_dataset
-from mofinder.training.records import INPUT_FIELDS, PROCESS_FIELDS, PROCESS_PROMPT_FILE
+from mofinder.training.records import INPUT_FIELDS, PROCESS_FIELDS, PROCESS_PROMPT_FILE, REACTION_PROMPT_FILE
 
 
 class ProcessEnrichTests(unittest.TestCase):
@@ -46,7 +46,7 @@ class ProcessEnrichTests(unittest.TestCase):
         # Baseline JSONL order deliberately differs from assignment/source order.
         for name, order in (("train", (2, 0)), ("holdout", (3, 1))):
             records = [{"messages": [
-                {"role": "system", "content": "Original prompt"},
+                {"role": "system", "content": REACTION_PROMPT_FILE.read_text(encoding="utf-8").rstrip("\r\n")},
                 {"role": "user", "content": json.dumps(row_to_conditions(self.sources[index]))},
                 {"role": "assistant", "content": "P" if index < 2 else "N"},
             ]} for index in order]
@@ -90,6 +90,8 @@ class ProcessEnrichTests(unittest.TestCase):
                 source_ids = [int(item["source_row_id"]) for item in csv.DictReader(handle)]
             self.assertEqual(source_ids, order)
             for original, enriched in zip(self.records(self.root / f"{split}.jsonl"), self.records(enriched_path)):
+                self.assertEqual(enriched["messages"][0]["content"],
+                                 extend_input_description(original["messages"][0]["content"]))
                 self.assertEqual(original["messages"][2], enriched["messages"][2])
                 original_conditions = json.loads(original["messages"][1]["content"])
                 enriched_conditions = json.loads(enriched["messages"][1]["content"])
@@ -100,6 +102,14 @@ class ProcessEnrichTests(unittest.TestCase):
                 validate_dataset(enriched_path)
         with self.assertRaises(FileExistsError):
             prepare_process_enrich(self.settings)
+
+    def test_unrelated_system_prompt_changes_rejected(self):
+        custom = self.root / "extra_prompt.txt"
+        custom.write_text(PROCESS_PROMPT_FILE.read_text(encoding="utf-8") + "\nExtra guidance.", encoding="utf-8")
+        self.settings["prompt_file"] = custom
+        with self.assertRaisesRegex(ValueError, "change only the input list"):
+            prepare_process_enrich(self.settings)
+        self.assertFalse(self.settings["output_dir"].exists())
 
     def test_changed_source_order_rejected(self):
         self.write_csv(self.root / "positive.csv", list(reversed(self.sources[:2])))

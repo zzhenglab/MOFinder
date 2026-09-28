@@ -47,7 +47,7 @@
     },
     "prompt_file": {
       "path": "prompts/training/reaction_prediction_process_enrich.txt",
-      "sha256": "672b4a89fdb3114bc95c253251aa9149d4f8912801535c542b66e891ac155e4b"
+      "sha256": "180965dfd203b0e2e2314a99ce56a3cefc9b22b9a93bcc737c0b35ef21fac2c1"
     },
     "config_file": {
       "path": "configs/dataset_preparation_process_enrich.json",
@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "efc66c8e1e4f9e044d664eeffda2cff58ab04a21e8571e60a6bd0ea334ff50fa"
+      "sha256": "2dcc3344fcdf849485796c34b0175ddc5d2fb1310f034a4078d8b1e33b912097"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -76,8 +76,8 @@
     "train": {
       "path": "train.jsonl",
       "rows": 23528,
-      "sha256": "c9ac44385c7aa8bd309f8520c7af3b767fe89eed9d0aca0fac5a75229862895d",
-      "bytes": 38156371,
+      "sha256": "240d68cdac78cb85bd970927cbf0264bd0da93fd86ce78ec0c897acc48c324f2",
+      "bytes": 23027867,
       "labels": {
         "N": 11560,
         "P": 11968
@@ -289,8 +289,8 @@
     "holdout": {
       "path": "holdout.jsonl",
       "rows": 2595,
-      "sha256": "fb8b042e7f61e2d0c7b797495880cc7b620b6604b1da4d5a4b2d5bfbd1e2495f",
-      "bytes": 4206942,
+      "sha256": "198e4f07e37b1053c548db897161907d1947ea398f258d6237fdeeefc3f274e0",
+      "bytes": 2538357,
       "labels": {
         "N": 1275,
         "P": 1320
@@ -449,12 +449,13 @@
   },
   "reaction_prediction": {
     "path": "reaction_prediction_process_enrich.txt",
-    "sha256": "672b4a89fdb3114bc95c253251aa9149d4f8912801535c542b66e891ac155e4b"
+    "sha256": "180965dfd203b0e2e2314a99ce56a3cefc9b22b9a93bcc737c0b35ef21fac2c1"
   },
   "validation": {
     "mapped_source_rows": 26123,
     "all_assignments_consumed_once": true,
     "baseline_order_labels_and_eight_inputs_preserved": true,
+    "system_prompt_only_expands_original_input_list": true,
     "source_chemistry_and_doi_match_assignments": true,
     "condition_and_cluster_overlap": 0,
     "shared_train_holdout_dois": 864
