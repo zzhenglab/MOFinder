@@ -1,6 +1,6 @@
 # Processed-data training and holdout JSONL
 
-This folder keeps the final model inputs and their split information together. The JSONL files were prepared from the [processed positive and negative records](../processed_data/README.md) and preserve the exact records used for the reported runs.
+Training and holdout files prepared from the [processed positive and negative records](../processed_data/README.md).
 
 | File | Contents |
 | --- | --- |
@@ -16,26 +16,24 @@ This folder keeps the final model inputs and their split information together. T
 | Training | 11,968 | 11,560 | 23,528 | 11,157 |
 | Holdout | 1,320 | 1,275 | 2,595 | 1,231 |
 
-Each JSONL record contains the original system instruction, eight-field reaction conditions, and a P/N reference answer. The files match the outputs from the source dataset-preparation notebook. Training and holdout have no shared clusters or exact condition inputs, and both have a P:N ratio of 88:85. Distinct clusters from the same DOI can occur in both partitions.
+Each JSONL record contains system, user, and assistant messages. The user message contains eight reaction-condition fields; the assistant answer is `P` or `N`. Training and holdout use separate chemistry clusters, with a P:N ratio of 88:85 in each partition. See [split preparation](../../docs/datasets.md) for the filtering and grouping rules.
 
-Some training workflows also use the holdout as validation data. Record that use with the training job; this folder does not contain an additional independent test partition.
+## Process-enriched dataset
 
-## Process-enriched matched control
-
-[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume_mL`, and `agitation`. Its [system prompt](../../prompts/training/reaction_prediction_process_enrich.txt) adds the three process fields to the original input list. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
+[processed_enrich/](processed_enrich/README.md) preserves the same records, order, labels, and eight original inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the user and system prompts.
 
 ## Training-data ablations
 
 - [artificial_perturbation/](artificial_perturbation/README.md): one training set replacing reconstructed negatives with artificial perturbations of training positives.
 - [leave_one_perturbation_out/](leave_one_perturbation_out/README.md): one training set removing single-field negative neighbors and five equally sized random-drop controls.
 
-Both folders include the unchanged standard holdout. Use the existing trained baseline for comparison. [Preparation code](../../src/mofinder/curation/ablations.py) regenerates both controls from the processed positive and negative CSVs.
+Both folders include the standard holdout and use the existing trained baseline for comparison.
 
 ## Training and test visualization
 
 ![Training and test synthesis records](../../docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-The test panels use the holdout partition above. The [executed notebook](../../Demo/04_dataset_analysis/dataset_analysis.ipynb) redraws this figure from the included coordinates and checks the training/test labels against these files.
+The [analysis notebook](../../Demo/04_dataset_analysis/dataset_analysis.ipynb) generates these plots; test panels use the holdout partition above.
 
 ## Regenerate from processed data
 
@@ -45,7 +43,7 @@ From the repository root:
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-This configuration reads the bundled processed positive and negative tables and publication years, then writes a new run under `results/datasets/conditions/`. Regenerated training and holdout JSONL match the distributed files byte for byte. The command also recreates the publication-year subsets identified in the split summary. Summary paths are relative to the repository root. See [dataset preparation](../../docs/datasets.md) for condition fields, filtering, grouping rules, and output filenames.
+This reads the processed CSVs and publication years, then writes training, holdout, split metadata, and publication-year subsets under `results/datasets/conditions/`.
 
 To prepare newly generated curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json). The [linker-corrected input](../processed_data/linker_corrected/README.md) uses a separate configuration and recalculated partitions.
 
@@ -57,7 +55,7 @@ In `split_assignments.csv`, `source_row_id` is the zero-based row number in the 
 
 ## Use the final records
 
-The preparation command creates data files without launching a training job. Training routes:
+Training instructions:
 
 - [GPT-4.1 in the OpenAI dashboard](../../docs/training_openai.md): upload the training JSONL and enter the recorded hyperparameters.
 - [GPT-oss-20B on a local GPU or HPC system](../../docs/training_hpc.md): prepare one dataset bundle, transfer it to the training environment, and train a LoRA adapter.

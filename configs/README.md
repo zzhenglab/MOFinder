@@ -25,7 +25,7 @@ Store personal configurations in `configs/local/`, which is excluded from Git. W
 
 An explicit `--output-dir` selects a run directory. Add `--resume` only when continuing that existing run with the same configuration and inputs. Resume retains recorded attempts, including failures, and schedules only requests without a saved record. The [triage guide](../docs/triage.md) describes saved-run analysis and its statistical overrides.
 
-Configurations for the downstream stages are listed below. Training settings are described in the [HPC training guide](../docs/training_hpc.md). The historical numbered scripts and their settings are available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a).
+Configurations for the downstream stages are listed below. Training settings are described in the [HPC training guide](../docs/training_hpc.md).
 
 ## Literature retrieval settings
 
@@ -48,13 +48,13 @@ without opening a browser. See [literature-retrieval](../docs/literature_retriev
 | `example_positive_extraction.json`, `example_negative_reconstruction.json` | Run positive extraction and negative reconstruction on the included demonstration pair, saving separate example results |
 | `positive_extraction.json` | Model, document paths, prompts, concurrency, and saved positive outputs |
 | `negative_reconstruction.json` | Negative reconstruction: planning and enumeration inputs and outputs |
-| `negative_corrections.json` | Explicit DOI-specific enumeration rules retained from the notebook |
+| `negative_corrections.json` | DOI-specific enumeration rules |
 | `curation.json` | Positive and negative curation paths and required molecular-weight lookup |
 | `dataset_preparation.json` | Prepare final JSONL and split records from the included processed positive and negative CSVs and publication years |
 | `dataset_preparation_from_curation.json` | Prepare a new dataset from generated positive and negative curation outputs |
 | `dataset_preparation_corrected.json` | Prepare a separate dataset using the linker-corrected processed negative CSV |
 | `dataset_forced_questions.json` | Fixed benchmark conditions used to select holdout clusters |
-| `process_details.json` | Append audited vessel type, capacity, and stirring to all original positive/negative rows |
+| `process_details.json` | Append vessel type, vessel volume in mL, and agitation to positive and negative records |
 | `dataset_preparation_process_enrich.json` | Add the three process fields and a revised prompt to the existing train/holdout records without resplitting |
 
 Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/processed_data_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.

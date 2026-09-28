@@ -27,21 +27,19 @@ For an interactive walkthrough with saved outputs, install `python -m pip instal
 | [expected/mof_extraction_6.csv](expected/mof_extraction_6.csv) | Regenerated processed positive output, containing 146 records |
 | [config.json](config.json) | Input paths and output directory |
 
-Each run writes intermediate CSVs, compact raw and processed previews, and `demo_summary.json` to `outputs/`. It also preserves a separate output snapshot and run record in a numbered folder such as `run_history/run_001/`. The record identifies the execution time, inputs, settings, outputs, and verification results. Local run history is excluded from Git by default.
+Each run writes intermediate CSVs, data previews, and `demo_summary.json` to `outputs/`. A numbered `run_history/` folder saves the output snapshot, settings, hashes, and verification results.
 
 ## Verify and inspect a saved run
 
-The notebook's **Verify against expected output** section is a separate, rerunnable check. Its table shows expected rows, actual rows, **PASS** or **FAIL**, and comparison details. The check compares the contents of the processed positive CSV with `expected/`, as well as its row count. The command-line `--check` option performs the same verification.
-
-Open the checked-in [recorded runs](recorded_runs/README.md) to inspect run records and output snapshots on GitHub. The notebook also retains its executed tables. A new run updates `outputs/` and adds the next available numbered history folder, preserving earlier runs.
+The notebook's **Verify against expected output** section and the command-line `--check` option compare CSV contents and row counts with `expected/`. Example outputs and verification results are available in [recorded runs](recorded_runs/README.md).
 
 ## Input provenance
 
-The `has_main_document` and `has_supporting_document` flags preserve the original document-availability filter. The script supplies temporary presence values to the curation functions; it does not read the documents. Local PDF paths and raw model responses are omitted from the distributed tables.
+The `has_main_document` and `has_supporting_document` flags provide document availability for filtering; the script does not read PDFs.
 
-The bundled input uses uppercase `TRUE` document flags and explicitly records 72 hours for the first record's `48–72 h` duration. This produces the same processed result as the duration parser's upper-range rule. The source manifest distinguishes this demonstration input from its original source and retains the source row positions and hashes.
+The bundled input records 72 hours for the first record's `48–72 h` duration, following the parser's upper-range rule. The source manifest retains the original row positions and hashes.
 
-Frequency and outlier filters are computed on the demonstration records. The supplied full-corpus reference and the regenerated demonstration output thus have separate roles: use `expected/` to verify this run. The current formula and linker-normalization rules are described in [the curation guide](../../docs/curation.md).
+Frequency and outlier filters are computed on the demonstration records, so use `expected/` to verify this run. The supplied reference was processed with the full dataset.
 
 ## Duration parsing
 

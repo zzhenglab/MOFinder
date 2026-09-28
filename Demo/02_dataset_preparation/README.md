@@ -18,9 +18,9 @@ python Demo/01_data_curation/mof_data_curation_demo.py --check
 python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-csv Demo/01_data_curation/outputs/mof_extraction_6.csv --check
 ```
 
-The demonstration requires no API key, GPU, or model download and does not start a fine-tuning job. A typical run takes less than one minute. For an interactive walkthrough with saved outputs, install the `notebook` extra and open [prepare and verify training and holdout datasets](mof_dataset_preparation_demo.ipynb). The implementation is in [the demonstration script](mof_dataset_preparation_demo.py) and [the main dataset preparation code](../../src/mofinder/datasets/prepare.py); the [dataset guide](../../docs/datasets.md) describes their use.
+The demonstration runs on a CPU without API access, typically in less than one minute. For an interactive walkthrough with saved outputs, install the `notebook` extra and open [prepare and verify training and holdout datasets](mof_dataset_preparation_demo.ipynb). The implementation is in [the demonstration script](mof_dataset_preparation_demo.py) and [the main dataset preparation code](../../src/mofinder/datasets/prepare.py); the [dataset guide](../../docs/datasets.md) describes their use.
 
-The notebook previews holdout examples first, followed by training examples, with two P and two N records per split by default. Change `N_PER_LABEL` to adjust the sample size. Each example includes its source row, DOI, publication year, JSONL line number, eight reaction parameters, and expandable full JSON. Records are matched by normalized conditions and label because the JSONL files are shuffled.
+The notebook previews two P and two N records per split, including their source rows, DOIs, conditions, and JSON. Change `N_PER_LABEL` to adjust the sample size.
 
 ## Inputs and settings
 
@@ -55,8 +55,8 @@ Each run writes the following files to `outputs/`:
 
 ## Verify and inspect a saved run
 
-The [expected](expected/) folder contains the training and holdout JSONL, class map, split assignments, and compact summary. `--check` compares these files with the new run. The notebook's separate **Verify against expected output** section repeats the comparison against the current output files and shows expected rows, actual rows, **PASS** or **FAIL**, and details for each file. Files without a tabular row count are still compared for content. These small datasets demonstrate dataset preparation and are separate from the full training and holdout datasets.
+The [expected](expected/) folder contains the reference JSONL files, class map, split assignments, and summary. `--check` and the notebook's **Verify against expected output** section compare the generated files with these references.
 
-Each run preserves an output snapshot and run record in a numbered folder such as `run_history/run_001/`, while `outputs/` holds the latest generated files. The run record retains the execution time, settings, input and output hashes, and verification results. Local history is excluded from Git by default. Open the checked-in [recorded runs](recorded_runs/README.md) or the notebook's executed tables to inspect completed examples on GitHub.
+Each run writes its latest files to `outputs/` and saves a snapshot, settings, hashes, and verification results in `run_history/`. Example outputs are available in [recorded runs](recorded_runs/README.md).
 
 To run another dataset, supply a separate `--config` file and use `--output-dir` for its outputs. The expected-output check applies to the bundled demonstration inputs.

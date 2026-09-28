@@ -61,7 +61,7 @@ Composition, property, and stability plots show synthesis records above DOI summ
 
 Hydrate identities remain separate. Missing and nonfinite property values are omitted. Pairwise plots use both datasets, with opacity showing coincident records. t-SNE uses eight condition descriptors and shared [coordinates](data/tsne_coordinates.csv); outcome labels are used only for display. [Publisher counts](../triage_figures/README.md) include all bibliography records before triage.
 
-Figures are 6 inches wide at 600 dpi, with Arial 8–10 pt text and bold 12 pt panel labels. [Captions](CAPTIONS.md), [record-only figures](figures/01_synthesis_records/), [record/DOI figures](figures/02_records_and_DOI/), [summary statistics](summary.json), and [plotting tables](tables/) are included.
+Figures are 6 inches wide at 600 dpi. [Record-only figures](figures/01_synthesis_records/), [record/DOI figures](figures/02_records_and_DOI/), [summary statistics](summary.json), and [plotting tables](tables/) are included.
 
 ## Reproduce
 

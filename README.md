@@ -6,7 +6,7 @@ MOFinder extracts MOF synthesis information from the literature, reconstructs ev
   <img src="data/mofinder.png" alt="MOFinder web application" width="750">
 </p>
 
-[Web application](https://mofinder.chemistry.wustl.edu/) · [MOF Quest](https://github.com/zzhenglab/MOF-Quest) · [Demos](Demo/README.md) · [Source code](docs/source_to_code.md) · [Abstract triage](docs/triage.md) · [Literature retrieval](docs/literature_retrieval.md) · [Workflow guide](docs/workflow.md) · [Model evaluation](docs/evaluation.md)
+[Web application](https://mofinder.chemistry.wustl.edu/) | [Demos](Demo/README.md) | [Source code](docs/source_to_code.md) | [Workflow guide](docs/workflow.md) | [Model evaluation](docs/evaluation.md)
 
 ## Quick start
 
@@ -27,61 +27,29 @@ python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-cs
 
 These regenerate processed synthesis records and prepare grouped training and holdout JSONL. `--check` compares the files with the bundled expected outputs. The [data mining demo (API required)](Demo/03_api_data_mining/README.md) combines abstract triage, positive extraction, and negative reconstruction.
 
-To try data mining, install `.[mining,notebook]` and open the [data mining notebook](Demo/03_api_data_mining/mof_api_data_mining_demo.ipynb). Run its preview cells to inspect four abstracts and the exact requests; set `RUN_TRIAGE = True` to generate predictions using GPT-5 with high reasoning effort and compare them with human labels. The same notebook provides positive extraction and negative reconstruction for the sample article/SI pair. Supply an API key when enabling a stage; live requests incur API charges. See the [demo instructions](Demo/03_api_data_mining/README.md).
-
-Install the API and plotting dependencies, then validate the full triage inputs:
-
-```bash
-python -m pip install -e ".[api,plotting]"
-python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
-```
-
-With `OPENAI_API_KEY` set and the model settings checked, screen the 478-paper reference:
-
-```bash
-python -m mofinder.literature.triage screen --config configs/abstract_triage.json --output-dir results/abstract_triage/benchmark_run
-```
-
-Analyze that saved run locally:
-
-```bash
-python -m mofinder.literature.triage analyze --run-dir results/abstract_triage/benchmark_run --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
-```
-
-See [installation](docs/installation.md) and [triage](docs/triage.md) for credentials, resuming interrupted runs, and analysis options. Live screening requires API access; validation, saved-run analysis, and human-agreement calculations do not.
+For API-based extraction, install `.[mining,notebook]` and open the [data mining notebook](Demo/03_api_data_mining/mof_api_data_mining_demo.ipynb). Its preview cells show the inputs before live requests are enabled. See [installation](docs/installation.md) for dependencies and credentials, and the [triage guide](docs/triage.md) for screening and saved-run analysis.
 
 ## Source code
 
-The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [workflow reading order](docs/source_to_code.md#workflow-reading-order) to inspect each section's folder and main Python files. The [source code map](docs/source_to_code.md#current-implementation) pairs each task with its functions and Markdown instructions. The [original numbered research scripts](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a) remain available at the recorded historical commit; [the historical file index](docs/legacy_workflow.md) links to extraction, data curation, dataset preparation, model evaluation, and plotting code.
+Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source code map](docs/source_to_code.md) links each workflow to its implementation and instructions; [earlier research scripts](docs/legacy_workflow.md) are indexed separately.
 
 ## Choose a workflow
 
 | Task | Start here |
 | --- | --- |
-| Run data curation and dataset preparation without API access | [Offline demos](Demo/README.md) |
-| Inspect abstracts, obtain GPT triage predictions, and try positive extraction and negative reconstruction | [data mining demo (API required)](Demo/03_api_data_mining/README.md) |
-| Look up chemical names and SMILES | [Original mapping tables](data/name_SMILES_mappers/README.md) |
-| Check installation and example inputs | [Offline input check](Demo/03_api_data_mining/README.md#install-and-check-the-inputs) |
-| Screen the 478-paper reference | [Python screening command](docs/triage.md#screening) |
-| Recalculate a completed triage run | [Saved-run analysis](docs/triage.md#saved-run-analysis) |
-| Inspect human annotations | [Abstract triage benchmark](benchmarks/abstract_triage/README.md) |
-| Download articles and supporting information | [Desktop literature retrieval guide](docs/literature_retrieval.md) |
+| Run data curation and dataset preparation | [Offline demos](Demo/README.md) |
+| Try abstract triage, positive extraction, and negative reconstruction | [API data mining demo](Demo/03_api_data_mining/README.md) |
+| Screen abstracts and analyze saved predictions | [Abstract triage](docs/triage.md) |
+| Download articles and supporting information | [Literature retrieval](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Workflow guide](docs/workflow.md) |
 | Curate records and prepare training and holdout JSONL | [Data curation](docs/curation.md) and [dataset preparation](docs/datasets.md) |
-| Extract records from three to five local article/SI pairs | [Local PDF inputs](Demo/03_api_data_mining/literature_input/README.md) |
-| Read the Python implementation and its instructions | [Source code and workflow guides](docs/source_to_code.md) |
-| Inspect processed positive and negative records and publication metadata | [Processed data](data/processed_data/README.md) |
-| Explore metals, linkers, solvents, modulators, topology, properties, stability, pairwise conditions, and training/test t-SNE | [Dataset analysis and figures](docs/dataset_analysis/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
-| Redraw publisher coverage before literature triage | [Literature coverage](docs/triage_figures/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
-| View the positive and negative workflows | [Author-drawn workflow diagrams](docs/workflows/README.md) |
-| Inspect training, holdout, and record assignments | [Final JSONL and split records](data/processed_data_json/README.md) |
-| Prepare the matched control with vessel type, volume, and agitation | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) and [preparation guide](docs/process_enrich_training.md) |
-| Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
-| Check the DOI-named sample documents locally | [Extraction example](Demo/03_api_data_mining/inputs/extraction/README.md) |
-| Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
-| Analyze the human question benchmark | [Human benchmark](docs/human_benchmark.md) |
-| Inspect data identities and transformations | [Data manifest](data/manifest.json) |
-| Find the earlier extraction and modeling scripts | [Original research scripts](docs/legacy_workflow.md) |
+| Look up chemical names and SMILES | [Mapping tables](data/name_SMILES_mappers/README.md) |
+| Inspect processed records and publication metadata | [Processed data](data/processed_data/README.md) |
+| Explore synthesis-condition distributions | [Dataset analysis](docs/dataset_analysis/README.md) |
+| Inspect training datasets and ablations | [JSONL datasets](data/processed_data_json/README.md) |
+| Add vessel type, volume, and agitation to model inputs | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) |
+| Train a model | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
+| Evaluate models and human predictions | [Evaluation workflow](docs/evaluation.md) |
 
 ## Repository layout
 
@@ -90,17 +58,14 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | `src/mofinder/literature/` | Input validation, screening, document matching, and local document counts |
 | `src/mofinder/literature_retrieval/` | Article and SI desktop applications, configuration loading, and inventory handling |
 | `src/mofinder/extraction/` | Positive extraction, JSON recovery, negative plans, and enumeration |
-| `src/mofinder/curation/` | Chemical normalization, amount conversion, derived features, and reports |
+| `src/mofinder/curation/` | Chemical normalization, amount conversion, process details, and ablation datasets |
 | `src/mofinder/datasets/` | Condition-classification records, grouped splits, and training JSONL |
 | `src/mofinder/training/` | Single-dataset training input preparation and HPC fine-tuning |
 | `src/mofinder/evaluation/` | Triage statistics, reaction holdout/model evaluation, and human benchmark analysis |
 | `src/mofinder/plotting/` | Dataset distributions, pairwise condition coverage, publisher coverage, and triage evaluation figures |
 | `configs/` and `prompts/` | Named settings and prompt text |
-| `data/paper_processing_assets/` | Browser image templates with neutral publisher identifiers |
 | `data/` | Input manifests, metadata, organic linker information, dataset snapshots, and split records |
-| `data/organic_linker_info/` | Organic linker molecular weights and publication-specific name corrections |
 | `data/processed_data/` | Processed positive and negative CSVs, publication metadata, retrieval inventories, and a linker-corrected alternative |
-| `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
 | `data/processed_data_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
 | `Demo/` | Offline curation, dataset preparation, and executed figure notebooks; API examples for triage, extraction, and reconstruction |
@@ -109,11 +74,7 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | `tools/training/` | Training-bundle preparation and GPU training entry points |
 | `tests/` | Automated checks of workflows, splitting, and data integrity, run by GitHub Actions |
 
-Python modules contain the reusable implementation and support terminal or HPC execution. Markdown guides explain their inputs, commands, and outputs; [the source code map](docs/source_to_code.md) links each guide directly to its implementation and the original research scripts. Interactive examples and saved run displays live together under `Demo/`, alongside Python runners. Training instructions are available for the [OpenAI interface](docs/training_openai.md) and [HPC execution](docs/training_hpc.md).
-
 ## Data and reproducibility
-
-Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/processed_data_json/README.md). Processed positive and negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training and holdout files and their assignments are together in `data/processed_data_json/`.
 
 | File | Contents | Records |
 | --- | --- | ---: |
@@ -126,9 +87,7 @@ Start with [processed data](data/processed_data/README.md), then use it to prepa
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
-The matched process-enriched control is stored one level deeper in [data/processed_data_json/processed_enrich](data/processed_data_json/processed_enrich/README.md), as `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. It preserves the baseline row counts and order while adding vessel type, vessel volume in mL, and agitation. Its [system prompt](prompts/training/reaction_prediction_process_enrich.txt) is stored in `prompts/training/`.
-
-
+The [process-enriched dataset](data/processed_data_json/processed_enrich/README.md) preserves the baseline row counts and order while adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the inputs and [system prompt](prompts/training/reaction_prediction_process_enrich.txt). The [artificial-perturbation](data/processed_data_json/artificial_perturbation/README.md) and [single-field-removal](data/processed_data_json/leave_one_perturbation_out/README.md) ablations provide alternative training sets with the standard holdout.
 
 <p align="center">
   <img src="data/Figures-03a.png" alt="Example reaction-condition input and P output" width="750">
@@ -136,18 +95,7 @@ The matched process-enriched control is stored one level deeper in [data/process
 
 ![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
-
-### Reproduction and provenance
-
-The current triage input consists of 13,773 bibliography rows and 478 annotated reference publications. The reference has 293 Y and 185 N consensus labels. Every reference DOI has an abstract in the metadata export. Reference labels remain authoritative, including documented rubric decisions and overrides.
-
-Complete saved model-run artifacts and reference-based scoring for positive extraction and negative reconstruction are not included. The available [evaluation workflows](docs/evaluation.md) cover abstract triage, reaction outcomes, and human responses. Statistical methods and prompt-development history are described in [the triage guide](docs/triage.md).
-
-Each new run records its settings, prompt, input hashes, response status, and predictions. Workflows create `results/` locally as needed; generated outputs are excluded from Git. A complete saved run enables later analysis without repeating model requests. Explicit resume mode continues only requests with no saved record and preserves recorded failures.
-
-This study focuses on LLM-based literature triage. To examine trends, we also roughly group papers into Chemical synthesis, Theory & modeling, Crystal engineering, and Functional materials using keyword rules, not an LLM. The results suggest that keyword grouping alone is insufficient to identify synthesis-relevant papers: many papers in the Chemical synthesis group are still excluded by triage. These classifications are included directly in the [article and SI tables](data/processed_data/literature_retrieval/README.md).
-
-Published inventories omit download-status columns; the desktop applications maintain these states in local working copies. Research article and SI downloads remain local. The [demonstration PDFs](Demo/03_api_data_mining/inputs/extraction/README.md) contain synthetic sample text and no measured experimental data. See [the literature retrieval input inventory](data/processed_data/literature_retrieval/README.md) for methods, input hashes, and publisher-profile assignments.
+### Reproduce the JSONL datasets
 
 The default [dataset configuration](configs/dataset_preparation.json) reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from `data/processed_data/`. Regenerate their final JSONL and split records locally with:
 
@@ -156,13 +104,11 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-This writes to `results/datasets/conditions/`. To prepare a dataset after running curation, select [dataset_preparation_from_curation.json](configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`. The included processed tables omit four local-path columns while preserving all other values. The molecular-weight lookup is included, and new curation runs use the corrected H3BTB identity.
+This writes to `results/datasets/conditions/`. To prepare a dataset after running curation, use [dataset_preparation_from_curation.json](configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`.
 
-Current curation also restores source-confirmed prime symbols through a publication-specific lookup. The [corrected negative table](data/processed_data/linker_corrected/README.md) is available separately, with a configuration that calculates new grouped partitions. Linker spellings affect grouping, so corrected conditions use newly calculated splits. The bundled final JSONL and assignments preserve their original values.
+The [linker-corrected negative table](data/processed_data/linker_corrected/README.md) has its own configuration. Corrected linker identities change chemical grouping, so this alternative recalculates the training/holdout split.
 
-Model evaluation reads reference answers locally from the final holdout JSONL for scoring and sends only the intended reaction inputs. Human responses are distributed with anonymous participant IDs; the original workbook remains the source for provenance. See [evaluation](docs/evaluation.md).
-
-The historical data and counts described in [the earlier workflow](docs/legacy_workflow.md) belong to their original processing configuration. Its removed files are linked to the historical commit; the current datasets are listed above.
+Input hashes and transformations are recorded in [data/manifest.json](data/manifest.json). Generated run outputs are saved under `results/`, which is excluded from Git.
 
 ## Related applications
 
@@ -182,4 +128,4 @@ The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is a
 
 ## Citation and license
 
-Software citation metadata is provided in [CITATION.cff](CITATION.cff). The paper-associated release and archival identifier will be added when finalized. The MOFinder code uses the [MIT License](LICENSE); submodules retain their own licenses.
+Software citation metadata is provided in [CITATION.cff](CITATION.cff). The MOFinder code uses the [MIT License](LICENSE); submodules retain their own licenses.

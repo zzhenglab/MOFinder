@@ -1,6 +1,6 @@
 # Organic linker information
 
-`linker_molecular_weights.csv` preserves the source lookup table byte for byte. It is the default linker lookup in `configs/curation.json`.
+`linker_molecular_weights.csv` is the default linker lookup in `configs/curation.json`.
 
 The UTF-8 CSV has no header. Its columns are linker name and molecular weight in g/mol. Names containing commas are quoted; matching ignores letter case and surrounding whitespace.
 
@@ -14,9 +14,9 @@ The UTF-8 CSV has no header. Its columns are linker name and molecular weight in
 
 Blank weights are unresolved. They are not estimated or replaced. Linker amounts reported in molar units can still be processed. Mass amounts without a usable weight remain unconverted and are removed by the existing linker-unit filter.
 
-The [SMILESearcher molecular-weight helper](https://github.com/zach-zhiling-zheng/SMILESearcher/blob/main/examples/mofinder_linker_weights.py) writes a separate table comparing reported weights with values calculated from validated SMILES; this source lookup remains unchanged.
+The [SMILESearcher molecular-weight helper](https://github.com/zach-zhiling-zheng/SMILESearcher/blob/main/examples/mofinder_linker_weights.py) compares reported weights with values calculated from validated SMILES.
 
-`h3btb` and `H3BTB` normalize to `1,3,5-Tris(4-carboxyphenyl)benzene`; its case-insensitive lookup entry has a molecular weight of 438.4 g/mol. Alias normalization is part of the curation code, so the source lookup remains unchanged.
+The curation code normalizes `h3btb` and `H3BTB` to `1,3,5-Tris(4-carboxyphenyl)benzene`, with a molecular weight of 438.4 g/mol.
 
 `manifest.json` records provenance and integrity information. See [curation](../../docs/curation.md) for the workflow and conversion rules.
 

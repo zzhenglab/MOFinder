@@ -20,4 +20,4 @@ python -m mofinder.plotting.split_embedding
 python -m mofinder.plotting.literature_triage_figures --source docs/triage_figures/publisher_source_records.csv --mapping docs/triage_figures/publisher_name_mapping.csv --output-dir results/dataset_analysis/literature
 ```
 
-The t-SNE command draws the included coordinates; add `--refit` to recompute them. See the [figure gallery](../../docs/dataset_analysis/README.md) for counting rules and [captions](../../docs/dataset_analysis/CAPTIONS.md).
+The t-SNE command draws the included coordinates; add `--refit` to recompute them. See the [figure gallery](../../docs/dataset_analysis/README.md) for counting rules and plotting tables.

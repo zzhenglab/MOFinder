@@ -1,6 +1,6 @@
 # Chemical name and SMILES mappings
 
-These JSON dictionaries are retained unchanged from the original MOFinder repository.
+These JSON dictionaries map chemical names to SMILES and SMILES to reported names.
 
 | File | Contents | Entries |
 | --- | --- | --- |

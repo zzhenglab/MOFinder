@@ -9,7 +9,7 @@ The benchmark contains two recorded question panels and deidentified human respo
 | `human_responses.csv` | 2,156 responses from 98 participants, with experience and original confidence categories |
 | `human_manifest.json` | Source and export hashes and field definitions |
 
-`participant_id` is a sequential anonymous identifier. Contact information is excluded. The original workbook remains a local input and is not distributed here.
+`participant_id` is a sequential anonymous identifier.
 
 Responses are joined to questions using `reaction_id`. Question numbering follows each source panel; presentation order does not determine the answer key. The four response categories map to binary predictions as follows:
 
@@ -26,4 +26,4 @@ Run the analysis from the repository root:
 python -m mofinder.evaluation.human_quest analyse
 ```
 
-See the [evaluation overview](../../docs/evaluation.md), [human benchmark analysis](../../docs/human_benchmark.md), and [model evaluation](../../docs/quest_evaluation.md) for the workflows.
+See [human benchmark analysis](../../docs/human_benchmark.md) and [model evaluation](../../docs/quest_evaluation.md) for the workflows.

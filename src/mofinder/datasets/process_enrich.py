@@ -267,29 +267,17 @@ def prepare_process_enrich(settings):
         }
         atomic_json(staged / "manifest.json", manifest)
         (staged / "README.md").write_text(
-            "# Process-enriched matched control\n\n"
+            "# Process-enriched dataset\n\n"
             "`train_process_enrich.jsonl` and `holdout_process_enrich.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
             "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `agitation`. "
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
-            "The canonical prompt is [reaction_prediction_process_enrich.txt](../../../prompts/training/reaction_prediction_process_enrich.txt); "
-            "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
-            "The [positive-dataset figure gallery](../../../docs/process_details/README.md#figures) provides vessel-type, "
-            "vessel-capacity, and agitation distributions, calculation tables, and counting methods.\n\n"
-            "Nine agitation classes distinguish stirring, sonication, and shaking or mixing methods. Labels contain two to five words; original descriptions remain in the source CSVs. Stirring reported does not establish continuous reaction-stage stirring. "
-            "Unspecified and selected rare vessel types map to `Not reported`. "
-            "The same fixed classification rules are applied to positive and negative records before either split is exported. "
-            "Raw descriptions and normalization metadata remain outside model input.\n\n"
-            "The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. "
-            "The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. "
+            "The `*_sources.csv` files map JSONL rows to source records. "
             "`jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.\n\n"
-            "Negative process annotations can be inherited from successful recipes. The existing split shares "
-            f"{manifest['validation']['shared_train_holdout_dois']} DOIs across training and holdout. "
-            "Use this dataset as a matched control; do not interpret it as causal process validation. "
-            "No manual benchmark process details are invented and no model was trained.\n\n"
+            "See the [system prompt](../../../prompts/training/reaction_prediction_process_enrich.txt) "
+            "and [positive-data distributions](../../../docs/process_details/README.md).\n\n"
             "Reproduce with `python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json "
-            "--output results/datasets/process_enrich` using a new output directory. "
-            "See [training preparation](../../../docs/process_enrich_training.md) for the training bundle route.\n",
+            "--output results/datasets/process_enrich` using a new output directory.\n",
             encoding="utf-8",
         )
         staged.rename(output)

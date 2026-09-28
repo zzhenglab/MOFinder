@@ -11,22 +11,14 @@ included article/SI pair and reconstruct negative conditions from the extracted
 evidence. Each extraction section displays its saved JSON after a live run.
 The corresponding terminal commands use [mof_api_data_mining_demo.py](mof_api_data_mining_demo.py).
 
-There are three demonstration DOI slots in [literature_input/](literature_input/README.md).
-All supplied PDFs are placeholders: the `10.1021/jacs.2c09756` pair contains
-synthetic illustrative text, and the other two pairs are blank templates. These
-files demonstrate input handling and extraction without distributing the original
-publications. The default notebook selects only the illustrative pair; its
-extracted records are demonstration outputs, not scientific results.
+The [literature_input/](literature_input/README.md) folder contains three DOI slots:
+one synthetic article/SI pair (`10.1021/jacs.2c09756`) and two blank templates.
+The default notebook uses the synthetic pair. Replace these PDFs with source
+documents for research extraction.
 
 The notebook starts with empty outputs and all live switches set to `False`.
-Run the preview cells to inspect the abstracts, requests, and document validation
-without making API calls.
-After a live triage run, the notebook's comparison section shows the predictions,
-human references, agreement, request status, and errors, and saves that table in
-the run folder.
-
-The two offline demonstrations remain in [`Demo/01_data_curation`](../01_data_curation/README.md)
-and [`Demo/02_dataset_preparation`](../02_dataset_preparation/README.md).
+Preview cells show inputs and requests. After a live triage run, the notebook
+saves predictions, human labels, agreement, request status, and errors.
 
 ## Install and check the inputs
 
@@ -43,9 +35,7 @@ the sample article/SI pair, and reads both document texts. Before positive extra
 has run, the negative reconstruction report lists the positive extraction CSV as a missing
 input. That CSV and its synthesis JSON files are created by positive extraction.
 
-Commands also work from this folder using `python mof_api_data_mining_demo.py`, or from another
-directory with an absolute path to the script. Configuration paths are resolved
-relative to the repository, independently of the current working directory.
+Configuration paths are resolved relative to the repository.
 
 To check only the triage inputs, run `python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage`.
 The included tables contain 12 abstracts and reference labels (8 Y and 4 N).
@@ -62,10 +52,7 @@ run its cell. Run positive extraction before negative reconstruction. Use an exi
 the selected text to OpenAI and incur API charges. Previewing inputs and prompts
 does not generate predictions.
 
-If the triage configuration, input tables, or prompt changes after previewing,
-rerun the preview cells before enabling requests. The notebook checks their
-identities before dispatch and compares predictions with the reference labels
-saved for that run.
+Rerun the preview cells after changing the configuration, inputs, or prompt.
 
 Enable model requests explicitly with `--live`. An existing `OPENAI_API_KEY`
 environment variable is reused; otherwise, the script requests the key through
@@ -89,36 +76,20 @@ positive extraction has finished.
 | Negative reconstruction | Positive CSV, synthesis JSON files, and the same article/SI pair | GPT-5; medium reasoning effort; at most one eligible document |
 | Local paper extraction | Three DOI slots in `literature_input/main/` and `literature_input/si/`: one illustrative pair and two blank pairs | Separate `configs/local_papers/`; up to five papers; one request at a time |
 
-The triage settings are in [`configs/triage.json`](configs/triage.json):
-`model: "gpt-5"`, `reasoning_effort: "high"`, `max_output_tokens: 25000`, and
-`request_timeout: 600` seconds. GPT-5 supports high reasoning effort; see the
-[model documentation](https://developers.openai.com/api/docs/models/gpt-5).
-The token limit covers reasoning and the final answer, which must still be a
-single `Y` or `N`; it is a ceiling, not a requested answer length. See the
-[reasoning guide](https://developers.openai.com/api/docs/guides/reasoning#allocating-space-for-reasoning)
-for token-budget behavior. Adjust these settings before previewing requests.
+The triage model, reasoning effort, token limit, and timeout are set in
+[`configs/triage.json`](configs/triage.json). Adjust them before previewing requests.
 
 Triage metadata and human labels are joined by DOI. Reference labels are used
-only to compare results and are never sent to the model. The notebook shows each
-prediction's request status and any error, so failed requests remain visible.
-These small inputs demonstrate the workflow and do not form a performance benchmark.
+to compare results and are excluded from model requests.
 
-The demonstration PDFs contain illustrative synthesis conditions. Negative reconstruction uses
-the positive extraction's `YES` flag and supporting notes to select trial or
-failure evidence. Depending on the extracted evidence, it may produce no eligible
-documents or no enumerated records. Enumerated combinations are reconstructed
-conditions and are not individually verified experimental failures. The demonstration
-uses no corpus-specific manual enumeration corrections.
+Negative reconstruction uses the positive extraction's `YES` flag and supporting
+notes to select trial or failure evidence. It may produce no records when that
+evidence is absent. Its outputs are combinations reconstructed from the evidence.
 
 ## Extract from three to five local papers
 
-The [literature input folder](literature_input/README.md) contains three DOI-named
-article/SI pairs and a matching inventory. The JACS pair contains synthetic
-illustrative content; the other two pairs are blank templates. For a demonstration
-with all three slots, supply readable documents for both blank pairs. For research
-extraction, replace all three pairs with your own source documents. Update
-`literature_input/inventory.csv` if choosing different papers. The default
-demonstration uses the same illustrative JACS pair under `inputs/extraction/`.
+Place article/SI pairs in the literature input folder and list their DOIs in
+`literature_input/inventory.csv`. Supply readable documents for each selected pair.
 
 From the repository root:
 
@@ -128,10 +99,8 @@ python Demo/03_api_data_mining/mof_api_data_mining_demo.py positive --config-dir
 python Demo/03_api_data_mining/mof_api_data_mining_demo.py negative --config-dir Demo/03_api_data_mining/configs/local_papers --live
 ```
 
-The validation report identifies the blank placeholder PDFs. Live extraction
-with the local configuration stops until both blank pairs have been replaced or
-removed from the selected inventory. The selected configurations preserve the same
-prompts and scientific extraction logic, with outputs stored separately under
+Validation identifies blank PDFs. Replace them or remove their entries from the
+inventory before live extraction. Outputs are stored under
 `results/examples/03_api_data_mining/local_papers/`.
 
 The DOI inventory controls which papers are processed. The local configuration
@@ -143,11 +112,9 @@ abstract triage continues to use `configs/triage.json`.
 
 ## Inputs, prompts, and outputs
 
-The four default JSON files in `configs/` control the models, limits, and paths. They
-reference the canonical prompts under `prompts/`, including the separate system
-and user templates for positive extraction and negative reconstruction. The demonstration uses the
-sample documents under `inputs/extraction/` and keeps its triage subset separate from the
-research datasets.
+The JSON files in `configs/` control models, limits, and paths. They reference
+the prompts under `prompts/`, including separate system and user templates for
+positive extraction and negative reconstruction.
 
 All generated files are written under
 `results/examples/03_api_data_mining/`, which is excluded from Git:
@@ -163,10 +130,6 @@ command may skip completed documents. To rerun with different models or prompts,
 set fresh output paths in the configurations and keep the negative inputs linked
 to the corresponding positive output. Each triage invocation creates the next
 available numbered run folder. Execution times remain in the run metadata.
-
-Negative reconstruction also checks that every positive DOI marked `YES` belongs to the
-selected document manifest. A mismatch stops the demonstration so an output from another
-paper set cannot be treated as an empty negative result.
 
 See the [triage](../../docs/triage.md),
 [positive extraction](../../docs/positive_extraction.md), and

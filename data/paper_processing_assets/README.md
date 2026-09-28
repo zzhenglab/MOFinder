@@ -1,8 +1,7 @@
 # Paper processing assets
 
 `icons/` contains 48 image templates for the literature retrieval workflow.
-The image bytes are unchanged; filenames use neutral publisher identifiers.
-Checksums and workflow references are recorded in `manifest.json`.
+Filenames use publisher identifiers; `manifest.json` records checksums and workflow references.
 
 | Filename pattern | Use |
 | --- | --- |
@@ -37,9 +36,3 @@ The following images are retained but are not referenced by the download flows:
 - `publisher_W_download.png`
 - `print.png`
 - `verification_challenge.png`
-
-The alternate SI image and copied paper image have distinct filenames so they
-cannot replace the active templates accidentally. The verification image is
-retained as an unused asset; the downloader does not solve verification challenges.
-
-Neutral filenames do not alter the contents of the image templates.

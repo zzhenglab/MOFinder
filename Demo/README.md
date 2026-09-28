@@ -9,18 +9,18 @@ Start with data curation and dataset preparation, which run locally without an A
 | [Data mining demo (API required)](03_api_data_mining/README.md) | Abstract triage, positive extraction, and negative reconstruction | Required for model calls; input validation runs offline |
 | [Dataset analysis](04_dataset_analysis/README.md) | Literature coverage, composition, properties, stability, pairwise conditions, and training/test t-SNE | No |
 
-The demonstrations include executable Python scripts, Markdown instructions, and notebooks. The offline notebooks retain saved outputs and expected-result checks. The [data mining walkthrough](03_api_data_mining/mof_api_data_mining_demo.ipynb) starts with empty outputs; run its preview cells to inspect the abstracts, requests, and document validation before enabling model calls.
+Each demonstration includes a Python script and notebook. The offline notebooks contain saved outputs and verification checks. The data mining notebook previews inputs and requests before making API calls.
 
 ## Redraw the dataset and literature figures
 
-The [dataset notebook](04_dataset_analysis/dataset_analysis.ipynb) includes literature coverage and contains executed plotting cells with visible outputs. It uses included data and shared Python modules without API access.
+The [dataset notebook](04_dataset_analysis/dataset_analysis.ipynb) draws the dataset and literature figures from the included data.
 
 ```bash
 python -m pip install -e ".[plotting,notebook]"
 jupyter lab
 ```
 
-Run all cells to redraw the figures and export PNGs, including synthesis-record and record/DOI versions. Figures use 6-inch width and 600 dpi. The [positive and negative workflow diagrams](../docs/workflows/README.md) are provided separately.
+Run all cells to export PNGs, including synthesis-record and record/DOI versions, at 6-inch width and 600 dpi.
 
 ## Run the offline demonstrations
 
@@ -32,9 +32,9 @@ python Demo/01_data_curation/mof_data_curation_demo.py --check
 python Demo/02_dataset_preparation/mof_dataset_preparation_demo.py --positive-csv Demo/01_data_curation/outputs/mof_extraction_6.csv --check
 ```
 
-The first demonstration regenerates processed records from the raw example. The second prepares classification records and grouped splits. `--check` compares the generated files with the saved expected results. Each notebook has a separate **Verify against expected output** section with expected/actual counts and **PASS** or **FAIL** results. See each folder's README for inputs, settings, output files, and use with other data.
+The first demonstration curates raw records; the second prepares classification records and grouped splits. `--check` compares the generated files with saved expected results. Each folder's README describes the inputs, settings, and outputs.
 
-Each offline run keeps its output snapshot and run record in a numbered folder such as `run_history/run_001/`. `outputs/` holds the latest files. Run records retain execution times and file hashes. Local histories are excluded from Git by default; the checked-in [data curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md), together with executed notebook outputs, preserve examples that can be viewed on GitHub.
+Each offline run writes its latest files to `outputs/` and saves a snapshot in `run_history/`. Example [curation runs](01_data_curation/recorded_runs/README.md) and [dataset preparation runs](02_dataset_preparation/recorded_runs/README.md) are included.
 
 To check abstract inputs and match the included article/SI pair:
 
@@ -50,14 +50,10 @@ python -m pip install -e ".[notebook]"
 jupyter lab
 ```
 
-For the [data mining demo (API required)](03_api_data_mining/README.md), install `.[mining,notebook]` and open [mof_api_data_mining_demo.ipynb](03_api_data_mining/mof_api_data_mining_demo.ipynb). Inspect the four abstracts and request previews, then set `RUN_TRIAGE = True` to obtain predictions using GPT-5 with high reasoning effort. The same notebook uses `RUN_POSITIVE_EXTRACTION` and `RUN_NEGATIVE_RECONSTRUCTION` for the sample article/SI pair; run positive extraction first. All switches default to `False`. Use `OPENAI_API_KEY` or the hidden key prompt for live calls, which send the selected text to OpenAI and incur API charges.
+For data mining, install `.[mining,notebook]` and open [mof_api_data_mining_demo.ipynb](03_api_data_mining/mof_api_data_mining_demo.ipynb). Its three switches enable triage, positive extraction, and negative reconstruction. Run positive extraction before negative reconstruction. All switches default to `False`; live calls use `OPENAI_API_KEY` or a hidden key prompt and incur API charges.
 
-The data mining demonstration includes three DOI slots: one article/SI pair with synthetic illustrative content and two blank placeholder pairs. Original publications are not included. The default notebook selects the illustrative pair and displays the saved JSON after positive extraction and negative reconstruction.
+The data mining inputs contain one synthetic article/SI pair and two blank templates. The default notebook uses the synthetic pair.
 
 ## Find the workflow code
 
-Offline run records preserve input and output hashes; Python source hashes normalize line endings to UTF-8/LF so the same code can be checked on Windows and Linux. Dataset hashes preserve the original bytes.
-
-The full workflow is documented in [the Markdown workflow guide](../docs/workflow.md), with runnable Python under [src/mofinder/](../src/mofinder/). The [source-to-code guide](../docs/source_to_code.md) maps the original implementation to the current functions and links its Git history. The notebooks provide interactive examples; completed runs save their outputs locally as described in each demonstration's instructions.
-
-The numbered subfolders above replace the earlier notebooks and datasets at the top level of `Demo/`. Those earlier files and their original processing configuration remain accessible in the [historical Demo directory](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a/Demo). The original [name–SMILES mappings](../data/name_SMILES_mappers/README.md) are included separately in the current dataset.
+See the [workflow guide](../docs/workflow.md) for the full pipeline and [src/mofinder/](../src/mofinder/) for the Python modules.

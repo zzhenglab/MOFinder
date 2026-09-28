@@ -1,45 +1,27 @@
 # Process-detail tables
 
-These optional control tables add three cleaned process features to every original synthesis record. They do not filter on process-field availability.
+These tables add cleaned vessel type, vessel capacity, and agitation to the processed synthesis records.
 
 | File | Rows | Columns |
 | --- | ---: | ---: |
 | [Process_detail_positive.csv](Process_detail_positive.csv) | 15,340 | 86 |
 | [Process_detail_negative.csv](Process_detail_negative.csv) | 15,063 | 79 |
 
-Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and `stirring_raw`. Their exact strings, all other source cells, and row order are preserved. Three columns are appended: `vessel_type`, `vessel_volume_mL`, and `agitation`. Both files use UTF-8 with a byte-order mark.
+All source rows and values are preserved. Original `vessel_type` and `stirring` descriptions are retained as `vessel_type_raw` and `stirring_raw`. Both CSVs use UTF-8 with a byte-order mark.
 
-| Added field | Representation |
+| Added field | Contents |
 | --- | --- |
-| `vessel_type` | Controlled vessel category; `Not reported` includes missing/unspecified types and the explicitly pooled rare classes described below |
-| `vessel_volume_mL` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
-| `agitation` | Nine categories with two-to-five-word labels; stirring and sonication retain supported stage distinctions, related mechanical methods share a separate category, and unavailable or unresolved information uses `Not reported` |
-
-## Reproduce
-
-From the repository root, with the package installed (`python -m pip install -e ".[curation,datasets]"`):
-
-```bash
-python -m mofinder.curation.process_details --config configs/process_details.json
-```
-
-For other processed inputs:
-
-```bash
-python -m mofinder.curation.process_details --positive path/to/processed_positive.csv --negative path/to/processed_negative.csv --output results/process_details
-```
-
-The command regenerates the derived tables and checks their provenance. It checks exact preservation of source cells and row order and never overwrites either input CSV. 
+| `vessel_type` | Cleaned vessel category. Unspecified types and categories with fewer than 10 positive records use `Not reported`. |
+| `vessel_volume_mL` | Vessel capacity in mL, `Not reported`, or `Ambiguous`. |
+| `agitation` | One of the nine categories below. |
 
 ## Normalization
 
-Unicode compatibility characters, dash and whitespace variants, case, and explicit metric volume units are normalized. Vessel-body material is distinguished from cap, septum, gasket, seal, spacer, and stirrer material. A glass vial with a PTFE cap remains a vial. Vessel forms, pressure-vessel wording, and PTFE liners are classified conservatively; steel alone does not establish pressurization. Material-only categories are named `Glass vessel`, `Polymer vessel`, and `Metal vessel`. The shortened `PTFE-lined autoclave` retains the membership of the former autoclave / pressure vessel class. Unspecified vessel types are merged into `Not reported`.
+Vessel names are consolidated across spelling, punctuation, and material variants. Capacity values are converted to mL using explicit vessel sizes. Ranges, unclear units, and descriptions with multiple possible capacities use `Ambiguous`.
 
-Capacity conversion supports mL, L, microlitres, cm³, and cc. A reaction charge or solvent volume is not substituted for capacity; dimensions are not converted into a volume. Ranges, multiple/nested vessels, corrupted units, and unspecified dram conventions remain ambiguous. The two liter-scale vial descriptions are also quarantined as ambiguous pending source verification. Other uncommon but explicit capacities are retained and flagged. No missing value is set to zero.
+The same category rules apply to positive and negative records:
 
-The nine final categories in `agitation` use two-to-five-word labels. `Stirred before static synthesis` requires an explicitly reported stirring-then-static sequence. `Stirred before main synthesis` means stirring during initial mixing or dissolution before the main heating, aging, or reaction step; subsequent stirring or static conditions are unspecified. `Stirring reported` does not imply that stirring continued throughout synthesis; specific reported timing remains in the original descriptions and source-review rules. Sonication uses separate before-static, before-main-synthesis, and reported categories. `Shaking, vortexing, rotation and mixing` includes related mechanical methods and homogenization, with individual methods and stages preserved in the original descriptions and source-review rules. `No stirring` denotes explicitly static or unstirred conditions, and `Not reported` is used when no unique state is specified.
-
-| Final agitation category | Positive records | Negative records |
+| Agitation category | Positive records | Negative records |
 | --- | ---: | ---: |
 | `No stirring` | 6,522 | 6,609 |
 | `Not reported` | 3,886 | 3,987 |
@@ -51,16 +33,22 @@ The nine final categories in `agitation` use two-to-five-word labels. `Stirred b
 | `Sonication reported` | 24 | 39 |
 | `Shaking, vortexing, rotation and mixing` | 65 | 57 |
 
-This fixed mapping is applied to both positive and negative records before JSONL preparation. It uses no agitation-frequency threshold or unspecified catch-all class.
+Before main synthesis means preparation before the main heating or aging step, with later conditions unspecified. Before static synthesis requires an explicitly static subsequent stage. `Stirring reported` and `Sonication reported` leave the stage unspecified. `No stirring` describes explicitly static or unstirred conditions; missing or unresolved descriptions use `Not reported`.
 
-The [source-review registry](../../../src/mofinder/curation/agitation_source_reviews.py) documents 17 description-specific clarifications affecting 50 positive and eight negative records. These include nine positive records whose ultrasonic wording supports `Sonicated before main synthesis` and 17 whose source protocols place stirring before the main synthesis step. Original extracted strings remain unchanged; reviewed interpretations are matched by DOI and normalized raw value before classification.
+Some negative records carry process descriptions inherited from their source synthesis. Original descriptions remain available in the raw columns.
 
-Normalization was checked against **1,926 unique vessel strings** and **890 unique strings from the original stirring field**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. The **21 unresolved positive agitation records** were checked with their associated fields: centrifugation (12), addition (4), reflux (3), microwave irradiation (1), and alternative stirring states (1) do not specify a unique stirring/static state. Their model value remains `Not reported`; the normalization code records the reason for each classification. The corpus-wide checks inspect extracted strings and associated tabular context; the source-review registry identifies the subset also checked against original documents.
+## Reproduce
 
-The [manifest](manifest.json) records input/output and implementation hashes. The [positive-dataset distribution tables](../../../docs/process_details/category_counts.csv) provide category counts for the accompanying figures.
+From the repository root, after installing `python -m pip install -e ".[curation,datasets]"`:
 
-## Matched training control
+```bash
+python -m mofinder.curation.process_details --config configs/process_details.json
+```
 
-The [process-enriched JSONL](../../processed_data_json/processed_enrich/README.md) preserves the existing split, labels, order, and original eight inputs, then adds these three fields and the corresponding system prompt. See [preparation instructions](../../../docs/process_enrich_training.md) and [positive-dataset distributions](../../../docs/process_details/README.md). Each figure pairs record counts with unique DOI counts.
+For other processed inputs:
 
-Negative process descriptions can be inherited from successful parent protocols. Normalization does not verify that these process conditions were independently observed in a failed attempt. Outcome properties, raw descriptions, rationales, source identifiers, washing, and activation are excluded from the enriched model input. The original split's DOI overlap also remains unchanged; this is a matched representation control, not a new independent-paper evaluation.
+```bash
+python -m mofinder.curation.process_details --positive path/to/processed_positive.csv --negative path/to/processed_negative.csv --output results/process_details
+```
+
+See the [classification code](../../../src/mofinder/curation/process_details.py), [process-enriched training files](../../processed_data_json/processed_enrich/README.md), and [positive-data distributions](../../../docs/process_details/README.md).
