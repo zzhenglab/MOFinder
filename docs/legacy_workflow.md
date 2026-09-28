@@ -446,7 +446,7 @@ WoS / paper metadata
 The cumulative CSV suffixes in `data/` and `Demo/` show the cleaning chain. For example, `mof_extraction_1_2_3_4_5_6.csv` is the positive extraction table after all Step 4 cleaning passes in this workflow.
 
 <p align="center">
-  <img src="../data/Figures-03a.png" alt="MOFinder data figure" width="500">
+  <img src="../data/chat_completion.png" alt="Chat completion example with reaction-condition input and P output" width="500">
 </p>
 
 

@@ -90,7 +90,7 @@ Training and holdout records use chat-format JSONL. Each record contains a syste
 The [process-enriched dataset](data/processed_data_json/processed_enrich/README.md) preserves the baseline row counts and order while adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the inputs and [system prompt](prompts/training/reaction_prediction_process_enrich.txt). The [artificial-perturbation](data/processed_data_json/artificial_perturbation/README.md) and [single-field-removal](data/processed_data_json/leave_one_perturbation_out/README.md) ablations provide alternative training sets with the standard holdout.
 
 <p align="center">
-  <img src="data/Figures-03a.png" alt="Example reaction-condition input and P output" width="750">
+  <img src="data/chat_completion.png" alt="Chat completion example with reaction-condition input and P output" width="750">
 </p>
 
 ![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
