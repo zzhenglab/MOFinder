@@ -13,7 +13,7 @@ Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and 
 | --- | --- |
 | `vessel_type` | Controlled vessel category; `Not reported` includes missing/unspecified types and the explicitly pooled rare classes described below |
 | `vessel_volume_mL` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
-| `agitation` | Reported method and process stage in two to five words; rare methods remain distinct, and unavailable or unresolved information uses `Not reported` |
+| `agitation` | Nine stage-based categories with two-to-five-word labels; sonication remains distinct, and unavailable or unresolved information uses `Not reported` |
 
 ## Reproduce
 
@@ -39,9 +39,23 @@ The fixed consolidation policy uses synthesis-record frequencies in the full pos
 
 Capacity conversion supports mL, L, microlitres, cm³, and cc. A reaction charge or solvent volume is not substituted for capacity; dimensions are not converted into a volume. Ranges, multiple/nested vessels, corrupted units, and unspecified dram conventions remain ambiguous. The two liter-scale vial descriptions are also quarantined as ambiguous pending source verification. Other uncommon but explicit capacities are retained and flagged. No missing value is set to zero.
 
-All final agitation labels contain two to five words and preserve reported methods and stages, including rare categories. `No stirring` denotes explicitly static or unstirred conditions. `Stirred before static synthesis` and `Sonicated before static synthesis` preserve the reported sequence. `Stirred during preparation` leaves later agitation unknown. `Stirred; stage not reported` does not establish stirring throughout heating. Shaking, rotation, vortexing, mixing, and homogenization receive descriptive labels where supported. `Not reported` is used when no unique agitation state is specified.
+The nine final agitation categories combine stirring, shaking, rotation, vortexing, mixing, and homogenization by process stage, while retaining sonication separately. Each label contains two to five words. `Agitated before static synthesis` preserves an explicitly reported preparation-to-static sequence; `Agitated during preparation` leaves later agitation unknown. `Agitated during synthesis` requires evidence for synthesis-stage agitation, and `Agitated; stage not reported` makes no stage assumption. The term `Agitated` does not imply a particular mechanism when the source does not specify one. `No stirring` denotes explicitly static or unstirred conditions, and `Not reported` is used when no unique agitation state is specified. Reported methods remain available in the raw text and detailed audit categories.
 
-The former combined category contained 121 positive records from 57 unique DOIs and 115 negative records. It is now separated into the supported method/stage categories. A [targeted source audit](audit/AGITATION_SOURCE_AUDIT.md) documents 12 DOI-specific clarifications affecting 29 positive and eight negative records. These include nine positive records outside the former combined category whose ultrasonic wording supports `Sonicated during preparation`, rather than separate mechanical stirring. Original extracted strings remain unchanged; reviewed interpretations are matched by DOI and normalized raw value before classification.
+| Final agitation category | Positive records | Negative records |
+| --- | ---: | ---: |
+| `No stirring` | 6,522 | 6,609 |
+| `Not reported` | 3,886 | 3,987 |
+| `Agitated before static synthesis` | 1,792 | 1,869 |
+| `Agitated during preparation` | 479 | 568 |
+| `Agitated during synthesis` | 15 | 18 |
+| `Agitated; stage not reported` | 2,223 | 1,740 |
+| `Sonicated before static synthesis` | 377 | 232 |
+| `Sonicated during preparation` | 22 | 1 |
+| `Sonicated; stage not reported` | 24 | 39 |
+
+This fixed mapping is applied to both positive and negative records before JSONL preparation. It groups related methods by stage without using a frequency threshold or an unspecified catch-all class.
+
+The earlier combined category contained 121 positive records from 57 unique DOIs and 115 negative records. Its descriptions were resolved into supported method/stage categories, which are retained in the detailed audit and now mapped to the nine model categories above. A [targeted source audit](audit/AGITATION_SOURCE_AUDIT.md) documents 12 DOI-specific clarifications affecting 29 positive and eight negative records. These include nine positive records outside that earlier category whose ultrasonic wording supports `Sonicated during preparation`, rather than separate mechanical stirring. Original extracted strings remain unchanged; reviewed interpretations are matched by DOI and normalized raw value before classification.
 
 The complete corpus audit covers **1,926 unique vessel strings** and **890 unique strings from the original stirring field**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. The **21 unresolved positive agitation records** were checked with their associated fields: centrifugation (12), addition (4), reflux (3), microwave irradiation (1), and alternative stirring states (1) do not specify a unique stirring/static state. Their model value remains `Not reported`, with reasons retained in the audit. The corpus-wide checks inspect extracted strings and associated tabular context; the targeted source audit identifies the subset also checked against original documents.
 

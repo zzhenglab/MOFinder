@@ -16,16 +16,25 @@ import unicodedata
 from .agitation_source_reviews import SOURCE_REVIEWS
 
 
-STIRRING_PARSER_VERSION = "process-agitation-v4"
-STIRRING_LABEL_MAP = {"Static / no stirring": "No stirring"}
-# Methods and stages describe evidence, never a minimum-frequency bucket.
+STIRRING_PARSER_VERSION = "process-agitation-v5"
+# Detailed methods remain available in the audit after stage-based consolidation.
 _METHODS = ("Stirred", "Sonicated", "Shaken", "Rotated", "Vortexed",
             "Homogenized", "Mixed", "Agitated")
-STIRRING_CLASSES = ("Not reported", "No stirring") + tuple(
-    f"{method}{stage}" for method in _METHODS for stage in (
-        " before static synthesis", " during preparation", " during synthesis",
-        "; stage not reported"))
-DETAILED_STIRRING_CLASSES = STIRRING_CLASSES + ("Unclear / ambiguous",)
+_STAGES = (" before static synthesis", " during preparation", " during synthesis",
+           "; stage not reported")
+STIRRING_LABEL_MAP = {"Static / no stirring": "No stirring", **{
+    f"{method}{stage}": f"Agitated{stage}"
+    for method in _METHODS if method != "Sonicated" for stage in _STAGES
+}}
+STIRRING_CLASSES = (
+    "No stirring", "Not reported", "Agitated before static synthesis",
+    "Agitated during preparation", "Agitated during synthesis",
+    "Agitated; stage not reported", "Sonicated before static synthesis",
+    "Sonicated during preparation", "Sonicated; stage not reported",
+)
+DETAILED_STIRRING_CLASSES = ("Not reported", "Static / no stirring") + tuple(
+    f"{method}{stage}" for method in _METHODS for stage in _STAGES
+) + ("Unclear / ambiguous",)
 _MISSING = {
     "", "nan", "none", "null", "<na>", "na", "n/a", "n.a.",
     "not reported", "not specified", "unspecified", "unknown", "nr", "-", "--",
@@ -89,8 +98,9 @@ def method_name(text: str, rotation_first: bool = False) -> str:
 def normalize_stirring(value: object, doi: str = "") -> dict[str, str]:
     """Return a bounded class plus the matched rule and any review reason.
 
-    The final model class retains supported methods and stages, including rare
-    methods. Unavailable or indeterminate agitation is ``Not reported``.
+    The final model class combines non-sonication methods by their reported
+    stage. Detailed methods remain in the audit. Unavailable or indeterminate
+    agitation is ``Not reported``.
     ``detailed_value`` and ``consolidation_rule`` explain every recoding. Nonempty off-schema or contradictory text retains a review
     reason. The full input should be retained by callers as ``stirring_raw``.
     Numerical speeds, times, and intensity adjectives do not establish a stage.
@@ -104,7 +114,8 @@ def normalize_stirring(value: object, doi: str = "") -> dict[str, str]:
         parsed = normalize_stirring(review['corrected_text'])
         parsed['normalized_text'] = text
         parsed['rule'] = 'source_review:' + normalized_doi + ':' + parsed['rule']
-        parsed['consolidation_rule'] = 'source_verified_method_stage'
+        parsed['consolidation_rule'] = ';'.join(filter(None, (
+            'source_verified_method_stage', parsed['consolidation_rule'])))
         return parsed
 
     def result(label: str, rule: str, reason: str = "") -> dict[str, str]:
@@ -114,7 +125,15 @@ def normalize_stirring(value: object, doi: str = "") -> dict[str, str]:
             consolidation = "no_unique_supported_agitation_state"
         elif label in STIRRING_LABEL_MAP:
             final_label = STIRRING_LABEL_MAP[label]
-            consolidation = "shorten_agitation_label"
+            if label == "Static / no stirring":
+                consolidation = "shorten_agitation_label"
+            elif final_label != label:
+                consolidation = "merge_nonsonication_methods_by_stage"
+        if final_label not in STIRRING_CLASSES:
+            raise ValueError(
+                f"Agitation state {label!r} is outside the nine-class schema; "
+                "review the class mapping before processing this new state."
+            )
         return {"value": final_label, "detailed_value": label,
                 "consolidation_rule": consolidation, "rule": rule,
                 "normalized_text": text, "review_reason": reason}
@@ -253,12 +272,17 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
         f"{summary['positive_records']:,} positive and {summary['negative_records']:,} negative records. "
         "See `stirring_all_raw_values.csv` for exact raw text and matched rules. "
         "These filenames refer to the original extraction column.", "",
-        "Methods and reported stages are retained regardless of frequency. Final labels contain two to five words. "
-        "No catch-all method class is used. Preparation does not establish agitation during later heating; "
+        "Nine final classes consolidate non-sonication methods by reported stage, while retaining the three "
+        "observed sonication stages separately. Final labels contain two to five words. Every original method "
+        "and stage remains in `detailed_value`, alongside the raw text and consolidation rule. No frequency "
+        "threshold determines these classes. A newly observed supported state outside this nine-class schema "
+        "raises an error requiring class-map review; it is not silently recoded as missing. Preparation does not "
+        "establish agitation during later heating; "
         "unqualified stirring does not establish continuous synthesis stirring. Explicit static synthesis takes "
         "precedence over preparation. When both initial stirring and sonication are named, stirring is the primary "
-        "label and raw text retains both. Rotation is retained when a separate prestir is reported. "
-        "`Agitated` is used only when agitation itself is stated without a more specific method. "
+        "detailed label and raw text retains both. Rotation is retained in the detailed label when a separate "
+        "prestir is reported. Final `Agitated` classes combine stirring, shaking, rotation, vortexing, "
+        "homogenization, mixing, and agitation without a specified method; they preserve the reported stage. "
         "Bare speeds or intensity adjectives do not establish a method. Heating, centrifugation, and reagent "
         "addition alone do not establish synthesis agitation. Missing or unresolved descriptions use `Not reported`; "
         "unresolved nonempty text remains distinguished by its audit reason.", "",

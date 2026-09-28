@@ -83,24 +83,13 @@ positive,vessel_volume_mL,5500,1,0.00651890482398957,1
 positive,vessel_volume_mL,100000,1,0.00651890482398957,1
 positive,agitation,No stirring,6522,42.51629726205998,1983
 positive,agitation,Not reported,3886,25.33246414602347,1237
-positive,agitation,Stirred; stage not reported,2194,14.302477183833116,672
-positive,agitation,Stirred before static synthesis,1758,11.460234680573663,688
-positive,agitation,Stirred during preparation,478,3.1160365058670143,169
+positive,agitation,Agitated; stage not reported,2223,14.491525423728813,681
+positive,agitation,Agitated before static synthesis,1792,11.68187744458931,702
+positive,agitation,Agitated during preparation,479,3.122555410691004,170
 positive,agitation,Sonicated before static synthesis,377,2.457627118644068,147
 positive,agitation,Sonicated; stage not reported,24,0.15645371577574968,12
 positive,agitation,Sonicated during preparation,22,0.14341590612777053,10
-positive,agitation,Rotated; stage not reported,16,0.10430247718383312,5
-positive,agitation,Stirred during synthesis,13,0.0847457627118644,9
-positive,agitation,Shaken before static synthesis,12,0.07822685788787484,4
-positive,agitation,Shaken; stage not reported,10,0.0651890482398957,4
-positive,agitation,Mixed before static synthesis,10,0.0651890482398957,6
-positive,agitation,Homogenized before static synthesis,6,0.03911342894393742,2
-positive,agitation,Rotated before static synthesis,4,0.02607561929595828,1
-positive,agitation,Agitated before static synthesis,2,0.01303780964797914,2
-positive,agitation,Rotated during synthesis,2,0.01303780964797914,2
-positive,agitation,Mixed; stage not reported,2,0.01303780964797914,1
-positive,agitation,Homogenized during preparation,1,0.00651890482398957,1
-positive,agitation,Vortexed; stage not reported,1,0.00651890482398957,1
+positive,agitation,Agitated during synthesis,15,0.09778357235984356,10
 negative,vessel_type,PTFE-lined autoclave,5647,37.48921197636593,481
 negative,vessel_type,Vial,2057,13.65597822478922,251
 negative,vessel_type,Not reported,1876,12.454358361548163,239
@@ -172,15 +161,10 @@ negative,vessel_volume_mL,2000,1,0.006638783774812454,1
 negative,vessel_volume_mL,3000,1,0.006638783774812454,1
 negative,agitation,No stirring,6609,43.87572196773551,569
 negative,agitation,Not reported,3987,26.468830910177253,329
-negative,agitation,Stirred before static synthesis,1815,12.049392551284605,148
-negative,agitation,Stirred; stage not reported,1738,11.538206200624046,223
-negative,agitation,Stirred during preparation,567,3.7641904003186615,47
+negative,agitation,Agitated before static synthesis,1869,12.407886875124477,153
+negative,agitation,Agitated; stage not reported,1740,11.55148376817367,224
+negative,agitation,Agitated during preparation,568,3.7708291840934742,48
 negative,agitation,Sonicated before static synthesis,232,1.5401978357564894,35
 negative,agitation,Sonicated; stage not reported,39,0.2589125672176857,5
-negative,agitation,Shaken before static synthesis,27,0.17924716191993628,2
-negative,agitation,Stirred during synthesis,18,0.11949810794662419,3
-negative,agitation,Mixed before static synthesis,17,0.11285932417181173,3
-negative,agitation,Homogenized before static synthesis,10,0.06638783774812454,1
-negative,agitation,Shaken; stage not reported,2,0.013277567549624909,1
+negative,agitation,Agitated during synthesis,18,0.11949810794662419,3
 negative,agitation,Sonicated during preparation,1,0.006638783774812454,1
-negative,agitation,Homogenized during preparation,1,0.006638783774812454,1

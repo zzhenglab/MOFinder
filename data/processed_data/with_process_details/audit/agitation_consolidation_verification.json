@@ -1,0 +1,21 @@
+{
+  "reference_commit": "294c15fe3fcedfe1136ba950777c41122a215041",
+  "final_classes": 9,
+  "checks": [
+    {
+      "dataset": "positive",
+      "rows": 15340,
+      "only_stage_based_agitation_merge": true,
+      "other_cells_and_order_unchanged": true,
+      "sha256": "c0c9cdef937f8d1c22c51dc89d95db68f4468f0127bd16cc3e444ec76ad83a5e"
+    },
+    {
+      "dataset": "negative",
+      "rows": 15063,
+      "only_stage_based_agitation_merge": true,
+      "other_cells_and_order_unchanged": true,
+      "sha256": "dd6aa3cccf1cdc0902c9a6b1028090e3d08073799df19acde54b0359c368a16d"
+    }
+  ],
+  "detailed_methods_preserved_for_all_rows": true
+}

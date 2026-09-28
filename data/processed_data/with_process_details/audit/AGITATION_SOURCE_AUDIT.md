@@ -12,7 +12,7 @@ The former combined class contained **121 positive records from 57 distinct DOIs
 | Agitation during preparation, method unspecified | 5 | 2 | 1 |
 | Stirring during synthesis | 4 | 3 | 10 |
 
-A DOI can contribute to multiple categories, so the category DOI counts sum to more than 57. The raw descriptions included stirring, sonication, shaking, rotation, mixing and homogenization, with distinct reported stages. Low frequency alone does not make these procedures equivalent.
+A DOI can contribute to multiple categories, so the category DOI counts sum to more than 57. The raw descriptions included stirring, sonication, shaking, rotation, mixing and homogenization, with distinct reported stages. Low frequency alone does not make these procedures equivalent. The current nine-class representation combines non-sonication methods by the reported stage; it does not assert that stirring, rotation, shaking, and homogenization are physically equivalent. Specific method evidence remains in the detailed audit.
 
 ## Source-based clarifications
 
@@ -37,18 +37,18 @@ The registry is maintained in `src/mofinder/curation/agitation_source_reviews.py
 
 ## Evidence and interpretation
 
-- **10.1039/c4ta02568g ? `vigorous 5 min before heating`:** The synthesis mixture is explicitly stirred vigorously for five minutes before sealed-autoclave heating. Agitation during heating is not specified.
-- **10.1039/d1qi01562a ? `vigorous for 1 h, then constant for 3 h`:** Both protocols stir the precursor solution for one hour and continue stirring the combined reactants for three hours before collecting the product.
-- **10.1039/d4gc01350f ? `500 rpm`:** The stirred-tank comparator continuously stirs the mixture in a beaker at 500 rpm for 30 minutes. The matching extracted row identifies a stirred tank reactor (beaker), distinguishing it from the separate rotating-packed-bed speed series.
-- **10.1002/aoc.4062 ? `vigorous`:** The room-temperature ZIF-8 protocol mixes the two methanolic precursor solutions under vigorous stirring for 24 hours, followed by product centrifugation. The extracted row has the corresponding 24-hour duration and 0.75 metal/linker ratio.
-- **10.1016/j.cattod.2015.08.030 ? `vigorous`:** The initial ZIF-8 synthesis combines aqueous zinc nitrate and methylimidazole under vigorous stirring for five minutes at room temperature, then washes and collects the nanoparticles. The extracted row reports the matching 0.083-hour duration; later catalytic reactions in the same paper were not used.
-- **10.1016/j.inoche.2011.06.030 ? `vigorous`:** All three reported precipitation conditions inject cobalt nitrate into a vigorously stirred linker solution at 60 or 90 degrees Celsius; the 90-degree standard condition explicitly continues stirring after suspension formation. The three positive records match these conditions. Negative matches inherit this source-protocol annotation.
-- **10.1016/j.matchemphys.2025.130363 ? `vigorous`:** The zinc solution is added to methylimidazole under vigorous stirring at room temperature for one hour, followed by particle collection. This agrees with the one-hour extracted ZIF-8 record; later silver-loading procedures were not used.
-- **10.1002/adma.201901570 ? `agitated`:** The matching protocol stirs the initial methylimidazole mixture for five minutes, adds 2.4 mg zinc nitrate while agitating, and ages for 15 minutes. The extracted 23.75 mg linker, 2.4 mg metal precursor and 15-minute duration match this protocol. The agitation method during aging is not stated, so neither static aging nor continuous stirring is inferred.
-- **10.1039/c4ce00158c ? `ultrasonically stirred 15 min before heating`:** All nine synthesis protocols describe ultrasonic agitation for 15 minutes before heating for three days. This denotes sonication; separate mechanical stirring is not documented. Agitation during heating is not specified.
-- **10.1039/d4gc01350f ? `RPB 1500 rpm, then static`:** Reactant streams mix in a rotating packed bed at 1500 rpm for two minutes; the collected suspension then stands without stirring. The SI carries the same procedure over to the Co variants and Ni product. The four matching records retain the reported rotation-to-static sequence.
-- **10.1039/d4gc01350f ? `RPB 1500 rpm`:** The zinc precursors mix and crystallize in the rotating packed bed at 1500 rpm, and product is collected immediately at the outlet. The matching Zn record has a 0.033-hour duration and does not describe a subsequent static hold.
-- **10.1021/ic402198a ? `rotated (1.1 kHz MAS)`:** The precursor solution reacts inside a PEEK insert in a MAS rotor at 1.1 kHz while in-situ NMR follows formation at 130 degrees Celsius. The extracted record identifies the same PEEK insert and MAS rotor. This is rotation during an in-situ synthesis experiment, not post-synthesis characterization of a recovered powder.
+- **10.1039/c4ta02568g: `vigorous 5 min before heating`:** The synthesis mixture is explicitly stirred vigorously for five minutes before sealed-autoclave heating. Agitation during heating is not specified.
+- **10.1039/d1qi01562a: `vigorous for 1 h, then constant for 3 h`:** Both protocols stir the precursor solution for one hour and continue stirring the combined reactants for three hours before collecting the product.
+- **10.1039/d4gc01350f: `500 rpm`:** The stirred-tank comparator continuously stirs the mixture in a beaker at 500 rpm for 30 minutes. The matching extracted row identifies a stirred tank reactor (beaker), distinguishing it from the separate rotating-packed-bed speed series.
+- **10.1002/aoc.4062: `vigorous`:** The room-temperature ZIF-8 protocol mixes the two methanolic precursor solutions under vigorous stirring for 24 hours, followed by product centrifugation. The extracted row has the corresponding 24-hour duration and 0.75 metal/linker ratio.
+- **10.1016/j.cattod.2015.08.030: `vigorous`:** The initial ZIF-8 synthesis combines aqueous zinc nitrate and methylimidazole under vigorous stirring for five minutes at room temperature, then washes and collects the nanoparticles. The extracted row reports the matching 0.083-hour duration; later catalytic reactions in the same paper were not used.
+- **10.1016/j.inoche.2011.06.030: `vigorous`:** All three reported precipitation conditions inject cobalt nitrate into a vigorously stirred linker solution at 60 or 90 degrees Celsius; the 90-degree standard condition explicitly continues stirring after suspension formation. The three positive records match these conditions. Negative matches inherit this source-protocol annotation.
+- **10.1016/j.matchemphys.2025.130363: `vigorous`:** The zinc solution is added to methylimidazole under vigorous stirring at room temperature for one hour, followed by particle collection. This agrees with the one-hour extracted ZIF-8 record; later silver-loading procedures were not used.
+- **10.1002/adma.201901570: `agitated`:** The matching protocol stirs the initial methylimidazole mixture for five minutes, adds 2.4 mg zinc nitrate while agitating, and ages for 15 minutes. The extracted 23.75 mg linker, 2.4 mg metal precursor and 15-minute duration match this protocol. The agitation method during aging is not stated, so neither static aging nor continuous stirring is inferred.
+- **10.1039/c4ce00158c: `ultrasonically stirred 15 min before heating`:** All nine synthesis protocols describe ultrasonic agitation for 15 minutes before heating for three days. This denotes sonication; separate mechanical stirring is not documented. Agitation during heating is not specified.
+- **10.1039/d4gc01350f: `RPB 1500 rpm, then static`:** Reactant streams mix in a rotating packed bed at 1500 rpm for two minutes; the collected suspension then stands without stirring. The SI carries the same procedure over to the Co variants and Ni product. The four matching records retain the reported rotation-to-static sequence.
+- **10.1039/d4gc01350f: `RPB 1500 rpm`:** The zinc precursors mix and crystallize in the rotating packed bed at 1500 rpm, and product is collected immediately at the outlet. The matching Zn record has a 0.033-hour duration and does not describe a subsequent static hold.
+- **10.1021/ic402198a: `rotated (1.1 kHz MAS)`:** The precursor solution reacts inside a PEEK insert in a MAS rotor at 1.1 kHz while in-situ NMR follows formation at 130 degrees Celsius. The extracted record identifies the same PEEK insert and MAS rotor. This is rotation during an in-situ synthesis experiment, not post-synthesis characterization of a recovered powder.
 
 These checks resolve all six positive records and eight negative records whose raw value is only `vigorous`. Such a word is not treated as a universal synonym for stirring: the lookup requires a reviewed DOI. The isolated `500 rpm` record is identified as the stirred-tank comparison by its vessel and 30-minute duration; the same paper also contains rotating-packed-bed speed experiments, so the bare rate alone would be insufficient.
 
@@ -60,22 +60,13 @@ This is a targeted audit of ambiguous method and stage descriptions. It is not a
 
 ## Where the former combined records now appear
 
-The original 121 positive records span 57 unique DOIs; the 115 negative rows use the same rules. The exact source row, DOI, original text, final class, and applied rule are available in [the record-level breakdown](former_combined_agitation_records.csv). Counts below refer only to the former combined class, not the entire dataset. A DOI can contribute to multiple rows of this table.
+The original 121 positive records span 57 unique DOIs; the 115 negative rows use the same rules. The [record-level breakdown](former_combined_agitation_records.csv) retains the source row, DOI, original text, detailed method, final class, and applied rule. The table below covers only the former combined class. DOI counts use distinct DOI sets within each merged class; a DOI can contribute to several classes.
 
 | Current class | Positive records | Positive DOIs | Negative records |
 |---|---:|---:|---:|
-| Agitated before static synthesis | 2 | 2 | 0 |
-| Homogenized before static synthesis | 6 | 2 | 10 |
-| Homogenized during preparation | 1 | 1 | 1 |
-| Mixed before static synthesis | 10 | 6 | 17 |
-| Mixed; stage not reported | 2 | 1 | 0 |
-| Rotated before static synthesis | 4 | 1 | 0 |
-| Rotated during synthesis | 2 | 2 | 0 |
-| Rotated; stage not reported | 16 | 5 | 0 |
-| Shaken before static synthesis | 12 | 4 | 27 |
-| Shaken; stage not reported | 10 | 4 | 2 |
+| Agitated before static synthesis | 34 | 15 | 54 |
+| Agitated during preparation | 6 | 3 | 1 |
+| Agitated during synthesis | 15 | 10 | 18 |
+| Agitated; stage not reported | 29 | 11 | 2 |
 | Sonicated during preparation | 13 | 9 | 1 |
 | Sonicated; stage not reported | 24 | 12 | 39 |
-| Stirred during preparation | 5 | 2 | 0 |
-| Stirred during synthesis | 13 | 9 | 18 |
-| Vortexed; stage not reported | 1 | 1 | 0 |

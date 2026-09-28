@@ -1,11 +1,23 @@
 ﻿feature,detailed_value,final_value,consolidation_rule,positive_records,negative_records
 agitation,Static / no stirring,No stirring,shorten_agitation_label,6522,6609
+agitation,Stirred; stage not reported,Agitated; stage not reported,merge_nonsonication_methods_by_stage,2194,1738
+agitation,Stirred before static synthesis,Agitated before static synthesis,merge_nonsonication_methods_by_stage,1758,1815
+agitation,Stirred during preparation,Agitated during preparation,merge_nonsonication_methods_by_stage,473,567
+agitation,Shaken before static synthesis,Agitated before static synthesis,merge_nonsonication_methods_by_stage,12,27
+agitation,Homogenized before static synthesis,Agitated before static synthesis,merge_nonsonication_methods_by_stage,6,10
+agitation,Mixed before static synthesis,Agitated before static synthesis,merge_nonsonication_methods_by_stage,10,17
 agitation,Unclear / ambiguous,Not reported,no_unique_supported_agitation_state,21,0
-agitation,Stirred during synthesis,Stirred during synthesis,source_verified_method_stage,9,8
+agitation,Stirred during synthesis,Agitated during synthesis,source_verified_method_stage;merge_nonsonication_methods_by_stage,9,8
+agitation,Stirred during synthesis,Agitated during synthesis,merge_nonsonication_methods_by_stage,4,10
 agitation,Sonicated during preparation,Sonicated during preparation,source_verified_method_stage,9,0
-agitation,Rotated before static synthesis,Rotated before static synthesis,source_verified_method_stage,4,0
-agitation,Stirred during preparation,Stirred during preparation,source_verified_method_stage,5,0
-agitation,Rotated during synthesis,Rotated during synthesis,source_verified_method_stage,2,0
+agitation,Rotated before static synthesis,Agitated before static synthesis,source_verified_method_stage;merge_nonsonication_methods_by_stage,4,0
+agitation,Rotated; stage not reported,Agitated; stage not reported,merge_nonsonication_methods_by_stage,16,0
+agitation,Shaken; stage not reported,Agitated; stage not reported,merge_nonsonication_methods_by_stage,10,2
+agitation,Stirred during preparation,Agitated during preparation,source_verified_method_stage;merge_nonsonication_methods_by_stage,5,0
+agitation,Homogenized during preparation,Agitated during preparation,merge_nonsonication_methods_by_stage,1,1
+agitation,Mixed; stage not reported,Agitated; stage not reported,merge_nonsonication_methods_by_stage,2,0
+agitation,Rotated during synthesis,Agitated during synthesis,source_verified_method_stage;merge_nonsonication_methods_by_stage,2,0
+agitation,Vortexed; stage not reported,Agitated; stage not reported,merge_nonsonication_methods_by_stage,1,0
 vessel_type,PTFE-lined autoclave / pressure vessel,PTFE-lined autoclave,shorten_ptfe_autoclave_label,5734,5647
 vessel_type,Glass vessel (shape not reported),Glass vessel,simplify_material_vessel_label,89,227
 vessel_type,Polymer vessel (shape not reported),Polymer vessel,simplify_material_vessel_label,19,7

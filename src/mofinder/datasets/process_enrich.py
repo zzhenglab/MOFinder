@@ -276,7 +276,7 @@ def prepare_process_enrich(settings):
             "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
             "The [positive-dataset figure gallery](../../../docs/process_details/README.md#figures) provides vessel-type, "
             "vessel-capacity, and agitation distributions, with the Section S5 draft, captions, calculation tables, and counting methods.\n\n"
-            "Agitation classes describe the reported method and stage in at most five words, retaining distinct methods. "
+            "Nine agitation classes combine non-sonication methods by reported stage and retain sonication separately. Labels contain two to five words; specific methods remain in the detailed audit. "
             "Unspecified and selected rare vessel types map to `Not reported`. "
             "The same fixed classification rules are applied to positive and negative records before either split is exported. "
             "Detailed classes and audit reasons remain outside model input.\n\n"

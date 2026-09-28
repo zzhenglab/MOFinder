@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 from .process_vessels import VERSION, VESSEL_LABEL_MAP, VESSEL_RARE_POSITIVE_COUNTS, vessel_type, vessel_volume_mL
-from .process_stirring import STIRRING_LABEL_MAP, STIRRING_PARSER_VERSION, normalize_stirring, write_stirring_audit
+from .process_stirring import STIRRING_LABEL_MAP, STIRRING_PARSER_VERSION, STIRRING_CLASSES, normalize_stirring, write_stirring_audit
 
 FEATURES = ('vessel_type','vessel_volume_mL','agitation')
 RAW_RENAMES = {'vessel_type':'vessel_type_raw','stirring':'stirring_raw'}
@@ -153,6 +153,8 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                   'vessel_rare_positive_counts': VESSEL_RARE_POSITIVE_COUNTS,
                   'vessel_rare_threshold_exclusive': 10,
                   'agitation_frequency_pooling': False,
+                  'agitation_classes': list(STIRRING_CLASSES),
+                  'agitation_grouping': 'Non-sonication methods share stage-based classes; sonication remains separate. Detailed methods stay in audit fields.',
                   'agitation_label_map': STIRRING_LABEL_MAP,
                   'agitation_parser_version': STIRRING_PARSER_VERSION,
                   'agitation_label_max_words': 5,

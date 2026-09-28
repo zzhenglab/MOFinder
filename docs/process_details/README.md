@@ -4,7 +4,7 @@ The figures summarize all 15,340 records from 4,568 DOIs in the [positive proces
 
 Each figure has panel **a**, synthesis records, above panel **b**, unique DOIs. The gradients follow the primary-modulator figure: light blue to pale teal for records, and dark teal through muted teal to gray for DOIs. Colors progress through the displayed categories or capacity bins and do not encode an additional measurement. Vessel and agitation plots show category counts. Vessel-capacity plots use accepted numerical capacities and one median per DOI in panel b, with dashed arithmetic-mean lines.
 
-Category normalization is applied by the dataset-preparation code, so the figures, CSVs, and enriched training inputs use the same final labels. Agitation labels contain two to five words and retain reported method/stage distinctions, including rare categories. Vessel labels include the shortened **PTFE-lined autoclave**. See the [counting and normalization methods](DISTRIBUTION_METHODS.md), [targeted agitation source audit](../../data/processed_data/with_process_details/audit/AGITATION_SOURCE_AUDIT.md), and [matched training preparation](../process_enrich_training.md).
+Category normalization is applied by the dataset-preparation code, so the figures, CSVs, and enriched training inputs use the same final labels. The nine agitation categories combine related methods by process stage, retain sonication separately, and use two-to-five-word labels. Detailed reported methods remain in the audit. Vessel labels include the shortened **PTFE-lined autoclave**. See the [counting and normalization methods](DISTRIBUTION_METHODS.md), [targeted agitation source audit](../../data/processed_data/with_process_details/audit/AGITATION_SOURCE_AUDIT.md), and [matched training preparation](../process_enrich_training.md).
 
 ## Figures
 
@@ -18,7 +18,7 @@ Reported vessel capacities have a median of 23 mL and an interquartile range of 
 
 <a href="figures/process_enrich_vessel_volume.png"><img src="figures/process_enrich_vessel_volume.png" alt="Vessel-capacity distributions among positive records and unique DOIs" width="500"></a>
 
-The No stirring category represents explicitly static or unstirred conditions and accounts for 6,522 positive records (42.5%). Agitation information is Not reported for 3,886 records (25.3%). The remaining categories describe reported methods and distinguish preparation, static synthesis after preparation, and synthesis-stage agitation where stated. Rare categories remain separate. The former combined group contained 121 positive records from 57 unique DOIs; these records now appear under their supported method/stage categories.
+The No stirring category represents explicitly static or unstirred conditions and accounts for 6,522 positive records (42.5%). Agitation information is Not reported for 3,886 records (25.3%). Among the seven remaining categories, Agitated before static synthesis contains 1,792 records (11.7%), and Agitated; stage not reported contains 2,223 records (14.5%). The nine-category scheme combines stirring, shaking, rotation, vortexing, mixing, and homogenization by stage while keeping sonication separate. Preparation-only reports leave later agitation unknown.
 
 <a href="figures/process_enrich_agitation.png"><img src="figures/process_enrich_agitation.png" alt="Agitation-category frequencies among positive records and unique DOIs" width="500"></a>
 
