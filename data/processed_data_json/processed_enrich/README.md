@@ -1,5 +1,7 @@
 # Process-enriched matched control
 
+[Download the training and holdout ZIP](https://github.com/zzhenglab/MOFinder/raw/refs/heads/main/data/processed_data_json/processed_enrich/process_enrich_train_holdout.zip). It contains both JSONL files and a standalone README comparing the baseline and enriched system and user prompts, with row counts, field definitions, and file hashes. The [prompt comparison](README_training_package.md) can also be read online. Rebuild the package from the repository root with `python tools/package_process_enrich.py`.
+
 [`train_process_enrich.jsonl`](train_process_enrich.jsonl) (23,528 rows) and [`holdout_process_enrich.jsonl`](holdout_process_enrich.jsonl) (2,595 rows) preserve the standard split, record order, labels, and eight original inputs. They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `agitation` to each user prompt. The system prompt is identical to each original prompt except for these three names appended to its input list. Missing values are `Not reported`; unresolved capacities are `Ambiguous`.
 
 The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. `jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.
