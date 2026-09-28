@@ -18,18 +18,20 @@ The canonical [process-enriched system prompt](../../../prompts/training/reactio
 
 ## Positive-dataset process distributions
 
+Click any figure to open the full-resolution PNG.
+
 These figures describe all 15,340 positive tabular records from 4,568 DOIs, before model-training exclusions. Each figure shows synthesis records in panel **a** and unique DOIs in panel **b**, using the gradient style of the primary-modulator figure. The [Section S5 draft](../../../docs/process_details/Section_S5_process_details.md), [captions](../../../docs/process_details/FIGURE_CAPTIONS.md), [calculation tables and gallery](../../../docs/process_details/README.md), and [counting methods](../../../docs/process_details/DISTRIBUTION_METHODS.md) provide the accompanying material.
 
-![Reaction-vessel category frequencies among positive records and unique DOIs](../../../docs/process_details/figures/process_enrich_vessel_type.png)
+PTFE-lined autoclaves are the most common vessel type, accounting for 37.4% of positive records, followed by vials at 16.8%. A paper can report several vessel types, so it may contribute to multiple DOI counts. The Not reported category also includes rare vessel types pooled during cleaning.
 
-**Figure Sxx. Frequencies of vessel types after cleaning and consolidation of name and material variants.** a, Vessel-type frequencies among positive synthesis records. b, Unique DOI counts per vessel type. Not reported includes unspecified types and vessel classes with fewer than 10 positive records; a DOI may contribute to multiple categories.
+<a href="../../../docs/process_details/figures/process_enrich_vessel_type.png"><img src="../../../docs/process_details/figures/process_enrich_vessel_type.png" alt="Reaction-vessel category frequencies among positive records and unique DOIs" width="500"></a>
 
-![Vessel-capacity distributions among positive records and unique DOIs](../../../docs/process_details/figures/process_enrich_vessel_volume.png)
+Reported vessel capacities have a median of 23 mL and an interquartile range of 16?25 mL. Numeric capacities are available for 7,271 positive records (47.4%). The DOI panel uses one median per paper, and dashed lines show the mean in each panel. Missing and ambiguous capacities are omitted.
 
-**Figure Sxx+1. Distributions of reported vessel capacities after cleaning and unit conversion to mL.** a, Vessel capacities among positive synthesis records. b, Median vessel capacity per unique DOI. Histograms use shared logarithmic bins; dashed lines indicate the arithmetic mean in each panel. Not reported and Ambiguous capacities are excluded.
+<a href="../../../docs/process_details/figures/process_enrich_vessel_volume.png"><img src="../../../docs/process_details/figures/process_enrich_vessel_volume.png" alt="Vessel-capacity distributions among positive records and unique DOIs" width="500"></a>
 
-![Stirring-category frequencies among positive records and unique DOIs](../../../docs/process_details/figures/process_enrich_stirring.png)
+The No stirring category represents explicitly static or unstirred conditions and accounts for 42.5% of positive records. Stirring information is Not reported for 25.3%. Where stated, the categories distinguish preparation-stage stirring from stirring followed by static synthesis. Rare reported methods are pooled, with their detailed descriptions retained in the audit.
 
-**Figure Sxx+2. Frequencies of stirring categories after cleaning and consolidation of process descriptions.** a, Stirring-category frequencies among positive synthesis records. b, Unique DOI counts per stirring category. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records; a DOI may contribute to multiple categories.
+<a href="../../../docs/process_details/figures/process_enrich_stirring.png"><img src="../../../docs/process_details/figures/process_enrich_stirring.png" alt="Stirring-category frequencies among positive records and unique DOIs" width="500"></a>
 
-Figure numbers remain placeholders for final SI placement. Categorical panels include **Not reported**, including pooled rare known vessel types; each DOI is counted once per category and may contribute to multiple categories. Capacity panels use accepted numeric values without imputation. Colors progress through categories or bins and do not encode another measurement. These distributions describe feature availability and do not establish improved predictive performance.
+Categorical panels include **Not reported**, including pooled rare known vessel types; each DOI is counted once per category and may contribute to multiple categories. Capacity panels use accepted numeric values without imputation. Colors progress through categories or bins and do not encode another measurement. These distributions describe feature availability and do not establish improved predictive performance.

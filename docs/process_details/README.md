@@ -8,19 +8,21 @@ Category consolidation is applied by the dataset-preparation code, so the figure
 
 ## Figures
 
-![Reaction-vessel category frequencies among positive records and unique DOIs](figures/process_enrich_vessel_type.png)
+Click any figure to open the full-resolution PNG.
 
-**Figure Sxx. Frequencies of vessel types after cleaning and consolidation of name and material variants.** a, Vessel-type frequencies among positive synthesis records. b, Unique DOI counts per vessel type. Not reported includes unspecified types and vessel classes with fewer than 10 positive records; a DOI may contribute to multiple categories.
+PTFE-lined autoclaves are the most common vessel type, accounting for 37.4% of positive records, followed by vials at 16.8%. A paper can report several vessel types, so it may contribute to multiple DOI counts. The Not reported category also includes rare vessel types pooled during cleaning.
 
-![Vessel-capacity distributions among positive records and unique DOIs](figures/process_enrich_vessel_volume.png)
+<a href="figures/process_enrich_vessel_type.png"><img src="figures/process_enrich_vessel_type.png" alt="Reaction-vessel category frequencies among positive records and unique DOIs" width="500"></a>
 
-**Figure Sxx+1. Distributions of reported vessel capacities after cleaning and unit conversion to mL.** a, Vessel capacities among positive synthesis records. b, Median vessel capacity per unique DOI. Histograms use shared logarithmic bins; dashed lines indicate the arithmetic mean in each panel. Not reported and Ambiguous capacities are excluded.
+Reported vessel capacities have a median of 23 mL and an interquartile range of 16?25 mL. Numeric capacities are available for 7,271 positive records (47.4%). The DOI panel uses one median per paper, and dashed lines show the mean in each panel. Missing and ambiguous capacities are omitted.
 
-![Stirring-category frequencies among positive records and unique DOIs](figures/process_enrich_stirring.png)
+<a href="figures/process_enrich_vessel_volume.png"><img src="figures/process_enrich_vessel_volume.png" alt="Vessel-capacity distributions among positive records and unique DOIs" width="500"></a>
 
-**Figure Sxx+2. Frequencies of stirring categories after cleaning and consolidation of process descriptions.** a, Stirring-category frequencies among positive synthesis records. b, Unique DOI counts per stirring category. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records; a DOI may contribute to multiple categories.
+The No stirring category represents explicitly static or unstirred conditions and accounts for 42.5% of positive records. Stirring information is Not reported for 25.3%. Where stated, the categories distinguish preparation-stage stirring from stirring followed by static synthesis. Rare reported methods are pooled, with their detailed descriptions retained in the audit.
 
-Figure numbers are placeholders for final SI placement. Categorical panels include **Not reported**; a DOI can contribute to multiple categories. Vessel **Not reported** includes selected rare known types. The [methods](DISTRIBUTION_METHODS.md) explain the consolidation and counting rules.
+<a href="figures/process_enrich_stirring.png"><img src="figures/process_enrich_stirring.png" alt="Stirring-category frequencies among positive records and unique DOIs" width="500"></a>
+
+Categorical panels include **Not reported**; a DOI can contribute to multiple categories. Vessel **Not reported** includes selected rare known types. The [methods](DISTRIBUTION_METHODS.md) explain the consolidation and counting rules.
 
 ## Reproduce
 
