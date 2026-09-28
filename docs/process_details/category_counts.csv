@@ -35,35 +35,3 @@ positive,stirring,Sonicated during preparation; later agitation not reported,13,
 positive,stirring,Other agitation; stage not reported,12,0.07822685788787484,8,0.17513134851138354
 positive,stirring,Other agitation during preparation; later agitation not reported,5,0.03259452411994785,2,0.043782837127845885
 positive,stirring,Stirred during synthesis,4,0.02607561929595828,3,0.06567425569176882
-negative,vessel_type,PTFE-lined autoclave / pressure vessel,5647,37.48921197636593,481,37.578125
-negative,vessel_type,Vial,2057,13.65597822478922,251,19.609375
-negative,vessel_type,Tube / capillary,1862,12.36141538870079,91,7.109375
-negative,vessel_type,Not reported,1837,12.195445794330478,234,18.28125
-negative,vessel_type,PTFE vessel / liner,1551,10.296753634734117,125,9.765625
-negative,vessel_type,Autoclave / pressure vessel,477,3.166699860585541,32,2.5
-negative,vessel_type,Bottle / jar,441,2.9277036446922926,43,3.359375
-negative,vessel_type,Flask,286,1.898692159596362,49,3.8281250000000004
-negative,vessel_type,Microwave vessel,245,1.6265020248290514,28,2.1875
-negative,vessel_type,Glass vessel (shape not reported),227,1.5070039168824272,7,0.546875
-negative,vessel_type,Beaker,130,0.8630418907256191,11,0.8593750000000001
-negative,vessel_type,Reactor / reaction chamber,121,0.8032928367523069,15,1.171875
-negative,vessel_type,Nested / multiple vessels,89,0.5908517559583084,13,1.015625
-negative,vessel_type,Vessel (type not reported),39,0.2589125672176857,6,0.46875
-negative,vessel_type,Dish / well plate,23,0.15269202682068644,3,0.234375
-negative,vessel_type,Metal vessel (shape not reported),16,0.10622054039699927,1,0.078125
-negative,vessel_type,Polymer vessel (shape not reported),7,0.04647148642368718,1,0.078125
-negative,vessel_type,Reaction cell,6,0.03983270264887472,1,0.078125
-negative,vessel_type,Ampoule,2,0.013277567549624909,1,0.078125
-negative,stirring,Static / no stirring,6609,43.87572196773551,569,44.453125
-negative,stirring,Not reported,3987,26.468830910177253,329,25.703125
-negative,stirring,Stirred before static synthesis,1815,12.049392551284605,148,11.5625
-negative,stirring,Stirred; stage not reported,1738,11.538206200624046,223,17.421875
-negative,stirring,Stirred during preparation; later agitation not reported,567,3.7641904003186615,47,3.671875
-negative,stirring,Sonicated before static synthesis,232,1.5401978357564894,35,2.734375
-negative,stirring,Other agitation before static synthesis,54,0.35849432383987256,6,0.46875
-negative,stirring,Sonicated; stage not reported,39,0.2589125672176857,5,0.390625
-negative,stirring,Stirred during synthesis,10,0.06638783774812454,2,0.15625
-negative,stirring,Other agitation; stage not reported,8,0.053110270198499634,1,0.078125
-negative,stirring,Shaken / rotated; stage not reported,2,0.013277567549624909,1,0.078125
-negative,stirring,Sonicated during preparation; later agitation not reported,1,0.006638783774812454,1,0.078125
-negative,stirring,Other agitation during preparation; later agitation not reported,1,0.006638783774812454,1,0.078125

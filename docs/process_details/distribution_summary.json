@@ -62,7 +62,16 @@
   "rendering": {
     "width_inches": 6,
     "font": "Arial",
-    "png_dpi": 600
+    "png_dpi": 600,
+    "figure_cohort": "positive",
+    "panel_layout": "a records above b unique DOIs",
+    "colors": {
+      "records": "#63948B",
+      "unique_dois": "#A2C4F1"
+    },
+    "outline": "#285953",
+    "categorical_count_labels": true,
+    "histogram_reference_line": "arithmetic mean"
   },
   "inputs": {
     "positive": {
