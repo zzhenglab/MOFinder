@@ -14,7 +14,7 @@ import re
 import unicodedata
 
 
-STIRRING_PARSER_VERSION = "process-stirring-v2"
+STIRRING_PARSER_VERSION = "process-stirring-v3"
 DETAILED_STIRRING_CLASSES = (
     "Not reported",
     "Static / no stirring",
@@ -43,14 +43,19 @@ RARE_STIRRING_CLASS_COUNTS = {
     "Other agitation during preparation; later agitation not reported": 5,
     "Stirred during synthesis": 4,
 }
+STIRRING_LABEL_MAP = {
+    "Static / no stirring": "No stirring",
+    "Stirred during preparation; later agitation not reported": "Stirred during preparation",
+}
+POOLED_AGITATION_LABEL = "Stirring, mixing, shaking, rotation, sonication"
 STIRRING_CLASSES = (
     "Not reported",
-    "Static / no stirring",
+    "No stirring",
     "Stirred before static synthesis",
     "Sonicated before static synthesis",
-    "Stirred during preparation; later agitation not reported",
+    "Stirred during preparation",
     "Stirred; stage not reported",
-    "Other reported agitation",
+    POOLED_AGITATION_LABEL,
 )
 _MISSING = {
     "", "nan", "none", "null", "<na>", "na", "n/a", "n.a.",
@@ -105,11 +110,14 @@ def normalize_stirring(value: object) -> dict[str, str]:
     def result(label: str, rule: str, reason: str = "") -> dict[str, str]:
         final_label, consolidation = label, ""
         if label in RARE_STIRRING_CLASS_COUNTS:
-            final_label = "Other reported agitation"
+            final_label = POOLED_AGITATION_LABEL
             consolidation = "positive_reference_class_count_lt_50"
         elif label == "Unclear / ambiguous":
             final_label = "Not reported"
             consolidation = "no_unique_supported_agitation_state"
+        elif label in STIRRING_LABEL_MAP:
+            final_label = STIRRING_LABEL_MAP[label]
+            consolidation = "shorten_stirring_label"
         return {"value": final_label, "detailed_value": label,
                 "consolidation_rule": consolidation, "rule": rule,
                 "normalized_text": text, "review_reason": reason}
@@ -274,10 +282,14 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
         "",
         "## Final class consolidation", "",
         "The seven detailed agitation categories with fewer than 50 positive synthesis records in the fixed "
-        "15,340-record reference are merged into `Other reported agitation`. The same fixed mapping is used "
+        "15,340-record reference are merged into `Stirring, mixing, shaking, rotation, sonication`. "
+        "The list names pooled alternatives across records; it does not mean that every record used all five methods. "
+        "The same fixed mapping is used "
         "for positive and negative rows, future input batches, and model inputs. It is not recalculated per dataset "
         "or split. This broad class asserts that agitation was reported but does not imply a shared method or "
         "stage. `detailed_value`, `consolidation_rule`, the original rule, and raw text retain the specific evidence. "
+        "Final labels contain at most five words. `Stirred during preparation` leaves subsequent agitation unspecified; "
+        "the shorter wording does not establish static or stirred synthesis. "
         "Stage-aware detailed classes remain available for a future sensitivity analysis.", "",
         "| Detailed class merged | Positive reference count |", "|---|---:|",
     ]

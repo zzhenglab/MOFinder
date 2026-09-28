@@ -77,11 +77,11 @@
   "inputs": {
     "positive": {
       "filename": "Process_detail_positive.csv",
-      "sha256": "3f03a75f12c094af34a932020ce23c4c71244dbffed7a3d316613ddfb8806755"
+      "sha256": "babdbb5ec4d9e4eef475e1e6d00797db7fe6dd07262234456a88fd0b2f2c4050"
     },
     "negative": {
       "filename": "Process_detail_negative.csv",
-      "sha256": "5292b3a67baff26e709610ccb9f1b095a3192f6a75d5cfb9c106e7a9ed32dcaf"
+      "sha256": "f03fd1d03a851769e3bb3a094b28275a5527b3b599fb49cfb4b3bff86a0d6e44"
     }
   }
 }

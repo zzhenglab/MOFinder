@@ -260,7 +260,7 @@ def captions(summary: dict) -> str:
         "a, Accepted numeric capacities among synthesis records. b, Median accepted capacity per unique DOI.",
         "**Figure Sxx+2. Frequencies of cleaned stirring descriptions in the positive dataset, including unreported values.** "
         "a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.",
-        "Records use muted teal; unique DOIs use light blue. Vessel Not reported includes unspecified vessel types and known vessel classes with fewer than 10 positive records. Reported-agitation classes with fewer than 50 positive records are pooled as Other reported agitation; descriptions without a uniquely classifiable stirring state are Not reported. These final dataset categories are used directly for plotting. Counts, methods, and provenance are stored separately from the PNGs.",
+        "Records use muted teal; unique DOIs use light blue. Vessel Not reported includes unspecified vessel types and known vessel classes with fewer than 10 positive records. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication; these are alternative methods across the pooled records, not methods all used in each record. Stirred during preparation leaves later agitation unknown. Descriptions without a uniquely classifiable stirring state are Not reported. These final dataset categories are used directly for plotting. Counts, methods, and provenance are stored separately from the PNGs.",
     ]) + "\n"
 
 
@@ -274,9 +274,10 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
     def pct(dataset, field, category):
         return count(dataset, field, category) / summary["datasets"][dataset]["records"] * 100
 
-    ptfe = "PTFE-lined autoclave / pressure vessel"
-    static = "Static / no stirring"
+    ptfe = "PTFE-lined autoclave"
+    static = "No stirring"
     staged = "Stirred before static synthesis"
+    pooled = "Stirring, mixing, shaking, rotation, sonication"
     text = [
         "## Process-detail control dataset",
         "To assess whether reported process conditions provide additional predictive information, we prepared an auxiliary process-detail dataset alongside the primary eight-variable representation. "
@@ -287,20 +288,20 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
         "Unspecified vessel types and vessel classes with fewer than 10 positive records are encoded as Not reported. "
         "Capacity is taken only from an interpretable stated vessel size; solution charges and geometric dimensions are not substituted. "
         "Thus, vessel Not reported also includes rare known classes. Missing values are encoded as Not reported, while uncertain capacities remain Ambiguous rather than being imputed.",
-        f"In the positive dataset, PTFE-lined autoclaves/pressure vessels are the dominant vessel class "
+        f"In the positive dataset, PTFE-lined autoclaves are the dominant vessel class "
         f"({pct('positive', 'vessel_type', ptfe):.1f}%), followed by vials "
         f"({pct('positive', 'vessel_type', 'Vial'):.1f}%; Figure Sxx). "
         f"Numeric capacities are available for {p['volume_records']['n']:,} positive records "
         f"({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of "
         f"{p['volume_records']['median']:g} mL and an interquartile range of "
         f"{p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL (Figure Sxx+1).",
-        "Stirring normalization preserves stage information where stated; reported-agitation classes with fewer than 50 positive records are consolidated as Other reported agitation "
-        f"({count('positive', 'stirring', 'Other reported agitation'):,} records). "
+        "Stirring normalization preserves stage information where stated; reported-agitation classes with fewer than 50 positive records are consolidated as Stirring, mixing, shaking, rotation, sonication "
+        f"({count('positive', 'stirring', pooled):,} records), listing alternative methods across records. "
         "Audited descriptions without a uniquely classifiable stirring state are encoded as Not reported. Detailed classifications remain in the audit. "
         f"Static/no-stirring descriptions account for {pct('positive', 'stirring', static):.1f}% of positive records; "
         f"stirring before static synthesis accounts for {pct('positive', 'stirring', staged):.1f}%. "
         f"Stirring is not reported for {pct('positive', 'stirring', 'Not reported'):.1f}% (Figure Sxx+2). "
-        "Mixing during preparation is not assumed to continue during crystallization. Negative process annotations may be inherited from successful parent protocols and should not be interpreted as independently observed failed experiments.",
+        "Stirred during preparation leaves later agitation unknown. Negative process annotations may be inherited from successful parent protocols and should not be interpreted as independently observed failed experiments.",
         "The figures summarize the positive tabular cohort at record and DOI levels. Categorical panels count records and distinct DOIs per category; numeric DOI panels use one median per paper. "
         "The enriched training control retains both classes and preserves the standard training/holdout membership, adding only these three features and their names in the system prompt. "
         "Washing and activation remain outside this crystallization-outcome control because they describe downstream processing. These distributions document feature availability; they do not establish a predictive improvement.",

@@ -271,7 +271,7 @@ def prepare_process_enrich(settings):
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "Final category consolidation is shared with the cleaned CSVs: rare stirring classes map to "
-            "`Other reported agitation`; unspecified and selected rare vessel types map to `Not reported`. "
+            "`Stirring, mixing, shaking, rotation, sonication`; unspecified and selected rare vessel types map to `Not reported`. "
             "These fixed mappings use positive-reference record counts and are applied identically to both labels and splits. "
             "Detailed classes and audit reasons remain outside model input.\n\n"
             "The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. "

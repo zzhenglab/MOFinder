@@ -11,8 +11,9 @@ NOT_REPORTED = 'Not reported'
 AMBIGUOUS = 'Ambiguous'
 MISSING = {'', 'none', 'null', 'nan', 'na', 'n/a', 'not reported', 'not_reported',
            'unknown', 'unspecified', 'not specified', '-', '--'}
-VERSION = '2.0.0'
+VERSION = '2.1.0'
 VESSEL_LABEL_MAP = {
+    'PTFE-lined autoclave / pressure vessel': 'PTFE-lined autoclave',
     'Glass vessel (shape not reported)': 'Glass vessel',
     'Polymer vessel (shape not reported)': 'Polymer vessel',
     'Metal vessel (shape not reported)': 'Metal vessel',
@@ -140,7 +141,8 @@ def vessel_type(value):
     info['consolidation_rule'] = ''
     if detailed in VESSEL_LABEL_MAP:
         info['value'] = VESSEL_LABEL_MAP[detailed]
-        info['consolidation_rule'] = 'simplify_material_vessel_label'
+        info['consolidation_rule'] = ('shorten_ptfe_autoclave_label' if detailed.startswith('PTFE-lined')
+                                      else 'simplify_material_vessel_label')
     elif detailed == 'Vessel (type not reported)':
         info['value'] = NOT_REPORTED
         info['consolidation_rule'] = 'unspecified_vessel_type_to_not_reported'

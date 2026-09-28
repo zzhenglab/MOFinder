@@ -76,7 +76,8 @@ class VesselTests(unittest.TestCase):
         self.assertEqual(vessel_type('stainless steel sealed vessel')['value'],'Metal vessel')
 
     def test_consolidated_types_preserve_detailed_class_and_capacity(self):
-        for raw, expected in [('glass vessel','Glass vessel'), ('polypropylene container','Polymer vessel'),
+        for raw, expected in [('PTFE-lined pressure vessel','PTFE-lined autoclave'),
+                              ('glass vessel','Glass vessel'), ('polypropylene container','Polymer vessel'),
                               ('metal vessel','Metal vessel'), ('reaction vessel','Not reported'),
                               ('crucible (25 mL)','Not reported'), ('dialysis bag','Not reported')]:
             with self.subTest(raw=raw):

@@ -1,5 +1,5 @@
 dataset,field,category,records,record_percent,unique_dois,doi_percent
-positive,vessel_type,PTFE-lined autoclave / pressure vessel,5734,37.37940026075619,1819,39.82049036777583
+positive,vessel_type,PTFE-lined autoclave,5734,37.37940026075619,1819,39.82049036777583
 positive,vessel_type,Vial,2584,16.84485006518905,802,17.5569176882662
 positive,vessel_type,Not reported,2487,16.212516297262063,896,19.614711033274958
 positive,vessel_type,PTFE vessel / liner,1643,10.710560625814864,553,12.105954465849388
@@ -17,10 +17,10 @@ positive,vessel_type,Polymer vessel,19,0.12385919165580184,2,0.04378283712784588
 positive,vessel_type,Metal vessel,16,0.10430247718383312,7,0.1532399299474606
 positive,vessel_type,Ampoule,14,0.09126466753585398,7,0.1532399299474606
 positive,vessel_type,Reaction cell,12,0.07822685788787484,3,0.06567425569176882
-positive,stirring,Static / no stirring,6522,42.51629726205998,1983,43.41068301225919
+positive,stirring,No stirring,6522,42.51629726205998,1983,43.41068301225919
 positive,stirring,Not reported,3886,25.33246414602347,1237,27.079684763572683
 positive,stirring,Stirred; stage not reported,2194,14.302477183833116,672,14.711033274956216
 positive,stirring,Stirred before static synthesis,1758,11.460234680573663,688,15.061295971978982
-positive,stirring,Stirred during preparation; later agitation not reported,482,3.142112125162973,169,3.699649737302977
+positive,stirring,Stirred during preparation,482,3.142112125162973,169,3.699649737302977
 positive,stirring,Sonicated before static synthesis,377,2.457627118644068,147,3.2180385288966726
-positive,stirring,Other reported agitation,121,0.7887874837027379,57,1.2478108581436076
+positive,stirring,"Stirring, mixing, shaking, rotation, sonication",121,0.7887874837027379,57,1.2478108581436076

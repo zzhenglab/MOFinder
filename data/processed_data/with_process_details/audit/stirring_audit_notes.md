@@ -1,6 +1,6 @@
 # Stirring normalization audit
 
-Parser: `process-stirring-v2`. Inputs: `processed_positive.csv` (15,340 records) and `processed_negative.csv` (15,063 records).
+Parser: `process-stirring-v3`. Inputs: `processed_positive.csv` (15,340 records) and `processed_negative.csv` (15,063 records).
 
 All 890 unique extracted strings were enumerated and reviewed by category, including 657 strings occurring in at most five combined records. The complete mapping, frequencies, normalized text and matching rule are in `stirring_all_raw_values.csv`. This is a review of extracted text; source publications were not re-read.
 
@@ -10,7 +10,7 @@ Audit refinements included recognizing `left standing` and `aged without stirrin
 
 ## Final class consolidation
 
-The seven detailed agitation categories with fewer than 50 positive synthesis records in the fixed 15,340-record reference are merged into `Other reported agitation`. The same fixed mapping is used for positive and negative rows, future input batches, and model inputs. It is not recalculated per dataset or split. This broad class asserts that agitation was reported but does not imply a shared method or stage. `detailed_value`, `consolidation_rule`, the original rule, and raw text retain the specific evidence. Stage-aware detailed classes remain available for a future sensitivity analysis.
+The seven detailed agitation categories with fewer than 50 positive synthesis records in the fixed 15,340-record reference are merged into `Stirring, mixing, shaking, rotation, sonication`. The list names pooled alternatives across records; it does not mean that every record used all five methods. The same fixed mapping is used for positive and negative rows, future input batches, and model inputs. It is not recalculated per dataset or split. This broad class asserts that agitation was reported but does not imply a shared method or stage. `detailed_value`, `consolidation_rule`, the original rule, and raw text retain the specific evidence. Final labels contain at most five words. `Stirred during preparation` leaves subsequent agitation unspecified; the shorter wording does not establish static or stirred synthesis. Stage-aware detailed classes remain available for a future sensitivity analysis.
 
 | Detailed class merged | Positive reference count |
 |---|---:|
@@ -27,12 +27,12 @@ The seven detailed agitation categories with fewer than 50 positive synthesis re
 | Class | Positive | Negative | Unique raw strings |
 |---|---:|---:|---:|
 | Not reported | 3,886 | 3,987 | 7 |
-| Static / no stirring | 6,522 | 6,609 | 38 |
+| No stirring | 6,522 | 6,609 | 38 |
 | Stirred before static synthesis | 1,758 | 1,815 | 411 |
 | Sonicated before static synthesis | 377 | 232 | 118 |
-| Stirred during preparation; later agitation not reported | 482 | 567 | 138 |
+| Stirred during preparation | 482 | 567 | 138 |
 | Stirred; stage not reported | 2,194 | 1,738 | 120 |
-| Other reported agitation | 121 | 115 | 58 |
+| Stirring, mixing, shaking, rotation, sonication | 121 | 115 | 58 |
 
 ## Agitation not determinable: 21 records / 5 unique strings
 

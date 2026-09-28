@@ -1,5 +1,5 @@
 ﻿dataset,feature,value,records,record_percent,unique_dois
-positive,vessel_type,PTFE-lined autoclave / pressure vessel,5734,37.37940026075619,1819
+positive,vessel_type,PTFE-lined autoclave,5734,37.37940026075619,1819
 positive,vessel_type,Vial,2584,16.84485006518905,802
 positive,vessel_type,Not reported,2487,16.212516297262063,896
 positive,vessel_type,PTFE vessel / liner,1643,10.710560625814864,553
@@ -81,14 +81,14 @@ positive,vessel_volume_mL,0.25,1,0.00651890482398957,1
 positive,vessel_volume_mL,160,1,0.00651890482398957,1
 positive,vessel_volume_mL,5500,1,0.00651890482398957,1
 positive,vessel_volume_mL,100000,1,0.00651890482398957,1
-positive,stirring,Static / no stirring,6522,42.51629726205998,1983
+positive,stirring,No stirring,6522,42.51629726205998,1983
 positive,stirring,Not reported,3886,25.33246414602347,1237
 positive,stirring,Stirred; stage not reported,2194,14.302477183833116,672
 positive,stirring,Stirred before static synthesis,1758,11.460234680573663,688
-positive,stirring,Stirred during preparation; later agitation not reported,482,3.142112125162973,169
+positive,stirring,Stirred during preparation,482,3.142112125162973,169
 positive,stirring,Sonicated before static synthesis,377,2.457627118644068,147
-positive,stirring,Other reported agitation,121,0.7887874837027379,57
-negative,vessel_type,PTFE-lined autoclave / pressure vessel,5647,37.48921197636593,481
+positive,stirring,"Stirring, mixing, shaking, rotation, sonication",121,0.7887874837027379,57
+negative,vessel_type,PTFE-lined autoclave,5647,37.48921197636593,481
 negative,vessel_type,Vial,2057,13.65597822478922,251
 negative,vessel_type,Not reported,1876,12.454358361548163,239
 negative,vessel_type,Tube / capillary,1862,12.36141538870079,91
@@ -157,10 +157,10 @@ negative,vessel_volume_mL,200,2,0.013277567549624909,1
 negative,vessel_volume_mL,10000,1,0.006638783774812454,1
 negative,vessel_volume_mL,2000,1,0.006638783774812454,1
 negative,vessel_volume_mL,3000,1,0.006638783774812454,1
-negative,stirring,Static / no stirring,6609,43.87572196773551,569
+negative,stirring,No stirring,6609,43.87572196773551,569
 negative,stirring,Not reported,3987,26.468830910177253,329
 negative,stirring,Stirred before static synthesis,1815,12.049392551284605,148
 negative,stirring,Stirred; stage not reported,1738,11.538206200624046,223
-negative,stirring,Stirred during preparation; later agitation not reported,567,3.7641904003186615,47
+negative,stirring,Stirred during preparation,567,3.7641904003186615,47
 negative,stirring,Sonicated before static synthesis,232,1.5401978357564894,35
-negative,stirring,Other reported agitation,115,0.7634601341034323,17
+negative,stirring,"Stirring, mixing, shaking, rotation, sonication",115,0.7634601341034323,17

@@ -1,12 +1,15 @@
 ﻿feature,detailed_value,final_value,consolidation_rule,positive_records,negative_records
-stirring,Sonicated; stage not reported,Other reported agitation,positive_reference_class_count_lt_50,24,39
-stirring,Other agitation before static synthesis,Other reported agitation,positive_reference_class_count_lt_50,34,54
-stirring,Other agitation; stage not reported,Other reported agitation,positive_reference_class_count_lt_50,12,8
+stirring,Static / no stirring,No stirring,shorten_stirring_label,6522,6609
+stirring,Stirred during preparation; later agitation not reported,Stirred during preparation,shorten_stirring_label,482,567
+stirring,Sonicated; stage not reported,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,24,39
+stirring,Other agitation before static synthesis,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,34,54
+stirring,Other agitation; stage not reported,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,12,8
 stirring,Unclear / ambiguous,Not reported,no_unique_supported_agitation_state,21,0
-stirring,Stirred during synthesis,Other reported agitation,positive_reference_class_count_lt_50,4,10
-stirring,Shaken / rotated; stage not reported,Other reported agitation,positive_reference_class_count_lt_50,29,2
-stirring,Other agitation during preparation; later agitation not reported,Other reported agitation,positive_reference_class_count_lt_50,5,1
-stirring,Sonicated during preparation; later agitation not reported,Other reported agitation,positive_reference_class_count_lt_50,13,1
+stirring,Stirred during synthesis,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,4,10
+stirring,Shaken / rotated; stage not reported,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,29,2
+stirring,Other agitation during preparation; later agitation not reported,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,5,1
+stirring,Sonicated during preparation; later agitation not reported,"Stirring, mixing, shaking, rotation, sonication",positive_reference_class_count_lt_50,13,1
+vessel_type,PTFE-lined autoclave / pressure vessel,PTFE-lined autoclave,shorten_ptfe_autoclave_label,5734,5647
 vessel_type,Glass vessel (shape not reported),Glass vessel,simplify_material_vessel_label,89,227
 vessel_type,Polymer vessel (shape not reported),Polymer vessel,simplify_material_vessel_label,19,7
 vessel_type,Vessel (type not reported),Not reported,unspecified_vessel_type_to_not_reported,74,39

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "normalization_version": "2.0.0",
+  "normalization_version": "2.1.0",
   "files": [
     {
       "dataset": "positive",
@@ -10,7 +10,7 @@
       "output_columns": 86,
       "input": "data/processed_data/processed_positive.csv",
       "input_sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "sha256": "3f03a75f12c094af34a932020ce23c4c71244dbffed7a3d316613ddfb8806755",
+      "sha256": "babdbb5ec4d9e4eef475e1e6d00797db7fe6dd07262234456a88fd0b2f2c4050",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -25,7 +25,7 @@
       "output_columns": 79,
       "input": "data/processed_data/processed_negative.csv",
       "input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
-      "sha256": "5292b3a67baff26e709610ccb9f1b095a3192f6a75d5cfb9c106e7a9ed32dcaf",
+      "sha256": "f03fd1d03a851769e3bb3a094b28275a5527b3b599fb49cfb4b3bff86a0d6e44",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -45,6 +45,7 @@
     "frequency_basis": "positive synthesis records in the audited reference cohort",
     "same_fixed_mapping_for_positive_negative_train_holdout": true,
     "vessel_label_map": {
+      "PTFE-lined autoclave / pressure vessel": "PTFE-lined autoclave",
       "Glass vessel (shape not reported)": "Glass vessel",
       "Polymer vessel (shape not reported)": "Polymer vessel",
       "Metal vessel (shape not reported)": "Metal vessel"
@@ -56,14 +57,20 @@
     },
     "vessel_rare_threshold_exclusive": 10,
     "stirring_rare_threshold_exclusive": 50,
+    "stirring_label_map": {
+      "Static / no stirring": "No stirring",
+      "Stirred during preparation; later agitation not reported": "Stirred during preparation"
+    },
+    "pooled_agitation_label": "Stirring, mixing, shaking, rotation, sonication",
+    "stirring_label_max_words": 5,
     "detailed_classes_retained_in_audit": true,
     "audit_file": "audit/category_consolidation.csv",
     "not_reported_caveat": "Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation."
   },
   "normalization_code_sha256": {
-    "process_details.py": "8ff0fe38180ed9808f1c5688e5db7366b138d4a82a1dac0937694cd0a08d9746",
-    "process_vessels.py": "1070dfbd4148aeb6c8e9ca7af5b9db51eff7e6a559b691a59268c5caa88e579d",
-    "process_stirring.py": "a85f9d4c2560a861af839e6f2a8b7387b70c6d152e62b447a0e27715948feed1"
+    "process_details.py": "d48a3d8acc49a384140e66e1f6adfcdd8d628ce1372b72b6754b7108bdda8be5",
+    "process_vessels.py": "c34018ce90930834546da7ebdecd8fbc7da6cdc5f2da7d4d141850069227325b",
+    "process_stirring.py": "81876cd941827cde12131bccacd102c023323cba2b6b66c6933d07453f1c638c"
   },
   "raw_mappings": 4742,
   "review_required_mappings": 223,
