@@ -24,7 +24,7 @@ Each JSONL record contains system, user, and assistant messages. The user messag
 
 ## Training-data ablations
 
-- [artificial_perturbation/](artificial_perturbation/README.md): one training set replacing reconstructed negatives with artificial perturbations of training positives.
+- [artificial_perturbation/](artificial_perturbation/README.md): field-matched and count-matched training sets replacing reconstructed negatives with artificial perturbations of training positives.
 - [leave_one_perturbation_out/](leave_one_perturbation_out/README.md): one training set removing single-field negative neighbors and five equally sized random-drop controls.
 
 Both folders include the standard holdout and use the existing trained baseline for comparison.

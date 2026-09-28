@@ -229,3 +229,198 @@ def generate(train, holdout, neighbors, train_sources, holdout_sources, seed):
                 for row, real, syn in zip(provenance, real_negatives, synthetic))
         diagnostics["field_diagnostics"][field] = diagnostic
     return output, provenance, diagnostics
+
+
+def processed_condition_keys(positive_csv, negative_csv):
+    """Canonical conditions from both processed CSVs, including filtered rows."""
+    import pandas as pd
+    from mofinder.datasets.prepare import row_to_conditions
+
+    keys = set()
+    for path in (positive_csv, negative_csv):
+        for _, row in pd.read_csv(path, low_memory=False).iterrows():
+            keys.add(condition_key(row_to_conditions(row)))
+    return keys
+
+
+def generate_count_matched(train, holdout, neighbors, train_sources,
+                           holdout_sources, seed, *, excluded_condition_keys=()):
+    """Replace training N while matching only the number of changed fields.
+
+    Each N retains its nearest training-P anchor and its original distance k
+    from that anchor. Choose k distinct mutable fields uniformly, without using
+    the identities of the original changed fields. A selected subset stays
+    fixed throughout rejection sampling. Replacement values are independent
+    empirical training-P draws, conditional on differing from the anchor;
+    null is a donor value when present in training P. Neither the reconstructed
+    negative values nor their numerical distances affect donor probabilities.
+
+    Reject known conditions, holdout chemical clusters, and synthetic duplicates.
+    Rejection conditions the accepted distribution on these exclusions. An
+    exhausted or unsuccessful subset raises an error rather than changing k,
+    choosing a new subset, or quietly relaxing an exclusion. The retained k is
+    measured against the selected anchor, not against every training positive.
+    """
+    from itertools import accumulate
+
+    rng = random.Random(seed)
+    conditions = [inputs(record) for record in train]
+    positive_rows = [i for i, row in enumerate(train)
+                     if row["messages"][2]["content"] == "P"]
+    negative_rows = [i for i, row in enumerate(train)
+                     if row["messages"][2]["content"] == "N"]
+    if not positive_rows or not negative_rows:
+        raise ValueError("Count-matched generation requires training P and N")
+    if len(positive_rows) + len(negative_rows) != len(train):
+        raise ValueError("Training records must have P or N labels")
+    if any(set(values) != set(FIELDS) for values in conditions):
+        raise ValueError("Count-matched generation requires exactly eight input fields")
+    positive_row_numbers = {i + 1 for i in positive_rows}
+    by_row = {row["baseline_row_1based"]: row for row in neighbors}
+    counts = {field: Counter(conditions[i][field] for i in positive_rows)
+              for field in FIELDS}
+    pools = {field: sorted(counts[field], key=lambda value: (value is not None, str(value)))
+             for field in FIELDS}
+    donor_options = {}
+
+    def options(field, parent_value):
+        key = (field, parent_value)
+        if key not in donor_options:
+            values = [value for value in pools[field] if value != parent_value]
+            cumulative = list(accumulate(counts[field][value] for value in values))
+            donor_options[key] = values, cumulative
+        return donor_options[key]
+
+    original_keys = {condition_key(values) for values in conditions}
+    holdout_keys = {condition_key(inputs(row)) for row in holdout}
+    extra_keys = set(excluded_condition_keys)
+    holdout_clusters = {row["cluster_key"] for row in holdout_sources.values()}
+    component_maps = {field: {} for field in (FIELDS[0], FIELDS[1], FIELDS[3])}
+    for slot in positive_rows:
+        metal, rest = train_sources[slot + 1]["cluster_key"].split("|linker=", 1)
+        linker, solvent = rest.split("|solvent=", 1)
+        for field, component in zip(component_maps, (metal[6:], linker, solvent)):
+            value = conditions[slot][field]
+            old = component_maps[field].setdefault(value, component)
+            if old != component:
+                raise ValueError(f"Ambiguous chemical component for {field}: {value!r}")
+
+    def cluster_key(candidate):
+        return ("metal=" + component_maps[FIELDS[0]][candidate[FIELDS[0]]]
+                + "|linker=" + component_maps[FIELDS[1]][candidate[FIELDS[1]]]
+                + "|solvent=" + component_maps[FIELDS[3]][candidate[FIELDS[3]]])
+
+    output = list(train)
+    provenance, used = [], set()
+    rejected = Counter()
+    original_histogram, synthetic_histogram = Counter(), Counter()
+    original_field_counts, synthetic_field_counts = Counter(), Counter()
+    max_attempts = 100_000
+    for slot in negative_rows:
+        details = by_row[slot + 1]
+        anchor_row = details["nearest_positive_row_1based"]
+        if anchor_row not in positive_row_numbers:
+            raise ValueError(f"Anchor {anchor_row} is not a training positive")
+        parent = conditions[anchor_row - 1]
+        original = conditions[slot]
+        original_changed = [field for field in FIELDS if parent[field] != original[field]]
+        if not original_changed or original_changed != details["changed_fields"]:
+            raise ValueError(f"Reference mask mismatch at training row {slot + 1}")
+        k = len(original_changed)
+        mutable = [field for field in FIELDS if options(field, parent[field])[0]]
+        if len(mutable) < k:
+            raise ValueError(f"Only {len(mutable)} mutable fields for k={k} at row {slot + 1}")
+        selected = set(rng.sample(mutable, k))
+        changed = [field for field in FIELDS if field in selected]
+        distributions = {field: options(field, parent[field]) for field in changed}
+        support_size = math.prod(len(values) for values, _ in distributions.values())
+        # Track small supports to report exhaustion without wasting the full bound.
+        seen_combinations = set() if support_size <= max_attempts else None
+        row_rejected = Counter()
+        candidate = None
+        for attempt in range(1, max_attempts + 1):
+            drawn = parent.copy()
+            for field, (values, cumulative) in distributions.items():
+                drawn[field] = rng.choices(values, cum_weights=cumulative, k=1)[0]
+            key = condition_key(drawn)
+            reason = None
+            if key in original_keys:
+                reason = "original_training_condition"
+            elif key in holdout_keys:
+                reason = "holdout_condition"
+            elif key in extra_keys:
+                reason = "excluded_processed_condition"
+            elif key in used:
+                reason = "duplicate_synthetic_condition"
+            elif cluster_key(drawn) in holdout_clusters:
+                reason = "holdout_chemical_cluster"
+            if reason is None:
+                candidate = drawn
+                break
+            row_rejected[reason] += 1
+            if seen_combinations is not None:
+                seen_combinations.add(tuple(drawn[field] for field in changed))
+                if len(seen_combinations) == support_size:
+                    break
+        if candidate is None:
+            exhausted = seen_combinations is not None and len(seen_combinations) == support_size
+            raise ValueError(
+                f"No count-matched synthetic condition for row {slot + 1}, anchor {anchor_row}, "
+                f"fixed mask {changed}, k={k}; "
+                f"{'donor support exhausted' if exhausted else 'rejection limit reached'} "
+                f"after {attempt} attempts. No mask or exclusion was relaxed.")
+        if [field for field in FIELDS if candidate[field] != parent[field]] != changed:
+            raise AssertionError("Generated mask differs from selected count-matched mask")
+        used.add(condition_key(candidate))
+        record = deepcopy(train[slot])
+        record["messages"][1]["content"] = json.dumps(candidate, ensure_ascii=False, allow_nan=False)
+        output[slot] = record
+        rejected.update(row_rejected)
+        original_histogram[k] += 1
+        synthetic_histogram[len(changed)] += 1
+        original_field_counts.update(original_changed)
+        synthetic_field_counts.update(changed)
+        provenance.append({
+            "baseline_row_1based": slot + 1,
+            "reference_positive_row_1based": anchor_row,
+            "reference_doi": train_sources[anchor_row]["doi_norm"],
+            "original_negative_doi": train_sources[slot + 1]["doi_norm"],
+            "original_changed_fields": original_changed,
+            "changed_fields": changed, "n_changed_fields": k,
+            "n_mutable_fields": len(mutable),
+            "same_change_mask_as_original": changed == original_changed,
+            "candidate_attempts": attempt, "rejected_candidates": dict(row_rejected),
+            "original_negative_values": {field: original[field] for field in changed},
+            "reference_positive_values": {field: parent[field] for field in changed},
+            "synthetic_values": {field: candidate[field] for field in changed},
+            "label_status": "Artificial N; experimental failure not established",
+        })
+
+    synthetic = [inputs(output[i]) for i in negative_rows]
+    matched_masks = sum(row["same_change_mask_as_original"] for row in provenance)
+    diagnostics = {
+        "seed": seed, "positive_rows_unchanged": len(positive_rows),
+        "negative_rows_replaced": len(negative_rows), "positive_rows_dropped": 0,
+        "negative_slots_dropped": 0, "original_negative_rows_replaced": len(negative_rows),
+        "reference_identity_and_usage_exact": True, "perturbation_counts_exact": True,
+        "count_reference": "Selected nearest training-P anchor, not minimum over all positives",
+        "field_selection": "Uniform k-element subset of mutable fields; fixed during rejection",
+        "donor_sampling": "Empirical training-P frequencies conditional on differing from anchor",
+        "null_donors_allowed": True, "training_P_only_donor_values": True,
+        "negative_value_or_magnitude_matching": False,
+        "rejected_candidates": dict(rejected), "max_candidate_attempts_per_row": max_attempts,
+        "relaxations": {}, "same_original_mask_rows": matched_masks,
+        "different_original_mask_rows": len(negative_rows) - matched_masks,
+        "original_reference_count_histogram": dict(sorted(original_histogram.items())),
+        "synthetic_reference_count_histogram": dict(sorted(synthetic_histogram.items())),
+        "original_changed_field_counts": {field: original_field_counts[field] for field in FIELDS},
+        "synthetic_changed_field_counts": {field: synthetic_field_counts[field] for field in FIELDS},
+        "known_training_condition_collisions": len(used & original_keys),
+        "holdout_condition_collisions": len(used & holdout_keys),
+        "excluded_processed_condition_collisions": len(used & extra_keys),
+        "holdout_cluster_collisions": sum(cluster_key(values) in holdout_clusters for values in synthetic),
+        "unique_synthetic_negatives": len(used),
+        "synthetic_missing_values_by_field": {
+            field: sum(values[field] is None for values in synthetic) for field in FIELDS},
+    }
+    return output, provenance, diagnostics

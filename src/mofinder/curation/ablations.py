@@ -19,8 +19,10 @@ import tempfile
 
 from mofinder.datasets import prepare as baseline
 from mofinder.training.common import sha256
-from .ablation_analysis import analyze_neighbors, conditions_and_label, load_jsonl
-from .artificial_control import generate
+from .ablation_analysis import (analyze_neighbors, conditions_and_label, count_summary,
+                               load_jsonl, minimum_distances)
+from .artificial_control import (generate, generate_count_matched, inputs,
+                                 processed_condition_keys)
 
 
 RANDOM_DROP_SEEDS = (101, 202, 303, 404, 505)
@@ -40,7 +42,8 @@ EXPECTED_TRAIN_HASHES = {
     "train_random_drop_seed303.jsonl": "f3095a986717deb17256fc11c61779742b02d39703c8591e5d99fbcc8c5d7b66",
     "train_random_drop_seed404.jsonl": "d4ede1f4dc20c935ffd637f2a6ee8500b64adc29a07c07070f70da83ea465d94",
     "train_random_drop_seed505.jsonl": "0f0a2094f14f4596916440a08c7b6ffa476fc2fd66f2e3063fcf8f69920030aa",
-    "train_artificial_perturbation.jsonl": "426b6dc74df430e7089e466145c9a6a217c8eb024b811814dba0bc36055c645e",
+    "train_artificial_field_matched.jsonl": "426b6dc74df430e7089e466145c9a6a217c8eb024b811814dba0bc36055c645e",
+    "train_artificial_count_matched.jsonl": "c10877d31045f72c31f11c5331a2c710a158a2a5cf76ad763808b11afe6a41ab",
 }
 
 
@@ -210,15 +213,32 @@ def build(repo, output):
                        if record["messages"][2]["content"] == "P" or index in selected]
             single_counts.append(_export(single / f"train_random_drop_seed{seed}.jsonl",
                                          train, train, lines, indices, seed=seed))
-        print(f"Generating artificial negatives with seed {ARTIFICIAL_SEED}...", flush=True)
-        generated, provenance, diagnostics = generate(train, holdout, analysis["train_negative"],
-                                                      sources["train"], sources["holdout"], ARTIFICIAL_SEED)
-        artificial_counts = _export(artificial / "train_artificial_perturbation.jsonl", generated,
-                                    train, lines, range(len(train)), synthetic=True, seed=ARTIFICIAL_SEED)
+        forbidden = processed_condition_keys(repo / "data/processed_data/processed_positive.csv",
+                                             repo / "data/processed_data/processed_negative.csv")
+        artificial_counts = []
+        for variant, generator in (("field_matched", generate), ("count_matched", generate_count_matched)):
+            print(f"Generating {variant} artificial negatives with seed {ARTIFICIAL_SEED}...", flush=True)
+            options = {"excluded_condition_keys": forbidden} if variant == "count_matched" else {}
+            generated, provenance, diagnostics = generator(
+                train, holdout, analysis["train_negative"], sources["train"], sources["holdout"],
+                ARTIFICIAL_SEED, **options)
+            diagnostics["variant"] = variant
+            nearest = minimum_distances(
+                [(i, inputs(r)) for i, r in enumerate(train, 1) if r["messages"][2]["content"] == "P"],
+                [(i, inputs(r)) for i, r in enumerate(generated, 1) if r["messages"][2]["content"] == "N"],
+                sources["train"], sources["train"])
+            diagnostics["synthetic_nearest_training_positive"] = count_summary(nearest)
+            diagnostics["real_nearest_training_positive"] = analysis["summary"]["train"]
+            diagnostics["nearest_distance_changed_from_reference_mask_rows"] = sum(
+                a["min_changed_fields"] != b["n_changed_fields"] for a, b in zip(nearest, provenance))
+            for actual, row in zip(nearest, provenance):
+                row["synthetic_nearest_training_positive_distance"] = actual["min_changed_fields"]
+            artificial_counts.append(_export(artificial / f"train_artificial_{variant}.jsonl", generated,
+                                             train, lines, range(len(train)), synthetic=True, seed=ARTIFICIAL_SEED))
+            _save_csv(metadata / f"synthetic_provenance_{variant}_seed{ARTIFICIAL_SEED}.csv", provenance)
+            _save_json(metadata / f"synthetic_diagnostics_{variant}_seed{ARTIFICIAL_SEED}.json", diagnostics)
         _save_csv(metadata / "train_negative_matching.csv", analysis["train_negative"])
         _save_csv(metadata / "holdout_strata.csv", analysis["holdout_negative"])
-        _save_csv(metadata / "synthetic_provenance_seed101.csv", provenance)
-        _save_json(metadata / "synthetic_diagnostics_seed101.json", diagnostics)
         manifest = {
             "input_sha256": REFERENCE_HASHES, "baseline_stages": stages,
             "baseline_counts": baseline_counts, "baseline_reused_not_included": True,
@@ -231,7 +251,7 @@ def build(repo, output):
         _save_json(metadata / "manifest.json", manifest)
         _check_references(repo)
         staged.rename(output)
-    print("Verified all seven training files and both unchanged holdouts against the study hashes.", flush=True)
+    print("Verified all eight training files and both unchanged holdouts against the study hashes.", flush=True)
     return manifest
 
 
