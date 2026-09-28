@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "description": "Final training and holdout JSONL with source-row split assignments, preparation summary, and class labels.",
+  "description": "Standard training and holdout JSONL, four- and five-period year subsets, and split metadata.",
   "files": [
     {
       "path": "data/processed_data_json/train.jsonl",
@@ -31,5 +31,212 @@
   "split_summary": "data/processed_data_json/split_summary.json",
   "preparation_config": "configs/dataset_preparation.json",
   "processed_inputs_manifest": "data/processed_data/manifest.json",
-  "class_map": "data/processed_data_json/class_map.json"
+  "class_map": "data/processed_data_json/class_map.json",
+  "year_split_files": [
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_1999to2012.jsonl",
+      "periods": 4,
+      "subset_type": "single_bin",
+      "start_year": 1999,
+      "end_year": 2012,
+      "rows": 6006,
+      "labels": {
+        "P": 2719,
+        "N": 3287
+      },
+      "sha256": "cb0598ef7c94dd428999cd0be03d002696827d040b1f708d57ef3ac8dbb28c43",
+      "size_bytes": 4934270,
+      "bin": 1
+    },
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_2013to2015.jsonl",
+      "periods": 4,
+      "subset_type": "single_bin",
+      "start_year": 2013,
+      "end_year": 2015,
+      "rows": 5302,
+      "labels": {
+        "P": 2378,
+        "N": 2924
+      },
+      "sha256": "dd73c4e6967e1f23c969d5e62e0813cb4582a6e0bb05215625f8c852a3a8539c",
+      "size_bytes": 4366957,
+      "bin": 2
+    },
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_2016to2019.jsonl",
+      "periods": 4,
+      "subset_type": "single_bin",
+      "start_year": 2016,
+      "end_year": 2019,
+      "rows": 5746,
+      "labels": {
+        "P": 3137,
+        "N": 2609
+      },
+      "sha256": "c3131e38d8025f1c55c9f6e58a9e12c25219757e9e91a16661c7d9a40dfdb7e1",
+      "size_bytes": 4725777,
+      "bin": 3
+    },
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_2020to2025.jsonl",
+      "periods": 4,
+      "subset_type": "single_bin",
+      "start_year": 2020,
+      "end_year": 2025,
+      "rows": 6474,
+      "labels": {
+        "P": 3734,
+        "N": 2740
+      },
+      "sha256": "4818b5697adfe73c5d6b092101162d9dd5fbb98f05a7c21a838f2c0942f60d96",
+      "size_bytes": 5325936,
+      "bin": 4
+    },
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_1999to2015.jsonl",
+      "periods": 4,
+      "subset_type": "cumulative_1to2",
+      "start_year": 1999,
+      "end_year": 2015,
+      "rows": 11308,
+      "labels": {
+        "P": 5097,
+        "N": 6211
+      },
+      "sha256": "076d2b48d6e833486b5723febaba69307b535dff9651937bc9759a142c1f0b60",
+      "size_bytes": 9301227
+    },
+    {
+      "path": "data/processed_data_json/year_split_4/mof_cls_train_1999to2019.jsonl",
+      "periods": 4,
+      "subset_type": "cumulative_1to3",
+      "start_year": 1999,
+      "end_year": 2019,
+      "rows": 17054,
+      "labels": {
+        "P": 8234,
+        "N": 8820
+      },
+      "sha256": "96ff67e7e01737126967b4b8892f26158790f8be449f0544fce2954e3d965178",
+      "size_bytes": 14027004
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_1999to2011.jsonl",
+      "periods": 5,
+      "subset_type": "single_bin",
+      "start_year": 1999,
+      "end_year": 2011,
+      "rows": 4352,
+      "labels": {
+        "P": 1944,
+        "N": 2408
+      },
+      "sha256": "8d14e1e5c512d3002cac4b88b815993fc1bbd1ea0496fd7ae7af49c05c8f542f",
+      "size_bytes": 3564048,
+      "bin": 1
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_2012to2014.jsonl",
+      "periods": 5,
+      "subset_type": "single_bin",
+      "start_year": 2012,
+      "end_year": 2014,
+      "rows": 4623,
+      "labels": {
+        "P": 2259,
+        "N": 2364
+      },
+      "sha256": "b2442abce3cbffb749f6a30b180521752b7edb072c969de9d781831f92caff53",
+      "size_bytes": 3820967,
+      "bin": 2
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_2015to2017.jsonl",
+      "periods": 5,
+      "subset_type": "single_bin",
+      "start_year": 2015,
+      "end_year": 2017,
+      "rows": 5226,
+      "labels": {
+        "P": 2512,
+        "N": 2714
+      },
+      "sha256": "f4433650a1d3bf5fe0588afcc6cb92808fc5d028332543238d6f8f5b50a48c5b",
+      "size_bytes": 4307455,
+      "bin": 3
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_2018to2020.jsonl",
+      "periods": 5,
+      "subset_type": "single_bin",
+      "start_year": 2018,
+      "end_year": 2020,
+      "rows": 4154,
+      "labels": {
+        "P": 2232,
+        "N": 1922
+      },
+      "sha256": "eb0a988153c6937caf3af0941e4f92c503e044d151ef22f72b90f475e57867fb",
+      "size_bytes": 3400217,
+      "bin": 4
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_2021to2025.jsonl",
+      "periods": 5,
+      "subset_type": "single_bin",
+      "start_year": 2021,
+      "end_year": 2025,
+      "rows": 5173,
+      "labels": {
+        "P": 3021,
+        "N": 2152
+      },
+      "sha256": "d87daba979c598378437cc86cfe582f1cfcd4b11793201d25ff8f04a433eca2b",
+      "size_bytes": 4260253,
+      "bin": 5
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_1999to2014.jsonl",
+      "periods": 5,
+      "subset_type": "cumulative_1to2",
+      "start_year": 1999,
+      "end_year": 2014,
+      "rows": 8975,
+      "labels": {
+        "P": 4203,
+        "N": 4772
+      },
+      "sha256": "093ef694b773fab2a3b7df81f61103a534fc5ae1e593c354ba5b3f2f216a9e0d",
+      "size_bytes": 7385015
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_1999to2017.jsonl",
+      "periods": 5,
+      "subset_type": "cumulative_1to3",
+      "start_year": 1999,
+      "end_year": 2017,
+      "rows": 14201,
+      "labels": {
+        "P": 6715,
+        "N": 7486
+      },
+      "sha256": "1a7f50c25928bd6953f881d628761653002cfa5f991de5dd713305c7bebfcdbf",
+      "size_bytes": 11692470
+    },
+    {
+      "path": "data/processed_data_json/year_split_5/mof_cls_train_5periods_1999to2020.jsonl",
+      "periods": 5,
+      "subset_type": "cumulative_1to4",
+      "start_year": 1999,
+      "end_year": 2020,
+      "rows": 18355,
+      "labels": {
+        "P": 8947,
+        "N": 9408
+      },
+      "sha256": "45a4dfdba35a8f66688a8d4b2aed576d1655fbe46de2ffc9c0f4f944f8119e1e",
+      "size_bytes": 15092687
+    }
+  ]
 }

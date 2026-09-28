@@ -22,6 +22,13 @@ Each JSONL record contains system, user, and assistant messages. The user messag
 
 [processed_enrich/](processed_enrich/README.md) preserves the same records, order, labels, and eight original inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the user and system prompts.
 
+## Publication-year splits
+
+- [year_split_4/](year_split_4/README.md): four individual time blocks and two cumulative training subsets.
+- [year_split_5/](year_split_5/README.md): five individual time blocks and three cumulative training subsets.
+
+These JSONL files preserve the original Step 5 exports and use the shared [holdout.jsonl](holdout.jsonl).
+
 ## Training-data ablations
 
 - [artificial_perturbation/](artificial_perturbation/README.md): field-matched and count-matched training sets replacing reconstructed negatives with artificial perturbations of training positives.

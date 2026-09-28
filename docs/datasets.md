@@ -75,6 +75,8 @@ The split is **not grouped by DOI or by a successful synthesis parent**. Distinc
 
 Publication-year bins use training rows only and keep whole years together. Fewer distinct years produce fewer bins. Records without a publication year remain in full training and holdout but are excluded from year subsets. Source row IDs are zero-based in the original positive-then-negative concatenation before filtering.
 
+The original year-subset JSONL files are included in [year_split_4](../data/processed_data_json/year_split_4/README.md) (six files) and [year_split_5](../data/processed_data_json/year_split_5/README.md) (eight files), including the cumulative subsets.
+
 These files support training-history comparisons against the existing holdout. They do not define a future-year test partition. A chronological evaluation needs explicit cutoff years, publication/parent grouping rules, and separate dated train/test assignments. The current preparation command produces one training partition and one holdout partition; it does not create an additional independent test set.
 
 All seeded sampling, search order, shuffling, and year-bin construction follow the source notebook. JSONL outputs were compared with the original notebook on controlled fixtures for both P:N modes. Automated tests cover cluster separation, forced conditions, label conflict handling, exact ratios, deterministic output, training-only year subsets, and infeasible input partitions. No training API requests are made by this module.
