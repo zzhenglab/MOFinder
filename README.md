@@ -75,7 +75,7 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | Redraw publisher coverage before literature triage | [Literature coverage](docs/triage_figures/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
 | View the positive and negative workflows | [Author-drawn workflow diagrams](docs/workflows/README.md) |
 | Inspect training, holdout, and record assignments | [Final JSONL and split records](data/processed_data_json/README.md) |
-| Prepare the matched control with vessel type, volume, and stirring | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) and [preparation guide](docs/process_enrich_training.md) |
+| Prepare the matched control with vessel type, volume, and agitation | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) and [preparation guide](docs/process_enrich_training.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
 | Check the DOI-named sample documents locally | [Extraction example](Demo/03_api_data_mining/inputs/extraction/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
@@ -126,7 +126,7 @@ Start with [processed data](data/processed_data/README.md), then use it to prepa
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
-The matched process-enriched control is stored one level deeper in [data/processed_data_json/processed_enrich](data/processed_data_json/processed_enrich/README.md), as `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. It preserves the baseline row counts and order while adding vessel type, vessel volume in mL, and stirring. Its [system prompt](prompts/training/reaction_prediction_process_enrich.txt) is stored in `prompts/training/`.
+The matched process-enriched control is stored one level deeper in [data/processed_data_json/processed_enrich](data/processed_data_json/processed_enrich/README.md), as `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. It preserves the baseline row counts and order while adding vessel type, vessel volume in mL, and agitation. Its [system prompt](prompts/training/reaction_prediction_process_enrich.txt) is stored in `prompts/training/`.
 
 
 

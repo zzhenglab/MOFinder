@@ -5,12 +5,12 @@
     "appended_fields_in_order": [
       "vessel_type",
       "vessel_volume_mL",
-      "stirring"
+      "agitation"
     ]
   },
   "allowed_system_change": {
     "replace_once": "temperature_C, and time_h.",
-    "with": "temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring."
+    "with": "temperature_C, time_h, vessel_type, vessel_volume_mL, and agitation."
   },
   "checks": [
     "same row count and sequence",
@@ -26,7 +26,7 @@
       "enriched_rows": 23528,
       "rows_compared_in_file_order": 23528,
       "baseline_sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
-      "enriched_sha256": "676df575720c151edc09c0917ee9164b39970fe81a1d6c0a1869dd559f43c5d4",
+      "enriched_sha256": "a21d5dd054bc5d90784b79d3a50bbb262c54d93cd5f6dd4ae1ea8766712a0cd6",
       "labels": {
         "baseline": {
           "N": 11560,
@@ -50,7 +50,7 @@
       "enriched_rows": 2595,
       "rows_compared_in_file_order": 2595,
       "baseline_sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
-      "enriched_sha256": "c333e8da1631d03c86d4917c77b32a64d9bca800c5dd5f14f2b02cc5dd9f059a",
+      "enriched_sha256": "0a9a8acd1d110f52d96b3a842fb341b1853d416fc5cb3506cb5f92bcd4186b63",
       "labels": {
         "baseline": {
           "N": 1275,

@@ -7,13 +7,13 @@ These optional control tables add three cleaned process features to every origin
 | [Process_detail_positive.csv](Process_detail_positive.csv) | 15,340 | 86 |
 | [Process_detail_negative.csv](Process_detail_negative.csv) | 15,063 | 79 |
 
-Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and `stirring_raw`. Their exact strings, all other source cells, and row order are preserved. Three columns are appended: `vessel_type`, `vessel_volume_mL`, and `stirring`. Both files use UTF-8 with a byte-order mark.
+Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and `stirring_raw`. Their exact strings, all other source cells, and row order are preserved. Three columns are appended: `vessel_type`, `vessel_volume_mL`, and `agitation`. Both files use UTF-8 with a byte-order mark.
 
 | Added field | Representation |
 | --- | --- |
 | `vessel_type` | Controlled vessel category; `Not reported` includes missing/unspecified types and the explicitly pooled rare classes described below |
 | `vessel_volume_mL` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
-| `stirring` | Controlled agitation/stage description of at most five words; rare reported methods use `Stirring, mixing, shaking, rotation, sonication`, and no unique agitation state uses `Not reported` |
+| `agitation` | Reported method and process stage in two to five words; rare methods remain distinct, and unavailable or unresolved information uses `Not reported` |
 
 ## Reproduce
 
@@ -29,7 +29,7 @@ For other processed inputs:
 python -m mofinder.curation.process_details --positive path/to/processed_positive.csv --negative path/to/processed_negative.csv --output results/process_details
 ```
 
-The command regenerates the derived tables and audit files. It checks exact preservation of source cells and row order and never overwrites either input CSV. [Configuration](../../../configs/process_details.json), [table builder](../../../src/mofinder/curation/process_details.py), [vessel rules](../../../src/mofinder/curation/process_vessels.py), and [stirring rules](../../../src/mofinder/curation/process_stirring.py) are included.
+The command regenerates the derived tables and audit files. It checks exact preservation of source cells and row order and never overwrites either input CSV. [Configuration](../../../configs/process_details.json), [table builder](../../../src/mofinder/curation/process_details.py), [vessel rules](../../../src/mofinder/curation/process_vessels.py), and [agitation rules](../../../src/mofinder/curation/process_stirring.py) are included. The module and `stirring_*` audit filenames retain the original extraction-field name.
 
 ## Normalization and audit
 
@@ -39,16 +39,18 @@ The fixed consolidation policy uses synthesis-record frequencies in the full pos
 
 Capacity conversion supports mL, L, microlitres, cm³, and cc. A reaction charge or solvent volume is not substituted for capacity; dimensions are not converted into a volume. Ranges, multiple/nested vessels, corrupted units, and unspecified dram conventions remain ambiguous. The two liter-scale vial descriptions are also quarantined as ambiguous pending source verification. Other uncommon but explicit capacities are retained and flagged. No missing value is set to zero.
 
-All final stirring labels contain at most five words. `No stirring` denotes explicitly static or unstirred conditions. `Stirred before static synthesis` and `Sonicated before static synthesis` preserve the reported sequence. `Stirred during preparation` leaves later agitation unknown. `Stirred; stage not reported` does not establish stirring throughout heating. Seven classes with fewer than 50 positive records are consolidated into `Stirring, mixing, shaking, rotation, sonication` (121 positive and 115 negative records). The five method names are alternatives across pooled records, not methods all used in each record. Their original method/stage distinctions remain in `detailed_value` and the row audit. `Not reported` is used when no unique agitation state is specified.
+All final agitation labels contain two to five words and preserve reported methods and stages, including rare categories. `No stirring` denotes explicitly static or unstirred conditions. `Stirred before static synthesis` and `Sonicated before static synthesis` preserve the reported sequence. `Stirred during preparation` leaves later agitation unknown. `Stirred; stage not reported` does not establish stirring throughout heating. Shaking, rotation, vortexing, mixing, and homogenization receive descriptive labels where supported. `Not reported` is used when no unique agitation state is specified.
 
-The complete corpus audit covers **1,926 unique vessel strings** and **890 unique stirring strings**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. The **21 formerly ambiguous positive stirring records** were rechecked with their associated fields: centrifugation (12), addition (4), reflux (3), microwave irradiation (1), and alternative stirring states (1) do not specify a unique stirring/static state. Their model value is now `Not reported`, while the original `Unclear / ambiguous` class and reasons remain in the audit. No physical state is guessed. This audit evaluates extracted strings and associated tabular context, not re-read source publications.
+The former combined category contained 121 positive records from 57 unique DOIs and 115 negative records. It is now separated into the supported method/stage categories. A [targeted source audit](audit/AGITATION_SOURCE_AUDIT.md) documents 12 DOI-specific clarifications affecting 29 positive and eight negative records. These include nine positive records outside the former combined category whose ultrasonic wording supports `Sonicated during preparation`, rather than separate mechanical stirring. Original extracted strings remain unchanged; reviewed interpretations are matched by DOI and normalized raw value before classification.
+
+The complete corpus audit covers **1,926 unique vessel strings** and **890 unique strings from the original stirring field**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. The **21 unresolved positive agitation records** were checked with their associated fields: centrifugation (12), addition (4), reflux (3), microwave irradiation (1), and alternative stirring states (1) do not specify a unique stirring/static state. Their model value remains `Not reported`, with reasons retained in the audit. The corpus-wide checks inspect extracted strings and associated tabular context; the targeted source audit identifies the subset also checked against original documents.
 
 - [Every raw-to-clean mapping](audit/all_raw_value_mappings.csv), with separate positive/negative frequencies.
 - [Rare mappings](audit/rare_value_mappings.csv), occurring at most five times across both datasets.
 - [Mappings requiring review](audit/review_required_mappings.csv), including conservative unresolved capacities and retained rare sizes.
 - [Every source row and rule](audit/record_process_audit.csv), kept outside model input.
 - [Category consolidation](audit/category_consolidation.csv), including every fine-to-final mapping and its positive/negative counts, and [stirring review context](audit/stirring_review_context.csv).
-- [Full category counts](audit/feature_counts.csv), [independent vessel review](audit/vessel_independent_review.md), and [stirring audit](audit/stirring_audit_notes.md).
+- [Full category counts](audit/feature_counts.csv), [independent vessel review](audit/vessel_independent_review.md), [agitation normalization audit](audit/stirring_audit_notes.md), and [agitation source audit](audit/AGITATION_SOURCE_AUDIT.md).
 - [Manifest](manifest.json), with input/output and implementation hashes.
 
 ## Matched training control

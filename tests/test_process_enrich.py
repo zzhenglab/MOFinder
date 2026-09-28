@@ -30,7 +30,7 @@ class ProcessEnrichTests(unittest.TestCase):
                 "temperature_c": "100", "time_h": "24",
                 "vessel_type_raw": "25-mL Teflon-lined autoclave",
                 "stirring_raw": "not stated", "vessel_type": "PTFE-lined autoclave",
-                "vessel_volume_mL": "25", "stirring": "Not reported",
+                "vessel_volume_mL": "25", "agitation": "Not reported",
             })
         self.sources[1]["vessel_volume_mL"] = "Not reported"
         self.sources[3]["vessel_volume_mL"] = "Ambiguous"

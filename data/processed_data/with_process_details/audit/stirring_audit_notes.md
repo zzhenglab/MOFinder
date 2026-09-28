@@ -1,26 +1,12 @@
-# Stirring normalization audit
+# Agitation normalization audit
 
-Parser: `process-stirring-v3`. Inputs: `processed_positive.csv` (15,340 records) and `processed_negative.csv` (15,063 records).
+Parser: `process-agitation-v4`. Model field: `agitation`; source field: `stirring`.
 
-All 890 unique extracted strings were enumerated and reviewed by category, including 657 strings occurring in at most five combined records. The complete mapping, frequencies, normalized text and matching rule are in `stirring_all_raw_values.csv`. This is a review of extracted text; source publications were not re-read.
+Enumerated all 890 unique extracted strings across 15,340 positive and 15,063 negative records. See `stirring_all_raw_values.csv` for exact raw text and matched rules. These filenames refer to the original extraction column.
 
-Rules normalize Unicode width, dashes, whitespace and case before classification. Explicit static synthesis takes priority over initial mixing. The detailed audit retains stirring, sonication and other initial agitation separately; when both stirring and sonication are specified, the detailed class records stirring and the raw field retains both. Preparation followed by heating does not establish static heating. Bare `stirred`, speeds, intensity adjectives and even `continuous stirring` do not identify the synthesis stage and remain stage-not-reported. Only explicit reaction-stage wording supports the detailed class `Stirred during synthesis`. These text classes summarize what is reported; they are not validated measurements of agitation.
+Methods and reported stages are retained regardless of frequency. Final labels contain two to five words. No catch-all method class is used. Preparation does not establish agitation during later heating; unqualified stirring does not establish continuous synthesis stirring. Explicit static synthesis takes precedence over preparation. When both initial stirring and sonication are named, stirring is the primary label and raw text retains both. Rotation is retained when a separate prestir is reported. `Agitated` is used only when agitation itself is stated without a more specific method. Bare speeds or intensity adjectives do not establish a method. Heating, centrifugation, and reagent addition alone do not establish synthesis agitation. Missing or unresolved descriptions use `Not reported`; unresolved nonempty text remains distinguished by its audit reason.
 
-Audit refinements included recognizing `left standing` and `aged without stirring` as static; retaining rotation despite a separate prestir; handling Unicode range symbols and nonbreaking hyphens; recognizing `pre-stir/sonication`; retaining unknown later agitation after sealing, heating, reflux or diffusion; and resolving the rare `vigorous 5 min before heating` as preparation agitation without inventing a stirring mechanism. Post-cooling stirring does not count as preparation. Reagent addition, reflux, microwave irradiation and centrifugation alone are not assigned to a synthesis-agitation method.
-
-## Final class consolidation
-
-The seven detailed agitation categories with fewer than 50 positive synthesis records in the fixed 15,340-record reference are merged into `Stirring, mixing, shaking, rotation, sonication`. The list names pooled alternatives across records; it does not mean that every record used all five methods. The same fixed mapping is used for positive and negative rows, future input batches, and model inputs. It is not recalculated per dataset or split. This broad class asserts that agitation was reported but does not imply a shared method or stage. `detailed_value`, `consolidation_rule`, the original rule, and raw text retain the specific evidence. Final labels contain at most five words. `Stirred during preparation` leaves subsequent agitation unspecified; the shorter wording does not establish static or stirred synthesis. Stage-aware detailed classes remain available for a future sensitivity analysis.
-
-| Detailed class merged | Positive reference count |
-|---|---:|
-| Other agitation before static synthesis | 34 |
-| Shaken / rotated; stage not reported | 29 |
-| Sonicated; stage not reported | 24 |
-| Sonicated during preparation; later agitation not reported | 13 |
-| Other agitation; stage not reported | 12 |
-| Other agitation during preparation; later agitation not reported | 5 |
-| Stirred during synthesis | 4 |
+The same deterministic rules apply to positive and negative records before JSONL preparation. The original eight model inputs, labels, split assignments, and row order remain unchanged.
 
 ## Final class counts
 
@@ -29,16 +15,27 @@ The seven detailed agitation categories with fewer than 50 positive synthesis re
 | Not reported | 3,886 | 3,987 | 7 |
 | No stirring | 6,522 | 6,609 | 38 |
 | Stirred before static synthesis | 1,758 | 1,815 | 411 |
-| Sonicated before static synthesis | 377 | 232 | 118 |
-| Stirred during preparation | 482 | 567 | 138 |
+| Stirred during preparation | 478 | 567 | 139 |
+| Stirred during synthesis | 13 | 18 | 7 |
 | Stirred; stage not reported | 2,194 | 1,738 | 120 |
-| Stirring, mixing, shaking, rotation, sonication | 121 | 115 | 58 |
+| Sonicated before static synthesis | 377 | 232 | 118 |
+| Sonicated during preparation | 22 | 1 | 9 |
+| Sonicated; stage not reported | 24 | 39 | 6 |
+| Shaken before static synthesis | 12 | 27 | 4 |
+| Shaken; stage not reported | 10 | 2 | 4 |
+| Rotated before static synthesis | 4 | 0 | 1 |
+| Rotated during synthesis | 2 | 0 | 2 |
+| Rotated; stage not reported | 16 | 0 | 11 |
+| Vortexed; stage not reported | 1 | 0 | 1 |
+| Homogenized before static synthesis | 6 | 10 | 2 |
+| Homogenized during preparation | 1 | 1 | 1 |
+| Mixed before static synthesis | 10 | 17 | 6 |
+| Mixed; stage not reported | 2 | 0 | 1 |
+| Agitated before static synthesis | 2 | 0 | 2 |
 
-## Agitation not determinable: 21 records / 5 unique strings
+## Unresolved descriptions: 21 records / 5 strings
 
-The final class is `Not reported` because a unique supported agitation state is unavailable. The detailed audit retains `Unclear / ambiguous` and an explicit reason, distinguishing these nonempty descriptions from a blank source field. They are not recoded as static or stirred. Associated vessel, temperature, duration, washing, and activation fields for every affected row are in `stirring_review_context.csv`.
-
-The reference audit inspected all 21 affected positive rows. The 12 centrifugation records from DOIs `10.1039/c4ta06820c` and `10.1016/j.matchemphys.2022.127039` tie centrifugation to their reported durations; this is not evidence that centrifugation was necessarily postprocessing, but it still does not identify a stirring/static state. Three reflux rows specify heating; one microwave row specifies irradiation; four addition rows specify reagent addition under argon. None supplies a separate agitation state in the available associated fields. The remaining row says `with or without stirring` and lacks a unique record-specific choice. The audit does not invent a choice or infer agitation from heating.
+Associated tabular context is retained in `stirring_review_context.csv`. Targeted publication checks are documented separately; this is not a full source-publication verification.
 
 | Raw string | Positive | Negative | Reason |
 |---|---:|---:|---|

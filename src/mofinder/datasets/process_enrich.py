@@ -28,14 +28,14 @@ PATH_KEYS = ("positive_csv", "negative_csv", "baseline_train", "baseline_holdout
 SOURCE_FIELDS = (
     "split", "jsonl_row_number", "source_row_id", "source_table", "source_csv_row_index",
     "label", "doi_norm", "condition_key", "cluster_key", "vessel_type_raw", "stirring_raw",
-    "vessel_type", "vessel_volume_mL", "stirring", "annotation_caveat",
+    "vessel_type", "vessel_volume_mL", "agitation", "annotation_caveat",
 )
 
 
 def extend_input_description(prompt):
     """Change only the archived prompt's input list for the matched control."""
     original = "temperature_C, and time_h."
-    expanded = "temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring."
+    expanded = "temperature_C, time_h, vessel_type, vessel_volume_mL, and agitation."
     if prompt.count(original) != 1:
         raise ValueError("Baseline system prompt must contain exactly one original input list")
     return prompt.replace(original, expanded, 1)
@@ -160,7 +160,7 @@ def prepare_process_enrich(settings):
         "feature_profile": "process_enrich",
         "source_path_base": "project_root (absolute paths retained for external inputs)",
         "output_path_base": "manifest_directory",
-        "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and stirring.",
+        "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and agitation.",
         "input_fields": list(input_fields("process_enrich")),
         "vessel_volume_unit": "mL",
         "missing_value": "Not reported",
@@ -269,16 +269,16 @@ def prepare_process_enrich(settings):
         (staged / "README.md").write_text(
             "# Process-enriched matched control\n\n"
             "`train_process_enrich.jsonl` and `holdout_process_enrich.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
-            "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. "
+            "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `agitation`. "
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "The canonical prompt is [reaction_prediction_process_enrich.txt](../../../prompts/training/reaction_prediction_process_enrich.txt); "
             "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
             "The [positive-dataset figure gallery](../../../docs/process_details/README.md#figures) provides vessel-type, "
-            "vessel-capacity, and stirring distributions, with the Section S5 draft, captions, calculation tables, and counting methods.\n\n"
-            "Final category consolidation is shared with the cleaned CSVs: rare stirring classes map to "
-            "`Stirring, mixing, shaking, rotation, sonication`; unspecified and selected rare vessel types map to `Not reported`. "
-            "These fixed mappings use positive-reference record counts and are applied identically to both labels and splits. "
+            "vessel-capacity, and agitation distributions, with the Section S5 draft, captions, calculation tables, and counting methods.\n\n"
+            "Agitation classes describe the reported method and stage in at most five words, retaining distinct methods. "
+            "Unspecified and selected rare vessel types map to `Not reported`. "
+            "The same fixed classification rules are applied to positive and negative records before either split is exported. "
             "Detailed classes and audit reasons remain outside model input.\n\n"
             "The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. "
             "The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. "

@@ -3,7 +3,7 @@
   "feature_profile": "process_enrich",
   "source_path_base": "project_root (absolute paths retained for external inputs)",
   "output_path_base": "manifest_directory",
-  "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and stirring.",
+  "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and agitation.",
   "input_fields": [
     "metal_precursor",
     "organic_linker",
@@ -15,7 +15,7 @@
     "time_h",
     "vessel_type",
     "vessel_volume_mL",
-    "stirring"
+    "agitation"
   ],
   "vessel_volume_unit": "mL",
   "missing_value": "Not reported",
@@ -27,11 +27,11 @@
   "sources": {
     "positive_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_positive.csv",
-      "sha256": "babdbb5ec4d9e4eef475e1e6d00797db7fe6dd07262234456a88fd0b2f2c4050"
+      "sha256": "c97d3d82c7abf1e26e2dca443d0884411bc2d8e7e715586d761b9331163e35e8"
     },
     "negative_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_negative.csv",
-      "sha256": "f03fd1d03a851769e3bb3a094b28275a5527b3b599fb49cfb4b3bff86a0d6e44"
+      "sha256": "95109773e410ee3bb95688d6b3df54ea63a6b08a603f75500431bb9ee67f9351"
     },
     "baseline_train": {
       "path": "data/processed_data_json/train.jsonl",
@@ -47,7 +47,7 @@
     },
     "prompt_file": {
       "path": "prompts/training/reaction_prediction_process_enrich.txt",
-      "sha256": "31980301feb3cb4f322515ef6dc8b016eab74532375a063d1408413717544ddc"
+      "sha256": "433111a0cacc8f9ad90647768bc2c002aa1c68eb1af53bef5750d4d7c695028f"
     },
     "config_file": {
       "path": "configs/dataset_preparation_process_enrich.json",
@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "0a94041f2446a1b309697b59dd28d4697fe5aa24e743d04383d9e4aa0e9411bc"
+      "sha256": "3274def29b7c202bb7f8c8b86034a05a2bc99366f8606daef7e027ad3fe8471a"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -65,7 +65,7 @@
     },
     "feature_profiles": {
       "path": "src/mofinder/training/records.py",
-      "sha256": "eb7eee9eed9ea63a33f364e77f34a9370f181b2d5a579bd240c2caa816ce6452"
+      "sha256": "e4101c501ee44a28980666f3f85346d5b5faf2b2eb50b911c0ad0709f381b131"
     },
     "training_validation": {
       "path": "src/mofinder/training/prepare.py",
@@ -76,15 +76,15 @@
     "train": {
       "path": "train_process_enrich.jsonl",
       "rows": 23528,
-      "sha256": "676df575720c151edc09c0917ee9164b39970fe81a1d6c0a1869dd559f43c5d4",
-      "bytes": 22888227,
+      "sha256": "a21d5dd054bc5d90784b79d3a50bbb262c54d93cd5f6dd4ae1ea8766712a0cd6",
+      "bytes": 22931681,
       "labels": {
         "N": 11560,
         "P": 11968
       },
       "source_rows": {
         "path": "train_sources.csv",
-        "sha256": "beeb9b3d6796a01694f8ba86bde99657bfb3ab8a08511524ae378724dd140dbc"
+        "sha256": "7dd32352b4de9cdbaef3db503229594196ab3fd7afa11bae6b11b073a29c29bb"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -246,24 +246,43 @@
             "Not reported": 6002
           }
         },
-        "stirring": {
+        "agitation": {
           "N": {
+            "Homogenized before static synthesis": 10,
+            "Homogenized during preparation": 1,
+            "Mixed before static synthesis": 11,
             "No stirring": 4974,
             "Not reported": 3159,
+            "Shaken before static synthesis": 26,
+            "Shaken; stage not reported": 2,
             "Sonicated before static synthesis": 164,
+            "Sonicated during preparation": 1,
+            "Sonicated; stage not reported": 33,
             "Stirred before static synthesis": 1410,
             "Stirred during preparation": 437,
-            "Stirred; stage not reported": 1318,
-            "Stirring, mixing, shaking, rotation, sonication": 98
+            "Stirred during synthesis": 14,
+            "Stirred; stage not reported": 1318
           },
           "P": {
+            "Agitated before static synthesis": 2,
+            "Homogenized before static synthesis": 5,
+            "Homogenized during preparation": 1,
+            "Mixed before static synthesis": 6,
             "No stirring": 5084,
             "Not reported": 3114,
+            "Rotated before static synthesis": 4,
+            "Rotated during synthesis": 2,
+            "Rotated; stage not reported": 11,
+            "Shaken before static synthesis": 12,
+            "Shaken; stage not reported": 10,
             "Sonicated before static synthesis": 260,
+            "Sonicated during preparation": 19,
+            "Sonicated; stage not reported": 14,
             "Stirred before static synthesis": 1369,
-            "Stirred during preparation": 384,
+            "Stirred during preparation": 382,
+            "Stirred during synthesis": 13,
             "Stirred; stage not reported": 1659,
-            "Stirring, mixing, shaking, rotation, sonication": 98
+            "Vortexed; stage not reported": 1
           }
         }
       }
@@ -271,15 +290,15 @@
     "holdout": {
       "path": "holdout_process_enrich.jsonl",
       "rows": 2595,
-      "sha256": "c333e8da1631d03c86d4917c77b32a64d9bca800c5dd5f14f2b02cc5dd9f059a",
-      "bytes": 2522381,
+      "sha256": "0a9a8acd1d110f52d96b3a842fb341b1853d416fc5cb3506cb5f92bcd4186b63",
+      "bytes": 2527250,
       "labels": {
         "N": 1275,
         "P": 1320
       },
       "source_rows": {
         "path": "holdout_sources.csv",
-        "sha256": "04951a6fed13e4162c5f63d3046f0fd85502ecd237aab9a18ebd4f51d26b9e3d"
+        "sha256": "82de66b1249045c6c97128baa24aa0cddd6b3c9d17a31c2e89bc1d728242e6d9"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -389,24 +408,27 @@
             "Not reported": 674
           }
         },
-        "stirring": {
+        "agitation": {
           "N": {
+            "Mixed before static synthesis": 5,
             "No stirring": 546,
             "Not reported": 312,
             "Sonicated before static synthesis": 39,
+            "Sonicated; stage not reported": 6,
             "Stirred before static synthesis": 154,
             "Stirred during preparation": 35,
-            "Stirred; stage not reported": 178,
-            "Stirring, mixing, shaking, rotation, sonication": 11
+            "Stirred; stage not reported": 178
           },
           "P": {
+            "Mixed before static synthesis": 4,
             "No stirring": 576,
             "Not reported": 328,
             "Sonicated before static synthesis": 42,
+            "Sonicated during preparation": 3,
+            "Sonicated; stage not reported": 2,
             "Stirred before static synthesis": 170,
-            "Stirred during preparation": 51,
-            "Stirred; stage not reported": 146,
-            "Stirring, mixing, shaking, rotation, sonication": 7
+            "Stirred during preparation": 49,
+            "Stirred; stage not reported": 146
           }
         }
       }
@@ -425,7 +447,7 @@
   "reaction_prediction": {
     "path": "prompts/training/reaction_prediction_process_enrich.txt",
     "path_base": "project_root (absolute paths retained for external inputs)",
-    "sha256": "31980301feb3cb4f322515ef6dc8b016eab74532375a063d1408413717544ddc"
+    "sha256": "433111a0cacc8f9ad90647768bc2c002aa1c68eb1af53bef5750d4d7c695028f"
   },
   "validation": {
     "mapped_source_rows": 26123,

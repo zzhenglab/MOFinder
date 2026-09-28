@@ -2,7 +2,34 @@ category,positive_records,negative_records,total_records,distinct_raw_values
 Not reported,3886,3987,7873,7
 No stirring,6522,6609,13131,38
 Stirred before static synthesis,1758,1815,3573,411
-Sonicated before static synthesis,377,232,609,118
-Stirred during preparation,482,567,1049,138
+Stirred during preparation,478,567,1045,139
+Stirred during synthesis,13,18,31,7
 Stirred; stage not reported,2194,1738,3932,120
-"Stirring, mixing, shaking, rotation, sonication",121,115,236,58
+Sonicated before static synthesis,377,232,609,118
+Sonicated during preparation,22,1,23,9
+Sonicated during synthesis,0,0,0,0
+Sonicated; stage not reported,24,39,63,6
+Shaken before static synthesis,12,27,39,4
+Shaken during preparation,0,0,0,0
+Shaken during synthesis,0,0,0,0
+Shaken; stage not reported,10,2,12,4
+Rotated before static synthesis,4,0,4,1
+Rotated during preparation,0,0,0,0
+Rotated during synthesis,2,0,2,2
+Rotated; stage not reported,16,0,16,11
+Vortexed before static synthesis,0,0,0,0
+Vortexed during preparation,0,0,0,0
+Vortexed during synthesis,0,0,0,0
+Vortexed; stage not reported,1,0,1,1
+Homogenized before static synthesis,6,10,16,2
+Homogenized during preparation,1,1,2,1
+Homogenized during synthesis,0,0,0,0
+Homogenized; stage not reported,0,0,0,0
+Mixed before static synthesis,10,17,27,6
+Mixed during preparation,0,0,0,0
+Mixed during synthesis,0,0,0,0
+Mixed; stage not reported,2,0,2,1
+Agitated before static synthesis,2,0,2,2
+Agitated during preparation,0,0,0,0
+Agitated during synthesis,0,0,0,0
+Agitated; stage not reported,0,0,0,0

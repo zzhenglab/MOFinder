@@ -10,7 +10,7 @@
       "output_columns": 86,
       "input": "data/processed_data/processed_positive.csv",
       "input_sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "sha256": "babdbb5ec4d9e4eef475e1e6d00797db7fe6dd07262234456a88fd0b2f2c4050",
+      "sha256": "c97d3d82c7abf1e26e2dca443d0884411bc2d8e7e715586d761b9331163e35e8",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -25,7 +25,7 @@
       "output_columns": 79,
       "input": "data/processed_data/processed_negative.csv",
       "input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
-      "sha256": "f03fd1d03a851769e3bb3a094b28275a5527b3b599fb49cfb4b3bff86a0d6e44",
+      "sha256": "95109773e410ee3bb95688d6b3df54ea63a6b08a603f75500431bb9ee67f9351",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -36,7 +36,7 @@
   "features": [
     "vessel_type",
     "vessel_volume_mL",
-    "stirring"
+    "agitation"
   ],
   "vessel_volume_unit": "mL",
   "missing_value": "Not reported",
@@ -56,26 +56,26 @@
       "Rotor insert": 1
     },
     "vessel_rare_threshold_exclusive": 10,
-    "stirring_rare_threshold_exclusive": 50,
-    "stirring_label_map": {
-      "Static / no stirring": "No stirring",
-      "Stirred during preparation; later agitation not reported": "Stirred during preparation"
+    "agitation_frequency_pooling": false,
+    "agitation_label_map": {
+      "Static / no stirring": "No stirring"
     },
-    "pooled_agitation_label": "Stirring, mixing, shaking, rotation, sonication",
-    "stirring_label_max_words": 5,
+    "agitation_parser_version": "process-agitation-v4",
+    "agitation_label_max_words": 5,
     "detailed_classes_retained_in_audit": true,
     "audit_file": "audit/category_consolidation.csv",
     "not_reported_caveat": "Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation."
   },
   "normalization_code_sha256": {
-    "process_details.py": "d48a3d8acc49a384140e66e1f6adfcdd8d628ce1372b72b6754b7108bdda8be5",
+    "process_details.py": "0f7ac5bae7ec5b5817d0101b8ef92fb4145e3041fc4f4f2da8eb2c86a57046aa",
     "process_vessels.py": "c34018ce90930834546da7ebdecd8fbc7da6cdc5f2da7d4d141850069227325b",
-    "process_stirring.py": "81876cd941827cde12131bccacd102c023323cba2b6b66c6933d07453f1c638c"
+    "process_stirring.py": "736a0e7002795f7d5b69f9ac7c5d8ea3b34702cdafa2c8db1af794dbf778d20a",
+    "agitation_source_reviews.py": "e0c7bd6453d9c49117f59975cf170b143ee98ce58ed506b52f0deea540ec15ec"
   },
-  "raw_mappings": 4742,
+  "raw_mappings": 4745,
   "review_required_mappings": 223,
-  "rare_mappings_frequency_le5": 3189,
-  "stirring_audit": {
+  "rare_mappings_frequency_le5": 3192,
+  "agitation_audit": {
     "positive_records": 15340,
     "negative_records": 15063,
     "distinct_raw_values": 890,

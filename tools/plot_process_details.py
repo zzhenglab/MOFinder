@@ -38,7 +38,7 @@ REPO = Path(__file__).resolve().parents[1]
 DATA = REPO / "data/processed_data/with_process_details"
 GRADIENTS = {"records": ["#A2C4F1", "#B6E2DC"],
              "unique_dois": ["#285953", "#63948B", "#8D969E"]}
-FIELDS = ("vessel_type", "vessel_volume_mL", "stirring")
+FIELDS = ("vessel_type", "vessel_volume_mL", "agitation")
 MISSING = {"", "not reported", "not_reported", "unknown", "nan", "none", "n/a"}
 UNRESOLVED_CATEGORIES = {"not reported", "ambiguous", "unclear", "unclear / ambiguous",
                          "unresolved vessel description", "vessel (type not reported)"}
@@ -75,7 +75,7 @@ def read_frame(path: Path) -> pd.DataFrame:
         raise ValueError(f"{path}: missing columns {sorted(needed - set(frame.columns))}")
     frame = frame.copy()
     frame["doi_normalized"] = frame.doi.map(normalize_doi)
-    for field in ("vessel_type", "stirring"):
+    for field in ("vessel_type", "agitation"):
         frame[field] = frame[field].str.strip()
         frame.loc[frame[field].str.casefold().isin(MISSING), field] = "Not reported"
     frame["volume_ml"] = pd.to_numeric(frame.vessel_volume_mL, errors="coerce")
@@ -124,7 +124,7 @@ def summarize(frames: dict[str, pd.DataFrame]) -> tuple[dict, pd.DataFrame, pd.D
                              "resolved_records": int(reported.sum()), "total_records": len(frame),
                              "resolved_percent": float(reported.mean() * 100),
                              "dois_with_resolved_value": doi_present, "total_dois": doi_n})
-        for field in ("vessel_type", "stirring"):
+        for field in ("vessel_type", "agitation"):
             record_counts = frame[field].value_counts()
             doi_counts = doi_frame[["doi_normalized", field]].drop_duplicates()[field].value_counts()
             for category, n in record_counts.items():
@@ -275,12 +275,16 @@ def captions(summary: dict) -> str:
         "# Process-detail figure captions\n\nAll panels describe the positive dataset. Figure numbers remain placeholders pending final SI placement.",
         'Figure Sxx. Frequencies of vessel types after cleaning and consolidation of name and material variants. a, Vessel-type frequencies among positive synthesis records. b, Unique DOI counts per vessel type. Not reported includes unspecified types and vessel classes with fewer than 10 positive records; a DOI may contribute to multiple categories.',
         'Figure Sxx+1. Distributions of reported vessel capacities after cleaning and unit conversion to mL. a, Vessel capacities among positive synthesis records. b, Median vessel capacity per unique DOI. Histograms use shared logarithmic bins; dashed lines indicate the arithmetic mean in each panel. Not reported and Ambiguous capacities are excluded.',
-        'Figure Sxx+2. Frequencies of stirring categories after cleaning and consolidation of process descriptions. a, Stirring-category frequencies among positive synthesis records. b, Unique DOI counts per stirring category. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records; a DOI may contribute to multiple categories.',
+        'Figure Sxx+2. Frequencies of agitation categories after cleaning and normalization of process descriptions. a, Agitation-category frequencies among positive synthesis records. b, Unique DOI counts per agitation category. Categories retain reported methods and process stages, including low-frequency categories. Not reported denotes unavailable or unresolved information; a DOI may contribute to multiple categories.',
     ]) + "\n"
 
 
 def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
     p, n = summary["datasets"]["positive"], summary["datasets"]["negative"]
+    split_counts = {}
+    for split in ("train", "holdout"):
+        with (REPO / "data/processed_data_json" / f"{split}.jsonl").open(encoding="utf-8") as handle:
+            split_counts[split] = sum(bool(line.strip()) for line in handle)
 
     def count(field, category):
         return int(counts.loc[counts.dataset.eq("positive") & counts.field.eq(field) &
@@ -291,13 +295,13 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
 
     return f"""## Process-detail-enriched control dataset
 
-As an auxiliary control alongside the primary eight-variable dataset, we prepared a process-enriched representation adding vessel type, vessel capacity (mL), and stirring. Cleaning preserves all {p['records']:,} positive and {n['records']:,} inferred negative records. The same normalization and category mapping are applied to both classes, with original descriptions retained for audit.
+As an auxiliary control alongside the primary eight-variable dataset, we prepared a process-enriched representation adding vessel type, vessel capacity (mL), and agitation. Cleaning preserves all {p['records']:,} positive and {n['records']:,} inferred negative records. The same normalization and category mapping are applied to both classes, with original descriptions retained for audit.
 
-Vessel names were consolidated across spelling, punctuation, and material variants. Unspecified types and classes with fewer than 10 positive records were assigned to Not reported; this category therefore includes rare known vessels. Capacities were accepted only from interpretable vessel sizes, without substituting solution volumes or inferring missing measurements. Stirring classes preserve preparation and synthesis stages where stated. Reported-agitation classes with fewer than 50 positive records were pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records. Unresolved stirring descriptions were assigned to Not reported, without assuming static conditions. Stirred during preparation leaves subsequent agitation unspecified.
+Vessel names were consolidated across spelling, punctuation, and material variants. Unspecified types and classes with fewer than 10 positive records were assigned to Not reported; this category therefore includes rare known vessels. Capacities were accepted only from interpretable vessel sizes, without substituting solution volumes or inferring missing measurements. Agitation categories retain reported methods and process stages, including rare categories, using descriptive labels of two to five words. Targeted source-PDF checks addressed ambiguous descriptions; the source audit records the evidence and remaining uncertainty. Unresolved agitation was assigned to Not reported without assuming static conditions. Stirred during preparation leaves subsequent agitation unspecified.
 
-Among positive records, PTFE-lined autoclaves account for {count('vessel_type', 'PTFE-lined autoclave'):,} ({pct('vessel_type', 'PTFE-lined autoclave'):.1f}%), vials for {count('vessel_type', 'Vial'):,} ({pct('vessel_type', 'Vial'):.1f}%), and vessel Not reported for {count('vessel_type', 'Not reported'):,} ({pct('vessel_type', 'Not reported'):.1f}%; Figure Sxx). Numeric capacities are available for {p['volume_records']['n']:,} records ({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of {p['volume_records']['median']:g} mL and an interquartile range of {p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL; {p['volume_nonnumeric_labels'].get('Not reported', 0):,} capacities are Not reported and {p['volume_nonnumeric_labels'].get('Ambiguous', 0):,} are Ambiguous (Figure Sxx+1). The No stirring and Stirred before static synthesis categories account for {count('stirring', 'No stirring'):,} ({pct('stirring', 'No stirring'):.1f}%) and {count('stirring', 'Stirred before static synthesis'):,} ({pct('stirring', 'Stirred before static synthesis'):.1f}%) positive records, respectively; stirring is Not reported for {count('stirring', 'Not reported'):,} ({pct('stirring', 'Not reported'):.1f}%; Figure Sxx+2).
+Among positive records, PTFE-lined autoclaves account for {count('vessel_type', 'PTFE-lined autoclave'):,} ({pct('vessel_type', 'PTFE-lined autoclave'):.1f}%), vials for {count('vessel_type', 'Vial'):,} ({pct('vessel_type', 'Vial'):.1f}%), and vessel Not reported for {count('vessel_type', 'Not reported'):,} ({pct('vessel_type', 'Not reported'):.1f}%; Figure Sxx). Numeric capacities are available for {p['volume_records']['n']:,} records ({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of {p['volume_records']['median']:g} mL and an interquartile range of {p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL; {p['volume_nonnumeric_labels'].get('Not reported', 0):,} capacities are Not reported and {p['volume_nonnumeric_labels'].get('Ambiguous', 0):,} are Ambiguous (Figure Sxx+1). The No stirring and Stirred before static synthesis categories account for {count('agitation', 'No stirring'):,} ({pct('agitation', 'No stirring'):.1f}%) and {count('agitation', 'Stirred before static synthesis'):,} ({pct('agitation', 'Stirred before static synthesis'):.1f}%) positive records, respectively; agitation is Not reported for {count('agitation', 'Not reported'):,} ({pct('agitation', 'Not reported'):.1f}%; Figure Sxx+2).
 
-The figures summarize positive records and unique DOIs; categorical DOI counts allow each paper to contribute to multiple categories, while capacity summaries use one median per DOI. The enriched training and holdout files preserve the original 23,528 and 2,595 examples, respectively, including row order and labels, changing only the three additional inputs and the system-prompt input list. Process annotations in inferred negatives may derive from successful parent protocols and are not independently observed failed-trial measurements. Washing and activation remain outside this crystallization-outcome control. These distributions describe feature availability and do not establish improved predictive performance.
+The figures summarize positive records and unique DOIs; categorical DOI counts allow each paper to contribute to multiple categories, while capacity summaries use one median per DOI. The enriched training and holdout files preserve the original {split_counts['train']:,} and {split_counts['holdout']:,} examples, respectively, including row order and labels, changing only the three additional inputs and the system-prompt input list. Process annotations in inferred negatives may derive from successful parent protocols and are not independently observed failed-trial measurements. Washing and activation remain outside this crystallization-outcome control. These distributions describe feature availability and do not establish improved predictive performance.
 """
 
 
@@ -333,7 +337,7 @@ def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path
     relationships = []
     links = [("Vessel categories", figure_folder / "process_enrich_vessel_type.png"),
              ("Vessel capacities", figure_folder / "process_enrich_vessel_volume.png"),
-             ("Stirring descriptions", figure_folder / "process_enrich_stirring.png"),
+             ("Agitation categories", figure_folder / "process_enrich_agitation.png"),
              ("Figure captions", caption_path)]
     for idx, (label, target) in enumerate(links, start=1):
         relative = os.path.relpath(target.resolve(), path.parent.resolve()).replace("\\", "/")
@@ -398,13 +402,13 @@ def main():
     summary["inputs"] = {label: {"filename": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
                          for label, path in (("positive", args.positive), ("negative", args.negative))}
     positive_counts = counts[counts.dataset.eq("positive")]
-    for field in ("vessel_type", "stirring"):
+    for field in ("vessel_type", "agitation"):
         if positive_counts.loc[positive_counts.field.eq(field), "records"].sum() != len(frames["positive"]):
             raise ValueError(f"Categorical counts must include every positive record: {field}")
     positive_counts.to_csv(report_dir / "category_counts.csv", index=False)
     coverage[coverage.dataset.eq("positive")].to_csv(report_dir / "field_coverage.csv", index=False)
     (report_dir / "distribution_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-    for field in ("vessel_type", "stirring"):
+    for field in ("vessel_type", "agitation"):
         plot_categories(positive_counts, field, args.output, args.dpi)
     plot_volume(frames, args.output, args.dpi).to_csv(report_dir / "volume_histogram_counts.csv", index=False)
     (report_dir / "FIGURE_CAPTIONS.md").write_text(captions(summary), encoding="utf-8")

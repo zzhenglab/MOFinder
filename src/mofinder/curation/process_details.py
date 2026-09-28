@@ -10,9 +10,9 @@ import json
 from pathlib import Path
 
 from .process_vessels import VERSION, VESSEL_LABEL_MAP, VESSEL_RARE_POSITIVE_COUNTS, vessel_type, vessel_volume_mL
-from .process_stirring import STIRRING_LABEL_MAP, POOLED_AGITATION_LABEL, normalize_stirring, write_stirring_audit
+from .process_stirring import STIRRING_LABEL_MAP, STIRRING_PARSER_VERSION, normalize_stirring, write_stirring_audit
 
-FEATURES = ('vessel_type','vessel_volume_mL','stirring')
+FEATURES = ('vessel_type','vessel_volume_mL','agitation')
 RAW_RENAMES = {'vessel_type':'vessel_type_raw','stirring':'stirring_raw'}
 
 
@@ -64,7 +64,7 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
         for required in ['doi','vessel_type','stirring']:
             if required not in fields:
                 raise ValueError(f'Missing required column {required}: {path}')
-        if 'vessel_volume_mL' in fields or any(x in fields for x in RAW_RENAMES.values()):
+        if 'agitation' in fields or 'vessel_volume_mL' in fields or any(x in fields for x in RAW_RENAMES.values()):
             raise ValueError('Expected original processed CSVs, not already enriched inputs')
         output_fields = [RAW_RENAMES.get(x,x) for x in fields]+list(FEATURES)
         source_counts[label] = len(rows)
@@ -72,8 +72,8 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
         for i,row in enumerate(rows):
             v = vessel_type(row['vessel_type'])
             volume = vessel_volume_mL(row['vessel_type'])
-            stir = normalize_stirring(row['stirring'])
-            derived = {'vessel_type':v,'vessel_volume_mL':volume,'stirring':stir}
+            stir = normalize_stirring(row['stirring'], row['doi'])
+            derived = {'vessel_type':v,'vessel_volume_mL':volume,'agitation':stir}
             derived = {feature: {
                 'value': info['value'], 'detailed_value': info.get('detailed_value', info['value']),
                 'rule': info['rule'], 'consolidation_rule': info.get('consolidation_rule', ''),
@@ -90,8 +90,8 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                 audit[feature+'_rule']=info['rule']
                 audit[feature+'_consolidation_rule']=info['consolidation_rule']
                 audit[feature+'_review_reason']=info['review_reason']
-                raw_value = row['stirring' if feature=='stirring' else 'vessel_type']
-                key=(feature,raw_value)
+                raw_value = row['stirring' if feature=='agitation' else 'vessel_type']
+                key=(feature,raw_value,info['value'],info['rule'])
                 if key not in mappings:
                     mappings[key]={'feature':feature,'raw_value':raw_value,**info,
                                    'positive_records':0,'negative_records':0}
@@ -152,19 +152,19 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                   'vessel_label_map': VESSEL_LABEL_MAP,
                   'vessel_rare_positive_counts': VESSEL_RARE_POSITIVE_COUNTS,
                   'vessel_rare_threshold_exclusive': 10,
-                  'stirring_rare_threshold_exclusive': 50,
-                  'stirring_label_map': STIRRING_LABEL_MAP,
-                  'pooled_agitation_label': POOLED_AGITATION_LABEL,
-                  'stirring_label_max_words': 5,
+                  'agitation_frequency_pooling': False,
+                  'agitation_label_map': STIRRING_LABEL_MAP,
+                  'agitation_parser_version': STIRRING_PARSER_VERSION,
+                  'agitation_label_max_words': 5,
                   'detailed_classes_retained_in_audit': True,
                   'audit_file': 'audit/category_consolidation.csv',
                   'not_reported_caveat': 'Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation.',
               },
               'normalization_code_sha256':{f.name:digest(f) for f in
-                    [Path(__file__),Path(__file__).with_name('process_vessels.py'),Path(__file__).with_name('process_stirring.py')]},
+                    [Path(__file__),Path(__file__).with_name('process_vessels.py'),Path(__file__).with_name('process_stirring.py'),Path(__file__).with_name('agitation_source_reviews.py')]},
               'raw_mappings':len(mapping_rows),'review_required_mappings':len(flagged),
               'rare_mappings_frequency_le5':len(rare),
-              'stirring_audit': stirring_audit,
+              'agitation_audit': stirring_audit,
               'rows_preserved':True,'source_values_preserved':True,
               'negative_provenance':'Negative process annotations can be inherited; normalization does not validate failed attempts.'}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
