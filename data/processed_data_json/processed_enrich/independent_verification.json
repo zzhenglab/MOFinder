@@ -26,7 +26,7 @@
       "enriched_rows": 23528,
       "rows_compared_in_file_order": 23528,
       "baseline_sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
-      "enriched_sha256": "2d1ac6de5f85c700de64dee216948cd196501d2c9647e9423d7a1a5c9ff079c9",
+      "enriched_sha256": "69821f68873f014c392e50572898bb1b708ec6f921a6ef7a8cfa8264674dc57a",
       "labels": {
         "baseline": {
           "N": 11560,
@@ -50,7 +50,7 @@
       "enriched_rows": 2595,
       "rows_compared_in_file_order": 2595,
       "baseline_sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
-      "enriched_sha256": "6ceea65efe9f9e126361bd4bb1de9b44535d19d1e83a065107b607d56503c08e",
+      "enriched_sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e",
       "labels": {
         "baseline": {
           "N": 1275,

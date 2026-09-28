@@ -154,7 +154,7 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                   'vessel_rare_threshold_exclusive': 10,
                   'agitation_frequency_pooling': False,
                   'agitation_classes': list(STIRRING_CLASSES),
-                  'agitation_grouping': 'Non-sonication methods share stage-based classes; sonication remains separate. Detailed methods stay in audit fields.',
+                  'agitation_grouping': 'Stirring and sonication retain preparatory/static distinctions; shaking, vortexing, rotation and mixing share a separate group. Reported-only classes do not assume a reaction stage; detailed methods and timing stay in audit fields.',
                   'agitation_label_map': STIRRING_LABEL_MAP,
                   'agitation_parser_version': STIRRING_PARSER_VERSION,
                   'agitation_label_max_words': 5,

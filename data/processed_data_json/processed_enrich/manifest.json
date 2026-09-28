@@ -27,11 +27,11 @@
   "sources": {
     "positive_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_positive.csv",
-      "sha256": "c0c9cdef937f8d1c22c51dc89d95db68f4468f0127bd16cc3e444ec76ad83a5e"
+      "sha256": "45d593cee581aec5a0ea95f72b0920765c06dab0b67bdd91d5057dd335ffa3ad"
     },
     "negative_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_negative.csv",
-      "sha256": "dd6aa3cccf1cdc0902c9a6b1028090e3d08073799df19acde54b0359c368a16d"
+      "sha256": "664c81efd6c4c06246fd8352efba6261c923d9e93cc3e412fc9a29eb9693e266"
     },
     "baseline_train": {
       "path": "data/processed_data_json/train.jsonl",
@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "a1cabdfcfe04063c165739b29ea262aed5495d8e2e74434d47e15f2ee93236c1"
+      "sha256": "099f49377662fcc3012b9b22745db9fc4336eb513ec60c404d2e955f3675ead3"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -76,15 +76,15 @@
     "train": {
       "path": "train_process_enrich.jsonl",
       "rows": 23528,
-      "sha256": "2d1ac6de5f85c700de64dee216948cd196501d2c9647e9423d7a1a5c9ff079c9",
-      "bytes": 22938400,
+      "sha256": "69821f68873f014c392e50572898bb1b708ec6f921a6ef7a8cfa8264674dc57a",
+      "bytes": 22904930,
       "labels": {
         "N": 11560,
         "P": 11968
       },
       "source_rows": {
         "path": "train_sources.csv",
-        "sha256": "30f959f73e58bf06dd654091fdfb135161e1335152075347ba73cd6a9956b075"
+        "sha256": "fbc1e5108f1f05fdc0f402dda163e41fd3a00ad9c8e4ad1b44444edc3fe2f1bd"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -248,26 +248,26 @@
         },
         "agitation": {
           "N": {
-            "Agitated before static synthesis": 1457,
-            "Agitated during preparation": 438,
-            "Agitated during synthesis": 14,
-            "Agitated; stage not reported": 1320,
             "No stirring": 4974,
             "Not reported": 3159,
+            "Shaking, vortexing, rotation and mixing": 50,
+            "Sonicated before main synthesis": 1,
             "Sonicated before static synthesis": 164,
-            "Sonicated during preparation": 1,
-            "Sonicated; stage not reported": 33
+            "Sonication reported": 33,
+            "Stirred before main synthesis": 437,
+            "Stirred before static synthesis": 1410,
+            "Stirring reported": 1332
           },
           "P": {
-            "Agitated before static synthesis": 1398,
-            "Agitated during preparation": 383,
-            "Agitated during synthesis": 15,
-            "Agitated; stage not reported": 1681,
             "No stirring": 5084,
             "Not reported": 3114,
+            "Shaking, vortexing, rotation and mixing": 53,
+            "Sonicated before main synthesis": 19,
             "Sonicated before static synthesis": 260,
-            "Sonicated during preparation": 19,
-            "Sonicated; stage not reported": 14
+            "Sonication reported": 14,
+            "Stirred before main synthesis": 399,
+            "Stirred before static synthesis": 1370,
+            "Stirring reported": 1655
           }
         }
       }
@@ -275,15 +275,15 @@
     "holdout": {
       "path": "holdout_process_enrich.jsonl",
       "rows": 2595,
-      "sha256": "6ceea65efe9f9e126361bd4bb1de9b44535d19d1e83a065107b607d56503c08e",
-      "bytes": 2528009,
+      "sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e",
+      "bytes": 2524281,
       "labels": {
         "N": 1275,
         "P": 1320
       },
       "source_rows": {
         "path": "holdout_sources.csv",
-        "sha256": "a840c5a4edd39b85e581aaeec2dbe0fae5d891be79124a90884c184a375e2b28"
+        "sha256": "71030b751a7a7ebee042463f30975aa34870d00add39f3b85640d912c424326c"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -395,23 +395,25 @@
         },
         "agitation": {
           "N": {
-            "Agitated before static synthesis": 159,
-            "Agitated during preparation": 35,
-            "Agitated; stage not reported": 178,
             "No stirring": 546,
             "Not reported": 312,
+            "Shaking, vortexing, rotation and mixing": 5,
             "Sonicated before static synthesis": 39,
-            "Sonicated; stage not reported": 6
+            "Sonication reported": 6,
+            "Stirred before main synthesis": 35,
+            "Stirred before static synthesis": 154,
+            "Stirring reported": 178
           },
           "P": {
-            "Agitated before static synthesis": 174,
-            "Agitated during preparation": 49,
-            "Agitated; stage not reported": 146,
             "No stirring": 576,
             "Not reported": 328,
+            "Shaking, vortexing, rotation and mixing": 4,
+            "Sonicated before main synthesis": 3,
             "Sonicated before static synthesis": 42,
-            "Sonicated during preparation": 3,
-            "Sonicated; stage not reported": 2
+            "Sonication reported": 2,
+            "Stirred before main synthesis": 49,
+            "Stirred before static synthesis": 170,
+            "Stirring reported": 146
           }
         }
       }

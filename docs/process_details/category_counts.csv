@@ -19,10 +19,10 @@ positive,vessel_type,Ampoule,14,0.09126466753585398,7,0.1532399299474606
 positive,vessel_type,Reaction cell,12,0.07822685788787484,3,0.06567425569176882
 positive,agitation,No stirring,6522,42.51629726205998,1983,43.41068301225919
 positive,agitation,Not reported,3886,25.33246414602347,1237,27.079684763572683
-positive,agitation,Agitated; stage not reported,2223,14.491525423728813,681,14.908056042031523
-positive,agitation,Agitated before static synthesis,1792,11.68187744458931,702,15.367775831873907
-positive,agitation,Agitated during preparation,479,3.122555410691004,170,3.7215411558669005
+positive,agitation,Stirring reported,2190,14.276401564537158,677,14.820490367775832
+positive,agitation,Stirred before static synthesis,1759,11.466753585397653,689,15.083187390542907
+positive,agitation,Stirred before main synthesis,495,3.226857887874837,171,3.7434325744308232
 positive,agitation,Sonicated before static synthesis,377,2.457627118644068,147,3.2180385288966726
-positive,agitation,Sonicated; stage not reported,24,0.15645371577574968,12,0.2626970227670753
-positive,agitation,Sonicated during preparation,22,0.14341590612777053,10,0.21891418563922943
-positive,agitation,Agitated during synthesis,15,0.09778357235984356,10,0.21891418563922943
+positive,agitation,"Shaking, vortexing, rotation and mixing",65,0.423728813559322,26,0.5691768826619965
+positive,agitation,Sonication reported,24,0.15645371577574968,12,0.2626970227670753
+positive,agitation,Sonicated before main synthesis,22,0.14341590612777053,10,0.21891418563922943

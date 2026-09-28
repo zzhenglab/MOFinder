@@ -83,13 +83,13 @@ positive,vessel_volume_mL,5500,1,0.00651890482398957,1
 positive,vessel_volume_mL,100000,1,0.00651890482398957,1
 positive,agitation,No stirring,6522,42.51629726205998,1983
 positive,agitation,Not reported,3886,25.33246414602347,1237
-positive,agitation,Agitated; stage not reported,2223,14.491525423728813,681
-positive,agitation,Agitated before static synthesis,1792,11.68187744458931,702
-positive,agitation,Agitated during preparation,479,3.122555410691004,170
+positive,agitation,Stirring reported,2190,14.276401564537158,677
+positive,agitation,Stirred before static synthesis,1759,11.466753585397653,689
+positive,agitation,Stirred before main synthesis,495,3.226857887874837,171
 positive,agitation,Sonicated before static synthesis,377,2.457627118644068,147
-positive,agitation,Sonicated; stage not reported,24,0.15645371577574968,12
-positive,agitation,Sonicated during preparation,22,0.14341590612777053,10
-positive,agitation,Agitated during synthesis,15,0.09778357235984356,10
+positive,agitation,"Shaking, vortexing, rotation and mixing",65,0.423728813559322,26
+positive,agitation,Sonication reported,24,0.15645371577574968,12
+positive,agitation,Sonicated before main synthesis,22,0.14341590612777053,10
 negative,vessel_type,PTFE-lined autoclave,5647,37.48921197636593,481
 negative,vessel_type,Vial,2057,13.65597822478922,251
 negative,vessel_type,Not reported,1876,12.454358361548163,239
@@ -161,10 +161,10 @@ negative,vessel_volume_mL,2000,1,0.006638783774812454,1
 negative,vessel_volume_mL,3000,1,0.006638783774812454,1
 negative,agitation,No stirring,6609,43.87572196773551,569
 negative,agitation,Not reported,3987,26.468830910177253,329
-negative,agitation,Agitated before static synthesis,1869,12.407886875124477,153
-negative,agitation,Agitated; stage not reported,1740,11.55148376817367,224
-negative,agitation,Agitated during preparation,568,3.7708291840934742,48
+negative,agitation,Stirred before static synthesis,1815,12.049392551284605,148
+negative,agitation,Stirring reported,1756,11.65770430857067,224
+negative,agitation,Stirred before main synthesis,567,3.7641904003186615,47
 negative,agitation,Sonicated before static synthesis,232,1.5401978357564894,35
-negative,agitation,Sonicated; stage not reported,39,0.2589125672176857,5
-negative,agitation,Agitated during synthesis,18,0.11949810794662419,3
-negative,agitation,Sonicated during preparation,1,0.006638783774812454,1
+negative,agitation,"Shaking, vortexing, rotation and mixing",57,0.37841067516430993,8
+negative,agitation,Sonication reported,39,0.2589125672176857,5
+negative,agitation,Sonicated before main synthesis,1,0.006638783774812454,1
