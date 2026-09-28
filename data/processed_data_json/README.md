@@ -22,7 +22,14 @@ Some training workflows also use the holdout as validation data. Record that use
 
 ## Process-enriched matched control
 
-[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume_mL`, and `stirring`. Its [system prompt](../../prompts/training/reaction_prediction_process_enrich.txt) adds the three process fields to the original input list. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
+[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume_mL`, and `agitation`. Its [system prompt](../../prompts/training/reaction_prediction_process_enrich.txt) adds the three process fields to the original input list. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
+
+## Training-data ablations
+
+- [artificial_perturbation/](artificial_perturbation/README.md): one training set replacing reconstructed negatives with artificial perturbations of training positives.
+- [leave_one_perturbation_out/](leave_one_perturbation_out/README.md): one training set removing single-field negative neighbors and five equally sized random-drop controls.
+
+Both folders include the unchanged standard holdout. Use the existing trained baseline for comparison. [Preparation code](../../src/mofinder/curation/ablations.py) regenerates both controls from the processed positive and negative CSVs.
 
 ## Training and test visualization
 

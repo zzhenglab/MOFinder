@@ -275,7 +275,7 @@ def prepare_process_enrich(settings):
             "The canonical prompt is [reaction_prediction_process_enrich.txt](../../../prompts/training/reaction_prediction_process_enrich.txt); "
             "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
             "The [positive-dataset figure gallery](../../../docs/process_details/README.md#figures) provides vessel-type, "
-            "vessel-capacity, and agitation distributions, with the Section S5 draft, captions, calculation tables, and counting methods.\n\n"
+            "vessel-capacity, and agitation distributions, calculation tables, and counting methods.\n\n"
             "Nine agitation classes distinguish stirring, sonication, and shaking or mixing methods. Labels contain two to five words; original descriptions remain in the source CSVs. Stirring reported does not establish continuous reaction-stage stirring. "
             "Unspecified and selected rare vessel types map to `Not reported`. "
             "The same fixed classification rules are applied to positive and negative records before either split is exported. "

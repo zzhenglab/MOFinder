@@ -6,7 +6,7 @@ The plotting script reads the cleaned process-detail CSVs and never changes eith
 python tools/plot_process_details.py --output results/process_details/figures --report-dir results/process_details/reports
 ```
 
-`--output` is required and receives three PNG figures. `--report-dir` is separate and holds calculation tables, captions, provenance, and the Section S5 Markdown draft. If omitted, it defaults to a sibling directory named `process_enrich_data`. Custom source paths can be supplied with `--positive` and `--negative`. Optional `--si-section PATH` and `--docx PATH` arguments save Markdown and Word drafts at the supplied paths. PNG is the figure export format. Published copies appear in the [figure gallery](README.md#figures) and the [process-enriched dataset README](../../data/processed_data_json/processed_enrich/README.md).
+`--output` receives three PNG figures; `--report-dir` receives local calculation tables and reports. Custom source paths can be supplied with `--positive` and `--negative`. Published PNGs appear in the [figure gallery](README.md#figures).
 
 The figures describe all 15,340 cleaned positive tabular records from 4,568 DOIs, before model-training exclusions. Negative records are not plotted. The three outputs are:
 
@@ -34,4 +34,4 @@ Capacity histograms use only positive finite numerical capacities. **Not reporte
 
 `category_counts.csv`, `field_coverage.csv`, and `volume_histogram_counts.csv` contain positive-dataset calculations. `distribution_summary.json` retains both input-file SHA256 hashes and summary statistics for provenance. Its `resolved_records` measure counts retained final categories and excludes explicitly missing, unclear, ambiguous, and unresolved labels; after rare-vessel pooling, it should not be interpreted as the count of every source record that mentions a known vessel.
 
-The [figure captions](FIGURE_CAPTIONS.md) and [Section S5 draft](Section_S5_process_details.md) accompany the published figures. Negative process annotations may be inherited from successful parent protocols, so this control does not constitute independent experimental verification of failed-trial process conditions.
+Negative process annotations may be inherited from successful parent protocols, so this control does not constitute independent experimental verification of failed-trial process conditions.

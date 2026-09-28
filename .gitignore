@@ -25,3 +25,7 @@ SI downloaded/
 
 # Keep process-detail review outputs local.
 /data/processed_data/with_process_details/audit/
+
+# Manuscript drafts are generated locally, not published with dataset docs.
+/docs/process_details/FIGURE_CAPTIONS.md
+/docs/process_details/Section_S5_process_details.md
