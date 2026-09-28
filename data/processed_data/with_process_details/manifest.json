@@ -68,7 +68,7 @@
       "Sonication reported",
       "Shaking, vortexing, rotation and mixing"
     ],
-    "agitation_grouping": "Stirring and sonication retain preparatory/static distinctions; shaking, vortexing, rotation and mixing share a separate group. Reported-only classes do not assume a reaction stage; detailed methods and timing stay in audit fields.",
+    "agitation_grouping": "Stirring and sonication retain preparatory/static distinctions; shaking, vortexing, rotation and mixing share a separate group. Reported-only classes do not assume a reaction stage; detailed methods and timing are returned by the normalizers.",
     "agitation_label_map": {
       "Static / no stirring": "No stirring",
       "Stirred during preparation": "Stirred before main synthesis",
@@ -104,12 +104,11 @@
     },
     "agitation_parser_version": "process-agitation-v6",
     "agitation_label_max_words": 5,
-    "detailed_classes_retained_in_audit": true,
-    "audit_file": "audit/category_consolidation.csv",
+    "detailed_classes_returned_by_normalizers": true,
     "not_reported_caveat": "Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation."
   },
   "normalization_code_sha256": {
-    "process_details.py": "0aacb6b0391bb97cc45b666fd9ac9fa5b3c7ae68c2b6bb366a5a11deddf1a14f",
+    "process_details.py": "7a201a77e62e069451aecb1931a2d21229f5d2ba47ea6e7602b38f70d982bda1",
     "process_vessels.py": "c34018ce90930834546da7ebdecd8fbc7da6cdc5f2da7d4d141850069227325b",
     "process_stirring.py": "39c250b49b573505f4a0c6c428aadb56c318aa232311322c25f6bc5c2d8ec072",
     "agitation_source_reviews.py": "346974fe4109b9412bcd2a85758981d8ad26cc4a218b1dd6882e322516a8f636"

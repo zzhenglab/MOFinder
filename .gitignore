@@ -22,3 +22,6 @@ data/local/
 configs/local/
 downloaded/
 SI downloaded/
+
+# Keep process-detail review outputs local.
+/data/processed_data/with_process_details/audit/
