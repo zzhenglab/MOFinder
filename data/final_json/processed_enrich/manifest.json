@@ -3,7 +3,7 @@
   "feature_profile": "process_enrich",
   "source_path_base": "project_root (absolute paths retained for external inputs)",
   "output_path_base": "manifest_directory",
-  "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume, and stirring.",
+  "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and stirring.",
   "input_fields": [
     "metal_precursor",
     "organic_linker",
@@ -14,7 +14,7 @@
     "temperature_C",
     "time_h",
     "vessel_type",
-    "vessel_volume",
+    "vessel_volume_mL",
     "stirring"
   ],
   "vessel_volume_unit": "mL",
@@ -27,11 +27,11 @@
   "sources": {
     "positive_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_positive.csv",
-      "sha256": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc"
+      "sha256": "2347990b53c3bf8ca49ef2f74e42c9ba11f9f55803c3a57798c811c48a791c27"
     },
     "negative_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_negative.csv",
-      "sha256": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db"
+      "sha256": "c3a581a71337effe99efda63d59379b5bc6fc2a1205582dda5ab6dbcd84e0911"
     },
     "baseline_train": {
       "path": "data/final_json/train.jsonl",
@@ -47,7 +47,7 @@
     },
     "prompt_file": {
       "path": "prompts/training/reaction_prediction_process_enrich.txt",
-      "sha256": "180965dfd203b0e2e2314a99ce56a3cefc9b22b9a93bcc737c0b35ef21fac2c1"
+      "sha256": "31980301feb3cb4f322515ef6dc8b016eab74532375a063d1408413717544ddc"
     },
     "config_file": {
       "path": "configs/dataset_preparation_process_enrich.json",
@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "2dcc3344fcdf849485796c34b0175ddc5d2fb1310f034a4078d8b1e33b912097"
+      "sha256": "ecc85ca43a333b51b52d61f1d70ee0d5b291deb5a0ba761779485554e2ec99bc"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -65,7 +65,7 @@
     },
     "feature_profiles": {
       "path": "src/mofinder/training/records.py",
-      "sha256": "a5ddfe54a8368553502465f7bc01eecf5dac387f97bf5112c1ad7538b3f53bda"
+      "sha256": "eb7eee9eed9ea63a33f364e77f34a9370f181b2d5a579bd240c2caa816ce6452"
     },
     "training_validation": {
       "path": "src/mofinder/training/prepare.py",
@@ -76,15 +76,15 @@
     "train": {
       "path": "train.jsonl",
       "rows": 23528,
-      "sha256": "240d68cdac78cb85bd970927cbf0264bd0da93fd86ce78ec0c897acc48c324f2",
-      "bytes": 23027867,
+      "sha256": "d6f2d99dfcee9051f74dcf44eab19b41e0e45eff1d106048dc8ed66531f789aa",
+      "bytes": 23169035,
       "labels": {
         "N": 11560,
         "P": 11968
       },
       "source_rows": {
         "path": "train_sources.csv",
-        "sha256": "721f7bfe05d6010415b33461429494e8964bc2534f08b4006990f92601e9db1e"
+        "sha256": "b1065d5b775aaa62045ed1a04c7131f1b26985facd89205ac583a4037742c958"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -134,7 +134,7 @@
             "Vial": 2005
           }
         },
-        "vessel_volume": {
+        "vessel_volume_mL": {
           "N": {
             "0.25": 5,
             "1.5": 23,
@@ -289,15 +289,15 @@
     "holdout": {
       "path": "holdout.jsonl",
       "rows": 2595,
-      "sha256": "198e4f07e37b1053c548db897161907d1947ea398f258d6237fdeeefc3f274e0",
-      "bytes": 2538357,
+      "sha256": "1e62805aeaa6ea3d165925f423dc09909d515ce1e38de3cac44b1d65ce7372f6",
+      "bytes": 2553927,
       "labels": {
         "N": 1275,
         "P": 1320
       },
       "source_rows": {
         "path": "holdout_sources.csv",
-        "sha256": "7ea86dc20b97530503ed96f3c52de4ab3b0d90b5b574fd00f138cfdf50c8a217"
+        "sha256": "a03d392269d382b039e9dc58902d499024df1268aece4367a2efa7c6d36676d2"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -338,7 +338,7 @@
             "Vial": 207
           }
         },
-        "vessel_volume": {
+        "vessel_volume_mL": {
           "N": {
             "10.0": 20,
             "100.0": 23,
@@ -449,7 +449,7 @@
   },
   "reaction_prediction": {
     "path": "reaction_prediction_process_enrich.txt",
-    "sha256": "180965dfd203b0e2e2314a99ce56a3cefc9b22b9a93bcc737c0b35ef21fac2c1"
+    "sha256": "31980301feb3cb4f322515ef6dc8b016eab74532375a063d1408413717544ddc"
   },
   "validation": {
     "mapped_source_rows": 26123,

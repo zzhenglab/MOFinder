@@ -1,6 +1,6 @@
 # Process-enriched matched control
 
-`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. They add only `vessel_type`, `vessel_volume` (capacity in mL), and `stirring`. The system prompt is identical to each original prompt except for these three names appended to its input list. Missing values are `Not reported`; unresolved capacities are `Ambiguous`.
+`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. The system prompt is identical to each original prompt except for these three names appended to its input list. Missing values are `Not reported`; unresolved capacities are `Ambiguous`.
 
 The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. `jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.
 

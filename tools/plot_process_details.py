@@ -34,7 +34,7 @@ import pandas as pd
 REPO = Path(__file__).resolve().parents[1]
 DATA = REPO / "data/processed_data/with_process_details"
 COLORS = {"positive": "#A2C4F1", "negative": "#F2DAE7"}
-FIELDS = ("vessel_type", "vessel_volume", "stirring")
+FIELDS = ("vessel_type", "vessel_volume_mL", "stirring")
 MISSING = {"", "not reported", "not_reported", "unknown", "nan", "none", "n/a"}
 UNRESOLVED_CATEGORIES = {"not reported", "ambiguous", "unclear", "unclear / ambiguous",
                          "unresolved vessel description", "vessel (type not reported)"}
@@ -74,7 +74,7 @@ def read_frame(path: Path) -> pd.DataFrame:
     for field in ("vessel_type", "stirring"):
         frame[field] = frame[field].str.strip()
         frame.loc[frame[field].str.casefold().isin(MISSING), field] = "Not reported"
-    frame["volume_ml"] = pd.to_numeric(frame.vessel_volume, errors="coerce")
+    frame["volume_ml"] = pd.to_numeric(frame.vessel_volume_mL, errors="coerce")
     frame.loc[~np.isfinite(frame.volume_ml) | (frame.volume_ml <= 0), "volume_ml"] = np.nan
     return frame
 
@@ -105,10 +105,10 @@ def summarize(frames: dict[str, pd.DataFrame]) -> tuple[dict, pd.DataFrame, pd.D
             "records_without_doi": int(frame.doi_normalized.eq("").sum()),
             "volume_records": numeric_stats(frame.volume_ml),
             "volume_doi_medians": numeric_stats(numeric_doi),
-            "volume_nonnumeric_labels": frame.loc[~valid, "vessel_volume"].value_counts().to_dict(),
+            "volume_nonnumeric_labels": frame.loc[~valid, "vessel_volume_mL"].value_counts().to_dict(),
         }
         for field in FIELDS:
-            if field == "vessel_volume":
+            if field == "vessel_volume_mL":
                 reported = valid
             else:
                 # Missing and ambiguity labels remain plotted but are not

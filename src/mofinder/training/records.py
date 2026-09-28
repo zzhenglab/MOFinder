@@ -9,7 +9,7 @@ INPUT_FIELDS = (
     "metal_precursor", "organic_linker", "modulator", "solvent",
     "metal_concentration_mM", "M_L_ratio", "temperature_C", "time_h",
 )
-PROCESS_FIELDS = ("vessel_type", "vessel_volume", "stirring")
+PROCESS_FIELDS = ("vessel_type", "vessel_volume_mL", "stirring")
 FEATURE_PROFILES = {"baseline8": INPUT_FIELDS, "process_enrich": INPUT_FIELDS + PROCESS_FIELDS}
 REACTION_PROMPT_FILE = Path(__file__).resolve().parents[3] / "prompts/training/reaction_prediction.txt"
 PROCESS_PROMPT_FILE = REACTION_PROMPT_FILE.with_name("reaction_prediction_process_enrich.txt")
@@ -29,10 +29,10 @@ def validate_process_fields(conditions):
         if (not isinstance(value, str) or not value.strip() or value != value.strip()
                 or value.lower() in {"none", "null", "nan", "n/a", "unknown"}):
             raise ValueError(f"Invalid {field}; use a cleaned category or Not reported")
-    volume = conditions.get("vessel_volume")
+    volume = conditions.get("vessel_volume_mL")
     if volume not in ("Not reported", "Ambiguous"):
         if isinstance(volume, bool) or not isinstance(volume, (int, float)) or not math.isfinite(volume) or volume <= 0:
-            raise ValueError("vessel_volume must be a positive finite capacity in mL, Not reported, or Ambiguous")
+            raise ValueError("vessel_volume_mL must be a positive finite capacity in mL, Not reported, or Ambiguous")
 
 
 def read_reaction_prompt(path=REACTION_PROMPT_FILE):

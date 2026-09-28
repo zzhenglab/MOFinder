@@ -7,12 +7,12 @@ These optional control tables add three cleaned process features to every origin
 | [Process_detail_positive.csv](Process_detail_positive.csv) | 15,340 | 86 |
 | [Process_detail_negative.csv](Process_detail_negative.csv) | 15,063 | 79 |
 
-Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and `stirring_raw`. Their exact strings, all other source cells, and row order are preserved. Three columns are appended: `vessel_type`, `vessel_volume`, and `stirring`. Both files use UTF-8 with a byte-order mark.
+Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and `stirring_raw`. Their exact strings, all other source cells, and row order are preserved. Three columns are appended: `vessel_type`, `vessel_volume_mL`, and `stirring`. Both files use UTF-8 with a byte-order mark.
 
 | Added field | Representation |
 | --- | --- |
 | `vessel_type` | Controlled category based on the recorded vessel description; missing or equipment-only descriptions are `Not reported` |
-| `vessel_volume` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
+| `vessel_volume_mL` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
 | `stirring` | Controlled agitation/stage description, `Not reported`, or `Unclear / ambiguous` |
 
 ## Reproduce

@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from mofinder.curation.process_vessels import vessel_type, vessel_volume
+from mofinder.curation.process_vessels import vessel_type, vessel_volume_mL
 from mofinder.curation.process_details import prepare_process_details
 
 
@@ -33,33 +33,33 @@ class VesselTests(unittest.TestCase):
                     'Space-confined glass slide reactor immersed in 100 mL Schott bottle']:
             with self.subTest(raw=raw):
                 self.assertEqual(vessel_type(raw)['value'],'Nested / multiple vessels')
-                self.assertEqual(vessel_volume(raw)['value'],'Ambiguous')
+                self.assertEqual(vessel_volume_mL(raw)['value'],'Ambiguous')
         self.assertEqual(vessel_type('capped conical flask in preheated oven (closed glass vessel)')['value'],'Flask')
-        self.assertEqual(vessel_volume('Teflon vial (2 mL) in HT reactor block')['value'],2)
-        self.assertEqual(vessel_volume('80 mL Teflon tube in microwave reactor')['value'],80)
+        self.assertEqual(vessel_volume_mL('Teflon vial (2 mL) in HT reactor block')['value'],2)
+        self.assertEqual(vessel_volume_mL('80 mL Teflon tube in microwave reactor')['value'],80)
 
     def test_charge_is_not_capacity(self):
         for raw in ['DURAN glass tube (12 mm); 2 mL suspension charged',
                     'vial containing 5 mL reaction mixture','glass vial filled with 5 mL methanol',
                     'glass vial (5 mL working volume)']:
-            self.assertEqual(vessel_volume(raw)['value'],'Not reported',raw)
-        self.assertEqual(vessel_volume('PTFE-lined steel autoclave (37 mL; reaction volume 20 mL)')['value'],37)
-        self.assertEqual(vessel_volume('25 mL vial containing 5 mL ethanol')['value'],25)
+            self.assertEqual(vessel_volume_mL(raw)['value'],'Not reported',raw)
+        self.assertEqual(vessel_volume_mL('PTFE-lined steel autoclave (37 mL; reaction volume 20 mL)')['value'],37)
+        self.assertEqual(vessel_volume_mL('25 mL vial containing 5 mL ethanol')['value'],25)
 
     def test_symbol_and_unit_variants(self):
         for raw,expected in [('23-M L Teflon-lined autoclave',23),('２０ mL vial',20),
                              ('PTFE insert (300 μL)',.3),('PTFE insert (300 µL)',.3),
                              ('1 L reactor',1000),('50 cm³ vessel',50),('1,000 mL flask',1000),
                              ('Teflon-lined autoclave (2 × 250 mL)',250)]:
-            self.assertEqual(vessel_volume(raw)['value'],expected,raw)
+            self.assertEqual(vessel_volume_mL(raw)['value'],expected,raw)
 
     def test_ambiguity_is_not_silently_imputed(self):
         for raw in ['vial (20–28 mL)','PTFE insert (300 ?L)','6-dram glass vial',
                     'six-dram glass vial','6 dr glass vial','10 L glass vial',
                     '0 mL vial','-10 mL vial']:
-            self.assertEqual(vessel_volume(raw)['value'],'Ambiguous',raw)
-        self.assertEqual(vessel_volume('Parr 4749 vessel')['value'],'Not reported')
-        self.assertEqual(vessel_volume('glass tube 25 × 40 mm')['value'],'Not reported')
+            self.assertEqual(vessel_volume_mL(raw)['value'],'Ambiguous',raw)
+        self.assertEqual(vessel_volume_mL('Parr 4749 vessel')['value'],'Not reported')
+        self.assertEqual(vessel_volume_mL('glass tube 25 × 40 mm')['value'],'Not reported')
 
     def test_shapes_and_equipment(self):
         for raw,expected in [('autoclavable glass bottle','Bottle / jar'),('Schlenk flask','Flask'),
@@ -88,7 +88,7 @@ class VesselTests(unittest.TestCase):
             with (root/'output/Process_detail_positive.csv').open(encoding='utf-8-sig',newline='') as f:
                 observed=list(csv.DictReader(f))
             self.assertEqual([r['other'] for r in observed],[r['other'] for r in rows])
-            self.assertEqual(observed[1]['vessel_volume'],'Not reported')
+            self.assertEqual(observed[1]['vessel_volume_mL'],'Not reported')
             self.assertEqual(len(observed[0]),len(fields)+3)
             self.assertTrue(metadata['rows_preserved'])
 

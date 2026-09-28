@@ -9,10 +9,10 @@ import hashlib
 import json
 from pathlib import Path
 
-from .process_vessels import VERSION, vessel_type, vessel_volume
+from .process_vessels import VERSION, vessel_type, vessel_volume_mL
 from .process_stirring import normalize_stirring
 
-FEATURES = ('vessel_type','vessel_volume','stirring')
+FEATURES = ('vessel_type','vessel_volume_mL','stirring')
 RAW_RENAMES = {'vessel_type':'vessel_type_raw','stirring':'stirring_raw'}
 
 
@@ -64,16 +64,16 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
         for required in ['doi','vessel_type','stirring']:
             if required not in fields:
                 raise ValueError(f'Missing required column {required}: {path}')
-        if 'vessel_volume' in fields or any(x in fields for x in RAW_RENAMES.values()):
+        if 'vessel_volume_mL' in fields or any(x in fields for x in RAW_RENAMES.values()):
             raise ValueError('Expected original processed CSVs, not already enriched inputs')
         output_fields = [RAW_RENAMES.get(x,x) for x in fields]+list(FEATURES)
         source_counts[label] = len(rows)
         exported = []
         for i,row in enumerate(rows):
             v = vessel_type(row['vessel_type'])
-            volume = vessel_volume(row['vessel_type'])
+            volume = vessel_volume_mL(row['vessel_type'])
             stir = normalize_stirring(row['stirring'])
-            derived = {'vessel_type':v,'vessel_volume':volume,'stirring':stir}
+            derived = {'vessel_type':v,'vessel_volume_mL':volume,'stirring':stir}
             clean = {RAW_RENAMES.get(k,k):value for k,value in row.items()}
             clean.update({k:csv_text(info['value']) for k,info in derived.items()})
             exported.append(clean)

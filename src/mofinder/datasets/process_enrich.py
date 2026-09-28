@@ -29,14 +29,14 @@ PATH_KEYS = ("positive_csv", "negative_csv", "baseline_train", "baseline_holdout
 SOURCE_FIELDS = (
     "split", "jsonl_row_number", "source_row_id", "source_table", "source_csv_row_index",
     "label", "doi_norm", "condition_key", "cluster_key", "vessel_type_raw", "stirring_raw",
-    "vessel_type", "vessel_volume", "stirring", "annotation_caveat",
+    "vessel_type", "vessel_volume_mL", "stirring", "annotation_caveat",
 )
 
 
 def extend_input_description(prompt):
     """Change only the archived prompt's input list for the matched control."""
     original = "temperature_C, and time_h."
-    expanded = "temperature_C, time_h, vessel_type, vessel_volume, and stirring."
+    expanded = "temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring."
     if prompt.count(original) != 1:
         raise ValueError("Baseline system prompt must contain exactly one original input list")
     return prompt.replace(original, expanded, 1)
@@ -70,12 +70,12 @@ def _process_values(row):
     if missing:
         raise ValueError(f"Enriched source lacks process fields: {sorted(missing)}")
     values = {field: row[field] for field in PROCESS_FIELDS}
-    volume = values["vessel_volume"]
+    volume = values["vessel_volume_mL"]
     if volume not in ("Not reported", "Ambiguous"):
         try:
-            values["vessel_volume"] = float(volume)
+            values["vessel_volume_mL"] = float(volume)
         except (ValueError, TypeError) as exc:
-            raise ValueError(f"Uncleaned vessel_volume: {volume!r}") from exc
+            raise ValueError(f"Uncleaned vessel_volume_mL: {volume!r}") from exc
     validate_process_fields(values)
     return values
 
@@ -161,7 +161,7 @@ def prepare_process_enrich(settings):
         "feature_profile": "process_enrich",
         "source_path_base": "project_root (absolute paths retained for external inputs)",
         "output_path_base": "manifest_directory",
-        "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume, and stirring.",
+        "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume_mL, and stirring.",
         "input_fields": list(input_fields("process_enrich")),
         "vessel_volume_unit": "mL",
         "missing_value": "Not reported",
@@ -267,7 +267,7 @@ def prepare_process_enrich(settings):
         (staged / "README.md").write_text(
             "# Process-enriched matched control\n\n"
             "`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
-            "They add only `vessel_type`, `vessel_volume` (capacity in mL), and `stirring`. "
+            "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. "
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. "

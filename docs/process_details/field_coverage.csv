@@ -1,7 +1,7 @@
 dataset,field,resolved_records,total_records,resolved_percent,dois_with_resolved_value,total_dois
 positive,vessel_type,12858,15340,83.82007822685789,3886,4568
-positive,vessel_volume,7271,15340,47.39895697522816,2223,4568
+positive,vessel_volume_mL,7271,15340,47.39895697522816,2223,4568
 positive,stirring,11454,15340,74.66753585397653,3466,4568
 negative,vessel_type,13187,15063,87.54564163845183,1074,1280
-negative,vessel_volume,7780,15063,51.64973776804089,611,1280
+negative,vessel_volume_mL,7780,15063,51.64973776804089,611,1280
 negative,stirring,11076,15063,73.53116908982274,979,1280

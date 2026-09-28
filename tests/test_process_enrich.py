@@ -30,10 +30,10 @@ class ProcessEnrichTests(unittest.TestCase):
                 "temperature_c": "100", "time_h": "24",
                 "vessel_type_raw": "25-mL Teflon-lined autoclave",
                 "stirring_raw": "not stated", "vessel_type": "PTFE-lined autoclave",
-                "vessel_volume": "25", "stirring": "Not reported",
+                "vessel_volume_mL": "25", "stirring": "Not reported",
             })
-        self.sources[1]["vessel_volume"] = "Not reported"
-        self.sources[3]["vessel_volume"] = "Ambiguous"
+        self.sources[1]["vessel_volume_mL"] = "Not reported"
+        self.sources[3]["vessel_volume_mL"] = "Ambiguous"
         self.write_csv(self.root / "positive.csv", self.sources[:2])
         self.write_csv(self.root / "negative.csv", self.sources[2:])
         self.assignments = [{
@@ -146,7 +146,7 @@ class ProcessEnrichTests(unittest.TestCase):
 
     def test_unresolved_and_invalid_volume_handling(self):
         for value in ("", "nan", "-1", "inf", "25 mL"):
-            self.sources[0]["vessel_volume"] = value
+            self.sources[0]["vessel_volume_mL"] = value
             self.write_csv(self.root / "positive.csv", self.sources[:2])
             with self.subTest(value=value), self.assertRaises(ValueError):
                 prepare_process_enrich(self.settings)

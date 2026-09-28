@@ -128,7 +128,7 @@ UNITS = r'(?:m\s*l|u\s*l|l|c\s*m\s*3|c\s*c)'
 CAPACITY = re.compile(r'(?<![\w.])(?P<number>[-+]?\d+(?:\.\d+)?)\s*-?\s*(?P<unit>'+UNITS+r')\b')
 
 
-def vessel_volume(value):
+def vessel_volume_mL(value):
     s = normalize_text(value)
     if not s:
         return result(NOT_REPORTED, 'missing_vessel', s)

@@ -13,9 +13,9 @@ import json
 from pathlib import Path
 
 
-EXTRA_FIELDS = ("vessel_type", "vessel_volume", "stirring")
+EXTRA_FIELDS = ("vessel_type", "vessel_volume_mL", "stirring")
 ORIGINAL_INPUT_TAIL = "temperature_C, and time_h."
-ENRICHED_INPUT_TAIL = "temperature_C, time_h, vessel_type, vessel_volume, and stirring."
+ENRICHED_INPUT_TAIL = "temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring."
 
 
 def sha256(path):
