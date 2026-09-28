@@ -1,11 +1,9 @@
 # Process-detail figure captions
 
-All panels describe the positive dataset. Figure numbers remain placeholders pending SI placement. Each PNG has synthesis records above unique DOIs, using the same final categories as the enriched CSVs and training inputs.
+All panels describe the positive dataset. Figure numbers remain placeholders pending final SI placement.
 
-**Figure Sxx. Frequencies of cleaned reaction-vessel categories in the positive dataset, including unreported values.** a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.
+Figure Sxx. Frequencies of vessel types after cleaning and consolidation of name and material variants. a, Vessel-type frequencies among positive synthesis records. b, Unique DOI counts per vessel type. Not reported includes unspecified types and vessel classes with fewer than 10 positive records; a DOI may contribute to multiple categories.
 
-**Figure Sxx+1. Distributions of reported vessel capacities in the positive dataset, with logarithmic capacity axes and dashed arithmetic-mean lines.** a, Accepted numeric capacities among synthesis records. b, Median accepted capacity per unique DOI.
+Figure Sxx+1. Distributions of reported vessel capacities after cleaning and unit conversion to mL. a, Vessel capacities among positive synthesis records. b, Median vessel capacity per unique DOI. Histograms use shared logarithmic bins; dashed lines indicate the arithmetic mean in each panel. Not reported and Ambiguous capacities are excluded.
 
-**Figure Sxx+2. Frequencies of cleaned stirring descriptions in the positive dataset, including unreported values.** a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.
-
-Records use muted teal; unique DOIs use light blue. Vessel Not reported includes unspecified vessel types and known vessel classes with fewer than 10 positive records. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication; these are alternative methods across the pooled records, not methods all used in each record. Stirred during preparation leaves later agitation unknown. Descriptions without a uniquely classifiable stirring state are Not reported. These final dataset categories are used directly for plotting. Counts, methods, and provenance are stored separately from the PNGs.
+Figure Sxx+2. Frequencies of stirring categories after cleaning and consolidation of process descriptions. a, Stirring-category frequencies among positive synthesis records. b, Unique DOI counts per stirring category. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records; a DOI may contribute to multiple categories.

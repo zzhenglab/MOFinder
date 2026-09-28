@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "3d1f648adf756eff7ab05ca8e62b299e7964d44bc313a76ecbbbf88094556b88"
+      "sha256": "0a94041f2446a1b309697b59dd28d4697fe5aa24e743d04383d9e4aa0e9411bc"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",

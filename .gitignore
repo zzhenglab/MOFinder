@@ -22,5 +22,3 @@ data/local/
 configs/local/
 downloaded/
 SI downloaded/
-# Process-enrichment figures are local manuscript assets, not repository data.
-/docs/process_details/figures/

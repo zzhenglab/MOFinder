@@ -274,6 +274,8 @@ def prepare_process_enrich(settings):
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "The canonical prompt is [reaction_prediction_process_enrich.txt](../../../prompts/training/reaction_prediction_process_enrich.txt); "
             "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
+            "The [positive-dataset figure gallery](../../../docs/process_details/README.md#figures) provides vessel-type, "
+            "vessel-capacity, and stirring distributions, with the Section S5 draft, captions, calculation tables, and counting methods.\n\n"
             "Final category consolidation is shared with the cleaned CSVs: rare stirring classes map to "
             "`Stirring, mixing, shaking, rotation, sonication`; unspecified and selected rare vessel types map to `Not reported`. "
             "These fixed mappings use positive-reference record counts and are applied identically to both labels and splits. "

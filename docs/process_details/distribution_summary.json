@@ -66,11 +66,21 @@
     "png_dpi": 600,
     "figure_cohort": "positive",
     "panel_layout": "a records above b unique DOIs",
-    "colors": {
-      "records": "#63948B",
-      "unique_dois": "#A2C4F1"
+    "gradients": {
+      "records": [
+        "#A2C4F1",
+        "#B6E2DC"
+      ],
+      "unique_dois": [
+        "#285953",
+        "#63948B",
+        "#8D969E"
+      ]
     },
-    "outline": "#285953",
+    "category_bar_edges": "none",
+    "histogram_bar_edges": "white",
+    "axes": "boxed",
+    "gradient_order": "Shared category order for categorical bars; increasing capacity for histogram bins. Shades do not encode an additional measured variable.",
     "categorical_count_labels": true,
     "histogram_reference_line": "arithmetic mean"
   },

@@ -4,7 +4,7 @@
 Requires matplotlib, numpy, and pandas. Run from any working directory:
     python tools/plot_process_details.py --help
 
-Writes only three PNGs to an explicit local output directory. Categories are
+Writes three PNGs to an explicit output directory. Categories are
 read directly from the cleaned CSVs, without additional display-only merging.
 DOI categories may overlap within a publication; numeric DOI distributions use
 one within-DOI median per cohort.
@@ -18,13 +18,16 @@ import math
 import os
 from pathlib import Path
 import re
+import tempfile
 import textwrap
+from urllib.parse import quote, unquote
 from xml.sax.saxutils import escape
 import zipfile
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap, to_hex
 from matplotlib.font_manager import FontProperties, findfont
 from matplotlib.ticker import FixedLocator, FuncFormatter, MaxNLocator, StrMethodFormatter
 import numpy as np
@@ -33,8 +36,8 @@ import pandas as pd
 
 REPO = Path(__file__).resolve().parents[1]
 DATA = REPO / "data/processed_data/with_process_details"
-COLORS = {"records": "#63948B", "unique_dois": "#A2C4F1"}
-OUTLINE = "#285953"
+GRADIENTS = {"records": ["#A2C4F1", "#B6E2DC"],
+             "unique_dois": ["#285953", "#63948B", "#8D969E"]}
 FIELDS = ("vessel_type", "vessel_volume_mL", "stirring")
 MISSING = {"", "not reported", "not_reported", "unknown", "nan", "none", "n/a"}
 UNRESOLVED_CATEGORIES = {"not reported", "ambiguous", "unclear", "unclear / ambiguous",
@@ -136,8 +139,16 @@ def decorate_count_axis(ax, axis="x"):
     target = ax.xaxis if axis == "x" else ax.yaxis
     target.set_major_locator(MaxNLocator(nbins=4, integer=True))
     target.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
-    ax.spines[["top", "right"]].set_visible(False)
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_linewidth(.6)
     ax.tick_params(direction="out", pad=3)
+
+
+def gradient_colors(metric: str, n: int) -> list[str]:
+    """Use the same record and DOI gradients as the SI modulator figure."""
+    cmap = LinearSegmentedColormap.from_list(f"process_{metric}", GRADIENTS[metric])
+    return [to_hex(cmap(value)) for value in np.linspace(0, 1, n)]
 
 
 def panel_axes(fig, row, panels, left, bottom=.18, height=.75):
@@ -162,8 +173,14 @@ def check_layout(fig):
 def save_figure(fig, folder: Path, stem: str, dpi: int):
     folder.mkdir(parents=True, exist_ok=True)
     check_layout(fig)
-    fig.savefig(folder / f"{stem}.png", dpi=dpi)
-    plt.close(fig)
+    with tempfile.NamedTemporaryFile(dir=folder, suffix=".png", delete=False) as handle:
+        temporary = Path(handle.name)
+    try:
+        fig.savefig(temporary, dpi=dpi)
+        temporary.replace(folder / f"{stem}.png")
+    finally:
+        temporary.unlink(missing_ok=True)
+        plt.close(fig)
 
 
 def plot_categories(counts: pd.DataFrame, field: str, out: Path, dpi: int):
@@ -186,14 +203,15 @@ def plot_categories(counts: pd.DataFrame, field: str, out: Path, dpi: int):
                         height=plot_height / height)
         values = subset[metric].reindex(order)
         max_count = int(values.max())
-        ax.barh(positions, values, height=.12, color=COLORS[metric],
-                edgecolor=OUTLINE, linewidth=.35)
+        ax.barh(positions, values, height=.12, color=gradient_colors(metric, len(order)),
+                edgecolor="none")
         for y, value in zip(positions, values):
             ax.text(value + max_count * .018, y, f"{int(value):,}",
                     ha="left", va="center", fontsize=8)
         ax.set_xlim(0, max(max_count * 1.22, 1))
         ax.set_ylim(plot_height + .025, -.025)
         ax.set_yticks(positions, labels, fontsize=8)
+        ax.tick_params(axis="y", length=0, pad=5)
         ax.set_xlabel("Synthesis records" if metric == "records" else "Unique DOIs")
         decorate_count_axis(ax)
     save_figure(fig, out, f"process_enrich_{field}", dpi)
@@ -229,8 +247,9 @@ def plot_volume(frames: dict[str, pd.DataFrame], out: Path, dpi: int) -> pd.Data
         ns, _ = np.histogram(values, bins)
         if int(ns.sum()) != len(values):
             raise ValueError("Vessel-volume histogram did not retain every numeric value")
-        ax.hist(values, bins=bins, color=COLORS["records" if idx == 0 else "unique_dois"],
-                edgecolor=OUTLINE, linewidth=.45)
+        _, _, patches = ax.hist(values, bins=bins, edgecolor="white", linewidth=.3)
+        for patch, color in zip(patches, gradient_colors("records" if idx == 0 else "unique_dois", len(patches))):
+            patch.set_facecolor(color)
         mean = float(values.mean()) if len(values) else float("nan")
         ax.axvline(mean, color="#222222", linestyle=(0, (4, 3)), linewidth=.9)
         ax.text(.97, .95, f"Mean = {mean:,.2f}", transform=ax.transAxes,
@@ -253,64 +272,50 @@ def plot_volume(frames: dict[str, pd.DataFrame], out: Path, dpi: int) -> pd.Data
 
 def captions(summary: dict) -> str:
     return "\n\n".join([
-        "# Process-detail figure captions\n\nAll panels describe the positive dataset. Figure numbers remain placeholders pending SI placement. Each PNG has synthesis records above unique DOIs, using the same final categories as the enriched CSVs and training inputs.",
-        "**Figure Sxx. Frequencies of cleaned reaction-vessel categories in the positive dataset, including unreported values.** "
-        "a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.",
-        "**Figure Sxx+1. Distributions of reported vessel capacities in the positive dataset, with logarithmic capacity axes and dashed arithmetic-mean lines.** "
-        "a, Accepted numeric capacities among synthesis records. b, Median accepted capacity per unique DOI.",
-        "**Figure Sxx+2. Frequencies of cleaned stirring descriptions in the positive dataset, including unreported values.** "
-        "a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.",
-        "Records use muted teal; unique DOIs use light blue. Vessel Not reported includes unspecified vessel types and known vessel classes with fewer than 10 positive records. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication; these are alternative methods across the pooled records, not methods all used in each record. Stirred during preparation leaves later agitation unknown. Descriptions without a uniquely classifiable stirring state are Not reported. These final dataset categories are used directly for plotting. Counts, methods, and provenance are stored separately from the PNGs.",
+        "# Process-detail figure captions\n\nAll panels describe the positive dataset. Figure numbers remain placeholders pending final SI placement.",
+        'Figure Sxx. Frequencies of vessel types after cleaning and consolidation of name and material variants. a, Vessel-type frequencies among positive synthesis records. b, Unique DOI counts per vessel type. Not reported includes unspecified types and vessel classes with fewer than 10 positive records; a DOI may contribute to multiple categories.',
+        'Figure Sxx+1. Distributions of reported vessel capacities after cleaning and unit conversion to mL. a, Vessel capacities among positive synthesis records. b, Median vessel capacity per unique DOI. Histograms use shared logarithmic bins; dashed lines indicate the arithmetic mean in each panel. Not reported and Ambiguous capacities are excluded.',
+        'Figure Sxx+2. Frequencies of stirring categories after cleaning and consolidation of process descriptions. a, Stirring-category frequencies among positive synthesis records. b, Unique DOI counts per stirring category. Reported-agitation classes with fewer than 50 positive records are pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records; a DOI may contribute to multiple categories.',
     ]) + "\n"
 
 
 def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
     p, n = summary["datasets"]["positive"], summary["datasets"]["negative"]
 
-    def count(dataset, field, category):
-        return int(counts.loc[counts.dataset.eq(dataset) & counts.field.eq(field) &
+    def count(field, category):
+        return int(counts.loc[counts.dataset.eq("positive") & counts.field.eq(field) &
                               counts.category.eq(category), "records"].sum())
 
-    def pct(dataset, field, category):
-        return count(dataset, field, category) / summary["datasets"][dataset]["records"] * 100
+    def pct(field, category):
+        return count(field, category) / p["records"] * 100
 
-    ptfe = "PTFE-lined autoclave"
-    static = "No stirring"
-    staged = "Stirred before static synthesis"
-    pooled = "Stirring, mixing, shaking, rotation, sonication"
-    text = [
-        "## Process-detail control dataset",
-        "To assess whether reported process conditions provide additional predictive information, we prepared an auxiliary process-detail dataset alongside the primary eight-variable representation. "
-        f"The enriched tables retain all {p['records']:,} positive and {n['records']:,} inferred negative records and add three cleaned features: vessel type, vessel capacity (mL), and stirring description. "
-        "Original descriptions are preserved for traceability; missing process information does not cause row exclusion.",
-        "Vessel descriptions were normalized across spelling, punctuation, and unit variants, with low-frequency and unresolved entries audited. "
-        "The procedure distinguishes vessel bodies from ancillary caps or seals; material-only names use glass, polymer, or metal vessel. "
-        "Unspecified vessel types and vessel classes with fewer than 10 positive records are encoded as Not reported. "
-        "Capacity is taken only from an interpretable stated vessel size; solution charges and geometric dimensions are not substituted. "
-        "Thus, vessel Not reported also includes rare known classes. Missing values are encoded as Not reported, while uncertain capacities remain Ambiguous rather than being imputed.",
-        f"In the positive dataset, PTFE-lined autoclaves are the dominant vessel class "
-        f"({pct('positive', 'vessel_type', ptfe):.1f}%), followed by vials "
-        f"({pct('positive', 'vessel_type', 'Vial'):.1f}%; Figure Sxx). "
-        f"Numeric capacities are available for {p['volume_records']['n']:,} positive records "
-        f"({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of "
-        f"{p['volume_records']['median']:g} mL and an interquartile range of "
-        f"{p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL (Figure Sxx+1).",
-        "Stirring normalization preserves stage information where stated; reported-agitation classes with fewer than 50 positive records are consolidated as Stirring, mixing, shaking, rotation, sonication "
-        f"({count('positive', 'stirring', pooled):,} records), listing alternative methods across records. "
-        "Audited descriptions without a uniquely classifiable stirring state are encoded as Not reported. Detailed classifications remain in the audit. "
-        f"Static/no-stirring descriptions account for {pct('positive', 'stirring', static):.1f}% of positive records; "
-        f"stirring before static synthesis accounts for {pct('positive', 'stirring', staged):.1f}%. "
-        f"Stirring is not reported for {pct('positive', 'stirring', 'Not reported'):.1f}% (Figure Sxx+2). "
-        "Stirred during preparation leaves later agitation unknown. Negative process annotations may be inherited from successful parent protocols and should not be interpreted as independently observed failed experiments.",
-        "The figures summarize the positive tabular cohort at record and DOI levels. Categorical panels count records and distinct DOIs per category; numeric DOI panels use one median per paper. "
-        "The enriched training control retains both classes and preserves the standard training/holdout membership, adding only these three features and their names in the system prompt. "
-        "Washing and activation remain outside this crystallization-outcome control because they describe downstream processing. These distributions document feature availability; they do not establish a predictive improvement.",
-    ]
-    return "\n\n".join(text) + "\n"
+    return f"""## Process-detail-enriched control dataset
+
+As an auxiliary control alongside the primary eight-variable dataset, we prepared a process-enriched representation adding vessel type, vessel capacity (mL), and stirring. Cleaning preserves all {p['records']:,} positive and {n['records']:,} inferred negative records. The same normalization and category mapping are applied to both classes, with original descriptions retained for audit.
+
+Vessel names were consolidated across spelling, punctuation, and material variants. Unspecified types and classes with fewer than 10 positive records were assigned to Not reported; this category therefore includes rare known vessels. Capacities were accepted only from interpretable vessel sizes, without substituting solution volumes or inferring missing measurements. Stirring classes preserve preparation and synthesis stages where stated. Reported-agitation classes with fewer than 50 positive records were pooled as Stirring, mixing, shaking, rotation, sonication, denoting alternative methods across records. Unresolved stirring descriptions were assigned to Not reported, without assuming static conditions. Stirred during preparation leaves subsequent agitation unspecified.
+
+Among positive records, PTFE-lined autoclaves account for {count('vessel_type', 'PTFE-lined autoclave'):,} ({pct('vessel_type', 'PTFE-lined autoclave'):.1f}%), vials for {count('vessel_type', 'Vial'):,} ({pct('vessel_type', 'Vial'):.1f}%), and vessel Not reported for {count('vessel_type', 'Not reported'):,} ({pct('vessel_type', 'Not reported'):.1f}%; Figure Sxx). Numeric capacities are available for {p['volume_records']['n']:,} records ({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of {p['volume_records']['median']:g} mL and an interquartile range of {p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL; {p['volume_nonnumeric_labels'].get('Not reported', 0):,} capacities are Not reported and {p['volume_nonnumeric_labels'].get('Ambiguous', 0):,} are Ambiguous (Figure Sxx+1). The No stirring and Stirred before static synthesis categories account for {count('stirring', 'No stirring'):,} ({pct('stirring', 'No stirring'):.1f}%) and {count('stirring', 'Stirred before static synthesis'):,} ({pct('stirring', 'Stirred before static synthesis'):.1f}%) positive records, respectively; stirring is Not reported for {count('stirring', 'Not reported'):,} ({pct('stirring', 'Not reported'):.1f}%; Figure Sxx+2).
+
+The figures summarize positive records and unique DOIs; categorical DOI counts allow each paper to contribute to multiple categories, while capacity summaries use one median per DOI. The enriched training and holdout files preserve the original 23,528 and 2,595 examples, respectively, including row order and labels, changing only the three additional inputs and the system-prompt input list. Process annotations in inferred negatives may derive from successful parent protocols and are not independently observed failed-trial measurements. Washing and activation remain outside this crystallization-outcome control. These distributions describe feature availability and do not establish improved predictive performance.
+"""
+
+
+def relocate_markdown_links(text: str, source: Path, destination: Path) -> str:
+    """Keep local methods links valid when the report is saved outside the repo."""
+    def relocate(match):
+        target = match.group(1)
+        if "://" in target or target.startswith("#"):
+            return match.group(0)
+        relative, separator, fragment = target.partition("#")
+        resolved = (source.parent / unquote(relative)).resolve()
+        relocated = os.path.relpath(resolved, destination.parent.resolve()).replace("\\", "/")
+        return "](" + quote(relocated, safe="/") + (separator + fragment if separator else "") + ")"
+    return re.sub(r"\]\(([^)]+)\)", relocate, text)
 
 
 def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path):
-    """Write a small text-only Word draft using standard Office XML (no extra dependency)."""
+    """Write Section S5, captions, and figure links as a small Word draft."""
     paragraphs = []
     for text in section.strip().split("\n\n"):
         heading = text.startswith("## ")
@@ -318,6 +323,13 @@ def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path
         properties = '<w:pPr><w:spacing w:after="120"/></w:pPr>'
         run_properties = '<w:rPr><w:b/></w:rPr>' if heading else ''
         paragraphs.append(f'<w:p>{properties}<w:r>{run_properties}<w:t>{escape(text)}</w:t></w:r></w:p>')
+    paragraphs.append('<w:p><w:r><w:br w:type="page"/></w:r></w:p>')
+    for text in caption_path.read_text(encoding="utf-8").strip().split("\n\n"):
+        heading = text.startswith("# ")
+        text = text.removeprefix("# ")
+        run_properties = '<w:rPr><w:b/></w:rPr>' if heading else ''
+        paragraphs.append('<w:p><w:pPr><w:spacing w:after="120"/></w:pPr>'
+                          f'<w:r>{run_properties}<w:t>{escape(text)}</w:t></w:r></w:p>')
     relationships = []
     links = [("Vessel categories", figure_folder / "process_enrich_vessel_type.png"),
              ("Vessel capacities", figure_folder / "process_enrich_vessel_volume.png"),
@@ -362,16 +374,16 @@ def main():
     parser.add_argument("--positive", type=Path, default=DATA / "Process_detail_positive.csv")
     parser.add_argument("--negative", type=Path, default=DATA / "Process_detail_negative.csv")
     parser.add_argument("--output", type=Path, required=True,
-                        help="Local directory for exactly three PNG figures")
+                        help="Output directory for the three PNG figures")
     parser.add_argument("--report-dir", type=Path,
                         help="Separate directory for count tables, captions and provenance; defaults to a sibling named process_enrich_data")
     parser.add_argument("--si-section", type=Path, help="Optional path for a copy of the short Section S5 Markdown draft")
-    parser.add_argument("--docx", type=Path, help="Optional path for a text-only Word draft with relative figure links")
+    parser.add_argument("--docx", type=Path, help="Optional path for a Word draft with Section S5, captions, and relative figure links")
     parser.add_argument("--dpi", type=int, default=600)
     args = parser.parse_args()
     report_dir = args.report_dir or args.output.parent / "process_enrich_data"
     if report_dir.resolve() == args.output.resolve():
-        parser.error("--report-dir must differ from --output so that the figure folder contains only PNGs")
+        parser.error("--report-dir must differ from --output to keep calculation tables separate")
     args.output.mkdir(parents=True, exist_ok=True)
     report_dir.mkdir(parents=True, exist_ok=True)
     font = configure()
@@ -379,7 +391,9 @@ def main():
     summary, counts, coverage = summarize(frames)
     summary["rendering"] = {"width_inches": 6, "font": font, "png_dpi": args.dpi,
                             "figure_cohort": "positive", "panel_layout": "a records above b unique DOIs",
-                            "colors": COLORS, "outline": OUTLINE,
+                            "gradients": GRADIENTS, "category_bar_edges": "none",
+                            "histogram_bar_edges": "white", "axes": "boxed",
+                            "gradient_order": "Shared category order for categorical bars; increasing capacity for histogram bins. Shades do not encode an additional measured variable.",
                             "categorical_count_labels": True, "histogram_reference_line": "arithmetic mean"}
     summary["inputs"] = {label: {"filename": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
                          for label, path in (("positive", args.positive), ("negative", args.negative))}
@@ -396,7 +410,8 @@ def main():
     (report_dir / "FIGURE_CAPTIONS.md").write_text(captions(summary), encoding="utf-8")
     methods = REPO / "docs/process_details/DISTRIBUTION_METHODS.md"
     if methods.exists():
-        (report_dir / "DISTRIBUTION_METHODS.md").write_text(methods.read_text(encoding="utf-8"), encoding="utf-8")
+        destination = report_dir / "DISTRIBUTION_METHODS.md"
+        destination.write_text(relocate_markdown_links(methods.read_text(encoding="utf-8"), methods, destination), encoding="utf-8")
     section = manuscript_section(summary, counts)
     (report_dir / "Section_S5_process_details.md").write_text(section, encoding="utf-8")
     if args.si_section:
