@@ -57,7 +57,7 @@ without opening a browser. See [literature-retrieval](../docs/literature_retriev
 | `process_details.json` | Append audited vessel type, capacity, and stirring to all original positive/negative rows |
 | `dataset_preparation_process_enrich.json` | Add the three process fields and a revised prompt to the existing train/holdout records without resplitting |
 
-Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/final_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
+Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/processed_data_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
 
 ## Model evaluation settings
 

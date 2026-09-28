@@ -7,7 +7,7 @@ python -m pip install -e ".[evaluation]"
 python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
 ```
 
-`validate` checks messages, reference labels, and file hashes without creating files or making API calls. The input is `data/final_json/holdout.jsonl`. The paired training set at `data/final_json/train.jsonl` is recorded for provenance. It is not sent to an evaluation model.
+`validate` checks messages, reference labels, and file hashes without creating files or making API calls. The input is `data/processed_data_json/holdout.jsonl`. The paired training set at `data/processed_data_json/train.jsonl` is recorded for provenance. It is not sent to an evaluation model.
 
 ## Models and execution
 

@@ -1,4 +1,4 @@
-# Final training and holdout JSONL
+# Processed-data training and holdout JSONL
 
 This folder keeps the final model inputs and their split information together. The JSONL files were prepared from the [processed positive and negative records](../processed_data/README.md) and preserve the exact records used for the reported runs.
 
@@ -22,7 +22,7 @@ Some training workflows also use the holdout as validation data. Record that use
 
 ## Process-enriched matched control
 
-[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume` (mL), and `stirring`. Its separate system prompt explains missing and ambiguous process values. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
+[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume_mL`, and `stirring`. Its [system prompt](../../prompts/training/reaction_prediction_process_enrich.txt) adds the three process fields to the original input list. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
 
 ## Training and test visualization
 

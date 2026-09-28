@@ -69,9 +69,9 @@ class ProcessEnrichTests(unittest.TestCase):
 
     def bundle(self, **overrides):
         options = {
-            "train": self.root / "enriched/train.jsonl", "holdout": self.root / "enriched/holdout.jsonl",
+            "train": self.root / "enriched/train_process_enrich.jsonl", "holdout": self.root / "enriched/holdout_process_enrich.jsonl",
             "questions": self.repo / "benchmarks/mof_quest/questions.json",
-            "class_map": self.repo / "data/final_json/class_map.json",
+            "class_map": self.repo / "data/processed_data_json/class_map.json",
             "config": self.repo / "configs/training_hpc.json", "output": self.root / "bundle",
             "feature_profile": "process_enrich", "manual_process_policy": "missing_control",
         }
@@ -83,9 +83,14 @@ class ProcessEnrichTests(unittest.TestCase):
         manifest = prepare_process_enrich(self.settings)
         self.assertEqual(manifest["validation"]["mapped_source_rows"], 4)
         self.assertEqual(manifest["source_csv_rows"], {"P": 2, "N": 2})
+        self.assertFalse((self.root / "enriched/reaction_prediction_process_enrich.txt").exists())
+        self.assertEqual(manifest["reaction_prediction"]["sha256"], sha256(PROCESS_PROMPT_FILE))
+        self.assertEqual(Path(manifest["reaction_prediction"]["path"]), PROCESS_PROMPT_FILE)
+        self.assertTrue(manifest["reaction_prediction"]["path_base"].startswith("project_root"))
         for split, order in (("train", [2, 0]), ("holdout", [3, 1])):
             self.assertEqual(before[split], sha256(self.root / f"{split}.jsonl"))
-            enriched_path = self.root / "enriched" / f"{split}.jsonl"
+            enriched_path = self.root / "enriched" / f"{split}_process_enrich.jsonl"
+            self.assertEqual(manifest["datasets"][split]["path"], enriched_path.name)
             with (self.root / "enriched" / f"{split}_sources.csv").open(encoding="utf-8") as handle:
                 source_ids = [int(item["source_row_id"]) for item in csv.DictReader(handle)]
             self.assertEqual(source_ids, order)
@@ -159,7 +164,7 @@ class ProcessEnrichTests(unittest.TestCase):
         self.assertEqual(manifest["feature_profile"], "process_enrich")
         self.assertEqual(validate_bundle(self.root / "bundle"), manifest)
         for name in ("train", "holdout"):
-            self.assertEqual((self.root / "enriched" / f"{name}.jsonl").read_bytes(),
+            self.assertEqual((self.root / "enriched" / f"{name}_process_enrich.jsonl").read_bytes(),
                              (self.root / "bundle/data" / f"{name}.jsonl").read_bytes())
         benchmark = self.records(self.root / "bundle/data/questions.jsonl")
         self.assertEqual(len(benchmark), 22)
@@ -167,7 +172,7 @@ class ProcessEnrichTests(unittest.TestCase):
             conditions = json.loads(item["messages"][1]["content"])
             self.assertTrue(all(conditions[field] == "Not reported" for field in PROCESS_FIELDS))
         # Selecting the process schema must not bypass outcome-leakage checks.
-        path = self.root / "enriched/train.jsonl"
+        path = self.root / "enriched/train_process_enrich.jsonl"
         rows = self.records(path)
         conditions = json.loads(rows[0]["messages"][1]["content"])
         conditions["label"] = "N"
@@ -192,7 +197,7 @@ class ProcessEnrichTests(unittest.TestCase):
             main(["--config", str(config), "--output", str(destination)])
         self.assertEqual(original_hash, sha256(config))
         self.assertFalse(self.settings["output_dir"].exists())
-        self.assertEqual(len(self.records(destination / "train.jsonl")), 2)
+        self.assertEqual(len(self.records(destination / "train_process_enrich.jsonl")), 2)
 
 
 if __name__ == "__main__":

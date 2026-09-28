@@ -6,8 +6,8 @@ The [executed notebook](../../Demo/04_dataset_analysis/dataset_analysis.ipynb) d
 | --- | ---: |
 | [Positive](../../data/processed_data/processed_positive.csv) | 15,340 |
 | [Negative](../../data/processed_data/processed_negative.csv) | 15,063 |
-| [Training](../../data/final_json/train.jsonl) | 23,528 |
-| [Test / holdout](../../data/final_json/holdout.jsonl) | 2,595 |
+| [Training](../../data/processed_data_json/train.jsonl) | 23,528 |
+| [Test / holdout](../../data/processed_data_json/holdout.jsonl) | 2,595 |
 
 ## Figures
 

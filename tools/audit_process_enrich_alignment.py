@@ -90,8 +90,8 @@ def audit_split(baseline, enriched):
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--baseline-dir", type=Path, default=root / "data/final_json")
-    parser.add_argument("--enriched-dir", type=Path, default=root / "data/final_json/processed_enrich")
+    parser.add_argument("--baseline-dir", type=Path, default=root / "data/processed_data_json")
+    parser.add_argument("--enriched-dir", type=Path, default=root / "data/processed_data_json/processed_enrich")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     report = {
@@ -104,7 +104,7 @@ def main():
                    "assistant labels and all other record/message metadata unchanged",
                    "system prompt byte-for-byte equal outside input-list expansion",
                    "source files unchanged during audit"],
-        "splits": {name: audit_split(args.baseline_dir / f"{name}.jsonl", args.enriched_dir / f"{name}.jsonl")
+        "splits": {name: audit_split(args.baseline_dir / f"{name}.jsonl", args.enriched_dir / f"{name}_process_enrich.jsonl")
                    for name in ("train", "holdout")},
     }
     report["passed"] = all(item["passed"] for item in report["splits"].values())

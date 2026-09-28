@@ -1,6 +1,6 @@
 # Process-enriched matched control
 
-`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. The system prompt is identical to each original prompt except for these three names appended to its input list. Missing values are `Not reported`; unresolved capacities are `Ambiguous`.
+`train_process_enrich.jsonl` and `holdout_process_enrich.jsonl` preserve the standard split, record order, labels, and eight original inputs. They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. The system prompt is identical to each original prompt except for these three names appended to its input list. Missing values are `Not reported`; unresolved capacities are `Ambiguous`.
 
 The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. `jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.
 
@@ -13,3 +13,5 @@ The release [independent verification](independent_verification.json) compares e
 Repeat the independent comparison from the repository root with `python tools/audit_process_enrich_alignment.py`. Add `--output results/local/process_alignment.json` to save a fresh report.
 
 Reproduce with `python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --output results/datasets/process_enrich` using a new output directory. See [training preparation](../../../docs/process_enrich_training.md) for the training bundle route.
+
+The canonical [process-enriched system prompt](../../../prompts/training/reaction_prediction_process_enrich.txt) is stored in `prompts/training/`; no prompt copy is kept in this dataset folder.

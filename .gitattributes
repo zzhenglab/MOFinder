@@ -4,7 +4,6 @@
 *.jsonl -text
 prompts/*.txt -text
 prompts/**/*.txt -text
-data/final_json/processed_enrich/reaction_prediction_process_enrich.txt -text
 # Configuration and provenance hashes must match on Windows and Linux.
 *.json -text
 # The literature classification manifest records this source file's byte hash.

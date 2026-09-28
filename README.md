@@ -74,7 +74,8 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | Explore metals, linkers, solvents, modulators, topology, properties, stability, pairwise conditions, and training/test t-SNE | [Dataset analysis and figures](docs/dataset_analysis/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
 | Redraw publisher coverage before literature triage | [Literature coverage](docs/triage_figures/README.md) and [executed notebook](Demo/04_dataset_analysis/dataset_analysis.ipynb) |
 | View the positive and negative workflows | [Author-drawn workflow diagrams](docs/workflows/README.md) |
-| Inspect training, holdout, and record assignments | [Final JSONL and split records](data/final_json/README.md) |
+| Inspect training, holdout, and record assignments | [Final JSONL and split records](data/processed_data_json/README.md) |
+| Prepare the matched control with vessel type, volume, and stirring | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) and [preparation guide](docs/process_enrich_training.md) |
 | Train a model from one prepared dataset | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
 | Check the DOI-named sample documents locally | [Extraction example](Demo/03_api_data_mining/inputs/extraction/README.md) |
 | Evaluate models on the holdout and question panel | [Evaluation workflow](docs/evaluation.md) |
@@ -100,7 +101,7 @@ The current implementation is in [`src/mofinder/`](src/mofinder/). Follow the [w
 | `data/organic_linker_info/` | Organic linker molecular weights and publication-specific name corrections |
 | `data/processed_data/` | Processed positive and negative CSVs, publication metadata, retrieval inventories, and a linker-corrected alternative |
 | `data/name_SMILES_mappers/` | Original name-to-SMILES and SMILES-to-name mapping tables |
-| `data/final_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
+| `data/processed_data_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
 | `benchmarks/` | Human references and benchmark-specific documentation |
 | `Demo/` | Offline curation, dataset preparation, and executed figure notebooks; API examples for triage, extraction, and reconstruction |
 | `docs/` | Installation, workflow guides, source provenance, and reproduction instructions |
@@ -112,18 +113,20 @@ Python modules contain the reusable implementation and support terminal or HPC e
 
 ## Data and reproducibility
 
-Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/final_json/README.md). Processed positive and negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training and holdout files and their assignments are together in `data/final_json/`.
+Start with [processed data](data/processed_data/README.md), then use it to prepare [final JSONL and split records](data/processed_data_json/README.md). Processed positive and negative CSVs and their publication metadata are together in `data/processed_data/`; the prepared training and holdout files and their assignments are together in `data/processed_data_json/`.
 
 | File | Contents | Records |
 | --- | --- | ---: |
 | [`data/processed_data/processed_positive.csv`](data/processed_data/processed_positive.csv) | Positive records after curation, before dataset filtering | 15,340 |
 | [`data/processed_data/processed_negative.csv`](data/processed_data/processed_negative.csv) | Reconstructed negative records after curation, before dataset filtering | 15,063 |
 | [`data/processed_data/linker_corrected/processed_negative.csv`](data/processed_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
-| [`data/final_json/train.jsonl`](data/final_json/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
-| [`data/final_json/holdout.jsonl`](data/final_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
-| [`data/final_json/split_assignments.csv`](data/final_json/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
+| [`data/processed_data_json/train.jsonl`](data/processed_data_json/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
+| [`data/processed_data_json/holdout.jsonl`](data/processed_data_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
+| [`data/processed_data_json/split_assignments.csv`](data/processed_data_json/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
+
+The matched process-enriched control is stored one level deeper in [data/processed_data_json/processed_enrich](data/processed_data_json/processed_enrich/README.md), as `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. It preserves the baseline row counts and order while adding vessel type, vessel volume in mL, and stirring. Its [system prompt](prompts/training/reaction_prediction_process_enrich.txt) is stored in `prompts/training/`.
 
 
 

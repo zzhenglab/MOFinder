@@ -126,7 +126,7 @@
     "paper_processing_assets": "data/paper_processing_assets/manifest.json",
     "extraction_examples": "Demo/03_api_data_mining/inputs/extraction/manifest.json",
     "processed_data": "data/processed_data/manifest.json",
-    "training_and_holdout": "data/final_json/manifest.json",
+    "training_and_holdout": "data/processed_data_json/manifest.json",
     "organic_linker_info": "data/organic_linker_info/manifest.json",
     "human_mof_quest": "benchmarks/mof_quest/human_manifest.json",
     "data_curation_demo": "Demo/01_data_curation/input/source_manifest.json",

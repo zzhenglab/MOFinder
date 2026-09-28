@@ -122,7 +122,7 @@ python -m mofinder.datasets.prepare validate --config configs/dataset_preparatio
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-This offline route reads `data/processed_data/processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv`, then writes training and holdout JSONL and split records to `results/datasets/conditions/`. The bundled final files and assignments are together in `data/final_json/`. The curation-output configuration writes to `results/datasets/curated_conditions/`. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual operations and alternatives.
+This offline route reads `data/processed_data/processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv`, then writes training and holdout JSONL and split records to `results/datasets/conditions/`. The bundled final files and assignments are together in `data/processed_data_json/`. The curation-output configuration writes to `results/datasets/curated_conditions/`. The [curation guide](curation.md) and [dataset guide](datasets.md) describe individual operations and alternatives.
 
 ## Train a model
 

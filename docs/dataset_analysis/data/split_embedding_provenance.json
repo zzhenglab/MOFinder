@@ -3,7 +3,7 @@
   "repository_inputs": [
     {
       "partition": "training",
-      "path": "data/final_json/train.jsonl",
+      "path": "data/processed_data_json/train.jsonl",
       "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
       "records": 23528,
       "outcomes": {
@@ -13,7 +13,7 @@
     },
     {
       "partition": "holdout",
-      "path": "data/final_json/holdout.jsonl",
+      "path": "data/processed_data_json/holdout.jsonl",
       "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
       "records": 2595,
       "outcomes": {

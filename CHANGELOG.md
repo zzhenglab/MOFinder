@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Renamed the released JSONL directory to `data/processed_data_json/` and the process-enriched files to `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. Kept the enriched prompt in `prompts/training/` and updated paths without changing JSONL contents, row order, or labels.
+
 - Added reproducible dataset and literature figures (D1–D11), executed plotting notebooks, and positive/negative workflow diagrams. Pairwise plots and t-SNE use the supplied plotting code and included datasets.
 
 - Updated the triage demo selection to include `10.1002/anie.201504786` and `10.1002/zaac.201700108`, copying their original bibliography metadata and human annotations. The four scheduled examples now contain two Y and two N reference labels.
@@ -14,7 +16,7 @@
 
 - Kept executed demo notebooks and verified run snapshots, added persistent offline run records and explicit expected-output comparisons, and named the demo scripts/notebooks by workflow. Simplified curation CSV names and finished both branches at processed descriptions. Replaced the separate notebook walkthrough folder with Python source links and Markdown guides.
 
-- Combined processed positive/negative tables and literature metadata in `data/processed_data/`, and training/holdout JSONL with split records in `data/final_json/`. Replaced stage/version filenames with `processed_positive.csv` and `processed_negative.csv`; the default preparation configuration now reads these included inputs. Kept fresh curation and linker-corrected preparation as named alternatives, and updated scripts, notebooks, manifests, tests, and CI paths without changing scientific data or dataset partitions.
+- Combined processed positive/negative tables and literature metadata in `data/processed_data/`, and training/holdout JSONL with split records in `data/processed_data_json/`. Replaced stage/version filenames with `processed_positive.csv` and `processed_negative.csv`; the default preparation configuration now reads these included inputs. Kept fresh curation and linker-corrected preparation as named alternatives, and updated scripts, notebooks, manifests, tests, and CI paths without changing scientific data or dataset partitions.
 
 - Simplified literature classification documentation and removed redundant public classification CSVs; the labels remain in the article and SI inventories, with detailed analysis retained locally.
 
@@ -43,7 +45,7 @@
 - Renamed desktop downloading paths and commands to literature retrieval.
 - Replaced upload-copy filenames in public manifests with descriptive source identifiers while retaining source checksums.
 - Restored UTF-8 byte-order marks in archived cleaned CSVs and kept generated demo and split tables compatible with spreadsheet software.
-- Placed training and holdout JSONL together under `data/final_json/` and included reproducible record assignments under `data/final_json/`.
+- Placed training and holdout JSONL together under `data/processed_data_json/` and included reproducible record assignments under `data/processed_data_json/`.
 - Added three article/SI replacement-template pairs and local-paper extraction configurations.
 - Added explicit input-placement instructions to every walkthrough and a source-cell-to-function navigation guide.
 - Added separate offline cleaning and JSON-preparation demos, with optional API-based triage and positive/negative mining examples.

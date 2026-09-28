@@ -16,7 +16,7 @@ python -m pip install -e ".[evaluation]"
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
 
-The training set is `data/final_json/train.jsonl`, and the holdout set is `data/final_json/holdout.jsonl`. Both preserve the original experiment records byte for byte. Their identities are recorded in `data/final_json/manifest.json`, and their record assignments are in `data/final_json/split_assignments.csv`.
+The training set is `data/processed_data_json/train.jsonl`, and the holdout set is `data/processed_data_json/holdout.jsonl`. Both preserve the original experiment records byte for byte. Their identities are recorded in `data/processed_data_json/manifest.json`, and their record assignments are in `data/processed_data_json/split_assignments.csv`.
 
 ## Offline checks
 

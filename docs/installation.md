@@ -110,7 +110,7 @@ The [GitHub Actions workflow](../.github/workflows/offline_checks.yml) runs offl
 
 Install `.[mining,curation,datasets]` for the revised extraction-to-dataset modules and add `notebook` for interactive demos. See [the workflow guide](workflow.md). PDF readers extract embedded text; no OCR pipeline is enabled. Legacy DOC conversion may require additional system software, while DOCX handling uses the supported Python readers.
 
-The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive and negative tables in `data/processed_data/` and final JSONL in `data/final_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
+The molecular-weight lookup is included. Original research extraction outputs are still needed to repeat a full curation run; the processed positive and negative tables in `data/processed_data/` and final JSONL in `data/processed_data_json/` can be used directly. The included demonstration PDF pair supports offline document matching. API-enabled notebook cells are disabled by default.
 
 ## Evaluation
 

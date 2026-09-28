@@ -1,6 +1,6 @@
 # Processed data
 
-Start with the processed positive and negative synthesis records below to prepare the [final training and holdout JSONL](../final_json/README.md). Literature metadata and publication years are kept alongside these inputs.
+Start with the processed positive and negative synthesis records below to prepare the [final training and holdout JSONL](../processed_data_json/README.md). Literature metadata and publication years are kept alongside these inputs.
 
 | File or folder | Contents | Rows |
 | --- | --- | ---: |
@@ -26,7 +26,7 @@ From the repository root:
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation.json
 ```
 
-The default configuration reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from this folder. It writes a new run to `results/datasets/conditions/`, including training and holdout JSONL, split assignments, preparation summaries, and publication-year subsets. The distributed [final_json/](../final_json/README.md) folder contains the prepared records and their split information together.
+The default configuration reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from this folder. It writes a new run to `results/datasets/conditions/`, including training and holdout JSONL, split assignments, preparation summaries, and publication-year subsets. The distributed [processed_data_json/](../processed_data_json/README.md) folder contains the prepared records and their split information together.
 
 For new curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`. Original extraction JSON stores are needed for negative reconstruction before curation. The optional [linker-corrected input](linker_corrected/README.md) has its own preparation configuration and output directory because changed linker spellings affect chemical grouping.
 

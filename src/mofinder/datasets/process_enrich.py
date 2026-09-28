@@ -9,7 +9,6 @@ from collections import Counter, defaultdict
 import csv
 import json
 from pathlib import Path
-import shutil
 import tempfile
 
 from mofinder.display import display_paths
@@ -196,7 +195,7 @@ def prepare_process_enrich(settings):
             labels = Counter()
             distributions = {field: defaultdict(Counter) for field in PROCESS_FIELDS}
             dois = set()
-            destination = staged / f"{split}.jsonl"
+            destination = staged / f"{split}_process_enrich.jsonl"
             sidecar = staged / f"{split}_sources.csv"
             with destination.open("w", encoding="utf-8", newline="\n") as out, sidecar.open("w", encoding="utf-8", newline="") as side:
                 writer = csv.DictWriter(side, fieldnames=SOURCE_FIELDS, lineterminator="\n")
@@ -251,10 +250,13 @@ def prepare_process_enrich(settings):
             raise ValueError(f"Archived assignment rows not consumed: {len(set(by_id) - seen)}")
         if any(sha256(path) != initial_hashes[key] for key, path in input_paths.items()):
             raise ValueError("A source file changed during preparation")
-        shutil.copyfile(settings["prompt_file"], staged / "reaction_prediction_process_enrich.txt")
         atomic_json(staged / "class_map.json", {"P": "success", "N": "failure"})
         manifest["class_map"] = {"path": "class_map.json", "sha256": sha256(staged / "class_map.json")}
-        manifest["reaction_prediction"] = {"path": "reaction_prediction_process_enrich.txt", "sha256": sha256(staged / "reaction_prediction_process_enrich.txt")}
+        manifest["reaction_prediction"] = {
+            "path": _display_source(settings["prompt_file"], root),
+            "path_base": "project_root (absolute paths retained for external inputs)",
+            "sha256": initial_hashes["prompt_file"],
+        }
         manifest["validation"] = {
             "mapped_source_rows": len(seen), "all_assignments_consumed_once": True,
             "baseline_order_labels_and_eight_inputs_preserved": True,
@@ -266,10 +268,12 @@ def prepare_process_enrich(settings):
         atomic_json(staged / "manifest.json", manifest)
         (staged / "README.md").write_text(
             "# Process-enriched matched control\n\n"
-            "`train.jsonl` and `holdout.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
+            "`train_process_enrich.jsonl` and `holdout_process_enrich.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
             "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `stirring`. "
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
+            "The canonical prompt is [reaction_prediction_process_enrich.txt](../../../prompts/training/reaction_prediction_process_enrich.txt); "
+            "its project-relative path and hash are recorded in the manifest without duplicating it here.\n\n"
             "Final category consolidation is shared with the cleaned CSVs: rare stirring classes map to "
             "`Stirring, mixing, shaking, rotation, sonication`; unspecified and selected rare vessel types map to `Not reported`. "
             "These fixed mappings use positive-reference record counts and are applied identically to both labels and splits. "

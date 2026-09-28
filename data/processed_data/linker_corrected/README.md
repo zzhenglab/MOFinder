@@ -16,6 +16,6 @@ Use `configs/dataset_preparation_corrected.json` to prepare new datasets from th
 python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation_corrected.json
 ```
 
-The command recalculates grouped partitions and writes to `results/datasets/corrected_conditions/`. Linker spellings contribute to grouping, so the existing split assignments cannot be transferred to corrected conditions. The [processed inputs](../README.md) and [final JSONL with split information](../../final_json/README.md) retain the exact data used for the reported runs. Use `configs/dataset_preparation.json` for those records.
+The command recalculates grouped partitions and writes to `results/datasets/corrected_conditions/`. Linker spellings contribute to grouping, so the existing split assignments cannot be transferred to corrected conditions. The [processed inputs](../README.md) and [final JSONL with split information](../../processed_data_json/README.md) retain the exact data used for the reported runs. Use `configs/dataset_preparation.json` for those records.
 
 `manifest.json` records source, lookup, and output checksums. Both CSV reading and writing use `utf-8-sig`.

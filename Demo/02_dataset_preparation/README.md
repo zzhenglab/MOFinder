@@ -1,6 +1,6 @@
 # Dataset preparation demonstration
 
-Prepare condition-classification training and holdout files from 146 processed positive records and 175 processed negative records. This demonstration calls `mofinder.datasets.prepare`, including the same condition builder, conflict handling, cluster split, class balancing, and JSONL writer used for the [full dataset](../../data/final_json/README.md).
+Prepare condition-classification training and holdout files from 146 processed positive records and 175 processed negative records. This demonstration calls `mofinder.datasets.prepare`, including the same condition builder, conflict handling, cluster split, class balancing, and JSONL writer used for the [full dataset](../../data/processed_data_json/README.md).
 
 ## Run
 

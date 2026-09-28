@@ -27,7 +27,7 @@ jobs:
             /data/processed_data/
             /data/organic_linker_info/
             /data/paper_processing_assets/
-            /data/final_json/
+            /data/processed_data_json/
             /data/manifest.json
             /data/name_SMILES_mappers/
             /Demo/README.md

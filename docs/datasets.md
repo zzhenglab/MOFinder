@@ -1,6 +1,6 @@
 # Dataset preparation
 
-`mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The prepared research files and their assignments are together in [data/final_json](../data/final_json/README.md).
+`mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The prepared research files and their assignments are together in [data/processed_data_json](../data/processed_data_json/README.md).
 
 ```bash
 python -m pip install -e ".[datasets]"
@@ -95,6 +95,6 @@ The implementation also adds explicit failure messages for infeasible splits and
 
 ## Final JSONL and split records
 
-The final training and holdout records are available at `data/final_json/train.jsonl` and `data/final_json/holdout.jsonl`. Their hashes exactly match the corresponding original preparation outputs. The same folder contains `split_assignments.csv`, `split_summary.json`, `class_map.json`, and `manifest.json`; see [the file guide](../data/final_json/README.md). Regenerating from `configs/dataset_preparation.json` reproduces both JSONL files byte for byte. The four removed local-path columns in the processed public tables do not affect any condition input, cluster key, or DOI mapping across all 30,403 rows.
+The final training and holdout records are available at `data/processed_data_json/train.jsonl` and `data/processed_data_json/holdout.jsonl`. Their hashes exactly match the corresponding original preparation outputs. The same folder contains `split_assignments.csv`, `split_summary.json`, `class_map.json`, and `manifest.json`; see [the file guide](../data/processed_data_json/README.md). Regenerating from `configs/dataset_preparation.json` reproduces both JSONL files byte for byte. The four removed local-path columns in the processed public tables do not affect any condition input, cluster key, or DOI mapping across all 30,403 rows.
 
 The bundled records retain their original scientific values. New curation runs use `h3btb` → `1,3,5-Tris(4-carboxyphenyl)benzene` and the reference molecular-weight lookup. These curation changes do not rewrite the bundled training and holdout files.

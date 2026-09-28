@@ -34,15 +34,15 @@
       "sha256": "f03fd1d03a851769e3bb3a094b28275a5527b3b599fb49cfb4b3bff86a0d6e44"
     },
     "baseline_train": {
-      "path": "data/final_json/train.jsonl",
+      "path": "data/processed_data_json/train.jsonl",
       "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"
     },
     "baseline_holdout": {
-      "path": "data/final_json/holdout.jsonl",
+      "path": "data/processed_data_json/holdout.jsonl",
       "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
     },
     "split_assignments": {
-      "path": "data/final_json/split_assignments.csv",
+      "path": "data/processed_data_json/split_assignments.csv",
       "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa"
     },
     "prompt_file": {
@@ -51,13 +51,13 @@
     },
     "config_file": {
       "path": "configs/dataset_preparation_process_enrich.json",
-      "sha256": "ba1ab569137ee8f3d1a7f30aa8389a23cb2bba20273dd128f07a4cde2dcead23"
+      "sha256": "842db5abf66b4965a5e2b28e27bc2817e7f24fda03dc0a9c3ed7de5f60ece950"
     }
   },
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "8055e3218ffcd01f09e697394d71a723e06681f86bae475c44267d4e9c308785"
+      "sha256": "3d1f648adf756eff7ab05ca8e62b299e7964d44bc313a76ecbbbf88094556b88"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -69,12 +69,12 @@
     },
     "training_validation": {
       "path": "src/mofinder/training/prepare.py",
-      "sha256": "87f4bdf26c70d4af3366f5bc6c4135c32967c97b933013cb881c8a9179589c15"
+      "sha256": "d4e9ba6fd3c5caf635964afcd050bf66735c1b17572d17c4b233e27e1d2885ba"
     }
   },
   "datasets": {
     "train": {
-      "path": "train.jsonl",
+      "path": "train_process_enrich.jsonl",
       "rows": 23528,
       "sha256": "676df575720c151edc09c0917ee9164b39970fe81a1d6c0a1869dd559f43c5d4",
       "bytes": 22888227,
@@ -269,7 +269,7 @@
       }
     },
     "holdout": {
-      "path": "holdout.jsonl",
+      "path": "holdout_process_enrich.jsonl",
       "rows": 2595,
       "sha256": "c333e8da1631d03c86d4917c77b32a64d9bca800c5dd5f14f2b02cc5dd9f059a",
       "bytes": 2522381,
@@ -423,7 +423,8 @@
     "sha256": "21a66a7bf6540a397ce0b0b280ea6e363327566ced8f4da5bacef6c105a44f5e"
   },
   "reaction_prediction": {
-    "path": "reaction_prediction_process_enrich.txt",
+    "path": "prompts/training/reaction_prediction_process_enrich.txt",
+    "path_base": "project_root (absolute paths retained for external inputs)",
     "sha256": "31980301feb3cb4f322515ef6dc8b016eab74532375a063d1408413717544ddc"
   },
   "validation": {

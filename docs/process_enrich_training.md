@@ -2,7 +2,7 @@
 
 This control adds `vessel_type`, `vessel_volume_mL`, and `stirring` to the original eight reaction-condition inputs. It retains the archived train/holdout split, row order, labels, and all eight original input values. The primary dataset and its preparation pipeline remain the baseline.
 
-The system prompt changes only the original input list: `temperature_C, and time_h.` becomes `temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring.` All other prompt text, including whitespace and the output instructions, is identical. The preparation code rejects any additional prompt changes. Run `python tools/audit_process_enrich_alignment.py` for an independent, row-by-row comparison of both released splits; the saved [verification report](../data/final_json/processed_enrich/independent_verification.json) records zero mismatches.
+The system prompt changes only the original input list: `temperature_C, and time_h.` becomes `temperature_C, time_h, vessel_type, vessel_volume_mL, and stirring.` All other prompt text, including whitespace and the output instructions, is identical. The preparation code rejects any additional prompt changes. Run `python tools/audit_process_enrich_alignment.py` for an independent, row-by-row comparison of both released splits; the saved [verification report](../data/processed_data_json/processed_enrich/independent_verification.json) records zero mismatches.
 
 The cleaned source files are `data/processed_data/with_process_details/Process_detail_positive.csv` and `Process_detail_negative.csv`. They retain all 15,340 positive and 15,063 negative source rows. Missing process information is `Not reported`; unresolved capacities are `Ambiguous`. Stirring descriptions that do not uniquely specify an agitation state are encoded as `Not reported` with their reasons preserved in the audit. Vessel volume is the nominal vessel capacity in mL; it is not inferred from solvent volume. The raw annotations remain available in source columns and audit files.
 
@@ -16,16 +16,17 @@ From the repository root, with the package and its `datasets` dependencies insta
 python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --output results/datasets/process_enrich
 ```
 
-Paths in the config resolve relative to `project_root`, which resolves relative to the config file. Absolute paths are also accepted. The optional `--output` override resolves relative to the current working directory and leaves the config unchanged. Preparation refuses to overwrite an existing directory, so choose a fresh output path for each reproduction. Without an override, the config targets `data/final_json/processed_enrich/`, which already contains the supplied release:
+Paths in the config resolve relative to `project_root`, which resolves relative to the config file. Absolute paths are also accepted. The optional `--output` override resolves relative to the current working directory and leaves the config unchanged. Preparation refuses to overwrite an existing directory, so choose a fresh output path for each reproduction. Without an override, the config targets `data/processed_data_json/processed_enrich/`, which already contains the supplied release:
 
 | File | Content |
 | --- | --- |
-| `train.jsonl` | 23,528 rows: 11,968 P and 11,560 N |
-| `holdout.jsonl` | 2,595 rows: 1,320 P and 1,275 N |
+| `train_process_enrich.jsonl` | 23,528 rows: 11,968 P and 11,560 N |
+| `holdout_process_enrich.jsonl` | 2,595 rows: 1,320 P and 1,275 N |
 | `train_sources.csv`, `holdout_sources.csv` | Audit-only mapping of each JSONL row to its original source row |
-| `reaction_prediction_process_enrich.txt` | Exact system prompt embedded in every example |
 | `class_map.json` | Unchanged P = success, N = failure label meaning |
 | `manifest.json` | Source and output hashes, counts, process distributions by label, and alignment checks |
+
+The system prompt is maintained separately at [prompts/training/reaction_prediction_process_enrich.txt](../prompts/training/reaction_prediction_process_enrich.txt) and embedded unchanged in every enriched example.
 
 The source CSVs keep the full cohort; the JSONL files retain the standard preparation's existing filtered cohort. No new filtering, splitting, deduplication, or P/N balancing is performed. Each archived JSONL example is joined through its canonical eight-field condition key and P/N label to exactly one archived split assignment. That assignment identifies the source row. Preparation verifies source chemistry and DOI, rejects ambiguous matches and repeated or missing source rows, and checks that train/holdout condition and chemistry-cluster sets remain disjoint. It copies the baseline example and changes only its system prompt and the addition of the three process input fields.
 
@@ -37,8 +38,8 @@ The ordinary validator still requires exactly eight fields. The explicit `proces
 
 ```powershell
 python -m mofinder.training.prepare `
-  --train data/final_json/processed_enrich/train.jsonl `
-  --holdout data/final_json/processed_enrich/holdout.jsonl `
+  --train data/processed_data_json/processed_enrich/train_process_enrich.jsonl `
+  --holdout data/processed_data_json/processed_enrich/holdout_process_enrich.jsonl `
   --feature-profile process_enrich `
   --manual-process-policy missing_control `
   --output results/local/hpc_training_process_enrich
