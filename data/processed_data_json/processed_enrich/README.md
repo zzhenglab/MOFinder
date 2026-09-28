@@ -34,4 +34,4 @@ The No stirring category represents explicitly static or unstirred conditions an
 
 <a href="../../../docs/process_details/figures/process_enrich_agitation.png"><img src="../../../docs/process_details/figures/process_enrich_agitation.png" alt="Agitation-category frequencies among positive records and unique DOIs" width="500"></a>
 
-Categorical panels include **Not reported**, including pooled rare known vessel types; each DOI is counted once per category and may contribute to multiple categories. Capacity panels use accepted numeric values without imputation. Colors progress through categories or bins and do not encode another measurement. These distributions describe feature availability and do not establish improved predictive performance.
+
