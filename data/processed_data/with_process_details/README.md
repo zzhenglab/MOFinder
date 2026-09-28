@@ -29,13 +29,11 @@ For other processed inputs:
 python -m mofinder.curation.process_details --positive path/to/processed_positive.csv --negative path/to/processed_negative.csv --output results/process_details
 ```
 
-The command regenerates the derived tables and checks their provenance. It checks exact preservation of source cells and row order and never overwrites either input CSV. [Configuration](../../../configs/process_details.json), [table builder](../../../src/mofinder/curation/process_details.py), [vessel rules](../../../src/mofinder/curation/process_vessels.py), and [agitation rules](../../../src/mofinder/curation/process_stirring.py) are included. The agitation-rule module retains the original extraction-field name.
+The command regenerates the derived tables and checks their provenance. It checks exact preservation of source cells and row order and never overwrites either input CSV. 
 
 ## Normalization
 
 Unicode compatibility characters, dash and whitespace variants, case, and explicit metric volume units are normalized. Vessel-body material is distinguished from cap, septum, gasket, seal, spacer, and stirrer material. A glass vial with a PTFE cap remains a vial. Vessel forms, pressure-vessel wording, and PTFE liners are classified conservatively; steel alone does not establish pressurization. Material-only categories are named `Glass vessel`, `Polymer vessel`, and `Metal vessel`. The shortened `PTFE-lined autoclave` retains the membership of the former autoclave / pressure vessel class. Unspecified vessel types are merged into `Not reported`.
-
-The fixed consolidation policy uses synthesis-record frequencies in the full positive reference dataset and applies the same mapping to both classes and both model splits. Vessel classes with fewer than 10 positive records—Crucible (1), Dialysis bag (3), and Rotor insert (1)—are pooled into `Not reported` as requested. That label therefore includes five reported rare vessels as well as missing or unspecified types; it is not a pure missingness indicator. Original descriptions remain in the raw CSV columns; the normalization functions also return detailed classifications and rule identifiers. The class map is frozen, not refitted separately on negative records or holdout data.
 
 Capacity conversion supports mL, L, microlitres, cm³, and cc. A reaction charge or solvent volume is not substituted for capacity; dimensions are not converted into a volume. Ranges, multiple/nested vessels, corrupted units, and unspecified dram conventions remain ambiguous. The two liter-scale vial descriptions are also quarantined as ambiguous pending source verification. Other uncommon but explicit capacities are retained and flagged. No missing value is set to zero.
 
