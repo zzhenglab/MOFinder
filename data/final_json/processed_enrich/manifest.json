@@ -27,11 +27,11 @@
   "sources": {
     "positive_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_positive.csv",
-      "sha256": "2347990b53c3bf8ca49ef2f74e42c9ba11f9f55803c3a57798c811c48a791c27"
+      "sha256": "3f03a75f12c094af34a932020ce23c4c71244dbffed7a3d316613ddfb8806755"
     },
     "negative_csv": {
       "path": "data/processed_data/with_process_details/Process_detail_negative.csv",
-      "sha256": "c3a581a71337effe99efda63d59379b5bc6fc2a1205582dda5ab6dbcd84e0911"
+      "sha256": "5292b3a67baff26e709610ccb9f1b095a3192f6a75d5cfb9c106e7a9ed32dcaf"
     },
     "baseline_train": {
       "path": "data/final_json/train.jsonl",
@@ -57,7 +57,7 @@
   "implementation": {
     "process_enrich": {
       "path": "src/mofinder/datasets/process_enrich.py",
-      "sha256": "ecc85ca43a333b51b52d61f1d70ee0d5b291deb5a0ba761779485554e2ec99bc"
+      "sha256": "d92bb932c658de4e72edb7e5fb9a6ddf79be2ca2765140776943dfb2e36546a7"
     },
     "baseline_condition_normalization": {
       "path": "src/mofinder/datasets/prepare.py",
@@ -76,15 +76,15 @@
     "train": {
       "path": "train.jsonl",
       "rows": 23528,
-      "sha256": "d6f2d99dfcee9051f74dcf44eab19b41e0e45eff1d106048dc8ed66531f789aa",
-      "bytes": 23169035,
+      "sha256": "c0402a0af785d83853237654ab997efb7e7085f71d723f3ba88bb651ee41625a",
+      "bytes": 23159089,
       "labels": {
         "N": 11560,
         "P": 11968
       },
       "source_rows": {
         "path": "train_sources.csv",
-        "sha256": "b1065d5b775aaa62045ed1a04c7131f1b26985facd89205ac583a4037742c958"
+        "sha256": "d4e85358b05f44f59fee354a35a7df7b64e3d95e9dd314bf98061c7c6fece3b0"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -95,18 +95,17 @@
             "Bottle / jar": 283,
             "Dish / well plate": 23,
             "Flask": 193,
-            "Glass vessel (shape not reported)": 186,
-            "Metal vessel (shape not reported)": 12,
+            "Glass vessel": 186,
+            "Metal vessel": 12,
             "Microwave vessel": 197,
             "Nested / multiple vessels": 68,
-            "Not reported": 1416,
+            "Not reported": 1452,
             "PTFE vessel / liner": 1110,
             "PTFE-lined autoclave / pressure vessel": 4449,
-            "Polymer vessel (shape not reported)": 5,
+            "Polymer vessel": 5,
             "Reaction cell": 6,
             "Reactor / reaction chamber": 94,
             "Tube / capillary": 1486,
-            "Vessel (type not reported)": 36,
             "Vial": 1549
           },
           "P": {
@@ -114,23 +113,19 @@
             "Autoclave / pressure vessel": 267,
             "Beaker": 99,
             "Bottle / jar": 376,
-            "Crucible": 1,
-            "Dialysis bag": 2,
             "Dish / well plate": 16,
             "Flask": 349,
-            "Glass vessel (shape not reported)": 66,
-            "Metal vessel (shape not reported)": 13,
+            "Glass vessel": 66,
+            "Metal vessel": 13,
             "Microwave vessel": 92,
             "Nested / multiple vessels": 80,
-            "Not reported": 1822,
+            "Not reported": 1884,
             "PTFE vessel / liner": 1435,
             "PTFE-lined autoclave / pressure vessel": 4452,
-            "Polymer vessel (shape not reported)": 3,
+            "Polymer vessel": 3,
             "Reaction cell": 10,
             "Reactor / reaction chamber": 128,
-            "Rotor insert": 1,
             "Tube / capillary": 686,
-            "Vessel (type not reported)": 58,
             "Vial": 2005
           }
         },
@@ -254,34 +249,21 @@
         "stirring": {
           "N": {
             "Not reported": 3159,
-            "Other agitation before static synthesis": 47,
-            "Other agitation during preparation; later agitation not reported": 1,
-            "Other agitation; stage not reported": 4,
-            "Shaken / rotated; stage not reported": 2,
+            "Other reported agitation": 98,
             "Sonicated before static synthesis": 164,
-            "Sonicated during preparation; later agitation not reported": 1,
-            "Sonicated; stage not reported": 33,
             "Static / no stirring": 4974,
             "Stirred before static synthesis": 1410,
             "Stirred during preparation; later agitation not reported": 437,
-            "Stirred during synthesis": 10,
             "Stirred; stage not reported": 1318
           },
           "P": {
-            "Not reported": 3096,
-            "Other agitation before static synthesis": 29,
-            "Other agitation during preparation; later agitation not reported": 5,
-            "Other agitation; stage not reported": 10,
-            "Shaken / rotated; stage not reported": 24,
+            "Not reported": 3114,
+            "Other reported agitation": 98,
             "Sonicated before static synthesis": 260,
-            "Sonicated during preparation; later agitation not reported": 12,
-            "Sonicated; stage not reported": 14,
             "Static / no stirring": 5084,
             "Stirred before static synthesis": 1369,
             "Stirred during preparation; later agitation not reported": 384,
-            "Stirred during synthesis": 4,
-            "Stirred; stage not reported": 1659,
-            "Unclear / ambiguous": 18
+            "Stirred; stage not reported": 1659
           }
         }
       }
@@ -289,15 +271,15 @@
     "holdout": {
       "path": "holdout.jsonl",
       "rows": 2595,
-      "sha256": "1e62805aeaa6ea3d165925f423dc09909d515ce1e38de3cac44b1d65ce7372f6",
-      "bytes": 2553927,
+      "sha256": "23df3402e5feb4a6b02ea27d31a25f5fef6db6ae9b414630e66bc738231eb6bd",
+      "bytes": 2553221,
       "labels": {
         "N": 1275,
         "P": 1320
       },
       "source_rows": {
         "path": "holdout_sources.csv",
-        "sha256": "a03d392269d382b039e9dc58902d499024df1268aece4367a2efa7c6d36676d2"
+        "sha256": "3b38dc5ad68482f95e50e44caaa9682b8a1dc61b24e985048cc31a8a314fc604"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -306,35 +288,32 @@
             "Beaker": 18,
             "Bottle / jar": 40,
             "Flask": 21,
-            "Glass vessel (shape not reported)": 4,
-            "Metal vessel (shape not reported)": 4,
+            "Glass vessel": 4,
+            "Metal vessel": 4,
             "Microwave vessel": 10,
             "Nested / multiple vessels": 10,
-            "Not reported": 152,
+            "Not reported": 155,
             "PTFE vessel / liner": 165,
             "PTFE-lined autoclave / pressure vessel": 452,
             "Reactor / reaction chamber": 14,
             "Tube / capillary": 187,
-            "Vessel (type not reported)": 3,
             "Vial": 164
           },
           "P": {
             "Autoclave / pressure vessel": 58,
             "Beaker": 6,
             "Bottle / jar": 50,
-            "Dialysis bag": 1,
             "Dish / well plate": 1,
             "Flask": 36,
-            "Glass vessel (shape not reported)": 6,
-            "Metal vessel (shape not reported)": 2,
+            "Glass vessel": 6,
+            "Metal vessel": 2,
             "Microwave vessel": 5,
             "Nested / multiple vessels": 5,
-            "Not reported": 148,
+            "Not reported": 157,
             "PTFE vessel / liner": 134,
             "PTFE-lined autoclave / pressure vessel": 580,
             "Reactor / reaction chamber": 11,
             "Tube / capillary": 62,
-            "Vessel (type not reported)": 8,
             "Vial": 207
           }
         },
@@ -413,25 +392,21 @@
         "stirring": {
           "N": {
             "Not reported": 312,
-            "Other agitation before static synthesis": 5,
+            "Other reported agitation": 11,
             "Sonicated before static synthesis": 39,
-            "Sonicated; stage not reported": 6,
             "Static / no stirring": 546,
             "Stirred before static synthesis": 154,
             "Stirred during preparation; later agitation not reported": 35,
             "Stirred; stage not reported": 178
           },
           "P": {
-            "Not reported": 327,
-            "Other agitation before static synthesis": 4,
+            "Not reported": 328,
+            "Other reported agitation": 7,
             "Sonicated before static synthesis": 42,
-            "Sonicated during preparation; later agitation not reported": 1,
-            "Sonicated; stage not reported": 2,
             "Static / no stirring": 576,
             "Stirred before static synthesis": 170,
             "Stirred during preparation; later agitation not reported": 51,
-            "Stirred; stage not reported": 146,
-            "Unclear / ambiguous": 1
+            "Stirred; stage not reported": 146
           }
         }
       }

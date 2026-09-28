@@ -14,8 +14,8 @@ import re
 import unicodedata
 
 
-STIRRING_PARSER_VERSION = "process-stirring-v1"
-STIRRING_CLASSES = (
+STIRRING_PARSER_VERSION = "process-stirring-v2"
+DETAILED_STIRRING_CLASSES = (
     "Not reported",
     "Static / no stirring",
     "Stirred before static synthesis",
@@ -30,6 +30,27 @@ STIRRING_CLASSES = (
     "Shaken / rotated; stage not reported",
     "Other agitation; stage not reported",
     "Unclear / ambiguous",
+)
+# Fixed from the complete 15,340-record positive reference, before consolidation.
+# Apply the same map to negative rows and new input batches. Do not refit it on
+# the holdout, on the negative labels, or on each caller's input subset.
+RARE_STIRRING_CLASS_COUNTS = {
+    "Other agitation before static synthesis": 34,
+    "Shaken / rotated; stage not reported": 29,
+    "Sonicated; stage not reported": 24,
+    "Sonicated during preparation; later agitation not reported": 13,
+    "Other agitation; stage not reported": 12,
+    "Other agitation during preparation; later agitation not reported": 5,
+    "Stirred during synthesis": 4,
+}
+STIRRING_CLASSES = (
+    "Not reported",
+    "Static / no stirring",
+    "Stirred before static synthesis",
+    "Sonicated before static synthesis",
+    "Stirred during preparation; later agitation not reported",
+    "Stirred; stage not reported",
+    "Other reported agitation",
 )
 _MISSING = {
     "", "nan", "none", "null", "<na>", "na", "n/a", "n.a.",
@@ -72,15 +93,26 @@ def normalize_stirring_text(value: object) -> str:
 def normalize_stirring(value: object) -> dict[str, str]:
     """Return a bounded class plus the matched rule and any review reason.
 
-    Missing and unresolved are different: nonempty off-schema or contradictory
-    descriptions stay ``Unclear / ambiguous`` and carry a reason.  The full
-    input should be retained by callers as ``stirring_raw``.  Numerical speeds,
-    times, and intensity adjectives are deliberately not used to infer a stage.
+    The final model class consolidates rare reported agitation and assigns
+    unavailable or indeterminate agitation to ``Not reported``. ``detailed_value``
+    preserves the original stage-aware class, and ``consolidation_rule`` explains
+    every recoding. Nonempty off-schema or contradictory text retains a review
+    reason. The full input should be retained by callers as ``stirring_raw``.
+    Numerical speeds, times, and intensity adjectives do not establish a stage.
     """
     text = normalize_stirring_text(value)
 
     def result(label: str, rule: str, reason: str = "") -> dict[str, str]:
-        return {"value": label, "rule": rule, "normalized_text": text, "review_reason": reason}
+        final_label, consolidation = label, ""
+        if label in RARE_STIRRING_CLASS_COUNTS:
+            final_label = "Other reported agitation"
+            consolidation = "positive_reference_class_count_lt_50"
+        elif label == "Unclear / ambiguous":
+            final_label = "Not reported"
+            consolidation = "no_unique_supported_agitation_state"
+        return {"value": final_label, "detailed_value": label,
+                "consolidation_rule": consolidation, "rule": rule,
+                "normalized_text": text, "review_reason": reason}
 
     if text in _MISSING:
         return result("Not reported", "missing")
@@ -130,7 +162,7 @@ def normalize_stirring(value: object) -> dict[str, str]:
             return result("Other agitation during preparation; later agitation not reported", "preparation_agitation_only")
         return result("Other agitation; stage not reported", "agitation_without_method_or_stage_evidence")
     if re.search(r"\bcentrifug\w*\b", text):
-        reason = "Centrifugation alone is not evidence of synthesis-stage stirring."
+        reason = "Centrifugation alone does not establish a stirring or static state; its stage is not inferred."
     elif re.search(r"\b(?:reflux\w*|microwave\w*)\b", text):
         reason = "Heating or irradiation alone does not specify agitation."
     elif "addition" in text:
@@ -147,9 +179,21 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
     No source tables are modified.  Rare means at most five combined records.
     """
     counts: dict[str, Counter[str]] = {}
+    review_context = []
     for label, path in (("positive", positive), ("negative", negative)):
         with path.open(encoding="utf-8-sig", newline="") as handle:
-            counts[label] = Counter(row["stirring"] for row in csv.DictReader(handle))
+            source_rows = list(csv.DictReader(handle))
+        counts[label] = Counter(row["stirring"] for row in source_rows)
+        for index, row in enumerate(source_rows, start=1):
+            parsed = normalize_stirring(row["stirring"])
+            if parsed["review_reason"]:
+                review_context.append({
+                    "dataset": label, "csv_data_row_1based": index,
+                    **{key: row.get(key, "") for key in (
+                        "doi", "stirring", "vessel_type", "temperature_c_text",
+                        "time_text", "washing_solvent", "activation_text")},
+                    **parsed,
+                })
     all_counts = counts["positive"] + counts["negative"]
     rows = []
     for raw, count in sorted(all_counts.items(), key=lambda item: (-item[1], item[0])):
@@ -171,10 +215,16 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
             writer.writerows(records)
 
     headers = ["raw_value", "positive_records", "negative_records", "total_records",
-               "rare_at_most_5_records", "value", "rule", "normalized_text", "review_reason"]
+               "rare_at_most_5_records", "value", "detailed_value", "consolidation_rule",
+               "rule", "normalized_text", "review_reason"]
     save("stirring_all_raw_values.csv", rows, headers)
     unresolved = [row for row in rows if row["review_reason"]]
     save("stirring_unresolved_values.csv", unresolved, headers)
+    context_headers = ["dataset", "csv_data_row_1based", "doi", "stirring", "vessel_type",
+                       "temperature_c_text", "time_text", "washing_solvent", "activation_text",
+                       "value", "detailed_value", "consolidation_rule", "rule", "normalized_text",
+                       "review_reason"]
+    save("stirring_review_context.csv", review_context, context_headers)
     category_rows = []
     for category in STIRRING_CLASSES:
         selected = [row for row in rows if row["value"] == category]
@@ -207,11 +257,12 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
         "This is a review of extracted text; source publications were not re-read.",
         "",
         "Rules normalize Unicode width, dashes, whitespace and case before classification. "
-        "Explicit static synthesis takes priority over initial mixing. Stirring, sonication and other initial agitation "
-        "remain separate; when both stirring and sonication are specified, the class records stirring and the raw field retains both. "
+        "Explicit static synthesis takes priority over initial mixing. The detailed audit retains stirring, sonication "
+        "and other initial agitation separately; when both stirring and sonication are specified, the detailed class "
+        "records stirring and the raw field retains both. "
         "Preparation followed by heating does not establish static heating. Bare `stirred`, speeds, intensity adjectives "
         "and even `continuous stirring` do not identify the synthesis stage and remain stage-not-reported. "
-        "Only explicit reaction-stage wording supports `Stirred during synthesis`. "
+        "Only explicit reaction-stage wording supports the detailed class `Stirred during synthesis`. "
         "These text classes summarize what is reported; they are not validated measurements of agitation.",
         "",
         "Audit refinements included recognizing `left standing` and `aged without stirring` as static; "
@@ -221,15 +272,37 @@ def write_stirring_audit(positive: Path, negative: Path, output: Path) -> dict[s
         "Post-cooling stirring does not count as preparation. Reagent addition, reflux, microwave irradiation and "
         "centrifugation alone are not assigned to a synthesis-agitation method.",
         "",
+        "## Final class consolidation", "",
+        "The seven detailed agitation categories with fewer than 50 positive synthesis records in the fixed "
+        "15,340-record reference are merged into `Other reported agitation`. The same fixed mapping is used "
+        "for positive and negative rows, future input batches, and model inputs. It is not recalculated per dataset "
+        "or split. This broad class asserts that agitation was reported but does not imply a shared method or "
+        "stage. `detailed_value`, `consolidation_rule`, the original rule, and raw text retain the specific evidence. "
+        "Stage-aware detailed classes remain available for a future sensitivity analysis.", "",
+        "| Detailed class merged | Positive reference count |", "|---|---:|",
+    ]
+    for category, count in RARE_STIRRING_CLASS_COUNTS.items():
+        lines.append(f"| {category} | {count} |")
+    lines.extend([
+        "", "## Final class counts", "",
         "| Class | Positive | Negative | Unique raw strings |",
         "|---|---:|---:|---:|",
-    ]
+    ])
     for row in category_rows:
         lines.append(f"| {row['category']} | {row['positive_records']:,} | {row['negative_records']:,} | {row['distinct_raw_values']:,} |")
     lines.extend([
-        "", f"## Residual ambiguity: {unresolved_records:,} records / {len(unresolved)} unique strings", "",
-        "These remain `Unclear / ambiguous`, distinct from `Not reported`, with an explicit review reason. "
-        "Do not silently recode these phrases as static, stirred, or missing.", "",
+        "", f"## Agitation not determinable: {unresolved_records:,} records / {len(unresolved)} unique strings", "",
+        "The final class is `Not reported` because a unique supported agitation state is unavailable. The detailed "
+        "audit retains `Unclear / ambiguous` and an explicit reason, distinguishing these nonempty descriptions "
+        "from a blank source field. They are not recoded as static or stirred. Associated vessel, temperature, "
+        "duration, washing, and activation fields for every affected row are in `stirring_review_context.csv`.", "",
+        "The reference audit inspected all 21 affected positive rows. The 12 centrifugation records from "
+        "DOIs `10.1039/c4ta06820c` and `10.1016/j.matchemphys.2022.127039` tie centrifugation to their reported "
+        "durations; this is not evidence that centrifugation was necessarily postprocessing, but it still does not "
+        "identify a stirring/static state. Three reflux rows specify heating; one microwave row specifies "
+        "irradiation; four addition rows specify reagent addition under argon. None supplies a separate agitation "
+        "state in the available associated fields. The remaining row says `with or without stirring` and lacks "
+        "a unique record-specific choice. The audit does not invent a choice or infer agitation from heating.", "",
         "| Raw string | Positive | Negative | Reason |", "|---|---:|---:|---|",
     ])
     for row in unresolved:

@@ -11,9 +11,9 @@ Original `vessel_type` and `stirring` columns are renamed `vessel_type_raw` and 
 
 | Added field | Representation |
 | --- | --- |
-| `vessel_type` | Controlled category based on the recorded vessel description; missing or equipment-only descriptions are `Not reported` |
+| `vessel_type` | Controlled vessel category; `Not reported` includes missing/unspecified types and the explicitly pooled rare classes described below |
 | `vessel_volume_mL` | A positive numeric vessel capacity in mL, `Not reported`, or `Ambiguous` |
-| `stirring` | Controlled agitation/stage description, `Not reported`, or `Unclear / ambiguous` |
+| `stirring` | Controlled agitation/stage description, `Other reported agitation`, or `Not reported` when no unique agitation state is specified |
 
 ## Reproduce
 
@@ -33,18 +33,21 @@ The command regenerates the derived tables and audit files. It checks exact pres
 
 ## Normalization and audit
 
-Unicode compatibility characters, dash and whitespace variants, case, and explicit metric volume units are normalized. Vessel-body material is distinguished from cap, septum, gasket, seal, spacer, and stirrer material. A glass vial with a PTFE cap remains a vial. Vessel forms, pressure-vessel wording, and PTFE liners are classified conservatively; steel alone does not establish pressurization. Named but underspecified vessels retain explicit shape/type-unspecified categories. A broad `Other vessel` bin is not used.
+Unicode compatibility characters, dash and whitespace variants, case, and explicit metric volume units are normalized. Vessel-body material is distinguished from cap, septum, gasket, seal, spacer, and stirrer material. A glass vial with a PTFE cap remains a vial. Vessel forms, pressure-vessel wording, and PTFE liners are classified conservatively; steel alone does not establish pressurization. Material-only categories are named `Glass vessel`, `Polymer vessel`, and `Metal vessel`. Unspecified vessel types are merged into `Not reported`.
+
+The fixed consolidation policy uses synthesis-record frequencies in the full positive reference dataset and applies the same mapping to both classes and both model splits. Vessel classes with fewer than 10 positive records—Crucible (1), Dialysis bag (3), and Rotor insert (1)—are pooled into `Not reported` as requested. That label therefore includes five reported rare vessels as well as missing or unspecified types; it is not a pure missingness indicator. Original descriptions and fine-grained classes remain in the audits. The class map is frozen, not refitted separately on negative records or holdout data.
 
 Capacity conversion supports mL, L, microlitres, cm³, and cc. A reaction charge or solvent volume is not substituted for capacity; dimensions are not converted into a volume. Ranges, multiple/nested vessels, corrupted units, and unspecified dram conventions remain ambiguous. The two liter-scale vial descriptions are also quarantined as ambiguous pending source verification. Other uncommon but explicit capacities are retained and flagged. No missing value is set to zero.
 
-Stirring classes distinguish explicit static conditions, agitation before static synthesis, agitation during preparation with later conditions unknown, and agitation explicitly during synthesis. Unqualified “stirred” does not establish stirring throughout heating. Sonication and other agitation remain distinguishable. Non-agitation text and contradictory alternatives are explicitly unresolved.
+Common stirring classes distinguish static conditions, stirring or sonication before static synthesis, and preparative stirring with later conditions unknown. Unqualified “stirred” does not establish stirring throughout heating. Seven classes with fewer than 50 positive records are consolidated into `Other reported agitation` (121 positive and 115 negative records). Their original method/stage distinctions remain in `detailed_value` and the row audit; the broad class does not imply one shared agitation method or stage.
 
-The complete corpus audit covers **1,926 unique vessel strings** and **890 unique stirring strings**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. All vessel strings resolve to a defined category or `Not reported`; **21 positive stirring records** remain `Unclear / ambiguous` because they report centrifugation, addition, reflux, microwave irradiation, or alternative stirring states. This audit evaluates the extracted strings, not the source publications.
+The complete corpus audit covers **1,926 unique vessel strings** and **890 unique stirring strings**, including all low-frequency descriptions. Iterative corrections addressed PTFE accessories, nested vessels, plurals and synonyms, split unit typography, corrupted micro-unit symbols, and charge-volume wording. The **21 formerly ambiguous positive stirring records** were rechecked with their associated fields: centrifugation (12), addition (4), reflux (3), microwave irradiation (1), and alternative stirring states (1) do not specify a unique stirring/static state. Their model value is now `Not reported`, while the original `Unclear / ambiguous` class and reasons remain in the audit. No physical state is guessed. This audit evaluates extracted strings and associated tabular context, not re-read source publications.
 
 - [Every raw-to-clean mapping](audit/all_raw_value_mappings.csv), with separate positive/negative frequencies.
 - [Rare mappings](audit/rare_value_mappings.csv), occurring at most five times across both datasets.
 - [Mappings requiring review](audit/review_required_mappings.csv), including conservative unresolved capacities and retained rare sizes.
 - [Every source row and rule](audit/record_process_audit.csv), kept outside model input.
+- [Category consolidation](audit/category_consolidation.csv), including every fine-to-final mapping and its positive/negative counts, and [stirring review context](audit/stirring_review_context.csv).
 - [Full category counts](audit/feature_counts.csv), [independent vessel review](audit/vessel_independent_review.md), and [stirring audit](audit/stirring_audit_notes.md).
 - [Manifest](manifest.json), with input/output and implementation hashes.
 

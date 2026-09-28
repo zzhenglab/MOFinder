@@ -9,8 +9,8 @@ import hashlib
 import json
 from pathlib import Path
 
-from .process_vessels import VERSION, vessel_type, vessel_volume_mL
-from .process_stirring import normalize_stirring
+from .process_vessels import VERSION, VESSEL_LABEL_MAP, VESSEL_RARE_POSITIVE_COUNTS, vessel_type, vessel_volume_mL
+from .process_stirring import normalize_stirring, write_stirring_audit
 
 FEATURES = ('vessel_type','vessel_volume_mL','stirring')
 RAW_RENAMES = {'vessel_type':'vessel_type_raw','stirring':'stirring_raw'}
@@ -74,6 +74,11 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
             volume = vessel_volume_mL(row['vessel_type'])
             stir = normalize_stirring(row['stirring'])
             derived = {'vessel_type':v,'vessel_volume_mL':volume,'stirring':stir}
+            derived = {feature: {
+                'value': info['value'], 'detailed_value': info.get('detailed_value', info['value']),
+                'rule': info['rule'], 'consolidation_rule': info.get('consolidation_rule', ''),
+                'normalized_text': info['normalized_text'], 'review_reason': info['review_reason'],
+            } for feature, info in derived.items()}
             clean = {RAW_RENAMES.get(k,k):value for k,value in row.items()}
             clean.update({k:csv_text(info['value']) for k,info in derived.items()})
             exported.append(clean)
@@ -81,7 +86,9 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                      'vessel_type_raw':row['vessel_type'],'stirring_raw':row['stirring']}
             for feature,info in derived.items():
                 audit[feature]=csv_text(info['value'])
+                audit[feature+'_detailed_value']=csv_text(info['detailed_value'])
                 audit[feature+'_rule']=info['rule']
+                audit[feature+'_consolidation_rule']=info['consolidation_rule']
                 audit[feature+'_review_reason']=info['review_reason']
                 raw_value = row['stirring' if feature=='stirring' else 'vessel_type']
                 key=(feature,raw_value)
@@ -113,6 +120,18 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
     write_csv(audit_dir/'review_required_mappings.csv',list(mapping_rows[0]),flagged)
     rare = [r for r in mapping_rows if r['positive_records']+r['negative_records']<=5]
     write_csv(audit_dir/'rare_value_mappings.csv',list(mapping_rows[0]),rare)
+    consolidation = {}
+    for item in mapping_rows:
+        if not item['consolidation_rule']:
+            continue
+        key = (item['feature'], str(item['detailed_value']), str(item['value']), item['consolidation_rule'])
+        entry = consolidation.setdefault(key, dict(zip(
+            ['feature','detailed_value','final_value','consolidation_rule'], key),
+            positive_records=0, negative_records=0))
+        for label in ('positive_records','negative_records'):
+            entry[label] += item[label]
+    consolidation_fields = ['feature','detailed_value','final_value','consolidation_rule','positive_records','negative_records']
+    write_csv(audit_dir/'category_consolidation.csv',consolidation_fields,list(consolidation.values()))
     count_rows=[]
     for label in source_counts:
         selected=[r for r in audit_rows if r['dataset']==label]
@@ -123,13 +142,26 @@ def prepare_process_details(positive_csv, negative_csv, output_dir):
                 count_rows.append({'dataset':label,'feature':feature,'value':value,'records':count,
                                    'record_percent':count/source_counts[label]*100,'unique_dois':len(dois)})
     write_csv(audit_dir/'feature_counts.csv',list(count_rows[0]),count_rows)
+    stirring_audit = write_stirring_audit(Path(positive_csv), Path(negative_csv), audit_dir)
     manifest={'schema_version':1,'normalization_version':VERSION,'files':outputs,
               'features':list(FEATURES),'vessel_volume_unit':'mL',
               'missing_value':'Not reported','ambiguous_volume_value':'Ambiguous',
+              'category_consolidation': {
+                  'frequency_basis': 'positive synthesis records in the audited reference cohort',
+                  'same_fixed_mapping_for_positive_negative_train_holdout': True,
+                  'vessel_label_map': VESSEL_LABEL_MAP,
+                  'vessel_rare_positive_counts': VESSEL_RARE_POSITIVE_COUNTS,
+                  'vessel_rare_threshold_exclusive': 10,
+                  'stirring_rare_threshold_exclusive': 50,
+                  'detailed_classes_retained_in_audit': True,
+                  'audit_file': 'audit/category_consolidation.csv',
+                  'not_reported_caveat': 'Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation.',
+              },
               'normalization_code_sha256':{f.name:digest(f) for f in
                     [Path(__file__),Path(__file__).with_name('process_vessels.py'),Path(__file__).with_name('process_stirring.py')]},
               'raw_mappings':len(mapping_rows),'review_required_mappings':len(flagged),
               'rare_mappings_frequency_le5':len(rare),
+              'stirring_audit': stirring_audit,
               'rows_preserved':True,'source_values_preserved':True,
               'negative_provenance':'Negative process annotations can be inherited; normalization does not validate failed attempts.'}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')

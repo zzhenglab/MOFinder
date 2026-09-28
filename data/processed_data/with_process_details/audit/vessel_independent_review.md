@@ -1,5 +1,7 @@
 # Independent vessel audit
 
+The original review below describes the detailed parser categories. In normalization version 2, those categories remain in `detailed_value` while the final model categories follow [the consolidation audit](category_consolidation.csv): material labels are shortened, unspecified vessel types become `Not reported`, and the three vessel classes with fewer than 10 positive records are pooled into `Not reported`. The same mapping is applied to positive and negative CSVs before JSONL preparation. No capacity values are changed by category pooling.
+
 The reviewer read all **1,926 distinct raw vessel descriptions** in the canonical positive and negative processed CSVs. The complete inventory, with positive/negative frequencies, is `vessel_independent_raw_inventory.csv`. No source CSV values were changed by this independent review.
 
 The review used mutually exclusive text batches so that every description was inspected: autoclave/bomb (537), remaining vial (439), remaining tube/Schlenk/ampoule (225), remaining flask/bottle/beaker (253), remaining fluoropolymer vessel (259), other recognizable vessel nouns (181), and descriptions without those nouns (32). These are review batches, **not** recommended final classification frequencies.

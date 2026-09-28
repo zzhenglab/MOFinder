@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "normalization_version": "1.0.0",
+  "normalization_version": "2.0.0",
   "files": [
     {
       "dataset": "positive",
@@ -10,7 +10,7 @@
       "output_columns": 86,
       "input": "data/processed_data/processed_positive.csv",
       "input_sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "sha256": "2347990b53c3bf8ca49ef2f74e42c9ba11f9f55803c3a57798c811c48a791c27",
+      "sha256": "3f03a75f12c094af34a932020ce23c4c71244dbffed7a3d316613ddfb8806755",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -25,7 +25,7 @@
       "output_columns": 79,
       "input": "data/processed_data/processed_negative.csv",
       "input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
-      "sha256": "c3a581a71337effe99efda63d59379b5bc6fc2a1205582dda5ab6dbcd84e0911",
+      "sha256": "5292b3a67baff26e709610ccb9f1b095a3192f6a75d5cfb9c106e7a9ed32dcaf",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -41,14 +41,41 @@
   "vessel_volume_unit": "mL",
   "missing_value": "Not reported",
   "ambiguous_volume_value": "Ambiguous",
+  "category_consolidation": {
+    "frequency_basis": "positive synthesis records in the audited reference cohort",
+    "same_fixed_mapping_for_positive_negative_train_holdout": true,
+    "vessel_label_map": {
+      "Glass vessel (shape not reported)": "Glass vessel",
+      "Polymer vessel (shape not reported)": "Polymer vessel",
+      "Metal vessel (shape not reported)": "Metal vessel"
+    },
+    "vessel_rare_positive_counts": {
+      "Crucible": 1,
+      "Dialysis bag": 3,
+      "Rotor insert": 1
+    },
+    "vessel_rare_threshold_exclusive": 10,
+    "stirring_rare_threshold_exclusive": 50,
+    "detailed_classes_retained_in_audit": true,
+    "audit_file": "audit/category_consolidation.csv",
+    "not_reported_caveat": "Includes unspecified vessel types, pooled rare vessel types, and descriptions that do not uniquely specify synthesis agitation."
+  },
   "normalization_code_sha256": {
-    "process_details.py": "972e8ed145ec8dc2f799b0fc4b581a8de4e7b2d05f9b5f515fe3c07674ec399a",
-    "process_vessels.py": "993e4d5d033008a1919d7a0efc9e408204500e598acce01cd01154589b095ee6",
-    "process_stirring.py": "960ee66bd54327ff2bc60a142fad630ed9a7a32a90c7256308e51684dd4a0352"
+    "process_details.py": "8ff0fe38180ed9808f1c5688e5db7366b138d4a82a1dac0937694cd0a08d9746",
+    "process_vessels.py": "1070dfbd4148aeb6c8e9ca7af5b9db51eff7e6a559b691a59268c5caa88e579d",
+    "process_stirring.py": "a85f9d4c2560a861af839e6f2a8b7387b70c6d152e62b447a0e27715948feed1"
   },
   "raw_mappings": 4742,
-  "review_required_mappings": 220,
+  "review_required_mappings": 223,
   "rare_mappings_frequency_le5": 3189,
+  "stirring_audit": {
+    "positive_records": 15340,
+    "negative_records": 15063,
+    "distinct_raw_values": 890,
+    "rare_distinct_raw_values": 657,
+    "unresolved_distinct_raw_values": 5,
+    "unresolved_records": 21
+  },
   "rows_preserved": true,
   "source_values_preserved": true,
   "negative_provenance": "Negative process annotations can be inherited; normalization does not validate failed attempts."

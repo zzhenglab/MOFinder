@@ -1,23 +1,35 @@
-# Process-detail control distributions
+# Local process-detail distributions
 
-Run from the repository root:
+The plotting script reads the cleaned process-detail CSVs and never changes either source table. Run from the repository root:
 
 ```powershell
-python tools/plot_process_details.py
+python tools/plot_process_details.py --output "../Figure 1 and Figure 4/SI figures/process enrich figures" --report-dir "../Figure 1 and Figure 4/SI figures/data/process_enrich"
 ```
 
-Custom inputs and an output folder can be supplied with `--positive`, `--negative`, and `--output`. `--si-output` optionally copies figures into an external SI figure folder. The plotting step never changes either input CSV.
+`--output` is required and contains only the three PNG figures. `--report-dir` is separate and holds calculation tables, captions, provenance, and the Section S5 Markdown draft. If omitted, it defaults to a sibling directory named `process_enrich_data`. Custom source paths can be supplied with `--positive` and `--negative`. `--si-section` and `--docx` optionally save local manuscript drafts. No PDF/SVG files, single-panel variants, or repository figure copies are generated.
 
-The figures show the complete cleaned positive process-detail dataset, including rows that the original training preparation may subsequently exclude. They therefore describe the positive tabular dataset, not the smaller matched training and holdout files. Negative records are not plotted. Both positive and negative CSVs and training files remain unchanged by this plotting revision. Missing and ambiguous feature labels remain in the tabular data and categorical plots; numeric capacity plots use only accepted finite capacities greater than zero. No numerical capacity is imputed.
+The figures describe all 15,340 cleaned positive tabular records from 4,568 DOIs, before model-training exclusions. Negative records are not plotted. The three outputs are:
 
-- `figures/process_enrich_vessel_type.*`: all cleaned vessel categories.
-- `figures/process_enrich_vessel_volume.*`: vessel capacities in mL, with a logarithmic capacity axis and shared bins.
-- `figures/process_enrich_stirring.*`: all cleaned stirring categories, including stage information where available.
+- `process_enrich_vessel_type.png`: final vessel categories and counts.
+- `process_enrich_vessel_volume.png`: accepted vessel capacities in mL on logarithmic axes with shared bins.
+- `process_enrich_stirring.png`: final stirring categories and counts.
 
-Each root figure places panel **a**, synthesis-record counts, above panel **b**, unique DOI counts. The color coding matches the positive-dataset temperature/time plots: records use muted teal (`#63948B`), DOIs use light blue (`#A2C4F1`), and bar outlines use dark teal (`#285953`). Categorical plots keep the same category order across both panels and label each bar with its count. Dashed lines on numerical capacity histograms mark the arithmetic mean of the values represented in each panel. Identical copies are under `figures/02_records_and_DOI/`; single-panel record-count versions are under `figures/01_synthesis_records/`. PNG images are 600 dpi and all canvases are exactly 6 inches wide. Vector PDF and SVG versions are supplied. Arial is used when installed; the plotting script records any font fallback in the summary file.
+Each figure places panel **a**, synthesis records, above panel **b**, unique DOIs. Records use muted teal (`#63948B`), DOIs use light blue (`#A2C4F1`), and outlines use dark teal (`#285953`). Category order is shared across panels and each bar is labeled with its count. PNGs are 600 dpi and six inches wide. Arial is used when installed; any font fallback is recorded in the summary. Dashed capacity-histogram lines show the arithmetic mean of the values represented in each panel.
 
-Categorical DOI counts use one count for each distinct DOI/category in the positive dataset. A publication can contain multiple categories, so summing DOI-category counts can exceed the dataset's number of unique DOIs. DOI normalization removes URL or `doi:` prefixes and ignores case; blank DOIs are excluded from DOI summaries. For numeric capacity panel b, one median accepted capacity is calculated per DOI from its positive records. The dashed mean in panel b is the arithmetic mean of these DOI medians.
+## Category preparation
 
-The plotted calculations are saved in `category_counts.csv`, `field_coverage.csv`, and `volume_histogram_counts.csv`. These CSV exports cover the positive dataset only. The accompanying `distribution_summary.json` retains input-file SHA256 hashes and summary statistics for both source datasets as provenance, including row and DOI denominators, numeric summaries, and counts of nonnumeric capacity labels. `resolved_records` excludes explicitly missing, unclear, ambiguous, and unresolved category labels, as specified in that JSON. Generic shape-unspecified glass/polymer categories remain identifiable categories. Numerical histogram counts are checked to ensure that every accepted numeric positive-dataset value is included, including the upper tail.
+These are final dataset categories, with no extra merging in the plotting script. The same labels appear in the cleaned CSVs and enriched training/holdout files. Consolidation thresholds use **positive synthesis-record counts**, not DOI counts, and the resulting mapping is applied consistently to both classes.
 
-See `FIGURE_CAPTIONS.md` for captions and `Section_S5_process_details.md` for the short manuscript subsection. Figure numbers remain placeholders for the final SI layout.
+Material-only vessels are named **Glass vessel**, **Polymer vessel**, or **Metal vessel**, without the parenthetical shape qualifier. **Vessel (type not reported)** is merged into **Not reported**. Vessel classes with fewer than 10 positive records are also assigned to **Not reported**. Thus, this label includes both missing/unresolved vessel types and deliberately pooled rare known types; it is not a pure missingness count. Original text and detailed categories remain available in the preparation audits.
+
+Reported-agitation classes with fewer than 50 positive records are combined as **Other reported agitation**. Detailed stage and agitation classifications are retained in the audit instead of being shown as separate rare classes. Audited ambiguous descriptions that do not establish a unique stirring state are assigned to **Not reported**. Neither this label nor an ambiguous description is interpreted as static synthesis. Mixing reported only during preparation is not assumed to continue during crystallization.
+
+## Counting and provenance
+
+Categorical panels include every positive record, including **Not reported**. DOI counts use one count per distinct DOI/category. A paper can contribute to multiple categories, so the sum of DOI-category counts may exceed the number of unique papers. DOI normalization removes URL or `doi:` prefixes, ignores case, and excludes blank DOIs from DOI summaries.
+
+Capacity histograms use only positive finite numerical capacities. **Not reported** and **Ambiguous** capacities are excluded without imputation. Panel b uses one median accepted capacity per DOI; its dashed line is the arithmetic mean of those DOI medians. Histogram totals are checked to include every accepted value, including the upper tail.
+
+`category_counts.csv`, `field_coverage.csv`, and `volume_histogram_counts.csv` contain positive-dataset calculations. `distribution_summary.json` retains both input-file SHA256 hashes and summary statistics for provenance. Its `resolved_records` measure counts retained final categories and excludes explicitly missing, unclear, ambiguous, and unresolved labels; after rare-vessel pooling, it should not be interpreted as the count of every source record that mentions a known vessel.
+
+`FIGURE_CAPTIONS.md` and `Section_S5_process_details.md` in the local report directory contain captions and the short manuscript subsection. Figure numbers are placeholders pending final SI placement. Negative process annotations may be inherited from successful parent protocols, so this control does not constitute independent experimental verification of failed-trial process conditions.

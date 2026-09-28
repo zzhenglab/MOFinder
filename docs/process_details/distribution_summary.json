@@ -59,6 +59,7 @@
   "category_doi_rule": "One count per distinct DOI/category/cohort; a DOI can have multiple categories.",
   "volume_doi_rule": "One median of accepted positive numeric capacities per DOI within each cohort.",
   "resolved_coverage_rule": "Numeric positive finite capacity; categorical values excluding Not reported, Ambiguous, Unclear, Unclear / ambiguous, Unresolved vessel description, and Vessel (type not reported).",
+  "consolidation_note": "Categories come directly from the final cleaned inputs. Vessel Not reported includes rare known vessel classes pooled during preparation, so categorical coverage is coverage of retained final categories, not a count of all mentioned vessel types.",
   "rendering": {
     "width_inches": 6,
     "font": "Arial",
@@ -76,11 +77,11 @@
   "inputs": {
     "positive": {
       "filename": "Process_detail_positive.csv",
-      "sha256": "2347990b53c3bf8ca49ef2f74e42c9ba11f9f55803c3a57798c811c48a791c27"
+      "sha256": "3f03a75f12c094af34a932020ce23c4c71244dbffed7a3d316613ddfb8806755"
     },
     "negative": {
       "filename": "Process_detail_negative.csv",
-      "sha256": "c3a581a71337effe99efda63d59379b5bc6fc2a1205582dda5ab6dbcd84e0911"
+      "sha256": "5292b3a67baff26e709610ccb9f1b095a3192f6a75d5cfb9c106e7a9ed32dcaf"
     }
   }
 }

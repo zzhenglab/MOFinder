@@ -65,7 +65,7 @@ class VesselTests(unittest.TestCase):
         for raw,expected in [('autoclavable glass bottle','Bottle / jar'),('Schlenk flask','Flask'),
                              ('glass reactor with drying tube','Reactor / reaction chamber'),
                              ('20 mL ampulla','Ampoule'),('Erlenmeyer (2 L) with condenser','Flask'),
-                             ('PEEK screw-cap insert inside 7 mm MAS rotor (zirconia)','Rotor insert')]:
+                             ('PEEK screw-cap insert inside 7 mm MAS rotor (zirconia)','Not reported')]:
             self.assertEqual(vessel_type(raw)['value'],expected,raw)
         for raw in ['vapor diffusion setup','liquid–liquid diffusion','spray dryer (AF-88)','block heater']:
             self.assertEqual(vessel_type(raw)['value'],'Not reported',raw)
@@ -73,7 +73,21 @@ class VesselTests(unittest.TestCase):
     def test_pressure_requires_text_evidence(self):
         self.assertEqual(vessel_type('high-pressure stainless steel batch reactor (~10 mL)')['value'],
                          'Autoclave / pressure vessel')
-        self.assertEqual(vessel_type('stainless steel sealed vessel')['value'],'Metal vessel (shape not reported)')
+        self.assertEqual(vessel_type('stainless steel sealed vessel')['value'],'Metal vessel')
+
+    def test_consolidated_types_preserve_detailed_class_and_capacity(self):
+        for raw, expected in [('glass vessel','Glass vessel'), ('polypropylene container','Polymer vessel'),
+                              ('metal vessel','Metal vessel'), ('reaction vessel','Not reported'),
+                              ('crucible (25 mL)','Not reported'), ('dialysis bag','Not reported')]:
+            with self.subTest(raw=raw):
+                parsed = vessel_type(raw)
+                self.assertEqual(parsed['value'], expected)
+                self.assertTrue(parsed['consolidation_rule'])
+                self.assertNotEqual(parsed['detailed_value'], parsed['value'])
+        self.assertEqual(vessel_type('crucible (25 mL)')['detailed_value'], 'Crucible')
+        self.assertEqual(vessel_volume_mL('crucible (25 mL)')['value'], 25)
+        self.assertEqual(vessel_type('reaction cell')['value'], 'Reaction cell')
+        self.assertEqual(vessel_type('ampoule')['value'], 'Ampoule')
 
     def test_pipeline_preserves_source_cells_and_missing_rows(self):
         with tempfile.TemporaryDirectory() as directory:

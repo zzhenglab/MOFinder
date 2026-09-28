@@ -4,8 +4,10 @@
 Requires matplotlib, numpy, and pandas. Run from any working directory:
     python tools/plot_process_details.py --help
 
-All category plots retain every category. DOI categories may overlap within a
-publication; numeric DOI distributions use one within-DOI median per cohort.
+Writes only three PNGs to an explicit local output directory. Categories are
+read directly from the cleaned CSVs, without additional display-only merging.
+DOI categories may overlap within a publication; numeric DOI distributions use
+one within-DOI median per cohort.
 """
 from __future__ import annotations
 
@@ -16,7 +18,6 @@ import math
 import os
 from pathlib import Path
 import re
-import shutil
 import textwrap
 from xml.sax.saxutils import escape
 import zipfile
@@ -93,7 +94,8 @@ def summarize(frames: dict[str, pd.DataFrame]) -> tuple[dict, pd.DataFrame, pd.D
     summary = {"datasets": {}, "doi_rule": "Lowercase; remove DOI URL or doi: prefix; omit blank DOIs from DOI counts.",
                "category_doi_rule": "One count per distinct DOI/category/cohort; a DOI can have multiple categories.",
                "volume_doi_rule": "One median of accepted positive numeric capacities per DOI within each cohort.",
-               "resolved_coverage_rule": "Numeric positive finite capacity; categorical values excluding Not reported, Ambiguous, Unclear, Unclear / ambiguous, Unresolved vessel description, and Vessel (type not reported)."}
+               "resolved_coverage_rule": "Numeric positive finite capacity; categorical values excluding Not reported, Ambiguous, Unclear, Unclear / ambiguous, Unresolved vessel description, and Vessel (type not reported).",
+               "consolidation_note": "Categories come directly from the final cleaned inputs. Vessel Not reported includes rare known vessel classes pooled during preparation, so categorical coverage is coverage of retained final categories, not a count of all mentioned vessel types."}
     categories, coverage = [], []
     for label, frame in frames.items():
         doi_frame = frame[frame.doi_normalized.ne("")]
@@ -160,8 +162,7 @@ def check_layout(fig):
 def save_figure(fig, folder: Path, stem: str, dpi: int):
     folder.mkdir(parents=True, exist_ok=True)
     check_layout(fig)
-    for ext in ("png", "pdf", "svg"):
-        fig.savefig(folder / f"{stem}.{ext}", dpi=dpi)
+    fig.savefig(folder / f"{stem}.png", dpi=dpi)
     plt.close(fig)
 
 
@@ -178,28 +179,24 @@ def plot_categories(counts: pd.DataFrame, field: str, out: Path, dpi: int):
     row_heights = .13 * line_counts + .055
     positions = np.cumsum(row_heights) - row_heights / 2
     plot_height = float(row_heights.sum())
-    height = max(3.1, plot_height + .8)
-    for combined in (False, True):
-        metrics = ["records", "unique_dois"] if combined else ["records"]
-        panels = len(metrics)
-        fig = plt.figure(figsize=(6, height * panels))
-        for idx, metric in enumerate(metrics):
-            ax = panel_axes(fig, idx, panels, .46, bottom=.48 / height,
-                            height=plot_height / height)
-            values = subset[metric].reindex(order)
-            max_count = int(values.max())
-            ax.barh(positions, values, height=.12, color=COLORS[metric],
-                    edgecolor=OUTLINE, linewidth=.35)
-            for y, value in zip(positions, values):
-                ax.text(value + max_count * .018, y, f"{int(value):,}",
-                        ha="left", va="center", fontsize=8)
-            ax.set_xlim(0, max(max_count * 1.22, 1))
-            ax.set_ylim(plot_height + .025, -.025)
-            ax.set_yticks(positions, labels, fontsize=8)
-            ax.set_xlabel("Synthesis records" if metric == "records" else "Unique DOIs")
-            decorate_count_axis(ax)
-        variant = "02_records_and_DOI" if combined else "01_synthesis_records"
-        save_figure(fig, out / variant, f"process_enrich_{field}", dpi)
+    height = max(1.8, plot_height + .8)
+    fig = plt.figure(figsize=(6, height * 2))
+    for idx, metric in enumerate(("records", "unique_dois")):
+        ax = panel_axes(fig, idx, 2, .46, bottom=.48 / height,
+                        height=plot_height / height)
+        values = subset[metric].reindex(order)
+        max_count = int(values.max())
+        ax.barh(positions, values, height=.12, color=COLORS[metric],
+                edgecolor=OUTLINE, linewidth=.35)
+        for y, value in zip(positions, values):
+            ax.text(value + max_count * .018, y, f"{int(value):,}",
+                    ha="left", va="center", fontsize=8)
+        ax.set_xlim(0, max(max_count * 1.22, 1))
+        ax.set_ylim(plot_height + .025, -.025)
+        ax.set_yticks(positions, labels, fontsize=8)
+        ax.set_xlabel("Synthesis records" if metric == "records" else "Unique DOIs")
+        decorate_count_axis(ax)
+    save_figure(fig, out, f"process_enrich_{field}", dpi)
 
 
 def volume_bins(frames: dict[str, pd.DataFrame]) -> np.ndarray:
@@ -224,51 +221,46 @@ def plot_volume(frames: dict[str, pd.DataFrame], out: Path, dpi: int) -> pd.Data
     frame = frames["positive"]
     bins = volume_bins({"positive": frame})
     bin_rows = []
-    for combined in (False, True):
-        metrics = ["records", "doi_medians"] if combined else ["records"]
-        panels = len(metrics)
-        fig = plt.figure(figsize=(6, 2.8 * panels))
-        for idx, metric in enumerate(metrics):
-            ax = panel_axes(fig, idx, panels, .135, bottom=.22, height=.71)
-            values = frame.volume_ml.dropna() if metric == "records" else frame[
-                frame.doi_normalized.ne("")].groupby("doi_normalized").volume_ml.median().dropna()
-            ns, _ = np.histogram(values, bins)
-            if int(ns.sum()) != len(values):
-                raise ValueError("Vessel-volume histogram did not retain every numeric value")
-            ax.hist(values, bins=bins, color=COLORS["records" if idx == 0 else "unique_dois"],
-                    edgecolor=OUTLINE, linewidth=.45)
-            mean = float(values.mean()) if len(values) else float("nan")
-            ax.axvline(mean, color="#222222", linestyle=(0, (4, 3)), linewidth=.9)
-            ax.text(.97, .95, f"Mean = {mean:,.2f}", transform=ax.transAxes,
-                    fontsize=8, ha="right", va="top")
-            if combined:
-                bin_rows.extend({"dataset": "positive", "metric": metric, "bin_left_ml": float(a),
-                                 "bin_right_ml": float(b), "count": int(n)}
-                                for a, b, n in zip(bins[:-1], bins[1:], ns))
-            ax.set_xscale("log")
-            ax.set_xlim(bins[0], bins[-1])
-            ax.xaxis.set_major_locator(FixedLocator(10.0 ** np.arange(math.floor(math.log10(bins[0])),
-                                                                     math.floor(math.log10(bins[-1])) + 1)))
-            ax.xaxis.set_major_formatter(FuncFormatter(volume_tick))
-            ax.minorticks_off()
-            ax.set_xlabel("Vessel capacity (mL)")
-            ax.set_ylabel("Synthesis records" if metric == "records" else "Unique DOIs")
-            decorate_count_axis(ax, "y")
-        variant = "02_records_and_DOI" if combined else "01_synthesis_records"
-        save_figure(fig, out / variant, "process_enrich_vessel_volume", dpi)
+    fig = plt.figure(figsize=(6, 2.8 * 2))
+    for idx, metric in enumerate(("records", "doi_medians")):
+        ax = panel_axes(fig, idx, 2, .135, bottom=.22, height=.71)
+        values = frame.volume_ml.dropna() if metric == "records" else frame[
+            frame.doi_normalized.ne("")].groupby("doi_normalized").volume_ml.median().dropna()
+        ns, _ = np.histogram(values, bins)
+        if int(ns.sum()) != len(values):
+            raise ValueError("Vessel-volume histogram did not retain every numeric value")
+        ax.hist(values, bins=bins, color=COLORS["records" if idx == 0 else "unique_dois"],
+                edgecolor=OUTLINE, linewidth=.45)
+        mean = float(values.mean()) if len(values) else float("nan")
+        ax.axvline(mean, color="#222222", linestyle=(0, (4, 3)), linewidth=.9)
+        ax.text(.97, .95, f"Mean = {mean:,.2f}", transform=ax.transAxes,
+                fontsize=8, ha="right", va="top")
+        bin_rows.extend({"dataset": "positive", "metric": metric, "bin_left_ml": float(a),
+                         "bin_right_ml": float(b), "count": int(n)}
+                        for a, b, n in zip(bins[:-1], bins[1:], ns))
+        ax.set_xscale("log")
+        ax.set_xlim(bins[0], bins[-1])
+        ax.xaxis.set_major_locator(FixedLocator(10.0 ** np.arange(math.floor(math.log10(bins[0])),
+                                                                 math.floor(math.log10(bins[-1])) + 1)))
+        ax.xaxis.set_major_formatter(FuncFormatter(volume_tick))
+        ax.minorticks_off()
+        ax.set_xlabel("Vessel capacity (mL)")
+        ax.set_ylabel("Synthesis records" if metric == "records" else "Unique DOIs")
+        decorate_count_axis(ax, "y")
+    save_figure(fig, out, "process_enrich_vessel_volume", dpi)
     return pd.DataFrame(bin_rows)
 
 
 def captions(summary: dict) -> str:
     return "\n\n".join([
-        "# Process-detail figure captions\n\nAll panels describe the positive dataset. Figure numbers remain placeholders pending SI placement. Main files have synthesis records above unique DOIs; records-only variants are also supplied.",
+        "# Process-detail figure captions\n\nAll panels describe the positive dataset. Figure numbers remain placeholders pending SI placement. Each PNG has synthesis records above unique DOIs, using the same final categories as the enriched CSVs and training inputs.",
         "**Figure Sxx. Frequencies of cleaned reaction-vessel categories in the positive dataset, including unreported values.** "
         "a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.",
         "**Figure Sxx+1. Distributions of reported vessel capacities in the positive dataset, with logarithmic capacity axes and dashed arithmetic-mean lines.** "
         "a, Accepted numeric capacities among synthesis records. b, Median accepted capacity per unique DOI.",
-        "**Figure Sxx+2. Frequencies of cleaned stirring descriptions in the positive dataset, including unreported and ambiguous values.** "
+        "**Figure Sxx+2. Frequencies of cleaned stirring descriptions in the positive dataset, including unreported values.** "
         "a, Synthesis-record counts. b, Unique DOI counts per category; a paper can contribute to multiple categories. Numbers beside bars give counts.",
-        "For each records-only variant, omit the panel-b sentence and DOI-specific statements from the corresponding caption. Counting, missingness, and color conventions are supplied in the accompanying methods.",
+        "Records use muted teal; unique DOIs use light blue. Vessel Not reported includes unspecified vessel types and known vessel classes with fewer than 10 positive records. Reported-agitation classes with fewer than 50 positive records are pooled as Other reported agitation; descriptions without a uniquely classifiable stirring state are Not reported. These final dataset categories are used directly for plotting. Counts, methods, and provenance are stored separately from the PNGs.",
     ]) + "\n"
 
 
@@ -291,9 +283,10 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
         f"The enriched tables retain all {p['records']:,} positive and {n['records']:,} inferred negative records and add three cleaned features: vessel type, vessel capacity (mL), and stirring description. "
         "Original descriptions are preserved for traceability; missing process information does not cause row exclusion.",
         "Vessel descriptions were normalized across spelling, punctuation, and unit variants, with low-frequency and unresolved entries audited. "
-        "The procedure distinguishes vessel bodies from ancillary caps or seals and retains nested or multiple-vessel descriptions explicitly. "
+        "The procedure distinguishes vessel bodies from ancillary caps or seals; material-only names use glass, polymer, or metal vessel. "
+        "Unspecified vessel types and vessel classes with fewer than 10 positive records are encoded as Not reported. "
         "Capacity is taken only from an interpretable stated vessel size; solution charges and geometric dimensions are not substituted. "
-        "Missing values are encoded as Not reported, while uncertain capacities remain Ambiguous rather than being imputed.",
+        "Thus, vessel Not reported also includes rare known classes. Missing values are encoded as Not reported, while uncertain capacities remain Ambiguous rather than being imputed.",
         f"In the positive dataset, PTFE-lined autoclaves/pressure vessels are the dominant vessel class "
         f"({pct('positive', 'vessel_type', ptfe):.1f}%), followed by vials "
         f"({pct('positive', 'vessel_type', 'Vial'):.1f}%; Figure Sxx). "
@@ -301,7 +294,9 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
         f"({p['volume_records']['n'] / p['records'] * 100:.1f}%), with a median of "
         f"{p['volume_records']['median']:g} mL and an interquartile range of "
         f"{p['volume_records']['p25']:g}–{p['volume_records']['p75']:g} mL (Figure Sxx+1).",
-        "Stirring normalization preserves stage information where stated. "
+        "Stirring normalization preserves stage information where stated; reported-agitation classes with fewer than 50 positive records are consolidated as Other reported agitation "
+        f"({count('positive', 'stirring', 'Other reported agitation'):,} records). "
+        "Audited descriptions without a uniquely classifiable stirring state are encoded as Not reported. Detailed classifications remain in the audit. "
         f"Static/no-stirring descriptions account for {pct('positive', 'stirring', static):.1f}% of positive records; "
         f"stirring before static synthesis accounts for {pct('positive', 'stirring', staged):.1f}%. "
         f"Stirring is not reported for {pct('positive', 'stirring', 'Not reported'):.1f}% (Figure Sxx+2). "
@@ -313,7 +308,7 @@ def manuscript_section(summary: dict, counts: pd.DataFrame) -> str:
     return "\n\n".join(text) + "\n"
 
 
-def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path, replacements=None):
+def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path):
     """Write a small text-only Word draft using standard Office XML (no extra dependency)."""
     paragraphs = []
     for text in section.strip().split("\n\n"):
@@ -323,12 +318,11 @@ def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path
         run_properties = '<w:rPr><w:b/></w:rPr>' if heading else ''
         paragraphs.append(f'<w:p>{properties}<w:r>{run_properties}<w:t>{escape(text)}</w:t></w:r></w:p>')
     relationships = []
-    links = [("Vessel categories", figure_folder / "process_enrich_vessel_type.pdf"),
-             ("Vessel capacities", figure_folder / "process_enrich_vessel_volume.pdf"),
-             ("Stirring descriptions", figure_folder / "process_enrich_stirring.pdf"),
+    links = [("Vessel categories", figure_folder / "process_enrich_vessel_type.png"),
+             ("Vessel capacities", figure_folder / "process_enrich_vessel_volume.png"),
+             ("Stirring descriptions", figure_folder / "process_enrich_stirring.png"),
              ("Figure captions", caption_path)]
     for idx, (label, target) in enumerate(links, start=1):
-        target = (replacements or {}).get(target.resolve(), target)
         relative = os.path.relpath(target.resolve(), path.parent.resolve()).replace("\\", "/")
         relationships.append(f'<Relationship Id="rId{idx}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" '
                              f'Target="{escape(relative, {chr(34): "&quot;"})}" TargetMode="External"/>')
@@ -362,29 +356,23 @@ def write_docx(path: Path, section: str, figure_folder: Path, caption_path: Path
         archive.writestr("word/_rels/document.xml.rels", f'<Relationships xmlns="{namespace}">' + ''.join(relationships) + '</Relationships>')
 
 
-def copy_si_export(source: Path, destination: Path) -> Path:
-    """Keep a usable updated export if a PDF viewer locks an older SI file."""
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        shutil.copy2(source, destination)
-        return destination
-    except PermissionError:
-        alternate = destination.with_name(destination.stem + "_updated" + destination.suffix)
-        shutil.copy2(source, alternate)
-        return alternate
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--positive", type=Path, default=DATA / "Process_detail_positive.csv")
     parser.add_argument("--negative", type=Path, default=DATA / "Process_detail_negative.csv")
-    parser.add_argument("--output", type=Path, default=REPO / "docs/process_details")
-    parser.add_argument("--si-output", type=Path, help="Optional SI output directory for figure copies")
+    parser.add_argument("--output", type=Path, required=True,
+                        help="Local directory for exactly three PNG figures")
+    parser.add_argument("--report-dir", type=Path,
+                        help="Separate directory for count tables, captions and provenance; defaults to a sibling named process_enrich_data")
     parser.add_argument("--si-section", type=Path, help="Optional path for a copy of the short Section S5 Markdown draft")
     parser.add_argument("--docx", type=Path, help="Optional path for a text-only Word draft with relative figure links")
     parser.add_argument("--dpi", type=int, default=600)
     args = parser.parse_args()
+    report_dir = args.report_dir or args.output.parent / "process_enrich_data"
+    if report_dir.resolve() == args.output.resolve():
+        parser.error("--report-dir must differ from --output so that the figure folder contains only PNGs")
     args.output.mkdir(parents=True, exist_ok=True)
+    report_dir.mkdir(parents=True, exist_ok=True)
     font = configure()
     frames = {"positive": read_frame(args.positive), "negative": read_frame(args.negative)}
     summary, counts, coverage = summarize(frames)
@@ -398,46 +386,26 @@ def main():
     for field in ("vessel_type", "stirring"):
         if positive_counts.loc[positive_counts.field.eq(field), "records"].sum() != len(frames["positive"]):
             raise ValueError(f"Categorical counts must include every positive record: {field}")
-    positive_counts.to_csv(args.output / "category_counts.csv", index=False)
-    coverage[coverage.dataset.eq("positive")].to_csv(args.output / "field_coverage.csv", index=False)
-    (args.output / "distribution_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-    figures = args.output / "figures"
+    positive_counts.to_csv(report_dir / "category_counts.csv", index=False)
+    coverage[coverage.dataset.eq("positive")].to_csv(report_dir / "field_coverage.csv", index=False)
+    (report_dir / "distribution_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     for field in ("vessel_type", "stirring"):
-        plot_categories(positive_counts, field, figures, args.dpi)
-    plot_volume(frames, figures, args.dpi).to_csv(args.output / "volume_histogram_counts.csv", index=False)
-    (args.output / "FIGURE_CAPTIONS.md").write_text(captions(summary), encoding="utf-8")
+        plot_categories(positive_counts, field, args.output, args.dpi)
+    plot_volume(frames, args.output, args.dpi).to_csv(report_dir / "volume_histogram_counts.csv", index=False)
+    (report_dir / "FIGURE_CAPTIONS.md").write_text(captions(summary), encoding="utf-8")
+    methods = REPO / "docs/process_details/DISTRIBUTION_METHODS.md"
+    if methods.exists():
+        (report_dir / "DISTRIBUTION_METHODS.md").write_text(methods.read_text(encoding="utf-8"), encoding="utf-8")
     section = manuscript_section(summary, counts)
-    (args.output / "Section_S5_process_details.md").write_text(section, encoding="utf-8")
+    (report_dir / "Section_S5_process_details.md").write_text(section, encoding="utf-8")
     if args.si_section:
         args.si_section.parent.mkdir(parents=True, exist_ok=True)
         args.si_section.write_text(section, encoding="utf-8")
-    # The default root filenames always point to the records+DOI version.
-    for path in (figures / "02_records_and_DOI").iterdir():
-        shutil.copy2(path, figures / path.name)
-    replacements = {}
-    if args.si_output:
-        for path in figures.rglob("*"):
-            if path.is_file():
-                destination = args.si_output / path.relative_to(figures)
-                actual = copy_si_export(path, destination)
-                if actual != destination:
-                    replacements[destination.resolve()] = actual
-        (args.si_output / "process_enrich_FIGURE_CAPTIONS.md").write_text(captions(summary), encoding="utf-8")
-        methods = args.output / "DISTRIBUTION_METHODS.md"
-        if methods.exists():
-            copy_si_export(methods, args.si_output / "process_enrich_DISTRIBUTION_METHODS.md")
-        locations = {str(old.relative_to(args.si_output.resolve())):
-                     str(new.resolve().relative_to(args.si_output.resolve()))
-                     for old, new in replacements.items()}
-        (args.si_output / "process_enrich_export_locations.json").write_text(
-            json.dumps({"updated_copies_for_locked_files": locations}, indent=2) + "\n", encoding="utf-8")
     if args.docx:
-        write_docx(args.docx, section, args.si_output or figures,
-                   args.si_output / "process_enrich_FIGURE_CAPTIONS.md" if args.si_output else args.output / "FIGURE_CAPTIONS.md",
-                   replacements)
-    print(json.dumps({"output": str(args.output), "plotted_records": len(frames["positive"]),
-                      "figures": 6, "font": font,
-                      "updated_copies_for_locked_files": [str(path) for path in replacements.values()]}, indent=2))
+        write_docx(args.docx, section, args.output, report_dir / "FIGURE_CAPTIONS.md")
+    print(json.dumps({"output": str(args.output), "reports": str(report_dir),
+                      "plotted_records": len(frames["positive"]),
+                      "figures": 3, "format": "png", "font": font}, indent=2))
 
 
 if __name__ == "__main__":

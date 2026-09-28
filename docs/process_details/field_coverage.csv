@@ -1,4 +1,4 @@
 dataset,field,resolved_records,total_records,resolved_percent,dois_with_resolved_value,total_dois
-positive,vessel_type,12858,15340,83.82007822685789,3886,4568
+positive,vessel_type,12853,15340,83.78748370273794,3883,4568
 positive,vessel_volume_mL,7271,15340,47.39895697522816,2223,4568
 positive,stirring,11454,15340,74.66753585397653,3466,4568

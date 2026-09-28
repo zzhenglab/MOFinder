@@ -1,7 +1,7 @@
 dataset,field,category,records,record_percent,unique_dois,doi_percent
 positive,vessel_type,PTFE-lined autoclave / pressure vessel,5734,37.37940026075619,1819,39.82049036777583
 positive,vessel_type,Vial,2584,16.84485006518905,802,17.5569176882662
-positive,vessel_type,Not reported,2408,15.697522816166884,861,18.84851138353765
+positive,vessel_type,Not reported,2487,16.212516297262063,896,19.614711033274958
 positive,vessel_type,PTFE vessel / liner,1643,10.710560625814864,553,12.105954465849388
 positive,vessel_type,Tube / capillary,825,5.378096479791395,294,6.436077057793345
 positive,vessel_type,Bottle / jar,557,3.6310299869621905,167,3.655866900175132
@@ -11,27 +11,16 @@ positive,vessel_type,Reactor / reaction chamber,163,1.0625814863102998,62,1.3572
 positive,vessel_type,Beaker,120,0.7822685788787485,43,0.9413309982486864
 positive,vessel_type,Microwave vessel,111,0.7235984354628422,30,0.6567425569176882
 positive,vessel_type,Nested / multiple vessels,94,0.6127770534550195,33,0.7224168126094571
-positive,vessel_type,Glass vessel (shape not reported),89,0.5801825293350718,28,0.6129597197898424
-positive,vessel_type,Vessel (type not reported),74,0.48239895697522817,34,0.7443082311733801
+positive,vessel_type,Glass vessel,89,0.5801825293350718,28,0.6129597197898424
 positive,vessel_type,Dish / well plate,20,0.1303780964797914,7,0.1532399299474606
-positive,vessel_type,Polymer vessel (shape not reported),19,0.12385919165580184,2,0.043782837127845885
-positive,vessel_type,Metal vessel (shape not reported),16,0.10430247718383312,7,0.1532399299474606
+positive,vessel_type,Polymer vessel,19,0.12385919165580184,2,0.043782837127845885
+positive,vessel_type,Metal vessel,16,0.10430247718383312,7,0.1532399299474606
 positive,vessel_type,Ampoule,14,0.09126466753585398,7,0.1532399299474606
 positive,vessel_type,Reaction cell,12,0.07822685788787484,3,0.06567425569176882
-positive,vessel_type,Dialysis bag,3,0.01955671447196871,1,0.021891418563922942
-positive,vessel_type,Rotor insert,1,0.00651890482398957,1,0.021891418563922942
-positive,vessel_type,Crucible,1,0.00651890482398957,1,0.021891418563922942
 positive,stirring,Static / no stirring,6522,42.51629726205998,1983,43.41068301225919
-positive,stirring,Not reported,3865,25.19556714471969,1231,26.948336252189144
+positive,stirring,Not reported,3886,25.33246414602347,1237,27.079684763572683
 positive,stirring,Stirred; stage not reported,2194,14.302477183833116,672,14.711033274956216
 positive,stirring,Stirred before static synthesis,1758,11.460234680573663,688,15.061295971978982
 positive,stirring,Stirred during preparation; later agitation not reported,482,3.142112125162973,169,3.699649737302977
 positive,stirring,Sonicated before static synthesis,377,2.457627118644068,147,3.2180385288966726
-positive,stirring,Other agitation before static synthesis,34,0.2216427640156454,15,0.3283712784588441
-positive,stirring,Shaken / rotated; stage not reported,29,0.18904823989569752,12,0.2626970227670753
-positive,stirring,Sonicated; stage not reported,24,0.15645371577574968,12,0.2626970227670753
-positive,stirring,Unclear / ambiguous,21,0.13689700130378096,7,0.1532399299474606
-positive,stirring,Sonicated during preparation; later agitation not reported,13,0.0847457627118644,9,0.19702276707530647
-positive,stirring,Other agitation; stage not reported,12,0.07822685788787484,8,0.17513134851138354
-positive,stirring,Other agitation during preparation; later agitation not reported,5,0.03259452411994785,2,0.043782837127845885
-positive,stirring,Stirred during synthesis,4,0.02607561929595828,3,0.06567425569176882
+positive,stirring,Other reported agitation,121,0.7887874837027379,57,1.2478108581436076

@@ -11,7 +11,15 @@ NOT_REPORTED = 'Not reported'
 AMBIGUOUS = 'Ambiguous'
 MISSING = {'', 'none', 'null', 'nan', 'na', 'n/a', 'not reported', 'not_reported',
            'unknown', 'unspecified', 'not specified', '-', '--'}
-VERSION = '1.0.0'
+VERSION = '2.0.0'
+VESSEL_LABEL_MAP = {
+    'Glass vessel (shape not reported)': 'Glass vessel',
+    'Polymer vessel (shape not reported)': 'Polymer vessel',
+    'Metal vessel (shape not reported)': 'Metal vessel',
+}
+# Fixed classes audited in the full positive reference cohort, not recomputed
+# separately for negative records, holdout data, or each future input file.
+VESSEL_RARE_POSITIVE_COUNTS = {'Crucible': 1, 'Dialysis bag': 3, 'Rotor insert': 1}
 
 
 def normalize_text(value):
@@ -58,7 +66,7 @@ def nested_vessels(s):
     return False
 
 
-def vessel_type(value):
+def _vessel_type_detail(value):
     s = normalize_text(value)
     if not s:
         return result(NOT_REPORTED, 'missing', s)
@@ -122,6 +130,29 @@ def vessel_type(value):
                       'Description specifies equipment/operation, not an identifiable reaction vessel')
     return result('Unresolved vessel description', 'unresolved', s,
                   'No defensible vessel category from the recorded text')
+
+
+def vessel_type(value):
+    """Return the model category and retain the finer parsed class for audit."""
+    info = _vessel_type_detail(value)
+    detailed = info['value']
+    info['detailed_value'] = detailed
+    info['consolidation_rule'] = ''
+    if detailed in VESSEL_LABEL_MAP:
+        info['value'] = VESSEL_LABEL_MAP[detailed]
+        info['consolidation_rule'] = 'simplify_material_vessel_label'
+    elif detailed == 'Vessel (type not reported)':
+        info['value'] = NOT_REPORTED
+        info['consolidation_rule'] = 'unspecified_vessel_type_to_not_reported'
+    elif detailed in VESSEL_RARE_POSITIVE_COUNTS:
+        info['value'] = NOT_REPORTED
+        info['consolidation_rule'] = 'positive_reference_count_below_10_to_not_reported'
+        info['review_reason'] = (
+            'Reported vessel pooled into Not reported by the requested rare-class policy; '
+            f'positive reference count={VESSEL_RARE_POSITIVE_COUNTS[detailed]}. '
+            'The raw description and detailed class remain available in the audit.'
+        )
+    return info
 
 
 UNITS = r'(?:m\s*l|u\s*l|l|c\s*m\s*3|c\s*c)'

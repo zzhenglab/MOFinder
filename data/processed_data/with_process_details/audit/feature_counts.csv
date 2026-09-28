@@ -1,7 +1,7 @@
 ﻿dataset,feature,value,records,record_percent,unique_dois
 positive,vessel_type,PTFE-lined autoclave / pressure vessel,5734,37.37940026075619,1819
 positive,vessel_type,Vial,2584,16.84485006518905,802
-positive,vessel_type,Not reported,2408,15.697522816166884,861
+positive,vessel_type,Not reported,2487,16.212516297262063,896
 positive,vessel_type,PTFE vessel / liner,1643,10.710560625814864,553
 positive,vessel_type,Tube / capillary,825,5.378096479791395,294
 positive,vessel_type,Bottle / jar,557,3.6310299869621905,167
@@ -11,16 +11,12 @@ positive,vessel_type,Reactor / reaction chamber,163,1.0625814863102998,62
 positive,vessel_type,Beaker,120,0.7822685788787485,43
 positive,vessel_type,Microwave vessel,111,0.7235984354628422,30
 positive,vessel_type,Nested / multiple vessels,94,0.6127770534550195,33
-positive,vessel_type,Glass vessel (shape not reported),89,0.5801825293350718,28
-positive,vessel_type,Vessel (type not reported),74,0.48239895697522817,34
+positive,vessel_type,Glass vessel,89,0.5801825293350718,28
 positive,vessel_type,Dish / well plate,20,0.1303780964797914,7
-positive,vessel_type,Polymer vessel (shape not reported),19,0.12385919165580184,2
-positive,vessel_type,Metal vessel (shape not reported),16,0.10430247718383312,7
+positive,vessel_type,Polymer vessel,19,0.12385919165580184,2
+positive,vessel_type,Metal vessel,16,0.10430247718383312,7
 positive,vessel_type,Ampoule,14,0.09126466753585398,7
 positive,vessel_type,Reaction cell,12,0.07822685788787484,3
-positive,vessel_type,Dialysis bag,3,0.01955671447196871,1
-positive,vessel_type,Rotor insert,1,0.00651890482398957,1
-positive,vessel_type,Crucible,1,0.00651890482398957,1
 positive,vessel_volume_mL,Not reported,7768,50.63885267275098,2495
 positive,vessel_volume_mL,25,1474,9.608865710560625,524
 positive,vessel_volume_mL,20,1233,8.03780964797914,421
@@ -86,36 +82,28 @@ positive,vessel_volume_mL,160,1,0.00651890482398957,1
 positive,vessel_volume_mL,5500,1,0.00651890482398957,1
 positive,vessel_volume_mL,100000,1,0.00651890482398957,1
 positive,stirring,Static / no stirring,6522,42.51629726205998,1983
-positive,stirring,Not reported,3865,25.19556714471969,1231
+positive,stirring,Not reported,3886,25.33246414602347,1237
 positive,stirring,Stirred; stage not reported,2194,14.302477183833116,672
 positive,stirring,Stirred before static synthesis,1758,11.460234680573663,688
 positive,stirring,Stirred during preparation; later agitation not reported,482,3.142112125162973,169
 positive,stirring,Sonicated before static synthesis,377,2.457627118644068,147
-positive,stirring,Other agitation before static synthesis,34,0.2216427640156454,15
-positive,stirring,Shaken / rotated; stage not reported,29,0.18904823989569752,12
-positive,stirring,Sonicated; stage not reported,24,0.15645371577574968,12
-positive,stirring,Unclear / ambiguous,21,0.13689700130378096,7
-positive,stirring,Sonicated during preparation; later agitation not reported,13,0.0847457627118644,9
-positive,stirring,Other agitation; stage not reported,12,0.07822685788787484,8
-positive,stirring,Other agitation during preparation; later agitation not reported,5,0.03259452411994785,2
-positive,stirring,Stirred during synthesis,4,0.02607561929595828,3
+positive,stirring,Other reported agitation,121,0.7887874837027379,57
 negative,vessel_type,PTFE-lined autoclave / pressure vessel,5647,37.48921197636593,481
 negative,vessel_type,Vial,2057,13.65597822478922,251
+negative,vessel_type,Not reported,1876,12.454358361548163,239
 negative,vessel_type,Tube / capillary,1862,12.36141538870079,91
-negative,vessel_type,Not reported,1837,12.195445794330478,234
 negative,vessel_type,PTFE vessel / liner,1551,10.296753634734117,125
 negative,vessel_type,Autoclave / pressure vessel,477,3.166699860585541,32
 negative,vessel_type,Bottle / jar,441,2.9277036446922926,43
 negative,vessel_type,Flask,286,1.898692159596362,49
 negative,vessel_type,Microwave vessel,245,1.6265020248290514,28
-negative,vessel_type,Glass vessel (shape not reported),227,1.5070039168824272,7
+negative,vessel_type,Glass vessel,227,1.5070039168824272,7
 negative,vessel_type,Beaker,130,0.8630418907256191,11
 negative,vessel_type,Reactor / reaction chamber,121,0.8032928367523069,15
 negative,vessel_type,Nested / multiple vessels,89,0.5908517559583084,13
-negative,vessel_type,Vessel (type not reported),39,0.2589125672176857,6
 negative,vessel_type,Dish / well plate,23,0.15269202682068644,3
-negative,vessel_type,Metal vessel (shape not reported),16,0.10622054039699927,1
-negative,vessel_type,Polymer vessel (shape not reported),7,0.04647148642368718,1
+negative,vessel_type,Metal vessel,16,0.10622054039699927,1
+negative,vessel_type,Polymer vessel,7,0.04647148642368718,1
 negative,vessel_type,Reaction cell,6,0.03983270264887472,1
 negative,vessel_type,Ampoule,2,0.013277567549624909,1
 negative,vessel_volume_mL,Not reported,7021,46.61090088295824,678
@@ -175,10 +163,4 @@ negative,stirring,Stirred before static synthesis,1815,12.049392551284605,148
 negative,stirring,Stirred; stage not reported,1738,11.538206200624046,223
 negative,stirring,Stirred during preparation; later agitation not reported,567,3.7641904003186615,47
 negative,stirring,Sonicated before static synthesis,232,1.5401978357564894,35
-negative,stirring,Other agitation before static synthesis,54,0.35849432383987256,6
-negative,stirring,Sonicated; stage not reported,39,0.2589125672176857,5
-negative,stirring,Stirred during synthesis,10,0.06638783774812454,2
-negative,stirring,Other agitation; stage not reported,8,0.053110270198499634,1
-negative,stirring,Shaken / rotated; stage not reported,2,0.013277567549624909,1
-negative,stirring,Sonicated during preparation; later agitation not reported,1,0.006638783774812454,1
-negative,stirring,Other agitation during preparation; later agitation not reported,1,0.006638783774812454,1
+negative,stirring,Other reported agitation,115,0.7634601341034323,17

@@ -4,9 +4,11 @@
 
 The source CSVs retain all rows; these JSONL files retain the standard dataset's existing filtered cohort. The `*_sources.csv` sidecars map every JSONL row to its original source row and are never model input. `jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.
 
+Final category consolidation is shared with the cleaned CSVs: rare stirring classes map to `Other reported agitation`; unspecified and selected rare vessel types map to `Not reported`. These fixed mappings use positive-reference record counts and are applied identically to both labels and splits. Detailed classes and audit reasons remain outside model input. See the [consolidation audit](../../processed_data/with_process_details/audit/category_consolidation.csv).
+
 Negative process annotations can be inherited from successful recipes. The existing split shares 864 DOIs across training and holdout. Use this dataset as a matched control; do not interpret it as causal process validation. No manual benchmark process details are invented and no model was trained.
 
-The release [independent verification](independent_verification.json) compares every row directly with the same row in the archived split, without sorting. Both splits have zero mismatches in the original values, JSON types, key order, labels, metadata, or prompt text outside the input-list expansion. The 54 process, training, and dataset regression tests passed when this release was prepared.
+The release [independent verification](independent_verification.json) compares every row directly with the same row in the archived split, without sorting. Both splits have zero mismatches in the original values, JSON types, key order, labels, metadata, or prompt text outside the input-list expansion. The 57 process, training, and dataset regression tests passed when this release was prepared.
 
 Repeat the independent comparison from the repository root with `python tools/audit_process_enrich_alignment.py`. Add `--output results/local/process_alignment.json` to save a fresh report.
 
