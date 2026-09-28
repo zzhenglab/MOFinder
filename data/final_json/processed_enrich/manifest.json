@@ -1,0 +1,462 @@
+{
+  "schema_version": 1,
+  "feature_profile": "process_enrich",
+  "source_path_base": "project_root (absolute paths retained for external inputs)",
+  "output_path_base": "manifest_directory",
+  "description": "Matched control: archived eight inputs plus vessel_type, vessel_volume, and stirring.",
+  "input_fields": [
+    "metal_precursor",
+    "organic_linker",
+    "modulator",
+    "solvent",
+    "metal_concentration_mM",
+    "M_L_ratio",
+    "temperature_C",
+    "time_h",
+    "vessel_type",
+    "vessel_volume",
+    "stirring"
+  ],
+  "vessel_volume_unit": "mL",
+  "missing_value": "Not reported",
+  "ambiguous_value": "Ambiguous",
+  "source_csv_rows": {
+    "P": 15340,
+    "N": 15063
+  },
+  "sources": {
+    "positive_csv": {
+      "path": "data/processed_data/with_process_details/Process_detail_positive.csv",
+      "sha256": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc"
+    },
+    "negative_csv": {
+      "path": "data/processed_data/with_process_details/Process_detail_negative.csv",
+      "sha256": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db"
+    },
+    "baseline_train": {
+      "path": "data/final_json/train.jsonl",
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"
+    },
+    "baseline_holdout": {
+      "path": "data/final_json/holdout.jsonl",
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
+    },
+    "split_assignments": {
+      "path": "data/final_json/split_assignments.csv",
+      "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa"
+    },
+    "prompt_file": {
+      "path": "prompts/training/reaction_prediction_process_enrich.txt",
+      "sha256": "672b4a89fdb3114bc95c253251aa9149d4f8912801535c542b66e891ac155e4b"
+    },
+    "config_file": {
+      "path": "configs/dataset_preparation_process_enrich.json",
+      "sha256": "ba1ab569137ee8f3d1a7f30aa8389a23cb2bba20273dd128f07a4cde2dcead23"
+    }
+  },
+  "implementation": {
+    "process_enrich": {
+      "path": "src/mofinder/datasets/process_enrich.py",
+      "sha256": "efc66c8e1e4f9e044d664eeffda2cff58ab04a21e8571e60a6bd0ea334ff50fa"
+    },
+    "baseline_condition_normalization": {
+      "path": "src/mofinder/datasets/prepare.py",
+      "sha256": "0c152be32ef53655798f401478ac625c451b61cac9a1b68bb9dcc10eae33edbf"
+    },
+    "feature_profiles": {
+      "path": "src/mofinder/training/records.py",
+      "sha256": "a5ddfe54a8368553502465f7bc01eecf5dac387f97bf5112c1ad7538b3f53bda"
+    },
+    "training_validation": {
+      "path": "src/mofinder/training/prepare.py",
+      "sha256": "87f4bdf26c70d4af3366f5bc6c4135c32967c97b933013cb881c8a9179589c15"
+    }
+  },
+  "datasets": {
+    "train": {
+      "path": "train.jsonl",
+      "rows": 23528,
+      "sha256": "c9ac44385c7aa8bd309f8520c7af3b767fe89eed9d0aca0fac5a75229862895d",
+      "bytes": 38156371,
+      "labels": {
+        "N": 11560,
+        "P": 11968
+      },
+      "source_rows": {
+        "path": "train_sources.csv",
+        "sha256": "721f7bfe05d6010415b33461429494e8964bc2534f08b4006990f92601e9db1e"
+      },
+      "process_distributions_by_label": {
+        "vessel_type": {
+          "N": {
+            "Ampoule": 2,
+            "Autoclave / pressure vessel": 363,
+            "Beaker": 82,
+            "Bottle / jar": 283,
+            "Dish / well plate": 23,
+            "Flask": 193,
+            "Glass vessel (shape not reported)": 186,
+            "Metal vessel (shape not reported)": 12,
+            "Microwave vessel": 197,
+            "Nested / multiple vessels": 68,
+            "Not reported": 1416,
+            "PTFE vessel / liner": 1110,
+            "PTFE-lined autoclave / pressure vessel": 4449,
+            "Polymer vessel (shape not reported)": 5,
+            "Reaction cell": 6,
+            "Reactor / reaction chamber": 94,
+            "Tube / capillary": 1486,
+            "Vessel (type not reported)": 36,
+            "Vial": 1549
+          },
+          "P": {
+            "Ampoule": 7,
+            "Autoclave / pressure vessel": 267,
+            "Beaker": 99,
+            "Bottle / jar": 376,
+            "Crucible": 1,
+            "Dialysis bag": 2,
+            "Dish / well plate": 16,
+            "Flask": 349,
+            "Glass vessel (shape not reported)": 66,
+            "Metal vessel (shape not reported)": 13,
+            "Microwave vessel": 92,
+            "Nested / multiple vessels": 80,
+            "Not reported": 1822,
+            "PTFE vessel / liner": 1435,
+            "PTFE-lined autoclave / pressure vessel": 4452,
+            "Polymer vessel (shape not reported)": 3,
+            "Reaction cell": 10,
+            "Reactor / reaction chamber": 128,
+            "Rotor insert": 1,
+            "Tube / capillary": 686,
+            "Vessel (type not reported)": 58,
+            "Vial": 2005
+          }
+        },
+        "vessel_volume": {
+          "N": {
+            "0.25": 5,
+            "1.5": 23,
+            "10.0": 216,
+            "100.0": 339,
+            "1000.0": 15,
+            "10000.0": 1,
+            "11.0": 18,
+            "12.0": 57,
+            "125.0": 3,
+            "13.0": 19,
+            "14.0": 15,
+            "15.0": 931,
+            "150.0": 3,
+            "16.0": 40,
+            "18.0": 164,
+            "2.0": 110,
+            "20.0": 613,
+            "200.0": 2,
+            "2000.0": 1,
+            "21.0": 9,
+            "22.0": 69,
+            "23.0": 1092,
+            "25.0": 1417,
+            "250.0": 17,
+            "27.0": 11,
+            "3.0": 7,
+            "3.5": 1,
+            "30.0": 163,
+            "30000.0": 2,
+            "35.0": 10,
+            "350.0": 2,
+            "37.0": 7,
+            "4.0": 125,
+            "40.0": 33,
+            "43.0": 41,
+            "45.0": 62,
+            "5.0": 103,
+            "50.0": 145,
+            "500.0": 22,
+            "5000.0": 7,
+            "6.0": 11,
+            "60.0": 1,
+            "7.0": 14,
+            "75.0": 6,
+            "8.0": 22,
+            "80.0": 4,
+            "Ambiguous": 200,
+            "Not reported": 5382
+          },
+          "P": {
+            "0.25": 1,
+            "0.3": 4,
+            "1.5": 2,
+            "10.0": 311,
+            "100.0": 287,
+            "1000.0": 18,
+            "10000.0": 2,
+            "100000.0": 1,
+            "11.0": 9,
+            "12.0": 31,
+            "120.0": 25,
+            "125.0": 18,
+            "13.0": 12,
+            "137.0": 2,
+            "14.0": 4,
+            "140.0": 2,
+            "15.0": 721,
+            "150.0": 15,
+            "16.0": 111,
+            "160.0": 1,
+            "17.0": 24,
+            "18.0": 54,
+            "2.0": 44,
+            "2.4": 2,
+            "2.5": 5,
+            "20.0": 975,
+            "200.0": 14,
+            "2000.0": 6,
+            "21.0": 11,
+            "22.0": 14,
+            "23.0": 787,
+            "24.0": 10,
+            "25.0": 1266,
+            "250.0": 51,
+            "27.0": 1,
+            "28.0": 3,
+            "3.0": 4,
+            "30.0": 90,
+            "3000.0": 1,
+            "30000.0": 2,
+            "35.0": 11,
+            "350.0": 3,
+            "37.0": 2,
+            "4.0": 115,
+            "40.0": 56,
+            "400.0": 2,
+            "43.0": 22,
+            "45.0": 54,
+            "48.0": 11,
+            "5.0": 126,
+            "50.0": 239,
+            "500.0": 23,
+            "5000.0": 5,
+            "5500.0": 1,
+            "6.0": 7,
+            "60.0": 21,
+            "7.0": 44,
+            "75.0": 4,
+            "8.0": 41,
+            "80.0": 10,
+            "9.0": 1,
+            "Ambiguous": 227,
+            "Not reported": 6002
+          }
+        },
+        "stirring": {
+          "N": {
+            "Not reported": 3159,
+            "Other agitation before static synthesis": 47,
+            "Other agitation during preparation; later agitation not reported": 1,
+            "Other agitation; stage not reported": 4,
+            "Shaken / rotated; stage not reported": 2,
+            "Sonicated before static synthesis": 164,
+            "Sonicated during preparation; later agitation not reported": 1,
+            "Sonicated; stage not reported": 33,
+            "Static / no stirring": 4974,
+            "Stirred before static synthesis": 1410,
+            "Stirred during preparation; later agitation not reported": 437,
+            "Stirred during synthesis": 10,
+            "Stirred; stage not reported": 1318
+          },
+          "P": {
+            "Not reported": 3096,
+            "Other agitation before static synthesis": 29,
+            "Other agitation during preparation; later agitation not reported": 5,
+            "Other agitation; stage not reported": 10,
+            "Shaken / rotated; stage not reported": 24,
+            "Sonicated before static synthesis": 260,
+            "Sonicated during preparation; later agitation not reported": 12,
+            "Sonicated; stage not reported": 14,
+            "Static / no stirring": 5084,
+            "Stirred before static synthesis": 1369,
+            "Stirred during preparation; later agitation not reported": 384,
+            "Stirred during synthesis": 4,
+            "Stirred; stage not reported": 1659,
+            "Unclear / ambiguous": 18
+          }
+        }
+      }
+    },
+    "holdout": {
+      "path": "holdout.jsonl",
+      "rows": 2595,
+      "sha256": "fb8b042e7f61e2d0c7b797495880cc7b620b6604b1da4d5a4b2d5bfbd1e2495f",
+      "bytes": 4206942,
+      "labels": {
+        "N": 1275,
+        "P": 1320
+      },
+      "source_rows": {
+        "path": "holdout_sources.csv",
+        "sha256": "7ea86dc20b97530503ed96f3c52de4ab3b0d90b5b574fd00f138cfdf50c8a217"
+      },
+      "process_distributions_by_label": {
+        "vessel_type": {
+          "N": {
+            "Autoclave / pressure vessel": 31,
+            "Beaker": 18,
+            "Bottle / jar": 40,
+            "Flask": 21,
+            "Glass vessel (shape not reported)": 4,
+            "Metal vessel (shape not reported)": 4,
+            "Microwave vessel": 10,
+            "Nested / multiple vessels": 10,
+            "Not reported": 152,
+            "PTFE vessel / liner": 165,
+            "PTFE-lined autoclave / pressure vessel": 452,
+            "Reactor / reaction chamber": 14,
+            "Tube / capillary": 187,
+            "Vessel (type not reported)": 3,
+            "Vial": 164
+          },
+          "P": {
+            "Autoclave / pressure vessel": 58,
+            "Beaker": 6,
+            "Bottle / jar": 50,
+            "Dialysis bag": 1,
+            "Dish / well plate": 1,
+            "Flask": 36,
+            "Glass vessel (shape not reported)": 6,
+            "Metal vessel (shape not reported)": 2,
+            "Microwave vessel": 5,
+            "Nested / multiple vessels": 5,
+            "Not reported": 148,
+            "PTFE vessel / liner": 134,
+            "PTFE-lined autoclave / pressure vessel": 580,
+            "Reactor / reaction chamber": 11,
+            "Tube / capillary": 62,
+            "Vessel (type not reported)": 8,
+            "Vial": 207
+          }
+        },
+        "vessel_volume": {
+          "N": {
+            "10.0": 20,
+            "100.0": 23,
+            "1000.0": 2,
+            "11.0": 1,
+            "12.0": 4,
+            "15.0": 83,
+            "16.0": 1,
+            "18.0": 1,
+            "2.0": 6,
+            "20.0": 106,
+            "21.0": 1,
+            "23.0": 130,
+            "24.0": 12,
+            "25.0": 151,
+            "250.0": 2,
+            "27.0": 1,
+            "3.0": 4,
+            "3.5": 1,
+            "30.0": 19,
+            "3000.0": 1,
+            "37.0": 7,
+            "4.0": 11,
+            "40.0": 1,
+            "45.0": 9,
+            "48.0": 7,
+            "5.0": 3,
+            "50.0": 21,
+            "500.0": 10,
+            "5000.0": 1,
+            "Ambiguous": 28,
+            "Not reported": 608
+          },
+          "P": {
+            "10.0": 31,
+            "100.0": 42,
+            "1000.0": 3,
+            "11.0": 1,
+            "12.0": 5,
+            "120.0": 3,
+            "125.0": 1,
+            "13.0": 1,
+            "15.0": 72,
+            "16.0": 9,
+            "17.0": 6,
+            "18.0": 5,
+            "2.0": 10,
+            "20.0": 108,
+            "200.0": 3,
+            "22.0": 3,
+            "23.0": 92,
+            "24.0": 2,
+            "25.0": 130,
+            "250.0": 8,
+            "30.0": 7,
+            "3000.0": 1,
+            "4.0": 3,
+            "40.0": 5,
+            "45.0": 6,
+            "48.0": 7,
+            "5.0": 3,
+            "50.0": 44,
+            "500.0": 2,
+            "60.0": 3,
+            "75.0": 1,
+            "8.0": 1,
+            "80.0": 5,
+            "Ambiguous": 23,
+            "Not reported": 674
+          }
+        },
+        "stirring": {
+          "N": {
+            "Not reported": 312,
+            "Other agitation before static synthesis": 5,
+            "Sonicated before static synthesis": 39,
+            "Sonicated; stage not reported": 6,
+            "Static / no stirring": 546,
+            "Stirred before static synthesis": 154,
+            "Stirred during preparation; later agitation not reported": 35,
+            "Stirred; stage not reported": 178
+          },
+          "P": {
+            "Not reported": 327,
+            "Other agitation before static synthesis": 4,
+            "Sonicated before static synthesis": 42,
+            "Sonicated during preparation; later agitation not reported": 1,
+            "Sonicated; stage not reported": 2,
+            "Static / no stirring": 576,
+            "Stirred before static synthesis": 170,
+            "Stirred during preparation; later agitation not reported": 51,
+            "Stirred; stage not reported": 146,
+            "Unclear / ambiguous": 1
+          }
+        }
+      }
+    }
+  },
+  "caveats": [
+    "Negative process annotations may be inherited from successful source recipes; this control does not establish causal benefit.",
+    "The archived chemistry-cluster split is retained; it is not a DOI-disjoint split.",
+    "No experimental validation, model training, new split, deduplication, or rebalancing is performed.",
+    "The 22-question benchmark has no curated process annotations and is not included here."
+  ],
+  "class_map": {
+    "path": "class_map.json",
+    "sha256": "21a66a7bf6540a397ce0b0b280ea6e363327566ced8f4da5bacef6c105a44f5e"
+  },
+  "reaction_prediction": {
+    "path": "reaction_prediction_process_enrich.txt",
+    "sha256": "672b4a89fdb3114bc95c253251aa9149d4f8912801535c542b66e891ac155e4b"
+  },
+  "validation": {
+    "mapped_source_rows": 26123,
+    "all_assignments_consumed_once": true,
+    "baseline_order_labels_and_eight_inputs_preserved": true,
+    "source_chemistry_and_doi_match_assignments": true,
+    "condition_and_cluster_overlap": 0,
+    "shared_train_holdout_dois": 864
+  }
+}

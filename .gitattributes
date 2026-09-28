@@ -4,7 +4,16 @@
 *.jsonl -text
 prompts/*.txt -text
 prompts/**/*.txt -text
+data/final_json/processed_enrich/reaction_prediction_process_enrich.txt -text
 # Configuration and provenance hashes must match on Windows and Linux.
 *.json -text
 # The literature classification manifest records this source file's byte hash.
 tools/literature_triage/topic_classifier.py -text
+# Process-detail manifests record these source-file hashes across platforms.
+src/mofinder/curation/process_details.py text eol=lf
+src/mofinder/curation/process_vessels.py text eol=lf
+src/mofinder/curation/process_stirring.py text eol=lf
+src/mofinder/datasets/process_enrich.py text eol=lf
+src/mofinder/datasets/prepare.py text eol=lf
+src/mofinder/training/records.py text eol=lf
+src/mofinder/training/prepare.py text eol=lf

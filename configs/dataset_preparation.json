@@ -22,6 +22,6 @@
   "holdout_search_swaps": 1200,
   "input_provenance": {
     "positive": "Processed positive synthesis records with four local-path columns removed.",
-    "negative": "Processed negative synthesis records with four local-path columns removed."
+    "negative": "Processed negative synthesis records with four local-path columns and thirteen product characterization/property columns removed. All retained cell values and source row order are preserved."
   }
 }

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "normalization_version": "1.0.0",
+  "files": [
+    {
+      "dataset": "positive",
+      "file": "Process_detail_positive.csv",
+      "rows": 15340,
+      "input_columns": 83,
+      "output_columns": 86,
+      "input": "data/processed_data/processed_positive.csv",
+      "input_sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
+      "sha256": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc",
+      "retained_cells_and_order_equal": true,
+      "raw_column_renames": {
+        "vessel_type": "vessel_type_raw",
+        "stirring": "stirring_raw"
+      }
+    },
+    {
+      "dataset": "negative",
+      "file": "Process_detail_negative.csv",
+      "rows": 15063,
+      "input_columns": 76,
+      "output_columns": 79,
+      "input": "data/processed_data/processed_negative.csv",
+      "input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
+      "sha256": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db",
+      "retained_cells_and_order_equal": true,
+      "raw_column_renames": {
+        "vessel_type": "vessel_type_raw",
+        "stirring": "stirring_raw"
+      }
+    }
+  ],
+  "features": [
+    "vessel_type",
+    "vessel_volume",
+    "stirring"
+  ],
+  "vessel_volume_unit": "mL",
+  "missing_value": "Not reported",
+  "ambiguous_volume_value": "Ambiguous",
+  "normalization_code_sha256": {
+    "process_details.py": "40e7147970ce786cc9475f4ca1626018e25f92a822a2be3e96dfee7699522c2f",
+    "process_vessels.py": "3c76d63f5dc8bd6eedb448b82c1ccbeb8adebfa7326a21653e57e93dfaeb40cb",
+    "process_stirring.py": "960ee66bd54327ff2bc60a142fad630ed9a7a32a90c7256308e51684dd4a0352"
+  },
+  "raw_mappings": 4742,
+  "review_required_mappings": 220,
+  "rare_mappings_frequency_le5": 3189,
+  "rows_preserved": true,
+  "source_values_preserved": true,
+  "negative_provenance": "Negative process annotations can be inherited; normalization does not validate failed attempts."
+}

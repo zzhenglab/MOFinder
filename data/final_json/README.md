@@ -20,6 +20,10 @@ Each JSONL record contains the original system instruction, eight-field reaction
 
 Some training workflows also use the holdout as validation data. Record that use with the training job; this folder does not contain an additional independent test partition.
 
+## Process-enriched matched control
+
+[processed_enrich/](processed_enrich/README.md) contains optional training and holdout JSONL with the same records, order, labels, and eight original inputs, plus cleaned `vessel_type`, `vessel_volume` (mL), and `stirring`. Its separate system prompt explains missing and ambiguous process values. The standard files in this folder remain the primary dataset. See [preparation and training instructions](../../docs/process_enrich_training.md) and [source tables](../processed_data/with_process_details/README.md).
+
 ## Training and test visualization
 
 ![Training and test synthesis records](../../docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)

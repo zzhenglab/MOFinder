@@ -1,0 +1,15 @@
+category,positive_records,negative_records,total_records,distinct_raw_values
+Not reported,3865,3987,7852,2
+Static / no stirring,6522,6609,13131,38
+Stirred before static synthesis,1758,1815,3573,411
+Sonicated before static synthesis,377,232,609,118
+Other agitation before static synthesis,34,54,88,15
+Stirred during preparation; later agitation not reported,482,567,1049,138
+Sonicated during preparation; later agitation not reported,13,1,14,8
+Other agitation during preparation; later agitation not reported,5,1,6,2
+Stirred during synthesis,4,10,14,4
+Stirred; stage not reported,2194,1738,3932,120
+Sonicated; stage not reported,24,39,63,6
+Shaken / rotated; stage not reported,29,2,31,18
+Other agitation; stage not reported,12,8,20,5
+Unclear / ambiguous,21,0,21,5

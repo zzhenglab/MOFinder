@@ -1,0 +1,19 @@
+{
+  "source_hashes": {
+    "positive": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc",
+    "negative": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db"
+  },
+  "splits": {
+    "train": {
+      "rows_independently_verified": 23528,
+      "baseline_sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "enriched_sha256": "c9ac44385c7aa8bd309f8520c7af3b767fe89eed9d0aca0fac5a75229862895d"
+    },
+    "holdout": {
+      "rows_independently_verified": 2595,
+      "baseline_sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "enriched_sha256": "fb8b042e7f61e2d0c7b797495880cc7b620b6604b1da4d5a4b2d5bfbd1e2495f"
+    }
+  },
+  "verified": "Every original record value, order and label preserved; only the system prompt and three added process values differ."
+}

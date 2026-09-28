@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "description": "Processed positive and negative synthesis tables used to prepare the included final JSONL. Scientific values and row order are unchanged.",
+  "description": "Processed synthesis inputs. Positive records are unchanged. Negative records omit product characterization/property columns as documented below; all retained scientific values and row order are unchanged. Included final JSONL predates this column-only cleanup.",
   "files": [
     {
       "file": "processed_positive.csv",
@@ -22,19 +22,65 @@
     {
       "file": "processed_negative.csv",
       "source_sha256": "bf179bfb6005a9332a4dd4be583c0c093d3284d381786217922251d9ee674697",
-      "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
-      "size_bytes": 20956706,
+      "sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
+      "size_bytes": 18534666,
       "rows": 15063,
-      "columns": 89,
+      "columns": 76,
       "removed_columns": [
         "main_pdf",
         "si_pdf",
         "raw_output",
-        "parsed_json"
+        "parsed_json",
+        "crystal_morphology",
+        "yield_percent",
+        "crystal_size",
+        "topology_code",
+        "metal_cluster_connectivity",
+        "metal_cluster_connectivity_classified",
+        "unit_cell_short",
+        "pore_diameter_A",
+        "BET_surface_area_m2g",
+        "air_stable",
+        "water_stable",
+        "tga_decomposition_temp_c",
+        "applications"
       ],
-      "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
+      "transformation": "Removed the four local file-path columns and, on 2026-09-28, thirteen product characterization/property columns from negative attempts. All retained cell strings, header order, and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
       "source_description": "Processed negative synthesis records",
-      "encoding": "utf-8-sig"
+      "encoding": "utf-8-sig",
+      "previous_export": {
+        "sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
+        "size_bytes": 20956706,
+        "rows": 15063,
+        "columns": 89,
+        "removed_columns": [
+          "main_pdf",
+          "si_pdf",
+          "raw_output",
+          "parsed_json"
+        ],
+        "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility."
+      },
+      "property_column_removal": {
+        "date": "2026-09-28",
+        "input_sha256": "ceb52f61470ae2d706af31581e935a2fa7022d4d9502f53e420f15b8d1db8a06",
+        "removed_columns": [
+          "crystal_morphology",
+          "yield_percent",
+          "crystal_size",
+          "topology_code",
+          "metal_cluster_connectivity",
+          "metal_cluster_connectivity_classified",
+          "unit_cell_short",
+          "pore_diameter_A",
+          "BET_surface_area_m2g",
+          "air_stable",
+          "water_stable",
+          "tga_decomposition_temp_c",
+          "applications"
+        ],
+        "reason": "Negative attempts must not carry successful-product characterization/property fields."
+      }
     }
   ]
 }

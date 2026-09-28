@@ -1,0 +1,6 @@
+{
+  "project_root": "..",
+  "positive_csv": "data/processed_data/processed_positive.csv",
+  "negative_csv": "data/processed_data/processed_negative.csv",
+  "output_dir": "data/processed_data/with_process_details"
+}

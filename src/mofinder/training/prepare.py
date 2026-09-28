@@ -9,7 +9,10 @@ import tempfile
 
 from mofinder.display import display_paths
 from .common import atomic_json, inspect_jsonl, read_json, sha256
-from .records import INPUT_FIELDS, REACTION_PROMPT_FILE, read_message_rows, read_reaction_prompt
+from .records import (
+    INPUT_FIELDS, PROCESS_FIELDS, PROCESS_PROMPT_FILE, REACTION_PROMPT_FILE,
+    input_fields, read_message_rows, read_reaction_prompt, validate_process_fields,
+)
 
 
 def _validate_recipe(recipe):
@@ -19,32 +22,50 @@ def _validate_recipe(recipe):
         raise ValueError("recipe.max_length must be a positive integer")
 
 
-def validate_dataset(path):
+def validate_dataset(path, feature_profile="baseline8", expected_prompt=None):
+    fields = input_fields(feature_profile)
     metadata = inspect_jsonl(path)
     rows, system_prompt = read_message_rows(path)
     for index, row in enumerate(rows, 1):
-        if set(row["reaction"]) != set(INPUT_FIELDS):
-            raise ValueError(f"Expected the eight reaction-condition fields: {path}:{index}")
+        if set(row["reaction"]) != set(fields):
+            description = "eight reaction-condition fields" if feature_profile == "baseline8" else "eleven process_enrich fields"
+            raise ValueError(f"Expected the {description}: {path}:{index}")
+        if feature_profile == "process_enrich":
+            validate_process_fields(row["reaction"])
+        if expected_prompt is not None:
+            systems = [m["content"] for m in row["messages"] if m["role"] == "system"]
+            if systems != [expected_prompt]:
+                raise ValueError(f"System prompt differs from the recorded process prompt: {path}:{index}")
     metadata["labels"] = dict(Counter("P" if row["labels"] else "N" for row in rows))
     return metadata, system_prompt
 
 
-def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=None):
+def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=None,
+                   feature_profile="baseline8", manual_process_policy=None):
     """Copy dataset bytes and record hashes without changing the existing split."""
     output = Path(output).resolve()
     if output.exists():
         raise FileExistsError(f"Choose a new output directory: {output}")
     settings = read_json(config)
     _validate_recipe(settings["recipe"])
-    prompt = Path(prompt) if prompt is not None else REACTION_PROMPT_FILE
+    input_fields(feature_profile)
+    if feature_profile == "process_enrich" and manual_process_policy != "missing_control":
+        raise ValueError("The 22 benchmark questions have no curated process annotations. "
+                         "For this runner explicitly set --manual-process-policy missing_control "
+                         "to evaluate a missing-process control; no process values are inferred.")
+    if feature_profile == "baseline8" and manual_process_policy is not None:
+        raise ValueError("manual_process_policy applies only to process_enrich")
+    default_prompt = PROCESS_PROMPT_FILE if feature_profile == "process_enrich" else REACTION_PROMPT_FILE
+    prompt = Path(prompt) if prompt is not None else default_prompt
     reaction_prompt = read_reaction_prompt(prompt)
+    expected_prompt = reaction_prompt if feature_profile == "process_enrich" else None
     if settings["protocol"]["threshold"] != 0.5:
         raise ValueError("The P/N classifier uses a fixed probability threshold of 0.5")
     if read_json(class_map) != {"P": "success", "N": "failure"}:
         raise ValueError("Expected class map P=success and N=failure")
     datasets = {}
     for name, path in (("train", train), ("holdout", holdout)):
-        metadata, _ = validate_dataset(path)
+        metadata, _ = validate_dataset(path, feature_profile, expected_prompt)
         datasets[name] = {"path": f"data/{name}.jsonl", **metadata}
     panel = read_json(questions)
     if not isinstance(panel, list) or len(panel) != 22:
@@ -53,11 +74,14 @@ def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=
     for item in panel:
         if item.get("label") not in {"P", "N"} or set(item.get("conditions", {})) != set(INPUT_FIELDS):
             raise ValueError(f"Invalid benchmark question: {item.get('question')}")
+        conditions = dict(item["conditions"])
+        if feature_profile == "process_enrich":
+            conditions.update({field: "Not reported" for field in PROCESS_FIELDS})
         question_rows.append({
             "record_id": item.get("reaction_id", item["question"]),
             "messages": [
                 {"role": "system", "content": reaction_prompt},
-                {"role": "user", "content": json.dumps(item["conditions"], ensure_ascii=False)},
+                {"role": "user", "content": json.dumps(conditions, ensure_ascii=False)},
                 {"role": "assistant", "content": item["label"]},
             ],
         })
@@ -74,7 +98,7 @@ def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=
                 raise ValueError(f"Dataset changed during copying: {path}")
         manual_path = staged / "data/questions.jsonl"
         manual_path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in question_rows), encoding="utf-8")
-        metadata, _ = validate_dataset(manual_path)
+        metadata, _ = validate_dataset(manual_path, feature_profile, expected_prompt)
         datasets["manual22"] = {"path": "data/questions.jsonl", **metadata}
         shutil.copyfile(class_map, staged / "data/class_map.json")
         manifest = {
@@ -89,6 +113,14 @@ def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=
             "recipe": settings["recipe"],
             "protocol": settings["protocol"],
         }
+        if feature_profile == "process_enrich":
+            manifest["feature_profile"] = feature_profile
+            manifest["input_fields"] = list(input_fields(feature_profile))
+            manifest["manual_process_policy"] = manual_process_policy
+            manifest["manual22_caveat"] = (
+                "All three process fields are explicitly unknown. This is a missing-process control, "
+                "not a benchmark of benefit from actual process information."
+            )
         atomic_json(staged / "manifest.json", manifest)
         staged.rename(output)
     return manifest
@@ -101,14 +133,28 @@ def validate_bundle(bundle):
     if manifest.get("schema_version") != 2 or "reaction_prediction" not in manifest:
         raise ValueError("Rebuild this bundle with tools/training/prepare_hpc.py to use the reaction prediction prompt")
     _validate_recipe(manifest["recipe"])
+    feature_profile = manifest.get("feature_profile", "baseline8")
+    fields = input_fields(feature_profile)
+    expected_prompt = None
+    if feature_profile == "process_enrich":
+        if manifest.get("input_fields") != list(fields) or manifest.get("manual_process_policy") != "missing_control":
+            raise ValueError("Invalid process_enrich feature or manual-question policy")
+        process_prompt_path = (bundle / manifest["reaction_prediction"]["path"]).resolve()
+        if not process_prompt_path.is_relative_to(bundle):
+            raise ValueError("Reaction prediction prompt is outside the bundle")
+        expected_prompt = read_reaction_prompt(process_prompt_path)
     for name, info in manifest["datasets"].items():
         path = (bundle / info["path"]).resolve()
         if not path.is_relative_to(bundle):
             raise ValueError(f"Dataset path is outside the bundle: {name}")
-        observed, _ = validate_dataset(path)
+        observed, _ = validate_dataset(path, feature_profile, expected_prompt)
         for key in ("sha256", "rows", "bytes", "labels"):
             if observed[key] != info[key]:
                 raise ValueError(f"Changed {key} for {name}")
+        if feature_profile == "process_enrich" and name == "manual22":
+            rows, _ = read_message_rows(path)
+            if len(rows) != 22 or any(row["reaction"][field] != "Not reported" for row in rows for field in PROCESS_FIELDS):
+                raise ValueError("manual22 must remain an explicit missing-process control")
     class_map = manifest["class_map"]
     path = (bundle / class_map["path"]).resolve()
     if not path.is_relative_to(bundle) or sha256(path) != class_map["sha256"]:
@@ -131,15 +177,19 @@ def main(argv=None):
     parser.add_argument("--questions", type=Path, default=root / "benchmarks/mof_quest/questions.json")
     parser.add_argument("--class-map", type=Path, default=root / "data/final_json/class_map.json")
     parser.add_argument("--config", type=Path, default=root / "configs/training_hpc.json")
-    parser.add_argument("--prompt", type=Path, default=REACTION_PROMPT_FILE,
+    parser.add_argument("--prompt", type=Path,
                         help="Full reaction-prediction instructions; conditions are appended separately")
     parser.add_argument("--output", type=Path, default=root / "results/local/hpc_training")
     parser.add_argument("--validate-bundle", type=Path)
+    parser.add_argument("--feature-profile", choices=("baseline8", "process_enrich"), default="baseline8")
+    parser.add_argument("--manual-process-policy", choices=("missing_control",),
+                        help="Explicitly mark uncurated benchmark process fields Not reported")
     args = parser.parse_args(argv)
     if args.validate_bundle:
         manifest = validate_bundle(args.validate_bundle)
     else:
-        manifest = prepare_bundle(args.train, args.holdout, args.questions, args.class_map, args.config, args.output, args.prompt)
+        manifest = prepare_bundle(args.train, args.holdout, args.questions, args.class_map, args.config, args.output,
+                                  args.prompt, args.feature_profile, args.manual_process_policy)
     print(json.dumps(display_paths(manifest["datasets"]), indent=2))
 
 

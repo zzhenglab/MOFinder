@@ -2,6 +2,8 @@
 
 Use the [processed positive and negative records](processed_data/README.md) as dataset-preparation inputs. The [final JSONL and split information](final_json/README.md) are ready for training and evaluation.
 
+The optional [process-detail tables](processed_data/with_process_details/README.md) and nested [process-enriched JSONL](final_json/processed_enrich/README.md) add vessel type, capacity, and stirring as a matched control. The original eight-field dataset remains the primary training representation.
+
 ```text
 processed_data/
   processed_positive.csv  ─┐

@@ -1,0 +1,77 @@
+{
+  "datasets": {
+    "positive": {
+      "records": 15340,
+      "unique_dois": 4568,
+      "records_without_doi": 0,
+      "volume_records": {
+        "n": 7271,
+        "mean": 70.17683262274791,
+        "p25": 16.0,
+        "median": 23.0,
+        "p75": 25.0,
+        "minimum": 0.25,
+        "maximum": 100000.0
+      },
+      "volume_doi_medians": {
+        "n": 2223,
+        "mean": 67.73472784525416,
+        "p25": 19.5,
+        "median": 23.0,
+        "p75": 25.0,
+        "minimum": 0.25,
+        "maximum": 30000.0
+      },
+      "volume_nonnumeric_labels": {
+        "Not reported": 7768,
+        "Ambiguous": 301
+      }
+    },
+    "negative": {
+      "records": 15063,
+      "unique_dois": 1280,
+      "records_without_doi": 0,
+      "volume_records": {
+        "n": 7780,
+        "mean": 46.52464652956298,
+        "p25": 15.0,
+        "median": 23.0,
+        "p75": 25.0,
+        "minimum": 0.25,
+        "maximum": 30000.0
+      },
+      "volume_doi_medians": {
+        "n": 611,
+        "mean": 50.96849427168576,
+        "p25": 16.0,
+        "median": 23.0,
+        "p75": 25.0,
+        "minimum": 0.25,
+        "maximum": 5000.0
+      },
+      "volume_nonnumeric_labels": {
+        "Not reported": 7021,
+        "Ambiguous": 262
+      }
+    }
+  },
+  "doi_rule": "Lowercase; remove DOI URL or doi: prefix; omit blank DOIs from DOI counts.",
+  "category_doi_rule": "One count per distinct DOI/category/cohort; a DOI can have multiple categories.",
+  "volume_doi_rule": "One median of accepted positive numeric capacities per DOI within each cohort.",
+  "resolved_coverage_rule": "Numeric positive finite capacity; categorical values excluding Not reported, Ambiguous, Unclear, Unclear / ambiguous, Unresolved vessel description, and Vessel (type not reported).",
+  "rendering": {
+    "width_inches": 6,
+    "font": "Arial",
+    "png_dpi": 600
+  },
+  "inputs": {
+    "positive": {
+      "filename": "Process_detail_positive.csv",
+      "sha256": "c1e1041aaf17265f683ee920fc739f492370b4ec2aead40d1fd56274a7fc4cbc"
+    },
+    "negative": {
+      "filename": "Process_detail_negative.csv",
+      "sha256": "19d467c4c8d7594b2220443fecaa438221d38dfd441921aa9cab85001ab595db"
+    }
+  }
+}
