@@ -86,13 +86,12 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | [`data/processed_data_json/holdout.jsonl`](data/processed_data_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
 | [`data/processed_data_json/split_assignments.csv`](data/processed_data_json/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
 
-Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
-The [eleven-field process-enriched dataset](data/processed_data_json/processed_enrich_11field/README.md) adds `vessel_type`, `vessel_volume_mL`, and `agitation` to the inputs and [system prompt](prompts/training/reaction_prediction_process_enrich_11field.txt). The [nine-field version](data/processed_data_json/processed_enrich_9field/README.md) adds only `stirring`. Both preserve the baseline rows, order, and labels. The [artificial-perturbation](data/processed_data_json/artificial_perturbation/README.md) and [single-field-removal](data/processed_data_json/leave_one_perturbation_out/README.md) ablations provide alternative training sets with the standard holdout.
 
 <p align="center">
   <img src="data/chat_completion.png" alt="Chat completion example with reaction-condition input and P output" width="750">
 </p>
+Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
 ![Training and test synthesis records](docs/dataset_analysis/figures/Figure_D10_training_test_tsne.png)
 
