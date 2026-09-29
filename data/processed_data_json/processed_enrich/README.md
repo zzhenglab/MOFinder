@@ -1,5 +1,7 @@
 # Process-enriched dataset
 
+This is the eleven-field version. The [nine-field stirring version](../processed_enrich_9field/README.md) adds only `stirring` to the original eight inputs.
+
 | File | Rows | Positive | Negative |
 |---|---:|---:|---:|
 | [train_process_enrich.jsonl](train_process_enrich.jsonl) | 23,528 | 11,968 | 11,560 |

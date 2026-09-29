@@ -17,3 +17,5 @@ src/mofinder/datasets/prepare.py text eol=lf
 src/mofinder/training/records.py text eol=lf
 src/mofinder/training/prepare.py text eol=lf
 src/mofinder/curation/agitation_source_reviews.py text eol=lf
+src/mofinder/curation/stirring_presence.py text eol=lf
+src/mofinder/datasets/process_enrich_9field.py text eol=lf

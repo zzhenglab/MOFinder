@@ -56,6 +56,7 @@ without opening a browser. See [literature-retrieval](../docs/literature_retriev
 | `dataset_forced_questions.json` | Fixed benchmark conditions used to select holdout clusters |
 | `process_details.json` | Append vessel type, vessel volume in mL, and agitation to positive and negative records |
 | `dataset_preparation_process_enrich.json` | Add the three process fields and a revised prompt to the existing train/holdout records without resplitting |
+| `dataset_preparation_process_enrich_9field.json` | Preserve the same train/holdout records and add only three-state `stirring` with a nine-field prompt |
 
 Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/processed_data_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
 

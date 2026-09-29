@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "input_fields": [
+    "metal_precursor",
+    "organic_linker",
+    "modulator",
+    "solvent",
+    "metal_concentration_mM",
+    "M_L_ratio",
+    "temperature_C",
+    "time_h",
+    "stirring"
+  ],
+  "stirring_values": [
+    "yes",
+    "no",
+    "not reported"
+  ],
+  "classifier_version": "stirring-presence-v1",
+  "sources": {
+    "positive_csv": {
+      "path": "data/processed_data/processed_positive.csv",
+      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5"
+    },
+    "negative_csv": {
+      "path": "data/processed_data/processed_negative.csv",
+      "sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7"
+    },
+    "baseline_train": {
+      "path": "data/processed_data_json/train.jsonl",
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"
+    },
+    "baseline_holdout": {
+      "path": "data/processed_data_json/holdout.jsonl",
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
+    },
+    "split_assignments": {
+      "path": "data/processed_data_json/split_assignments.csv",
+      "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa"
+    },
+    "prompt_file": {
+      "path": "prompts/training/reaction_prediction_process_enrich_9field.txt",
+      "sha256": "328844fe673f54764f6503fa55993dd8ca8c3612e66a166269e498ffa68a0ac6"
+    },
+    "config": {
+      "path": "configs/dataset_preparation_process_enrich_9field.json",
+      "sha256": "5d049507e901d8192a8f854aab14d2653fe5cb83bc2fbec5b034baa9b078e186"
+    },
+    "enriched_train": {
+      "path": "data/processed_data_json/processed_enrich/train_process_enrich.jsonl",
+      "sha256": "69821f68873f014c392e50572898bb1b708ec6f921a6ef7a8cfa8264674dc57a"
+    },
+    "sources_train": {
+      "path": "data/processed_data_json/processed_enrich/train_sources.csv",
+      "sha256": "fbc1e5108f1f05fdc0f402dda163e41fd3a00ad9c8e4ad1b44444edc3fe2f1bd"
+    },
+    "enriched_holdout": {
+      "path": "data/processed_data_json/processed_enrich/holdout_process_enrich.jsonl",
+      "sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e"
+    },
+    "sources_holdout": {
+      "path": "data/processed_data_json/processed_enrich/holdout_sources.csv",
+      "sha256": "71030b751a7a7ebee042463f30975aa34870d00add39f3b85640d912c424326c"
+    }
+  },
+  "implementation": {
+    "generator": {
+      "path": "src/mofinder/datasets/process_enrich_9field.py",
+      "sha256": "dfc089e12d17ac6db917ba8e7503f519ff25a2dee9273c07627318c26b863aeb"
+    },
+    "classifier": {
+      "path": "src/mofinder/curation/stirring_presence.py",
+      "sha256": "afafd700a9d8b27976a8fede4a0d2401b79089d19be08da7631ba498453826a6"
+    },
+    "agitation_parser": {
+      "path": "src/mofinder/curation/process_stirring.py",
+      "sha256": "39c250b49b573505f4a0c6c428aadb56c318aa232311322c25f6bc5c2d8ec072"
+    },
+    "source_reviews": {
+      "path": "src/mofinder/curation/agitation_source_reviews.py",
+      "sha256": "346974fe4109b9412bcd2a85758981d8ad26cc4a218b1dd6882e322516a8f636"
+    }
+  },
+  "source_csv_rows": {
+    "P": 15340,
+    "N": 15063
+  },
+  "all_source_stirring_counts": {
+    "P": {
+      "no": 8691,
+      "yes": 2691,
+      "not reported": 3958
+    },
+    "N": {
+      "no": 8710,
+      "not reported": 4030,
+      "yes": 2323
+    }
+  },
+  "datasets": {
+    "train": {
+      "path": "train_process_enrich_9field.jsonl",
+      "rows": 23528,
+      "labels": {
+        "N": 11560,
+        "P": 11968
+      },
+      "sha256": "da228ba0d6dfe1d44a8ecb1ddb29cbc1277f345f7d885afb8642d34edee988b5",
+      "size_bytes": 31372640,
+      "stirring_counts_by_label": {
+        "P": {
+          "yes": 2057,
+          "no": 6742,
+          "not reported": 3169
+        },
+        "N": {
+          "yes": 1769,
+          "no": 6595,
+          "not reported": 3196
+        }
+      },
+      "rows_dropped": {
+        "P": 0,
+        "N": 0
+      }
+    },
+    "holdout": {
+      "path": "holdout_process_enrich_9field.jsonl",
+      "rows": 2595,
+      "labels": {
+        "N": 1275,
+        "P": 1320
+      },
+      "sha256": "c887a9433e7f1e6f12ae07b172dd16a578dd03443f0ff58eefa64c001d88f6af",
+      "size_bytes": 3455520,
+      "stirring_counts_by_label": {
+        "P": {
+          "yes": 195,
+          "no": 792,
+          "not reported": 333
+        },
+        "N": {
+          "yes": 213,
+          "no": 744,
+          "not reported": 318
+        }
+      },
+      "rows_dropped": {
+        "P": 0,
+        "N": 0
+      }
+    }
+  },
+  "validation": {
+    "mapped_source_rows": 26123,
+    "all_assignments_consumed_once": true,
+    "original_eight_values_types_order_and_labels_preserved": true,
+    "eleven_field_source_alignment_verified": true,
+    "system_prompt_lists_nine_fields_and_defines_stirring": true
+  },
+  "package": {
+    "path": "process_enrich_9field_train_holdout.zip",
+    "sha256": "839a69f71206a5c36a6c3badc41b324420c920fc8b399b3347f65ce31beeb950",
+    "members": [
+      "train_process_enrich_9field.jsonl",
+      "holdout_process_enrich_9field.jsonl",
+      "README.md",
+      "reaction_prediction_process_enrich_9field.txt"
+    ]
+  }
+}

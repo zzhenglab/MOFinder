@@ -1,0 +1,11 @@
+{
+  "project_root": "..",
+  "positive_csv": "data/processed_data/processed_positive.csv",
+  "negative_csv": "data/processed_data/processed_negative.csv",
+  "baseline_train": "data/processed_data_json/train.jsonl",
+  "baseline_holdout": "data/processed_data_json/holdout.jsonl",
+  "enriched_dir": "data/processed_data_json/processed_enrich",
+  "split_assignments": "data/processed_data_json/split_assignments.csv",
+  "prompt_file": "prompts/training/reaction_prediction_process_enrich_9field.txt",
+  "output_dir": "data/processed_data_json/processed_enrich_9field"
+}

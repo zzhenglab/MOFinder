@@ -10,6 +10,7 @@
 | `negative_system.txt`, `negative_user.txt` | Evidence-supported modification plans for successful syntheses |
 | `training/reaction_prediction.txt` | Shared instructions for reaction prediction in training/holdout JSONL, MOF Quest evaluation, and GPT-oss-20B training |
 | `training/reaction_prediction_process_enrich.txt` | Process-enriched control with vessel type, vessel volume in mL, and agitation added to the eight baseline inputs |
+| `training/reaction_prediction_process_enrich_9field.txt` | Nine-field control adding `stirring`, with definitions of `yes`, `no`, and `not reported` |
 
 The corresponding Python module formats the placeholders in each prompt. Saved run manifests record the prompt used.
 
