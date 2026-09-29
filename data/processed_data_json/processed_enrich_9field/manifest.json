@@ -44,22 +44,22 @@
     },
     "config": {
       "path": "configs/dataset_preparation_process_enrich_9field.json",
-      "sha256": "5d049507e901d8192a8f854aab14d2653fe5cb83bc2fbec5b034baa9b078e186"
+      "sha256": "bc92c97348d037c8bcb52b7383f41c4823465c1ebc406e40262d53e8d68d697e"
     },
     "enriched_train": {
-      "path": "data/processed_data_json/processed_enrich/train_process_enrich.jsonl",
+      "path": "data/processed_data_json/processed_enrich_11field/train_process_enrich.jsonl",
       "sha256": "69821f68873f014c392e50572898bb1b708ec6f921a6ef7a8cfa8264674dc57a"
     },
     "sources_train": {
-      "path": "data/processed_data_json/processed_enrich/train_sources.csv",
+      "path": "data/processed_data_json/processed_enrich_11field/train_sources.csv",
       "sha256": "fbc1e5108f1f05fdc0f402dda163e41fd3a00ad9c8e4ad1b44444edc3fe2f1bd"
     },
     "enriched_holdout": {
-      "path": "data/processed_data_json/processed_enrich/holdout_process_enrich.jsonl",
+      "path": "data/processed_data_json/processed_enrich_11field/holdout_process_enrich.jsonl",
       "sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e"
     },
     "sources_holdout": {
-      "path": "data/processed_data_json/processed_enrich/holdout_sources.csv",
+      "path": "data/processed_data_json/processed_enrich_11field/holdout_sources.csv",
       "sha256": "71030b751a7a7ebee042463f30975aa34870d00add39f3b85640d912c424326c"
     }
   },

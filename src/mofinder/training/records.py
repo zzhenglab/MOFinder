@@ -12,7 +12,7 @@ INPUT_FIELDS = (
 PROCESS_FIELDS = ("vessel_type", "vessel_volume_mL", "agitation")
 FEATURE_PROFILES = {"baseline8": INPUT_FIELDS, "process_enrich": INPUT_FIELDS + PROCESS_FIELDS}
 REACTION_PROMPT_FILE = Path(__file__).resolve().parents[3] / "prompts/training/reaction_prediction.txt"
-PROCESS_PROMPT_FILE = REACTION_PROMPT_FILE.with_name("reaction_prediction_process_enrich.txt")
+PROCESS_PROMPT_FILE = REACTION_PROMPT_FILE.with_name("reaction_prediction_process_enrich_11field.txt")
 
 
 def input_fields(feature_profile="baseline8"):

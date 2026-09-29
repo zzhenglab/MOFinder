@@ -51,4 +51,4 @@ For other processed inputs:
 python -m mofinder.curation.process_details --positive path/to/processed_positive.csv --negative path/to/processed_negative.csv --output results/process_details
 ```
 
-See the [classification code](../../../src/mofinder/curation/process_details.py), [process-enriched training files](../../processed_data_json/processed_enrich/README.md), and [positive-data distributions](../../../docs/process_details/README.md).
+See the [classification code](../../../src/mofinder/curation/process_details.py), [process-enriched training files](../../processed_data_json/processed_enrich_11field/README.md), and [positive-data distributions](../../../docs/process_details/README.md).

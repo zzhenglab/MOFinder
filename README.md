@@ -47,7 +47,8 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | Inspect processed records and publication metadata | [Processed data](data/processed_data/README.md) |
 | Explore synthesis-condition distributions | [Dataset analysis](docs/dataset_analysis/README.md) |
 | Inspect training datasets and ablations | [JSONL datasets](data/processed_data_json/README.md) |
-| Add vessel type, volume, and agitation to model inputs | [Process-enriched dataset](data/processed_data_json/processed_enrich/README.md) |
+| Add vessel type, volume, and agitation to model inputs | [Eleven-field process-enriched dataset](data/processed_data_json/processed_enrich_11field/README.md) |
+| Add only reported stirring to model inputs | [Nine-field process-enriched dataset](data/processed_data_json/processed_enrich_9field/README.md) |
 | Train a model | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
 | Evaluate models and human predictions | [Evaluation workflow](docs/evaluation.md) |
 
@@ -87,7 +88,7 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 
 Training and holdout records use chat-format JSONL. Each record contains a system instruction, a user message with eight reaction-condition fields, and an assistant answer of `P` or `N`.
 
-The [process-enriched dataset](data/processed_data_json/processed_enrich/README.md) preserves the baseline row counts and order while adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the inputs and [system prompt](prompts/training/reaction_prediction_process_enrich.txt). The [artificial-perturbation](data/processed_data_json/artificial_perturbation/README.md) and [single-field-removal](data/processed_data_json/leave_one_perturbation_out/README.md) ablations provide alternative training sets with the standard holdout.
+The [eleven-field process-enriched dataset](data/processed_data_json/processed_enrich_11field/README.md) adds `vessel_type`, `vessel_volume_mL`, and `agitation` to the inputs and [system prompt](prompts/training/reaction_prediction_process_enrich_11field.txt). The [nine-field version](data/processed_data_json/processed_enrich_9field/README.md) adds only `stirring`. Both preserve the baseline rows, order, and labels. The [artificial-perturbation](data/processed_data_json/artificial_perturbation/README.md) and [single-field-removal](data/processed_data_json/leave_one_perturbation_out/README.md) ablations provide alternative training sets with the standard holdout.
 
 <p align="center">
   <img src="data/chat_completion.png" alt="Chat completion example with reaction-condition input and P output" width="750">

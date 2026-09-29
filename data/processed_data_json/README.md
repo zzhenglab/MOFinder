@@ -20,7 +20,7 @@ Each JSONL record contains system, user, and assistant messages. The user messag
 
 ## Process-enriched dataset
 
-[processed_enrich/](processed_enrich/README.md) preserves the same records, order, labels, and eight original inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the user and system prompts.
+[processed_enrich_11field/](processed_enrich_11field/README.md) preserves the same records, order, labels, and eight original inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the user and system prompts.
 
 [processed_enrich_9field/](processed_enrich_9field/README.md) adds only `stirring` (`yes`, `no`, or `not reported`) to the original eight inputs, with a corresponding nine-field system prompt.
 

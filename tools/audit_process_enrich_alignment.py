@@ -91,7 +91,7 @@ def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline-dir", type=Path, default=root / "data/processed_data_json")
-    parser.add_argument("--enriched-dir", type=Path, default=root / "data/processed_data_json/processed_enrich")
+    parser.add_argument("--enriched-dir", type=Path, default=root / "data/processed_data_json/processed_enrich_11field")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     report = {

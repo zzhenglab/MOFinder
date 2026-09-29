@@ -189,7 +189,7 @@ def prepare_process_enrich(settings):
     split_dois = {}
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".process-enrich-", dir=output.parent) as temporary:
-        staged = Path(temporary) / "processed_enrich"
+        staged = Path(temporary) / "processed_enrich_11field"
         staged.mkdir()
         for split in ("train", "holdout"):
             labels = Counter()
@@ -267,14 +267,14 @@ def prepare_process_enrich(settings):
         }
         atomic_json(staged / "manifest.json", manifest)
         (staged / "README.md").write_text(
-            "# Process-enriched dataset\n\n"
+            "# Eleven-field process-enriched dataset\n\n"
             "`train_process_enrich.jsonl` and `holdout_process_enrich.jsonl` preserve the standard split, record order, labels, and eight original inputs. "
             "They add only `vessel_type`, `vessel_volume_mL` (capacity in mL), and `agitation`. "
             "The system prompt is identical to each original prompt except for these three names appended to its input list. "
             "Missing values are `Not reported`; unresolved capacities are `Ambiguous`.\n\n"
             "The `*_sources.csv` files map JSONL rows to source records. "
             "`jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.\n\n"
-            "See the [system prompt](../../../prompts/training/reaction_prediction_process_enrich.txt) "
+            "See the [system prompt](../../../prompts/training/reaction_prediction_process_enrich_11field.txt) "
             "and [positive-data distributions](../../../docs/process_details/README.md).\n\n"
             "Reproduce with `python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json "
             "--output results/datasets/process_enrich` using a new output directory.\n",

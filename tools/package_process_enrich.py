@@ -40,12 +40,12 @@ def build_package(directory: Path, baseline: Path, output: Path) -> dict:
         raise ValueError("No complete process example found")
     index, old, new, old_input, new_input = example
     new_prompt = new["messages"][0]["content"]
-    canonical = (REPO / "prompts/training/reaction_prediction_process_enrich.txt").read_text(encoding="utf-8")
+    canonical = (REPO / "prompts/training/reaction_prediction_process_enrich_11field.txt").read_text(encoding="utf-8")
     if new_prompt != canonical:
         raise ValueError("System prompt differs from the canonical process prompt")
     classes = json.loads((REPO / "data/processed_data/with_process_details/manifest.json").read_text(encoding="utf-8"))["category_consolidation"]["agitation_classes"]
     lines = [
-        "# Process-enriched training and holdout", "",
+        "# Eleven-field process-enriched training and holdout", "",
         "This package contains `train_process_enrich.jsonl`, `holdout_process_enrich.jsonl`, and this README. "
         "The files use eleven inputs: the baseline eight reaction conditions plus vessel type, vessel capacity, and agitation.", "",
         "| File | Rows | P | N |", "|---|---:|---:|---:|",
@@ -91,7 +91,7 @@ def build_package(directory: Path, baseline: Path, output: Path) -> dict:
         lines.append(f"{report['enriched_sha256']}  {split}_process_enrich.jsonl")
     lines += [
         "```", "",
-        "[System prompt](https://github.com/zzhenglab/MOFinder/blob/main/prompts/training/reaction_prediction_process_enrich.txt)", "",
+        "[System prompt](https://github.com/zzhenglab/MOFinder/blob/main/prompts/training/reaction_prediction_process_enrich_11field.txt)", "",
         "To reproduce this ZIP from the repository root:", "", "```bash", "python tools/package_process_enrich.py", "```", "",
     ]
     readme = ("\n".join(lines)).encode("utf-8")
@@ -129,7 +129,7 @@ def build_package(directory: Path, baseline: Path, output: Path) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--directory", type=Path, default=DATA / "processed_enrich")
+    parser.add_argument("--directory", type=Path, default=DATA / "processed_enrich_11field")
     parser.add_argument("--baseline", type=Path, default=DATA)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()

@@ -1,6 +1,6 @@
 # Process-detail distributions
 
-These plots summarize the cleaned vessel type, vessel capacity, and agitation fields for all 15,340 [positive synthesis records](../../data/processed_data/with_process_details/README.md) from 4,568 DOIs, before training-data filtering. Panel **a** shows synthesis records; panel **b** shows unique DOIs. The same categories are used in the [process-enriched JSONL files](../../data/processed_data_json/processed_enrich/README.md).
+These plots summarize the cleaned vessel type, vessel capacity, and agitation fields for all 15,340 [positive synthesis records](../../data/processed_data/with_process_details/README.md) from 4,568 DOIs, before training-data filtering. Panel **a** shows synthesis records; panel **b** shows unique DOIs. The same categories are used in the [process-enriched JSONL files](../../data/processed_data_json/processed_enrich_11field/README.md).
 
 ## Figures
 

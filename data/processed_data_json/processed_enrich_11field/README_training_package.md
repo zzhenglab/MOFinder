@@ -1,4 +1,4 @@
-# Process-enriched training and holdout
+# Eleven-field process-enriched training and holdout
 
 This package contains `train_process_enrich.jsonl`, `holdout_process_enrich.jsonl`, and this README. The files use eleven inputs: the baseline eight reaction conditions plus vessel type, vessel capacity, and agitation.
 
@@ -86,7 +86,7 @@ SHA-256 hashes of the uncompressed JSONL files:
 02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e  holdout_process_enrich.jsonl
 ```
 
-[System prompt](https://github.com/zzhenglab/MOFinder/blob/main/prompts/training/reaction_prediction_process_enrich.txt)
+[System prompt](https://github.com/zzhenglab/MOFinder/blob/main/prompts/training/reaction_prediction_process_enrich_11field.txt)
 
 To reproduce this ZIP from the repository root:
 

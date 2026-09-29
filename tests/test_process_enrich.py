@@ -83,7 +83,7 @@ class ProcessEnrichTests(unittest.TestCase):
         manifest = prepare_process_enrich(self.settings)
         self.assertEqual(manifest["validation"]["mapped_source_rows"], 4)
         self.assertEqual(manifest["source_csv_rows"], {"P": 2, "N": 2})
-        self.assertFalse((self.root / "enriched/reaction_prediction_process_enrich.txt").exists())
+        self.assertFalse((self.root / "enriched/reaction_prediction_process_enrich_11field.txt").exists())
         self.assertEqual(manifest["reaction_prediction"]["sha256"], sha256(PROCESS_PROMPT_FILE))
         self.assertEqual(Path(manifest["reaction_prediction"]["path"]), PROCESS_PROMPT_FILE)
         self.assertTrue(manifest["reaction_prediction"]["path_base"].startswith("project_root"))
