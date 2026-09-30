@@ -106,8 +106,6 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 This writes to `results/datasets/conditions/`. To prepare a dataset after running curation, use [dataset_preparation_from_curation.json](configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`.
 
-The [linker-corrected negative table](data/processed_data/linker_corrected/README.md) has its own configuration. Corrected linker identities change chemical grouping, so this alternative recalculates the training/holdout split.
-
 Input hashes and transformations are recorded in [data/manifest.json](data/manifest.json). Generated run outputs are saved under `results/`, which is excluded from Git.
 
 ## Related applications
