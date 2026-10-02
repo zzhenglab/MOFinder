@@ -13,8 +13,8 @@ Both variants replace the original training negatives with perturbations of trai
 
 The change count is measured against the selected positive reference. Both variants reject duplicate conditions and held-out chemistry clusters. Generated conditions receive N labels for these controls. Compare each variant with the existing trained baseline on the unchanged holdout.
 
-[Preparation code](../../../src/mofinder/curation/ablations.py), run from the repository root:
+[Preparation code](../../../src/mofinder/datasets/ablations.py), with the [artificial-negative generation rules](../../../src/mofinder/datasets/artificial_control.py). Run from the repository root:
 
 ```bash
-python -m mofinder.curation.ablations --output results/ablations
+python -m mofinder.datasets.ablations --output results/ablations
 ```

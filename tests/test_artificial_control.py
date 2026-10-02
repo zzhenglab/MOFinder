@@ -4,7 +4,7 @@ from copy import deepcopy
 import json
 import unittest
 
-from mofinder.curation.artificial_control import (
+from mofinder.datasets.artificial_control import (
     FIELDS, condition_key, generate_count_matched, inputs,
 )
 

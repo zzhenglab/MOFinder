@@ -9,8 +9,8 @@ The removal set drops 3,827 negatives that differ from any training positive in 
 
 [holdout.jsonl](holdout.jsonl) is the unchanged standard holdout: 1,320 P and 1,275 N (2,595 records). Compare with the existing trained baseline.
 
-[Preparation code](../../../src/mofinder/curation/ablations.py), run from the repository root:
+[Preparation code](../../../src/mofinder/datasets/ablations.py), run from the repository root:
 
 ```bash
-python -m mofinder.curation.ablations --output results/ablations
+python -m mofinder.datasets.ablations --output results/ablations
 ```
