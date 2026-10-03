@@ -62,10 +62,12 @@ def extract_pn_logprobs_from_choice(choice_obj):
         a_lp  = getattr(alt, "logprob", None)
         if a_lp is None:
             continue
+        # Keep the chosen token, then the first alternative for each label.
+        # Later case/whitespace variants must not replace that token's score.
         if is_P(a_tok):
-            lp_P = a_lp
+            lp_P = a_lp if lp_P is None else lp_P
         elif is_N(a_tok):
-            lp_N = a_lp
+            lp_N = a_lp if lp_N is None else lp_N
 
     prob_P = None
     if lp_P is not None and lp_N is not None:

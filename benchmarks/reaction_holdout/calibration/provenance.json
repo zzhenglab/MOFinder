@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "csv": "predictions.csv",
+  "csv_sha256": "b4137abf5cab900539ca102a91438162cb4d5daacd9955deed61520ee29288d1",
+  "cohort": {
+    "reactions": 2595,
+    "positive": 1320,
+    "negative": 1275,
+    "DOIs": 1091,
+    "common_cohort_complete": true,
+    "dropped_records": 0
+  },
+  "holdout_path": "data/processed_data_json/holdout.jsonl",
+  "holdout_sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+  "record_id": "One-based holdout row, zero-padded to four digits.",
+  "input_sha256": "SHA256 of UTF-8 json.dumps(parsed user JSON, ensure_ascii=False, sort_keys=True, separators=(comma, colon), allow_nan=False).",
+  "labels": {
+    "y": {
+      "1": "P",
+      "0": "N"
+    },
+    "pred": "P when probability_P >= 0.5; not necessarily the emitted token.",
+    "squared_error": "(probability_P-y)^2; its mean is the binary Brier score."
+  },
+  "models": {
+    "mofinder": {
+      "model_repository": "StarLiu714/GPT-oss-MOFinder",
+      "model_revision": "eecaaff3f6f5cd7f4964bd66572b0688b9124735",
+      "source_archive": "oss20b_fullN_no_date_step4500.zip",
+      "source_archive_sha256": "51e271c54bc874fa6bcf6ab987d9a0ed9877dda136ce0aec15994ce68459f9c0",
+      "prediction_sha256": "bf61f79c3657da1b2df246f8f456ea69ac3aada7e74cab9601291b61f0015b7f",
+      "checkpoint_selection": "Author confirmed on 2026-10-02: separate validation data, not this holdout.",
+      "archive_to_weight_bitwise_reproduction": "Not performed; saved predictions are the plotted evidence."
+    },
+    "base_oss": {
+      "model": "openai/gpt-oss-20b",
+      "upstream_revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+      "conversion": {
+        "repo": "ggml-org/gpt-oss-20b-GGUF",
+        "revision": "ef9b12f2ff56c69cf32153a02784e7a3c88bf524",
+        "filename": "gpt-oss-20b-MXFP4.gguf",
+        "sha256": "27cd6c432c7672cb812a92f611cf3ba7bbc35928262bb1e1253ff4ee6ae35901",
+        "format": "GGUF MXFP4 (llama.cpp-maintainer conversion)"
+      },
+      "runtime": "llama.cpp b11146, Vulkan + CPU experts",
+      "prompt_protocol": "exact frozen no-date Harmony; forced assistant final; no generated reasoning",
+      "label_token_ids_N_P": [
+        45,
+        47
+      ],
+      "score": "softmax of first-position exact P/N raw pre-sampling full-vocabulary logprobs; temperature 1"
+    },
+    "gpt41": {
+      "model": "gpt-4.1-2025-04-14",
+      "parameters": {
+        "model": "gpt-4.1-2025-04-14",
+        "temperature": 0,
+        "top_p": 1,
+        "logprobs": true,
+        "top_logprobs": 20,
+        "store": false,
+        "max_tokens": 2,
+        "seed": 7
+      },
+      "direct_label_pairs": 2573,
+      "bounded_missing_alternatives": 22,
+      "tail_rule": "Missing opposite-label logprob is no greater than the last top-20 logprob. Convert that bound to a P-probability interval; round only when both endpoints agree at 12 decimal places. Blank logprobs remain unobserved; decimal bounds and the token logprob ceiling are included in CSV.",
+      "maximum_probability_interval_width": 9.614156825e-16,
+      "protocol": "Step 6b batch chosen-label position; retain chosen-token logprob and first normalized P/N alternative. top_logprobs expanded from 5 to 20; no logit_bias."
+    }
+  },
+  "ece": "Positive-class ECE: sum over 10 equal-width bins of n_bin/N * abs(mean p(P) - observed positive fraction). [lower,upper), final bin includes 1.",
+  "brier": "Mean over all 2,595 reactions of (p(P)-y)^2; y=1 for P and 0 for N.",
+  "bootstrap": {
+    "unit": "DOI",
+    "replicates": 5000,
+    "seed": 20261002,
+    "interval": "2.5th/97.5th percentiles",
+    "paired_across_models": true,
+    "weighting": "reaction records"
+  },
+  "interpretation": "ECE depends on bins and sample size; Brier combines calibration and discrimination. Intervals cluster reactions by DOI, not an independent-publication generalization claim. Checkpoint selection used separate validation data.",
+  "limitations": [
+    "The base model uses the llama.cpp-maintainer GGUF MXFP4 conversion and recorded local runtime. Archived MOFinder inference runtime precision is unrecorded; numerical equivalence between that archive and the local conversion/runtime is not assumed. This implementation-level comparison does not isolate the causal effect of fine-tuning.",
+    "Intervals are conditional on the recorded probabilities and exclude API repeat variability.",
+    "864 of 1091 holdout DOIs also occur in training; negative labels include reconstructed failures.",
+    "MOFinder archive contains normalized probabilities, not raw label logits."
+  ]
+}
