@@ -47,6 +47,7 @@ For each section, read its Markdown guide, configuration in [configs/](../config
 | HPC records and training bundles | [training/records.py](../src/mofinder/training/records.py): `read_message_rows`, `read_manual_rows`, `render_prompt`; [prepare.py](../src/mofinder/training/prepare.py): `prepare_bundle`, `validate_bundle` | [HPC training](training_hpc.md); [prepare_hpc.py](../tools/training/prepare_hpc.py) |
 | HPC LoRA, P/N loss, and training loop | [training/modeling.py](../src/mofinder/training/modeling.py), [train.py](../src/mofinder/training/train.py), [common.py](../src/mofinder/training/common.py) | [HPC training](training_hpc.md); [train_hpc.py](../tools/training/train_hpc.py) |
 | Model evaluation: reaction holdout | [evaluation/holdout.py](../src/mofinder/evaluation/holdout.py): `evaluate_holdout`, `sanity_test`, `analyze_saved` | [Holdout evaluation](holdout_evaluation.md) |
+| Holdout calibration: ECE and Brier | [evaluation/calibration.py](../src/mofinder/evaluation/calibration.py): `token_probability`, `calibration_metrics`, `evaluate_predictions` | [Calculation, CSV and SI](../benchmarks/reaction_holdout/calibration/README.md) |
 | Model evaluation: MOF Quest | [evaluation/quest.py](../src/mofinder/evaluation/quest.py): `run_evaluation`, `analyze_results` | [Question-panel evaluation](quest_evaluation.md) |
 | Human benchmark analysis | [evaluation/human_quest.py](../src/mofinder/evaluation/human_quest.py): `load_benchmark`, `write_analysis`, `export_workbook` | [Human benchmark](human_benchmark.md) |
 

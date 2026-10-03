@@ -13,6 +13,7 @@ python -m pip install -e ".[evaluation]"
 | Workflow | Input | Entry point | Guide |
 | --- | --- | --- | --- |
 | Holdout model evaluation | Final holdout JSONL, 2,595 reactions | `mofinder.evaluation.holdout` | [Holdout](holdout_evaluation.md) |
+| Holdout calibration | One CSV of aligned model probabilities | `mofinder.evaluation.calibration` | [ECE, Brier and SI](../benchmarks/reaction_holdout/calibration/README.md) |
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
 

@@ -88,6 +88,29 @@ class HoldoutEvaluationTests(unittest.TestCase):
         self.assertEqual(self.module.prob_from_pair(-.2, None), (None, None))
         self.assertEqual(self.module.prob_from_pair(-1000, -1000), (.5, .5))
 
+    def test_first_token_probabilities_keep_chosen_and_first_alternative_scores(self):
+        cases = [
+            ("P", [(" p", -4.0), ("N", -2.0), (" n", -5.0)], (-.1, -2.0)),
+            ("N", [(" n", -4.0), ("P", -2.0), (" p", -5.0)], (-2.0, -.1)),
+        ]
+        for emitted, alternatives, expected in cases:
+            with self.subTest(emitted=emitted):
+                ch = choice(emitted, [token(emitted, -.1, alternatives)])
+                pred_token, pred_lp, lp_P, lp_N, prob_P = self.module.extract_pn_logprobs_from_choice(ch)
+                self.assertEqual((pred_token, pred_lp), (emitted, -.1))
+                self.assertEqual((lp_P, lp_N), expected)
+                self.assertAlmostEqual(prob_P, math.exp(expected[0]) / sum(math.exp(v) for v in expected))
+                # The sanity-test helper must agree with the batch helper.
+                self.assertEqual((lp_P, lp_N), self.module.extract_logprobs_for_label(ch, emitted)[:2])
+
+    def test_first_token_alternatives_do_not_overwrite_or_invent_missing_scores(self):
+        ch = choice("?", [token("?", -.1, [(" P", -.4), ("p", -4.0), ("N", -.8), (" n", -8.0)])])
+        result = self.module.extract_pn_logprobs_from_choice(ch)
+        self.assertEqual(result[2:4], (-.4, -.8))
+        self.assertAlmostEqual(result[4], math.exp(-.4) / (math.exp(-.4) + math.exp(-.8)))
+        missing = choice("P", [token("P", -.1, [(" p", -4.0), ("N", None)])])
+        self.assertEqual(self.module.extract_pn_logprobs_from_choice(missing)[2:], (-.1, None, None))
+
     def test_token_fallback_attributes_probability_to_actual_token(self):
         # A fallback N token must not have its likelihood assigned to P.
         ch = choice("Explanation N", [token("N", -.2, [("P", -1.0), ("N", -.2)])])
