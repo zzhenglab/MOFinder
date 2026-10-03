@@ -5,5 +5,3 @@ The final holdout dataset is [data/processed_data_json/holdout.jsonl](../../data
 [Split assignments and parameters](../../data/processed_data_json/README.md) identify the source rows and chemical groups in each partition.
 
 The evaluator reads the assistant label as the reference answer and excludes it from model requests. See [the evaluation guide](../../docs/holdout_evaluation.md).
-
-[Calibration results](calibration/README.md) provide one three-model prediction CSV, reproducible ECE/Brier calculations and the associated SI Section S6 addition.

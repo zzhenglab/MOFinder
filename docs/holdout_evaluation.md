@@ -54,19 +54,3 @@ python -m mofinder.evaluation.holdout analyze \
 ```
 
 Offline tests cover controlled responses, retry failures, token log probabilities, valid-label metrics, and interrupted-run resume. Check live model access with `--test-mode` before scheduling a full run.
-
-## Calibration of saved predictions
-
-[Calibration code](../src/mofinder/evaluation/calibration.py) computes positive-class ECE and binary Brier from saved P probabilities. Reproduce the [three-model holdout results](../benchmarks/reaction_holdout/calibration/README.md), including 95% DOI bootstrap intervals:
-
-```bash
-python -m mofinder.evaluation.calibration --bootstrap 5000
-```
-
-For a new prediction CSV from the workflow above:
-
-```bash
-python -m mofinder.evaluation.calibration --csv results/evaluation/holdout/holdout_mofinder.csv --probability-column prob_P --label-column gold_label
-```
-
-Every supplied row must have a valid reference and probability; incomplete probabilities cause an error rather than being dropped. Bootstrap intervals additionally require a `doi` column. The bundled GPT-4.1 run increased Step 6b's `top_logprobs` from 5 to 20 and bounded 22 unobserved tails; the live evaluator above retains its original top-5 settings and leaves missing pairs blank. The [SI Section S6 addition](si/calibration_model_evaluation.pdf) defines the equations and scope. The token helper preserves the chosen-token score and first matching alternative when case or whitespace variants occur.
