@@ -42,7 +42,7 @@ The included tables contain 12 abstracts and reference labels (8 Y and 4 N).
 The configuration schedules the first four abstracts (2 Y and 2 N). The validation
 summary counts the eight unscheduled references under `missing_reference_publications`;
 their abstracts are present, but outside the configured four-paper subset.
-
+ 
 ## Run the model-assisted workflows
 
 The notebook has three switches, each initially `False`: `RUN_TRIAGE`,
