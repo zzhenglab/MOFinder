@@ -23,7 +23,6 @@ jupyter lab
 Run all cells to export PNGs, including synthesis-record and record/DOI versions, at 6-inch width and 600 dpi.
 
 ## Run the offline demonstrations
-
 Use Python 3.10 or newer. From the repository root:
 
 ```bash
