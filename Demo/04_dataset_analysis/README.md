@@ -6,6 +6,7 @@ The notebook uses the included positive and negative datasets and the final trai
 
 From the repository root:
 
+
 ```bash
 python -m pip install -e ".[plotting,notebook]"
 jupyter lab Demo/04_dataset_analysis/dataset_analysis.ipynb
