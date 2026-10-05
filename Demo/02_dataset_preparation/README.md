@@ -43,7 +43,7 @@ The seed is 42, with 10% row and cluster targets for holdout. Clusters combine t
 | Holdout | 12 | 16 | 28 |
 
 Training and holdout share no clusters and have the same 3:4 P:N ratio. All 321 input records pass the required-field check; conflict handling, exact-input deduplication, and balancing leave 280 records. The [dataset guide](../../docs/datasets.md) describes these rules and their scope.
-
+ 
 Each run writes the following files to `outputs/`:
 
 - `mof_ft_train.jsonl` and `mof_ft_holdout.jsonl`: system/user/assistant message records with `P` or `N` labels.

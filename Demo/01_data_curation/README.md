@@ -1,6 +1,6 @@
 # Data curation demonstration
 
-Curate 174 positive extraction records from 38 publications using the main MOFinder curation functions. The demonstration includes raw records, the supplied processed records for the same publications, and expected output from the current code.
+Curate 174 positive extraction records from 38 publications using the main MOFinder curation functions. The demonstration includes raw records, the supplied processed records for the same publications, and expected output from the current code. 
 
 ## Run
 
