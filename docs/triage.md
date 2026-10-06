@@ -13,7 +13,7 @@ The bars count bibliography records by publisher and publication period. Reprodu
 | Input | Content |
 | --- | --- |
 | `data/processed_data/literature_metadata.csv` | 13,773 bibliography records with DOI, title, source, keywords, and abstract |
-| `benchmarks/abstract_triage/ground_truth.xlsx` | Unchanged 478-paper human annotation reference |
+| `benchmarks/abstract_triage/ground_truth.xlsx` | 478-paper human annotation reference with recorded consensus labels |
 | `configs/abstract_triage.json` | Paths, model configurations, inference limits, and statistical settings |
 | `prompts/abstract_triage.txt` | Screening criteria and prompt template |
 
@@ -32,7 +32,7 @@ python -m pip install -e ".[api,plotting]"
 python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
 ```
 
-Expected counts are 478 scheduled publications, 293 Y and 185 N reference labels, and zero missing reference abstracts. This command makes no model requests. Input validation and statistical calculations also work with the base installation, `pip install -e .`.
+Expected counts are 478 scheduled publications, 314 Y and 164 N reference labels, and zero missing reference abstracts. This command makes no model requests. Input validation and statistical calculations also work with the base installation, `pip install -e .`.
 
 ## Screening
 

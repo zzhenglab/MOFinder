@@ -1,5 +1,5 @@
 {
-  "dataset_version": "triage-2026-09-21",
+  "dataset_version": "triage-2026-10-06",
   "base_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
   "files": [
     {
@@ -29,12 +29,12 @@
     },
     {
       "path": "benchmarks/abstract_triage/ground_truth.xlsx",
-      "sha256": "39c70b9ba165642a80ea5478201b67d1cadd809291af8d1948fcb3d58e783b9e",
+      "sha256": "0e6888751009719663dad49d41392f4c9b982ae0643b2b062887efaab36ba90f",
       "transformation": "Byte-identical copy under a descriptive filename.",
       "rows": 478,
       "consensus_counts": {
-        "Y": 293,
-        "N": 185
+        "Y": 314,
+        "N": 164
       },
       "columns": [
         "DOI",
@@ -53,7 +53,8 @@
       ],
       "reference_abstracts_present": 478,
       "source_id": "abstract_triage_human_reference",
-      "source_description": "Human-adjudicated abstract triage reference workbook"
+      "source_description": "Human-adjudicated abstract triage reference workbook",
+      "reference_revision": "2026-10-06"
     },
     {
       "path": "Demo/03_api_data_mining/inputs/",
