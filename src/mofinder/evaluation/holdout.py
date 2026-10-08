@@ -1,8 +1,9 @@
 """Concurrent evaluation of P/N reaction holdout records.
 
 Only system and user messages are sent to the model. Assistant messages supply
-reference labels locally. Token-pair probabilities and classification metrics
-follow the original reaction evaluation notebook.
+reference labels locally. OpenAI token-pair probabilities and classification
+metrics follow the original reaction evaluation notebook. Claude uses the
+Anthropic Messages API and leaves token probabilities unavailable.
 """
 
 from __future__ import annotations
@@ -10,6 +11,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 from collections import Counter
+from copy import deepcopy
 import csv
 import hashlib
 import json
@@ -206,6 +208,37 @@ REQUEST_PARAMETERS = {
     "temperature": 0, "top_p": 1, "max_tokens": 2,
     "logprobs": True, "top_logprobs": 5,
 }
+ANTHROPIC_PARAMETER_KEYS = {
+    "max_tokens", "temperature", "top_p", "top_k", "stop_sequences",
+    "thinking", "output_config",
+}
+
+
+def _effective_request_parameters(provider: str, parameters: Optional[dict], seed: int) -> dict:
+    """Validate explicit provider settings without modifying model inputs."""
+    if provider not in ("openai", "anthropic"):
+        raise ValueError("provider must be 'openai' or 'anthropic'.")
+    if parameters is not None and not isinstance(parameters, dict):
+        raise ValueError("request_parameters must be an object.")
+    if provider == "openai":
+        if parameters is not None:
+            raise ValueError("request_parameters overrides are supported only for provider 'anthropic'; OpenAI retains its recorded settings.")
+        return {**REQUEST_PARAMETERS, "seed": seed}
+    parameters = deepcopy(parameters) if parameters is not None else {}
+    if any(not isinstance(key, str) for key in parameters):
+        raise ValueError("request_parameters keys must be strings.")
+    unknown = set(parameters) - ANTHROPIC_PARAMETER_KEYS
+    if unknown:
+        raise ValueError(f"Unsupported Anthropic request_parameters: {sorted(unknown)}")
+    parameters = {"max_tokens": 2048, **parameters}
+    maximum = parameters["max_tokens"]
+    if isinstance(maximum, bool) or not isinstance(maximum, int) or maximum < 1:
+        raise ValueError("Anthropic max_tokens must be a positive integer.")
+    try:
+        json.dumps(parameters, allow_nan=False)
+    except (TypeError, ValueError) as error:
+        raise ValueError("Anthropic request_parameters must contain finite JSON values.") from error
+    return parameters
 
 
 def _sha256(path: Path) -> str:
@@ -248,6 +281,7 @@ def load_settings(config_path: Union[str, Path]) -> dict:
         raise ValueError("At least one model configuration is required.")
     names = []
     for model in models:
+        _effective_request_parameters(model.get("provider", "openai"), model.get("request_parameters"), seed)
         if not isinstance(model.get("model_id"), str) or not model["model_id"].strip():
             raise ValueError("Each model must have a nonempty model_id.")
         name = model.get("output_name", "")
@@ -261,6 +295,12 @@ def load_settings(config_path: Union[str, Path]) -> dict:
 
 def validate_inputs(settings: dict) -> dict:
     """Inspect holdout messages and provenance without API calls or output writes."""
+    models = [
+        {**model, "provider": model.get("provider", "openai"),
+         "request_parameters": _effective_request_parameters(
+             model.get("provider", "openai"), model.get("request_parameters"), settings["seed"])}
+        for model in settings["models"]
+    ]
     files, counts = [], Counter()
     for path in settings["holdout_paths"]:
         path = Path(path)
@@ -285,11 +325,14 @@ def validate_inputs(settings: dict) -> dict:
     if settings.get("training_path"):
         path = Path(settings["training_path"])
         training = {"path": str(path), "sha256": _sha256(path)}
-    return {
+    result = {
         "holdout_files": files, "records": sum(counts.values()),
         "labels": dict(sorted(counts.items())), "training_provenance": training,
-        "models": settings["models"], "request_parameters": {**REQUEST_PARAMETERS, "seed": settings["seed"]},
+        "models": models,
     }
+    if all(model["provider"] == "openai" for model in models):
+        result["request_parameters"] = {**REQUEST_PARAMETERS, "seed": settings["seed"]}
+    return result
 
 
 def summarize_rows(rows: List[dict]) -> dict:
@@ -366,13 +409,18 @@ async def evaluate_holdout(
     seed: int = 7,
     *,
     client: Any = None,
+    provider: str = "openai",
+    request_parameters: Optional[dict] = None,
 ) -> dict:
     """Evaluate holdout records with the notebook's request and scoring rules.
 
     Completed rows, including failed requests, are retained on resume. A sidecar
     records input hashes and model parameters so a changed run cannot silently
     reuse previous predictions. Supplying ``client`` supports local mock runs.
+    Anthropic requests use ``ANTHROPIC_API_KEY`` and optional explicit generation
+    parameters; they do not request or infer P/N token probabilities.
     """
+    parameters = _effective_request_parameters(provider, request_parameters, seed)
     for name, value in (("max_concurrency", max_concurrency), ("print_interval", print_interval), ("retries", retries)):
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f"{name} must be a positive integer.")
@@ -400,8 +448,10 @@ async def evaluate_holdout(
     csv_path = out_dir / f"{output_name}.csv"
     manifest_path = out_dir / f"{output_name}.manifest.json"
     signature = {"model_id": model_id, "holdout_files": fingerprints,
-                 "request_parameters": {**REQUEST_PARAMETERS, "seed": seed}, "retries": retries,
+                 "request_parameters": parameters, "retries": retries,
                  "label_parser": LABEL_PARSING_VERSION}
+    if provider == "anthropic":
+        signature["provider"] = provider
     if csv_path.exists() and not manifest_path.exists():
         raise ValueError("Saved prediction CSV has no run manifest. Choose a new output name; existing predictions remain available for offline analysis.")
     if manifest_path.exists():
@@ -419,10 +469,19 @@ async def evaluate_holdout(
 
     owns_client = client is None
     if owns_client:
-        if not os.getenv("OPENAI_API_KEY"):
-            raise RuntimeError("Set OPENAI_API_KEY before running evaluation.")
-        from openai import AsyncOpenAI
-        client = AsyncOpenAI()
+        if provider == "anthropic":
+            if not os.getenv("ANTHROPIC_API_KEY"):
+                raise RuntimeError("Set ANTHROPIC_API_KEY before running Claude evaluation.")
+            try:
+                from anthropic import AsyncAnthropic
+            except ImportError as error:
+                raise RuntimeError("Claude evaluation requires the optional Anthropic SDK: python -m pip install anthropic") from error
+            client = AsyncAnthropic(max_retries=0)
+        else:
+            if not os.getenv("OPENAI_API_KEY"):
+                raise RuntimeError("Set OPENAI_API_KEY before running evaluation.")
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI()
     out_dir.mkdir(parents=True, exist_ok=True)
     _write_json(manifest_path, {"signature": signature, "total_records": len(items)})
     total = len(pending)
@@ -434,11 +493,19 @@ async def evaluate_holdout(
     async def call_model(messages: List[dict]) -> Tuple[str, Any]:
         for attempt in range(retries):
             try:
-                response = await client.chat.completions.create(
-                    model=model_id, messages=messages, **REQUEST_PARAMETERS, seed=seed,
-                )
-                choice = response.choices[0]
-                return (choice.message.content or "").strip(), choice
+                if provider == "anthropic":
+                    response = await client.messages.create(
+                        model=model_id, system=messages[0]["content"],
+                        messages=[messages[1]], **parameters,
+                    )
+                    text = "".join(block.text for block in response.content if block.type == "text")
+                    return text.strip(), response
+                else:
+                    response = await client.chat.completions.create(
+                        model=model_id, messages=messages, **parameters,
+                    )
+                    choice = response.choices[0]
+                    return (choice.message.content or "").strip(), choice
             except Exception:
                 await asyncio.sleep(min(60, 2**attempt))
                 if attempt == retries - 1:
@@ -453,8 +520,9 @@ async def evaluate_holdout(
             lp_P = lp_N = prob_P = prob_N = chosen_is_argmax = None
             error = ""
             if choice and pred_label in ("P", "N"):
-                lp_P, lp_N, chosen_is_argmax = extract_logprobs_for_label(choice, pred_label)
-                prob_P, prob_N = prob_from_pair(lp_P, lp_N)
+                if provider == "openai":
+                    lp_P, lp_N, chosen_is_argmax = extract_logprobs_for_label(choice, pred_label)
+                    prob_P, prob_N = prob_from_pair(lp_P, lp_N)
             else:
                 error = "no_choice_or_bad_label"
             return dict(
@@ -503,7 +571,7 @@ async def evaluate_holdout(
 
 
 async def sanity_test(settings: dict, *, client: Any = None) -> dict:
-    """Run the notebook's optional first-record test, without writing results."""
+    """Run the notebook's OpenAI-only first-record test, without writing results."""
     validate_inputs(settings)
     record = load_jsonl(settings["holdout_paths"][0])[0]
     _, _, messages = build_messages(record)
@@ -552,6 +620,7 @@ async def run_config(settings: dict, *, client: Any = None, model_names: Optiona
             max_concurrency=settings["max_concurrency"], print_interval=settings["print_interval"],
             test_mode=settings.get("test_mode", False), retries=settings["retries"],
             seed=settings["seed"], client=client,
+            provider=model.get("provider", "openai"), request_parameters=model.get("request_parameters"),
         ))
     return results
 
