@@ -122,7 +122,7 @@ git submodule update --init --recursive
 
 ## Open-weight model
 
-The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is available for local synthesis-outcome prediction. Local inference requires hardware suitable for a 20B-parameter model. The checkpoint is optional; data curation and dataset preparation run on a CPU without model downloads.
+The [GPT-oss-MOF checkpoint](https://huggingface.co/StarLiu714/GPT-oss-MOF) is available for local synthesis-outcome prediction. All associated fine-tuned models developed in this study are freely available in [Hugging Face collection](https://huggingface.co/collections/StarLiu714/mofinder). Local inference requires hardware suitable for a 20B-parameter model. The checkpoint is optional; data curation and dataset preparation run on a CPU without model downloads.
 
 ## Citation and license
 
