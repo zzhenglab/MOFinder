@@ -596,7 +596,7 @@ data/mof_extraction_failures_enum_1_2_3_4_5_6.csv
 cd SMILESearcher
 pip install -r requirements.txt
 python app.py --csv ../data/mof_extraction_1_2_3_4_5_6.csv \
-  --cache ../data/name_SMILES_mappers/name2smiles_1222.json \
+  --cache ../data/name_SMILES_mappers/name2smiles.json \
   --headless
 ```
 

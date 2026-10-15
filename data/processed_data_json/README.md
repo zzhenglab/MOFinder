@@ -6,10 +6,14 @@ Training and holdout files prepared from the [processed positive and negative re
 | --- | --- |
 | [train.jsonl](train.jsonl) | Fine-tuning training records |
 | [holdout.jsonl](holdout.jsonl) | Holdout records for model evaluation |
+| [holdout_smiles.jsonl](holdout_smiles.jsonl) | SMILES version for baseline testing |
+| [holdout_smiles_provenance.json](holdout_smiles_provenance.json) | Chemical mapping qualifications for the SMILES version |
 | [split_assignments.csv](split_assignments.csv) | Retained source rows, condition keys, cluster keys, labels, and partition |
 | [split_summary.json](split_summary.json) | Input hashes, preparation settings, filtering counts, split counts, and output identities |
 | [class_map.json](class_map.json) | P = success; N = failure |
 | [manifest.json](manifest.json) | JSONL checksums, file identities, and label counts |
+
+`holdout_smiles.jsonl` contains the same 2,595 records, labels and numerical conditions for baseline testing. Its four chemical fields are arrays of unique canonical SMILES; `[]` means no reagent. Each array item retains its reagent-level grouping, including salt or hydrate fragments. The provenance file marks the 19 assumption-affected records and other partial/component representations; the arrays do not imply complete material structures.
 
 | Partition | P | N | Total | Clusters |
 | --- | ---: | ---: | ---: | ---: |

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "description": "Processed synthesis inputs. Positive records are unchanged. Negative records omit product characterization/property columns as documented below; all retained scientific values and row order are unchanged. Included final JSONL predates this column-only cleanup.",
+  "description": "Processed synthesis inputs. Positive records are unchanged. Negative records omit product characterization/property columns as documented below and include source-verified reagent-name corrections; numeric values and source row order are unchanged. Included final JSONL predates the column-only cleanup and carries the corresponding name corrections.",
   "files": [
     {
       "file": "processed_positive.csv",
@@ -22,8 +22,8 @@
     {
       "file": "processed_negative.csv",
       "source_sha256": "bf179bfb6005a9332a4dd4be583c0c093d3284d381786217922251d9ee674697",
-      "sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
-      "size_bytes": 18534666,
+      "sha256": "a65be7a987bda0209fc82814b94c572f17ea209a0aeb851667284300d124abaa",
+      "size_bytes": 18535364,
       "rows": 15063,
       "columns": 76,
       "removed_columns": [
@@ -45,7 +45,7 @@
         "tga_decomposition_temp_c",
         "applications"
       ],
-      "transformation": "Removed the four local file-path columns and, on 2026-09-28, thirteen product characterization/property columns from negative attempts. All retained cell strings, header order, and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
+      "transformation": "Removed the four local file-path columns and, on 2026-09-28, thirteen product characterization/property columns from negative attempts. All retained cell strings, header order, and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility. Subsequent source-verified corrections update 46 reagent-name cells only; all other retained cells, column order and row order are unchanged.",
       "source_description": "Processed negative synthesis records",
       "encoding": "utf-8-sig",
       "previous_export": {

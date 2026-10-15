@@ -4,27 +4,50 @@
   "files": [
     {
       "path": "data/processed_data_json/train.jsonl",
-      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
-      "size_bytes": 19352940,
+      "sha256": "9be9cb13b43e1c7255236c30644926095e830ffea4dd572bf573c2d3e58b6ccc",
+      "size_bytes": 19353525,
       "rows": 23528,
       "labels": {
         "P": 11968,
         "N": 11560
       },
-      "transformation": "Original JSONL bytes preserved.",
+      "transformation": "Source-verified corrections update 34 reagent-name fields only. Record order, labels, numerical conditions, and all other fields are unchanged.",
       "dataset_id": "reaction_condition_training"
     },
     {
       "path": "data/processed_data_json/holdout.jsonl",
-      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
-      "size_bytes": 2130342,
+      "sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
+      "size_bytes": 2130439,
       "rows": 2595,
       "labels": {
         "P": 1320,
         "N": 1275
       },
-      "transformation": "Original JSONL bytes preserved.",
+      "transformation": "Source-verified corrections update 12 reagent-name fields only. Record order, labels, numerical conditions, and all other fields are unchanged.",
       "dataset_id": "reaction_condition_holdout"
+    },
+    {
+      "path": "data/processed_data_json/holdout_smiles.jsonl",
+      "sha256": "b6cc0a931cc18f725cbdaa5ae22c50b6c47dc97b047bcbd0940f006a0f455f50",
+      "size_bytes": 2780316,
+      "rows": 2595,
+      "labels": {
+        "N": 1275,
+        "P": 1320
+      },
+      "dataset_id": "reaction_condition_holdout_smiles",
+      "transformation": "Baseline-only SMILES arrays replace four chemical-role name fields using the frozen reviewed mapping. Numerical conditions, record order and labels match holdout.jsonl; the system message adds one representation sentence.",
+      "provenance": "data/processed_data_json/holdout_smiles_provenance.json"
+    },
+    {
+      "path": "data/processed_data_json/holdout_smiles_provenance.json",
+      "sha256": "baf1635268f66efd5e180a396b0daea6a2eed56bd5a1dc31fe485f36fe472c65",
+      "size_bytes": 12481110,
+      "rows": 2595,
+      "dataset_id": "reaction_condition_holdout_smiles_provenance",
+      "transformation": "Public row identifiers, DOI, role names and mapping qualifications for the SMILES holdout; no local source paths.",
+      "assumption_affected_records": 19,
+      "partial_connectivity_records": 441
     }
   ],
   "split_assignments": "data/processed_data_json/split_assignments.csv",

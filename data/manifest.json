@@ -102,18 +102,48 @@
       "source_description": "Literature bibliography workbook"
     },
     {
-      "path": "data/name_SMILES_mappers/name2smiles_1222.json",
-      "source_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
-      "sha256": "e2955039c4c1ccdfc9cef73629b2df2dd73d32977f6509d7659748121b62ae58",
-      "entries": 3734,
-      "transformation": "Byte-identical copy of the original mapping dictionary."
+      "path": "data/name_SMILES_mappers/name2smiles.json",
+      "sha256": "560f6b257b25961ddad26303b0c30d5337c27c9d332f86505d445d21f3ce6fef",
+      "entries": 3302,
+      "source_description": "Audited MOF reagent catalog and source-verified corrected-record aliases",
+      "transformation": "Chemical names mapped to their audited SMILES, including four source-verified full names used in corrected records. Identical names across roles collapsed only when their SMILES agree; the positive-record catalog is unchanged."
     },
     {
-      "path": "data/name_SMILES_mappers/smiles2name_1222.json",
-      "source_commit": "bb6502b669a027ad30a26668e621515756a52c5a",
-      "sha256": "3a5e1db062cce138e5bbaa4783ad1da0cd555da96f7b11714e858814e8c829fa",
-      "entries": 2290,
-      "transformation": "Byte-identical copy of the original mapping dictionary."
+      "path": "data/name_SMILES_mappers/smiles2name.json",
+      "sha256": "ad1d299b9d75eba8f2c1a3dc6e0c515572a2d9eb697ef814d9c9dd847b1e7300",
+      "entries": 3236,
+      "source_description": "Audited MOF reagent catalog and source-verified corrected-record aliases",
+      "transformation": "Reverse dictionary generated from name2smiles.json, retaining every chemical name for each exact SMILES."
+    },
+    {
+      "path": "data/name_SMILES_mappers/reagent_catalog.json",
+      "sha256": "3a679b37f836ca309b432d890668b8e73372d0386fcd6d048e8cf995d62cf16e",
+      "rows_by_category": {
+        "metal_precursors": 663,
+        "organic_linkers": 2156,
+        "other_reagents": 658
+      },
+      "columns": [
+        "Name",
+        "SMILES",
+        "Comment"
+      ],
+      "transformation": "Three category lists exported in the same frequency order as the audited simple workbook; comments preserved, blank comments serialized as empty strings."
+    },
+    {
+      "path": "data/name_SMILES_mappers/reagent_catalog.xlsx",
+      "sha256": "94fe118a3f4f04756194f12b343a4bf5ba56baeb3aa5c46728f09177e51d6093",
+      "rows_by_sheet": {
+        "Metal precursors": 663,
+        "Organic linkers": 2156,
+        "Other reagents": 658
+      },
+      "columns": [
+        "Name",
+        "SMILES",
+        "Comment"
+      ],
+      "transformation": "Byte-identical copy of the audited three-sheet simple reagent catalog."
     }
   ],
   "workflow_source": {
