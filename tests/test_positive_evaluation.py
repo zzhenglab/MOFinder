@@ -71,6 +71,65 @@ class NormalizationTests(unittest.TestCase):
         self.assertTrue(p.value_matches("393.15 K", "120", "temperature_c"))
         self.assertFalse(p.value_matches("120", "122", "temperature_c"))
 
+    def test_room_temperature_wording_does_not_imply_a_numeric_temperature(self):
+        for wording in ("RT", "R.T.", "R. T.", "room-temperature", "room temperature"):
+            with self.subTest(wording=wording):
+                self.assertTrue(p.value_matches(
+                    wording, "not reported | room temperature", "temperature_c"))
+                self.assertFalse(p.value_matches(wording, "25", "temperature_c"))
+                self.assertFalse(p.value_matches(wording, "20–25 C", "temperature_c"))
+        self.assertFalse(p.value_matches("RT", "room temperature", "time_h"))
+        self.assertFalse(p.value_matches(
+            "room temperature (longer standing)", "RT", "temperature_c"))
+        label = p.field_label("room temperature", "not reported | RT", "temperature_c")
+        self.assertEqual((label["TP"], label["FP"], label["FN"]), (1, 0, 0))
+        self.assertTrue(label["optional_reference"])
+
+    def test_bounded_condition_ranges_convert_both_endpoints_and_keep_range_type(self):
+        cases = (
+            ("30–60 min", "0.5–1 h", "time_h"),
+            ("30 min to 1 h", "1800–3600 seconds", "time_h"),
+            ("1–2 days", "24–48", "time_h"),
+            ("120–130 °C", "393.15–403.15 K", "temperature_c"),
+            ("120 C to 266 F", "120–130 C", "temperature_c"),
+            ("−20 to −10 C", "253.15–263.15 K", "temperature_c"),
+            ("200–230 C", "473.15–503.15 K", "tga_decomposition_temp_c"),
+        )
+        for left, right, field in cases:
+            with self.subTest(left=left, right=right):
+                self.assertTrue(p.value_matches(left, right, field))
+                self.assertTrue(p.value_matches(right, left, field))
+        for left, right, field in (
+            ("30–60 min", "30 min", "time_h"),
+            ("30–60 min", "45 min", "time_h"),
+            ("30–60 min", "60 min", "time_h"),
+            ("30–60 min", "30–90 min", "time_h"),
+            ("30–60 min", "30 min; 60 min", "time_h"),
+            ("60–30 min", "30–60 min", "time_h"),
+            ("60 min–30 min", "1 h–0.5 h", "time_h"),
+            ("130 C–120 C", "403.15 K–393.15 K", "temperature_c"),
+            ("120–130 C", "120 C then 130 C", "temperature_c"),
+            ("120–130 C", "393.15–413.15 K", "temperature_c"),
+            ("30–60 mg", "0.03–0.06 g", "metal_1_amount_text"),
+        ):
+            with self.subTest(left=left, right=right):
+                self.assertFalse(p.value_matches(left, right, field))
+
+    def test_duration_lists_preserve_order_without_summing_or_ignoring_stages(self):
+        self.assertTrue(p.value_matches("12 h; 4 h", "720 min; 240 min", "time_h"))
+        for left, right in (
+            ("12 h; 4 h", "4 h; 12 h"),
+            ("12 h; 4 h", "16 h"),
+            ("12 h then 4 h", "12 h"),
+            ("12 h at RT then 3 h at 120 C", "12 h"),
+            ("12 h then 4 h", "4 h then 12 h"),
+            ("30–60 min (fast addition; stirred)", "30–60 min"),
+            ("30–60 min followed by heating", "0.5–1 h"),
+            ("?48 h until precipitate", "≈48 h until precipitate"),
+        ):
+            with self.subTest(left=left, right=right):
+                self.assertFalse(p.value_matches(left, right, "time_h"))
+
     def test_projection_keeps_text_amount_priority_and_explicit_fallbacks(self):
         projected = p.projected_row({
             "metal_1": "zinc chloride", "metal_1_abbr": "ZnCl2",

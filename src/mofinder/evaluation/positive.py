@@ -42,7 +42,7 @@ DEFAULT_REFERENCE = REPO_ROOT / "benchmarks/positive_extraction/ground_truth.xls
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "results/positive_extraction"
 
 
-SCHEMA_VERSION = "positive-evaluation-v7-self-contained-reference"
+SCHEMA_VERSION = "positive-evaluation-v8-condition-equivalence"
 FIELDS = tuple(
     field
     for role, count in (("metal", 3), ("linker", 3), ("modulator", 2))
@@ -236,6 +236,38 @@ def _number(value):
         return None
 
 
+def _condition_range(value, field):
+    """Convert a complete ascending interval; None means no interval was found."""
+    if field in {"temperature_c", "tga_decomposition_temp_c"}:
+        unit_pattern = r"(?:°\s*|deg(?:rees?)?\.?\s*)?[ckf]"
+        default_unit, dimension = "c", "C_range"
+    elif field == "time_h":
+        unit_pattern = r"minutes?|mins?|min|hours?|hrs?|hr|h|days?|d|seconds?|secs?|sec|s"
+        default_unit, dimension = "h", "h_range"
+    else:
+        return None
+    match = re.fullmatch(
+        rf"({NUMBER})\s*({unit_pattern})?\s*(?:-|–|—|to)\s*"
+        rf"({NUMBER})\s*({unit_pattern})?", value)
+    if not match:
+        return None
+    first_unit = match[2] or match[4] or default_unit
+    second_unit = match[4] or match[2] or default_unit
+    endpoints = []
+    for number, unit in ((match[1], first_unit), (match[3], second_unit)):
+        amount = float(number)
+        if field == "time_h":
+            amount *= UNITS[unit][1]
+        else:
+            unit = unit[-1]
+            amount = (amount if unit == "c" else amount - 273.15 if unit == "k"
+                      else (amount - 32) * 5 / 9)
+        endpoints.append(amount)
+    if not all(map(math.isfinite, endpoints)) or endpoints[0] > endpoints[1]:
+        return {}
+    return {dimension: endpoints}
+
+
 def _quantities(value, field):
     """Normalize explicit units only, without molar-mass or density inference."""
     value = clean(value)
@@ -248,6 +280,9 @@ def _quantities(value, field):
         if field == "BET_surface_area_m2g":
             return {"m2/g": [numeric]}
         return {"number": [numeric]}
+    interval = _condition_range(value, field)
+    if interval is not None:
+        return interval
     if field in {"temperature_c", "tga_decomposition_temp_c"}:
         match = re.fullmatch(
             rf"({NUMBER})\s*(?:°|deg(?:rees?)?\.?\s*)?([ckf])", value)
@@ -262,7 +297,7 @@ def _quantities(value, field):
     found = list(QUANTITY.finditer(value))
     if not found:
         return {}
-    # Do not reduce ranges, ordered thermal stages, concentrations or ratios to
+    # Do not reduce ranges, thermal stages, concentrations or ratios to
     # one convenient scalar. Those require explicit accepted reference variants.
     residue = QUANTITY.sub("", value)
     if re.search(r"\d|[:/]|(?:\b(?:after|then|to|at|for)\b)", residue):
@@ -281,12 +316,16 @@ def _quantity_equal(candidate, reference, field, relative_tolerance=1e-6):
     shared = left.keys() & right.keys()
     if not shared:
         return False
+    # Duration lists and interval endpoints retain their order. Amounts in
+    # different physical dimensions remain alternate quantity representations.
+    ordered = field in {"time_h", "temperature_c", "tga_decomposition_temp_c"}
     # Two units describing the same quantity, e.g. mg and mmol, are alternate
     # representations. Every dimension reported on both sides must agree.
     return all(
         len(left[dimension]) == len(right[dimension])
         and all(math.isclose(a, b, rel_tol=relative_tolerance, abs_tol=1e-9)
-                for a, b in zip(sorted(left[dimension]), sorted(right[dimension])))
+                for a, b in zip(left[dimension] if ordered else sorted(left[dimension]),
+                                right[dimension] if ordered else sorted(right[dimension])))
         for dimension in shared
     )
 
@@ -305,6 +344,11 @@ def value_matches(candidate, reference, field, additional=()):
         if clean(candidate) == clean(expected):
             return True
         if field in NAME_FIELDS and canonical_name(candidate) == canonical_name(expected):
+            return True
+        if field in {"temperature_c", "tga_decomposition_temp_c"} and all(
+            re.fullmatch(r"(?:r\.?\s*t\.?|room[ -]temperature)", clean(value))
+            for value in (candidate, expected)
+        ):
             return True
         if field not in NAME_FIELDS and _quantity_equal(candidate, expected, field):
             return True
