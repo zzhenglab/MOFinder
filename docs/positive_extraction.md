@@ -8,7 +8,7 @@
 
 ## Benchmark evaluation
 
-Compare the saved 913 model extraction records with 1,087 reference syntheses
+Compare the saved 913 model extraction records with 1,086 reference syntheses
 from 200 publications, without making model requests:
 
 ```bash

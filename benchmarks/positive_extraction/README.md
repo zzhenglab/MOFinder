@@ -1,6 +1,6 @@
 # Positive extraction reference
 
-`ground_truth.xlsx` contains 1,087 synthesis records from 200 publications.
+`ground_truth.xlsx` contains 1,086 synthesis records from 200 publications.
 Use `Ground_truth_A1toA4` as the answer key. The other four sheets, `A1`–`A4`,
 contain the records available for each annotation group.
 
