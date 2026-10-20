@@ -11,7 +11,7 @@ record matching.
 
 Accepted alternatives use ` | `; `not reported` accepts an empty value.
 
-The [prediction CSV](../../data/processed_data/positive_extraction_200.csv)
+The [model raw output CSV](../../data/processed_data/positive_extraction_200.csv)
 contains 913 model extraction records for the same publications. File hashes
 are recorded in [data/manifest.json](../../data/manifest.json).
 See the [evaluation guide](../../docs/positive_extraction.md#benchmark-evaluation)
