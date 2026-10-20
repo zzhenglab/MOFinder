@@ -8,7 +8,7 @@ The triage workflow runs from Python modules and command-line commands. Screenin
 
 The bars count bibliography records by publisher and publication period. Reproduce the plot in the [dataset analysis notebook](../Demo/04_dataset_analysis/dataset_analysis.ipynb), using the [publisher data](triage_figures/README.md).
 
-## Inputs
+## Inputs`
 
 | Input | Content |
 | --- | --- |
@@ -74,7 +74,7 @@ The run directory should contain:
 - `responses.jsonl`, or a compatible `predictions.csv`;
 - `reference_used.csv` and `reference_not_screened.csv`, when available.
 
-Keep the run files, reference snapshots, and subsequent analysis outputs together. The workflow creates `results/` locally as needed, and its contents are excluded from Git. Saved notebook displays are not a complete prediction archive. Earlier experiments remain available in the [historical repository tree](https://github.com/zzhenglab/MOFinder/tree/bb6502b669a027ad30a26668e621515756a52c5a); they are not substituted for a current run.
+Keep the run files, reference snapshots, and subsequent analysis outputs together. The workflow creates `results/` locally as needed, and its contents are excluded from Git. Saved notebook displays are not a complete prediction archive. 
 
 The loader records the current reference and any label changes before calculating comparison tables, paired tests, and figures. Reanalysis creates numbered folders such as `analysis_001/` inside the selected run directory so previous results remain identifiable. To name the analysis destination and make the statistical settings explicit:
 
