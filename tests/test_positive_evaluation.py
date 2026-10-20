@@ -2,6 +2,9 @@
 
 import csv
 from contextlib import redirect_stdout
+import base64
+import gzip
+import hashlib
 import io
 import itertools
 import json
@@ -10,7 +13,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
+from openpyxl.packaging.custom import StringProperty
 
 from mofinder.evaluation import positive as p
 
@@ -18,6 +22,18 @@ from mofinder.evaluation import positive as p
 def reference_row(record_id="P001-R001", doi="10.example/a", name="MOF-A", **fields):
     return {**dict.fromkeys(p.FIELDS, ""), "record_id": record_id,
             "paper_id": record_id.split("-")[0], "doi": doi, "mof_name": name, **fields}
+
+
+def reference_bundle(rows, papers=None):
+    return {
+        "papers": papers if papers is not None else [
+            {"paper_id": row["paper_id"], "doi": row["doi"],
+             "included": True, "exclusion_reason": ""}
+            for row in {row["doi"]: row for row in rows}.values()
+        ],
+        "rejected_candidates": [], "accepted_variants": {},
+        "role_pair_variants": {}, "record_rules": {},
+    }
 
 
 class NormalizationTests(unittest.TestCase):
@@ -487,7 +503,8 @@ class IntegrationTests(unittest.TestCase):
         self.reference = self.root / "ground_truth.xlsx"
         self.csv = self.root / "predictions.csv"
 
-    def write_reference(self, rows, papers=None, annotator_rows=None):
+    def write_reference(self, rows, papers=None, annotator_rows=None, *, embedded=True,
+                        bundle=None):
         workbook = Workbook()
         workbook.remove(workbook.active)
         for sheet in p.SHEETS:
@@ -495,12 +512,146 @@ class IntegrationTests(unittest.TestCase):
             tab.append(list(p.IDENTIFIERS + p.FIELDS))
             for row in (annotator_rows or {}).get(sheet, rows):
                 tab.append([row[field] for field in p.IDENTIFIERS + p.FIELDS])
+        if embedded:
+            p.embed_reference_rules(
+                workbook, reference_bundle(rows, papers) if bundle is None else bundle)
         workbook.save(self.reference)
-        if papers is not None:
+        workbook.close()
+        if papers is not None and not embedded:
             p.save_csv(self.root / "papers.csv", papers)
 
     def write_predictions(self, rows):
         p.save_csv(self.csv, rows)
+
+    def test_embedded_metadata_round_trip_preserves_sheets_and_unrelated_properties(self):
+        row = reference_row(metal_1="ZnCl2", time_h="12")
+        bundle = reference_bundle([row])
+        bundle["accepted_variants"] = {"P001-R001": {"metal_1": [
+            "test alias μ " + hashlib.sha256(str(number).encode()).hexdigest()
+            for number in range(80)
+        ]}}
+        self.write_reference([row], embedded=False)
+        workbook = load_workbook(self.reference)
+        before = {sheet.title: list(sheet.values) for sheet in workbook}
+        workbook.custom_doc_props.append(StringProperty(name="Study", value="Example study"))
+        metadata = p.embed_reference_rules(workbook, bundle)
+        self.assertGreater(int(metadata["ChunkCount"]), 1)
+        workbook.save(self.reference)
+        workbook.close()
+        for read_only in (False, True):
+            with self.subTest(read_only=read_only):
+                loaded = load_workbook(self.reference, read_only=read_only)
+                self.assertEqual(p.read_embedded_reference_rules(loaded), bundle)
+                self.assertEqual(tuple(loaded.sheetnames), p.SHEETS)
+                self.assertTrue(all(sheet.sheet_state == "visible" for sheet in loaded))
+                self.assertEqual({sheet.title: list(sheet.values) for sheet in loaded}, before)
+                self.assertEqual(loaded.custom_doc_props["Study"].value, "Example study")
+                self.assertTrue(all(len(prop.value) <= 255 for prop in loaded.custom_doc_props))
+                if not read_only:
+                    loaded.save(self.reference)
+                loaded.close()
+        workbook = load_workbook(self.reference)
+        smaller = reference_bundle([row])
+        p.embed_reference_rules(workbook, smaller)
+        self.assertEqual(p.read_embedded_reference_rules(workbook), smaller)
+        self.assertEqual(workbook.custom_doc_props["Study"].value, "Example study")
+        workbook.close()
+
+    def test_embedded_and_legacy_metadata_have_identical_scores_and_portable_snapshots(self):
+        row = reference_row(metal_1="salt-A", metal_1_amount_text="5 mg")
+        bundle = reference_bundle([row])
+        bundle["accepted_variants"] = {"P001-R001": {"metal_1": ["salt-B"]}}
+        bundle["role_pair_variants"] = {"P001-R001": {"metal_1": [
+            {"name": "salt-A", "amount_text": "5 mg"},
+            {"name": "salt-B", "amount_text": "10 mg"},
+        ]}}
+        self.write_reference([row], embedded=False)
+        (self.root / "reference_rules.json").write_text(json.dumps(bundle), encoding="utf-8")
+        self.write_predictions([reference_row(metal_1="salt-B", metal_1_amount_text="10 mg")])
+        legacy_folder, legacy = p.evaluate(
+            self.csv, self.reference, output_dir=self.root / "legacy", bootstraps=0)
+        self.write_reference([row], bundle=bundle)
+        # An embedded workbook is authoritative even beside an obsolete invalid sidecar.
+        (self.root / "reference_rules.json").write_text("not valid JSON", encoding="utf-8")
+        embedded_folder, embedded = p.evaluate(
+            self.csv, self.reference, output_dir=self.root / "embedded", bootstraps=0)
+        self.assertEqual(legacy, embedded)
+        self.assertEqual(embedded["record_detection"]["exact_records_26_fields"], 1)
+        for filename in ("record_labels.csv", "field_labels.csv", "field_metrics.csv",
+                         "paper_metrics.csv", "matching_diagnostics.csv"):
+            self.assertEqual((legacy_folder / filename).read_bytes(),
+                             (embedded_folder / filename).read_bytes())
+        snapshot = embedded_folder / "reference_workbook_used.xlsx"
+        self.assertEqual(snapshot.read_bytes(), self.reference.read_bytes())
+        manifest = json.loads((embedded_folder / "run_manifest.json").read_text())
+        self.assertEqual(manifest["reference_companions"], {})
+        self.assertEqual(manifest["reference_snapshot"],
+                         {"path": snapshot.name, "sha256": p.digest(snapshot)})
+        for folder in (legacy_folder, embedded_folder):
+            self.assertFalse((folder / "reference_rules_used.json").exists())
+            saved = p.load_reference(folder / "reference_workbook_used.xlsx")
+            self.assertTrue(saved["embedded_rules"])
+            self.assertEqual(saved["role_pairs"], bundle["role_pair_variants"])
+            _, repeated = p.evaluate(self.csv, folder / "reference_workbook_used.xlsx",
+                                     output_dir=folder / "repeated", bootstraps=0)
+            self.assertEqual(repeated, embedded)
+        # Preserving paired metadata must not accept an amount from a different identity.
+        self.write_predictions([reference_row(metal_1="salt-B", metal_1_amount_text="5 mg")])
+        _, wrong_pair = p.evaluate(
+            self.csv, snapshot, output_dir=self.root / "wrong_pair", bootstraps=0)
+        self.assertEqual(wrong_pair["record_detection"]["exact_records_26_fields"], 0)
+
+    def test_missing_reference_metadata_fails_without_silent_cell_only_scoring(self):
+        self.write_reference([reference_row(metal_1="ZnCl2")], embedded=False)
+        with self.assertRaisesRegex(ValueError, "Reference matching metadata is missing"):
+            p.load_reference(self.reference)
+
+    def test_corrupt_embedded_metadata_never_falls_back_to_legacy_sidecar(self):
+        row = reference_row(metal_1="ZnCl2")
+        (self.root / "reference_rules.json").write_text(
+            json.dumps(reference_bundle([row])), encoding="utf-8")
+        cases = (
+            ("Schema", None), ("Schema", "unknown"), ("Encoding", "unknown"),
+            ("ChunkCount", "0"), ("ChunkCount", "9999"), ("SHA256", "0" * 64),
+            ("0001", None), ("9999", "extra"), ("0001", "invalid base64!"),
+            ("0001", base64.b64encode(b"not gzip").decode("ascii")),
+        )
+        for name, value in cases:
+            with self.subTest(property=name, value=value):
+                self.write_reference([row])
+                workbook = load_workbook(self.reference)
+                property_name = p.REFERENCE_METADATA_PREFIX + name
+                if property_name in workbook.custom_doc_props.names:
+                    del workbook.custom_doc_props[property_name]
+                if value is not None:
+                    workbook.custom_doc_props.append(StringProperty(name=property_name, value=value))
+                workbook.save(self.reference)
+                workbook.close()
+                with self.assertRaisesRegex(ValueError, "(?i)embedded reference"):
+                    p.load_reference(self.reference)
+
+    def test_embedded_codec_rejects_invalid_json_and_incomplete_component_types(self):
+        for payload in (b"{", b"\xff", b'{"papers": []}', b'{"papers": {}}'):
+            with self.subTest(payload=payload):
+                workbook = Workbook()
+                encoded = base64.b64encode(gzip.compress(payload, mtime=0)).decode("ascii")
+                properties = {
+                    "Schema": p.REFERENCE_METADATA_SCHEMA,
+                    "Encoding": p.REFERENCE_METADATA_ENCODING,
+                    "ChunkCount": "1",
+                    "SHA256": hashlib.sha256(payload).hexdigest(),
+                    "0001": encoded,
+                }
+                for name, value in properties.items():
+                    workbook.custom_doc_props.append(StringProperty(
+                        name=p.REFERENCE_METADATA_PREFIX + name, value=value))
+                with self.assertRaisesRegex(ValueError, "(?i)embedded reference"):
+                    p.read_embedded_reference_rules(workbook)
+                workbook.close()
+        bad_bundle = reference_bundle([reference_row()])
+        bad_bundle["record_rules"] = []
+        with self.assertRaisesRegex(ValueError, "Invalid embedded reference component"):
+            p.embed_reference_rules(Workbook(), bad_bundle)
 
     def test_validation_cli_uses_configured_defaults_without_creating_outputs(self):
         self.write_reference([reference_row(metal_1="ZnCl2")])
@@ -626,7 +777,7 @@ class IntegrationTests(unittest.TestCase):
     def test_single_rules_bundle_and_readable_optional_reference(self):
         row = reference_row(solvent_main="DMF", solvent_main_amount_text="5 mL",
                             solvent_secondary="not reported | water")
-        self.write_reference([row])
+        self.write_reference([row], embedded=False)
         bundle = {
             "schema_version": "positive-reference-v2",
             "papers": [{"paper_id": "P001", "doi": "10.example/a",
@@ -644,8 +795,12 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(result["field_evaluation"]["matched_records"]["micro"]["optional_reference_cells"], 1)
         manifest = json.loads((folder / "run_manifest.json").read_text())
         self.assertEqual(set(manifest["reference_companions"]), {"reference_rules"})
-        used = json.loads((folder / "reference_rules_used.json").read_text())
+        used = p.load_reference(folder / "reference_workbook_used.xlsx")
         self.assertEqual(used["papers"], bundle["papers"])
+        self.assertEqual(used["variants"], bundle["accepted_variants"])
+        self.assertTrue(used["embedded_rules"])
+        self.assertFalse(used["companion_files"])
+        self.assertFalse((folder / "reference_rules_used.json").exists())
 
     def test_entire_metrics_and_prediction_ids_are_role_order_invariant_with_extras(self):
         row = reference_row(time_h="24", temperature_c="120")
@@ -735,7 +890,7 @@ class IntegrationTests(unittest.TestCase):
     def test_record_rules_are_loaded_used_and_snapshotted(self):
         self.write_reference([reference_row(
             solvent_main="DMF", solvent_main_amount_text="1 mL",
-            solvent_secondary="water", solvent_secondary_amount_text="54 uL")])
+            solvent_secondary="water", solvent_secondary_amount_text="54 uL")], embedded=False)
         rules = {"P001-R001": {"role_reassignments": [{
             "names": ["water"], "from_slots": ["modulator_1", "modulator_2"],
             "to_slots": ["solvent_main", "solvent_secondary"]}]}}
@@ -746,7 +901,8 @@ class IntegrationTests(unittest.TestCase):
         folder, result = p.evaluate(self.csv, self.reference, output_dir=self.root / "rules",
                                     bootstraps=0)
         self.assertEqual(result["record_detection"]["exact_records_26_fields"], 1)
-        self.assertEqual(json.loads((folder / "reference_rules_used.json").read_text())["record_rules"], rules)
+        used = p.load_reference(folder / "reference_workbook_used.xlsx")
+        self.assertEqual(used["record_rules"], rules)
         labels = p.read_csv(folder / "field_labels.csv")[1]
         water = next(row for row in labels if row["field"] == "solvent_secondary")
         self.assertEqual(water["original_prediction_slot"], "modulator_1")
@@ -757,7 +913,7 @@ class IntegrationTests(unittest.TestCase):
             modulator_1="triethylamine", modulator_1_amount_text="2.15 mL",
             solvent_main="DMF", solvent_main_amount_text="5 mL",
             solvent_secondary="water", solvent_secondary_amount_text="2 mL")
-        self.write_reference([expected])
+        self.write_reference([expected], embedded=False)
         rules = {"P001-R001": RecordRuleTests.composite_rule()}
         (self.root / "record_rules.json").write_text(json.dumps(rules), encoding="utf-8")
         candidate = reference_row(
@@ -786,7 +942,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(before["field_evaluation"], after["field_evaluation"])
 
     def test_cross_role_rule_does_not_discard_duplicate_water(self):
-        self.write_reference([reference_row(solvent_main="DMF", solvent_secondary="water")])
+        self.write_reference([reference_row(solvent_main="DMF", solvent_secondary="water")],
+                             embedded=False)
         rules = {"P001-R001": {"role_reassignments": [{
             "names": ["water"], "from_slots": ["modulator_1", "modulator_2"],
             "to_slots": ["solvent_main", "solvent_secondary"]}]}}

@@ -244,7 +244,7 @@
     },
     {
       "path": "benchmarks/positive_extraction/ground_truth.xlsx",
-      "sha256": "64fddd21bea5d352b7192f8ff0b33d7f94a2082cfcbc11ab0da2c37abee639de",
+      "sha256": "3b35087f967ef7ec9ea392243b1970b30db4fc6af4f717156ff34d50c421850c",
       "rows": 1087,
       "publications": 200,
       "sheets": {
@@ -288,17 +288,16 @@
       ],
       "evaluated_fields": 26,
       "source_id": "positive_extraction_reference",
-      "source_description": "Positive synthesis extraction reference workbook"
-    },
-    {
-      "path": "benchmarks/positive_extraction/reference_rules.json",
-      "sha256": "bb749c2a02733eb9a10df84c55194e7706356bfaec02a595f7b46f33c1529d37",
-      "schema_version": "positive-reference-v2",
-      "publications": 200,
-      "rejected_candidates": 24,
-      "paired_reference_records": 1087,
-      "record_specific_rules": 43,
-      "source_description": "Accepted reference alternatives and record-alignment rules for positive extraction"
+      "source_description": "Positive synthesis extraction reference workbook",
+      "reported_field_types": 14,
+      "matching_metadata": {
+        "storage": "workbook custom properties",
+        "schema_version": "positive-reference-embedded-v1",
+        "sha256": "daffba47ac2e72f002cefba16b6afc81f44f1dce233fe697effeaea5ad4ecfeb",
+        "rejected_candidates": 24,
+        "paired_reference_records": 1087,
+        "record_specific_rules": 43
+      }
     }
   ],
   "workflow_source": {

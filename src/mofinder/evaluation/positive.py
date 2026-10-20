@@ -9,21 +9,27 @@ metrics, matching diagnostics, reference snapshots, and input hashes.
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 import csv
 import difflib
+import gzip
 import hashlib
 import itertools
 import json
 import math
 from pathlib import Path
 import re
+import shutil
 import unicodedata
 from urllib.parse import unquote
+import zlib
 
 import numpy as np
 from openpyxl import load_workbook
+from openpyxl.packaging.custom import StringProperty
 from scipy.optimize import linear_sum_assignment
 
 from mofinder.display import display_path
@@ -36,7 +42,7 @@ DEFAULT_REFERENCE = REPO_ROOT / "benchmarks/positive_extraction/ground_truth.xls
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "results/positive_extraction"
 
 
-SCHEMA_VERSION = "positive-evaluation-v6-pooled-fields"
+SCHEMA_VERSION = "positive-evaluation-v7-self-contained-reference"
 FIELDS = tuple(
     field
     for role, count in (("metal", 3), ("linker", 3), ("modulator", 2))
@@ -95,6 +101,16 @@ FIELD_GROUPS = {
 SCOPE_LABELS = {
     "all_records": "all-protocol evaluation",
     "matched_records": "recovered-protocol evaluation",
+}
+REFERENCE_METADATA_PREFIX = "MOFinder.ReferenceRules."
+REFERENCE_METADATA_SCHEMA = "positive-reference-embedded-v1"
+REFERENCE_METADATA_ENCODING = "json+gzip+base64-v1"
+REFERENCE_COMPONENTS = {
+    "papers": "papers.csv",
+    "rejected_candidates": "rejected_candidates.csv",
+    "accepted_variants": "accepted_variants.json",
+    "role_pair_variants": "role_pair_variants.json",
+    "record_rules": "record_rules.json",
 }
 # These are identities, not a claim that metal counterions, hydration states,
 # acid/base states, or concentrations are interchangeable.
@@ -362,6 +378,84 @@ def _included(value):
     raise ValueError(f"Paper inclusion must be explicit true/false, received {value!r}")
 
 
+def _validate_embedded_bundle(bundle):
+    """Require every component so damaged metadata cannot change scoring defaults."""
+    if not isinstance(bundle, dict) or not set(REFERENCE_COMPONENTS).issubset(bundle):
+        raise ValueError("Embedded reference metadata must contain all five matching components.")
+    for key in REFERENCE_COMPONENTS:
+        expected = list if key in ("papers", "rejected_candidates") else dict
+        if not isinstance(bundle[key], expected):
+            raise ValueError(f"Invalid embedded reference component: {key}.")
+
+
+def embed_reference_rules(workbook, bundle):
+    """Embed a complete bundle in standard XLSX properties, preserving worksheets.
+
+    The caller saves the workbook. Payload chunks use at most 255 characters per
+    custom property; the checksum covers the uncompressed UTF-8 JSON.
+    """
+    _validate_embedded_bundle(bundle)
+    payload = json.dumps(bundle, ensure_ascii=False, separators=(",", ":"),
+                         allow_nan=False).encode("utf-8")
+    encoded = base64.b64encode(gzip.compress(payload, mtime=0)).decode("ascii")
+    chunks = [encoded[start:start + 255] for start in range(0, len(encoded), 255)]
+    if len(chunks) > 9999:
+        raise ValueError("Reference metadata exceeds the supported workbook property count.")
+    properties = workbook.custom_doc_props
+    for name in list(properties.names):
+        if name.startswith(REFERENCE_METADATA_PREFIX):
+            del properties[name]
+    metadata = {
+        "Schema": REFERENCE_METADATA_SCHEMA, "Encoding": REFERENCE_METADATA_ENCODING,
+        "ChunkCount": str(len(chunks)), "SHA256": hashlib.sha256(payload).hexdigest(),
+    }
+    for name, value in metadata.items():
+        properties.append(StringProperty(name=REFERENCE_METADATA_PREFIX + name, value=value))
+    for number, chunk in enumerate(chunks, 1):
+        properties.append(StringProperty(
+            name=REFERENCE_METADATA_PREFIX + f"{number:04d}", value=chunk))
+    return metadata
+
+
+def read_embedded_reference_rules(workbook):
+    """Return a verified bundle, or None only when its property namespace is absent."""
+    properties = {
+        prop.name.removeprefix(REFERENCE_METADATA_PREFIX): prop.value
+        for prop in workbook.custom_doc_props
+        if prop.name.startswith(REFERENCE_METADATA_PREFIX)
+    }
+    if not properties:
+        return None
+    required = {"Schema", "Encoding", "ChunkCount", "SHA256"}
+    if not required.issubset(properties):
+        raise ValueError("Embedded reference metadata is incomplete; restore the complete workbook.")
+    if properties["Schema"] != REFERENCE_METADATA_SCHEMA:
+        raise ValueError("Unsupported embedded reference metadata schema.")
+    if properties["Encoding"] != REFERENCE_METADATA_ENCODING:
+        raise ValueError("Unsupported embedded reference metadata encoding.")
+    count_text = properties["ChunkCount"]
+    if not isinstance(count_text, str) or not re.fullmatch(r"[1-9][0-9]{0,3}", count_text):
+        raise ValueError("Invalid embedded reference metadata chunk count.")
+    chunk_names = [f"{number:04d}" for number in range(1, int(count_text) + 1)]
+    if set(properties) != required | set(chunk_names):
+        raise ValueError("Embedded reference metadata chunks are missing or unexpected.")
+    chunks = [properties[name] for name in chunk_names]
+    if any(not isinstance(chunk, str) or not 1 <= len(chunk) <= 255 for chunk in chunks):
+        raise ValueError("Invalid embedded reference metadata chunk.")
+    try:
+        payload = gzip.decompress(base64.b64decode("".join(chunks), validate=True))
+    except (ValueError, binascii.Error, OSError, EOFError, zlib.error) as exc:
+        raise ValueError("Embedded reference metadata is corrupt or truncated.") from exc
+    if hashlib.sha256(payload).hexdigest() != properties["SHA256"]:
+        raise ValueError("Embedded reference metadata checksum mismatch.")
+    try:
+        bundle = json.loads(payload.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("Embedded reference metadata is not valid UTF-8 JSON.") from exc
+    _validate_embedded_bundle(bundle)
+    return bundle
+
+
 def load_reference(path):
     path = Path(path).expanduser().resolve()
     workbook = load_workbook(path, read_only=True, data_only=False)
@@ -408,20 +502,27 @@ def load_reference(path):
                 raise ValueError(f"Duplicate record IDs in {sheet_name}.")
         if not records:
             raise ValueError("The consensus is empty.")
+        bundle = read_embedded_reference_rules(workbook)
     finally:
         workbook.close()
     companion_files = {}
     folder = path.parent
     bundle_path = folder / "reference_rules.json"
-    bundle = None
-    if bundle_path.is_file():
+    embedded = bundle is not None
+    if bundle is None and bundle_path.is_file():
         bundle = json.loads(bundle_path.read_text(encoding="utf-8-sig"))
         if not isinstance(bundle, dict):
             raise ValueError("reference_rules.json must contain an object.")
         companion_files["reference_rules"] = bundle_path
+    if bundle is None and not any((folder / name).is_file()
+                                  for name in REFERENCE_COMPONENTS.values()):
+        raise ValueError(
+            "Reference matching metadata is missing. Use the complete benchmark workbook "
+            "or an explicit legacy reference companion. For a cell-only reference, embed its "
+            "paper manifest with empty matching-rule components using embed_reference_rules().")
 
     def component(key, filename, default):
-        """Prefer the single bundle; legacy companions remain readable."""
+        """Prefer embedded metadata; legacy companion files remain readable."""
         if bundle is not None:
             return bundle.get(key, default)
         legacy_path = folder / filename
@@ -494,7 +595,29 @@ def load_reference(path):
         "variants": variants, "companion_files": companion_files,
         "reference_sheet": sheet_names[0], "sheet_names": sheet_names,
         "role_pairs": role_pairs, "record_rules": record_rules,
+        "embedded_rules": embedded,
     }
+
+
+def save_reference_snapshot(reference, destination):
+    """Save a complete reference that can be reused without companion files."""
+    destination = Path(destination)
+    if reference["embedded_rules"]:
+        shutil.copyfile(reference["path"], destination)
+    else:
+        workbook = load_workbook(reference["path"])
+        try:
+            embed_reference_rules(workbook, {
+                "papers": reference["papers"],
+                "rejected_candidates": reference["rejected"],
+                "accepted_variants": reference["variants"],
+                "role_pair_variants": reference["role_pairs"],
+                "record_rules": reference["record_rules"],
+            })
+            workbook.save(destination)
+        finally:
+            workbook.close()
+    return destination
 
 
 def prediction_content(row):
@@ -1324,13 +1447,7 @@ def evaluate(csv_path=DEFAULT_CSV, ground_truth=DEFAULT_REFERENCE, *,
     save_csv(destination / "predictions_used.csv", predictions)
     save_csv(destination / "reference_used.csv", reference["records"], IDENTIFIERS + FIELDS)
     save_csv(destination / "paper_manifest_used.csv", reference["papers"])
-    (destination / "reference_rules_used.json").write_text(json.dumps(display_reference_data({
-        "schema_version": SCHEMA_VERSION, "papers": reference["papers"],
-        "rejected_candidates": reference["rejected"],
-        "accepted_variants": reference["variants"],
-        "role_pair_variants": reference.get("role_pairs", {}),
-        "record_rules": reference.get("record_rules", {}),
-    }), indent=2, ensure_ascii=False), encoding="utf-8")
+    snapshot = save_reference_snapshot(reference, destination / "reference_workbook_used.xlsx")
     (destination / "summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
     manifest = {
@@ -1338,6 +1455,7 @@ def evaluate(csv_path=DEFAULT_CSV, ground_truth=DEFAULT_REFERENCE, *,
         "completed": True,
         "input_csv": {"path": str(csv_path), "sha256": digest(csv_path)},
         "reference_workbook": {"path": str(reference["path"]), "sha256": digest(reference["path"])},
+        "reference_snapshot": {"path": snapshot.name, "sha256": digest(snapshot)},
         "reference_companions": {
             key: {"path": str(path), "sha256": digest(path)}
             for key, path in reference["companion_files"].items()
@@ -1376,7 +1494,7 @@ def main(argv=None) -> int:
     parser.add_argument("csv", nargs="?", type=Path, default=DEFAULT_CSV,
                         help="Raw extraction CSV; defaults to the bundled 200-paper extraction.")
     parser.add_argument("--ground-truth", "--reference", type=Path, default=DEFAULT_REFERENCE,
-                        help="Reference workbook with its adjacent reference_rules.json.")
+                        help="Reference workbook with embedded matching metadata.")
     parser.add_argument("--output-dir", type=Path, help="New destination; existing folders are refused.")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT,
                         help="Parent for numbered runs; defaults to results/positive_extraction.")

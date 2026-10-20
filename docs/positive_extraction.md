@@ -18,8 +18,8 @@ python -m mofinder.evaluation.positive
 ```
 
 The defaults read `data/processed_data/positive_extraction_200.csv` and
-`benchmarks/positive_extraction/ground_truth.xlsx`, with its adjacent
-`reference_rules.json`. The [benchmark README](../benchmarks/positive_extraction/README.md)
+`benchmarks/positive_extraction/ground_truth.xlsx`. The workbook contains the
+reference answers and matching metadata. The [benchmark README](../benchmarks/positive_extraction/README.md)
 describes the five workbook sheets.
 
 For another raw extraction CSV, run:
@@ -30,7 +30,7 @@ python -m mofinder.evaluation.positive path/to/mof_extraction.csv
 
 The input may contain the benchmark subset or a full corpus; only reference
 DOIs are scored. Missing papers retain their missed reference records.
-`--ground-truth` selects another workbook with its companion rules.
+`--ground-truth` selects another reference workbook.
 Outputs go to a new numbered directory under `results/positive_extraction/`;
 use `--output-dir` to select a new destination explicitly.
 
