@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Pooled repeated metal, linker, modulator and solvent slots in positive-extraction field metrics. Names and amounts remain separate, and overall micro metrics are unchanged. The two scopes are named all-protocol and recovered-protocol evaluation.
+
 - Renamed the released JSONL directory to `data/processed_data_json/` and the process-enriched files to `train_process_enrich.jsonl` and `holdout_process_enrich.jsonl`. Kept the enriched prompt in `prompts/training/` and updated paths without changing JSONL contents, row order, or labels.
 
 - Added reproducible dataset and literature figures (D1–D11), executed plotting notebooks, and positive/negative workflow diagrams. Pairwise plots and t-SNE use the supplied plotting code and included datasets.

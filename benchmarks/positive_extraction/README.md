@@ -4,10 +4,11 @@
 Use `Ground_truth_A1toA4` as the answer key. The other four sheets, `A1`–`A4`,
 contain the records available for each annotation group.
 
-The reference evaluates 26 fields: reagent names and amounts, synthesis
+The reference evaluates 26 field slots: reagent names and amounts, synthesis
 temperature and time, decomposition temperature, BET surface area, crystal
 code, and topology. Paper and record IDs link the sheets; MOF names support
-record matching.
+record matching. Evaluation results pool repeated reagent slots into 14
+field types, with names and amounts reported separately.
 
 Accepted alternatives use ` | `; `not reported` accepts an empty value.
 

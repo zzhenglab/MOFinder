@@ -124,6 +124,103 @@ class DenominatorTests(unittest.TestCase):
         self.assertAlmostEqual(result["F1"], 2 / 3)
 
 
+class PooledFieldTests(unittest.TestCase):
+    @staticmethod
+    def label(field, predicted, expected, alignment="matched"):
+        return {"field": field, "alignment": alignment, "doi": "10.example/a",
+                **p.field_label(predicted, expected, field, alignment=alignment)}
+
+    def test_groups_partition_all_slots_without_reuse(self):
+        members = [field for fields in p.FIELD_GROUPS.values() for field in fields]
+        self.assertEqual(len(p.FIELD_GROUPS), 14)
+        self.assertCountEqual(members, p.FIELDS)
+        self.assertEqual(len(members), len(set(members)))
+        self.assertEqual(p.FIELD_GROUPS["metal_name"], ("metal_1", "metal_2", "metal_3"))
+        self.assertEqual(p.FIELD_GROUPS["linker_name"], ("linker_1", "linker_2", "linker_3"))
+        self.assertEqual(p.FIELD_GROUPS["solvent_name"], ("solvent_main", "solvent_secondary"))
+
+    def test_unequal_slot_denominators_pool_counts_and_keep_amounts_separate(self):
+        labels = [
+            self.label("metal_1", "ZnCl2", "ZnCl2"),
+            *[self.label("metal_2", "CuCl2", "") for _ in range(9)],
+            self.label("metal_3", "", ""),
+            self.label("metal_1_amount_text", "2 mg", "1 mg"),
+            self.label("metal_2_amount_text", "", ""),
+            self.label("metal_3_amount_text", "", "1 mg", "missed"),
+        ]
+        metrics = {row["field"]: row for row in p.summarize_field_groups(labels)
+                   if row["scope"] == "all_records"}
+        names, amounts = metrics["metal_name"], metrics["metal_amount"]
+        self.assertEqual(tuple(names[key] for key in ("TP", "FP", "TN", "FN")), (1, 9, 1, 0))
+        self.assertAlmostEqual(names["precision"], 0.1)
+        self.assertNotEqual(names["precision"], (1.0 + 0.0) / 2)
+        self.assertEqual(tuple(amounts[key] for key in ("TP", "FP", "TN", "FN")), (0, 1, 1, 2))
+        self.assertEqual(amounts["assessable_cells"], 3)
+        self.assertAlmostEqual(amounts["exact_cell_accuracy"], 1 / 3)
+
+    def test_pooling_preserves_every_count_and_exact_cell_denominator_in_both_scopes(self):
+        labels = [self.label(field, "", "") for field in p.FIELDS]
+        labels += [
+            self.label("metal_3", "ZnCl2", "ZnCl2"),
+            self.label("metal_3_amount_text", "2 mg", "1 mg"),
+            self.label("linker_2", "BDC", "__UNREVIEWED__"),
+            self.label("solvent_main", "", "not reported | water"),
+            self.label("solvent_secondary", "DMF", "not reported | water"),
+            self.label("solvent_main", "", "not reported | water", "missed"),
+            self.label("time_h", "", "12", "missed"),
+            self.label("linker_3", "BDC", "", "extra"),
+            self.label("linker_2", "", "", "extra"),
+        ]
+        metrics = p.summarize_field_groups(labels)
+        reference = {"papers": [{"paper_id": "P001", "doi": "10.example/a", "included": True}]}
+        summary, _, _ = p.summarize([], labels, reference, {})
+        additive_counts = (
+            "TP", "FP", "TN", "FN", "assessable_cells", "unresolved_cells", "wrong_values",
+            "optional_reference_cells", "optional_assessable_cells", "presence_assessable_cells",
+            "required_value_TP", "required_value_FN",
+            "presence_TP", "presence_FP", "presence_TN", "presence_FN",
+        )
+        for scope in ("all_records", "matched_records"):
+            with self.subTest(scope=scope):
+                selected = [row for row in labels
+                            if scope == "all_records" or row["alignment"] == "matched"]
+                expected = p.summarize_fields(selected)
+                self.assertEqual(summary["field_evaluation"][scope]["micro"], expected)
+                pooled = [row for row in metrics if row["scope"] == scope]
+                self.assertEqual(len(pooled), 14)
+                for key in additive_counts:
+                    self.assertEqual(sum(row[key] for row in pooled), expected[key], key)
+                correct_cells = sum(row["assessable"] and row["exact_correct"] is True
+                                    for row in selected)
+                pooled_correct_cells = sum(
+                    row["exact_cell_accuracy"] * row["assessable_cells"]
+                    for row in pooled if row["exact_cell_accuracy"] is not None)
+                self.assertAlmostEqual(pooled_correct_cells, correct_cells)
+                self.assertAlmostEqual(
+                    pooled_correct_cells / sum(row["assessable_cells"] for row in pooled),
+                    expected["exact_cell_accuracy"])
+                self.assertEqual(expected["optional_reference_cells"],
+                                 3 if scope == "all_records" else 2)
+                self.assertEqual(expected["optional_assessable_cells"], 2)
+
+    def test_macro_averages_defined_pooled_types_equally(self):
+        labels = [
+            self.label("metal_1", "ZnCl2", "ZnCl2"),
+            *[self.label("metal_2", "CuCl2", "") for _ in range(9)],
+            self.label("linker_3", "BDC", "BDC"),
+            self.label("time_h", "99", "12"),
+        ]
+        reference = {"papers": [{"paper_id": "P001", "doi": "10.example/a", "included": True}]}
+        summary, metrics, _ = p.summarize([], labels, reference, {})
+        fields = summary["field_evaluation"]["all_records"]
+        self.assertAlmostEqual(fields["macro_fields"]["precision"], (0.1 + 1 + 0) / 3)
+        self.assertEqual(fields["macro_fields_defined_counts"]["precision"], 3)
+        self.assertAlmostEqual(fields["micro"]["precision"], 2 / 12)
+        self.assertNotEqual(fields["macro_fields"]["precision"], (1 + 0 + 1 + 0) / 4)
+        self.assertEqual(len(metrics), 28)
+        self.assertIn("14 pooled field types", summary["definitions"]["macro_fields"])
+
+
 class RoleSlotTests(unittest.TestCase):
     def test_tied_unknown_entities_have_content_based_order(self):
         expected = reference_row()
@@ -435,6 +532,22 @@ class IntegrationTests(unittest.TestCase):
                                    for path in (output_root / "run_001").iterdir()})
         result = json.loads((output_root / "run_002/summary.json").read_text(encoding="utf-8"))
         self.assertEqual(result["record_detection"]["exact_records_26_fields"], 1)
+        self.assertEqual(set(result["field_evaluation"]), {"all_records", "matched_records"})
+        self.assertEqual(result["scope_labels"], {
+            "all_records": "all-protocol evaluation",
+            "matched_records": "recovered-protocol evaluation",
+        })
+        self.assertNotIn("end_to_end", json.dumps(result))
+        metrics = p.read_csv(output_root / "run_002/field_metrics.csv")[1]
+        self.assertEqual(len(metrics), 28)
+        self.assertEqual({row["field"] for row in metrics}, set(p.FIELD_GROUPS))
+        self.assertEqual({row["scope"] for row in metrics}, {"all_records", "matched_records"})
+        labels = p.read_csv(output_root / "run_002/field_labels.csv")[1]
+        self.assertEqual({row["field"] for row in labels}, set(p.FIELDS))
+        self.assertEqual(len(labels), 26)
+        manifest = json.loads((output_root / "run_002/run_manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["field_groups"], result["field_groups"])
+        self.assertEqual(manifest["scope_labels"], result["scope_labels"])
 
     def test_sparse_annotator_sheets_do_not_change_inventory_or_scores(self):
         first = reference_row(metal_1="ZnCl2", time_h="12")
@@ -488,7 +601,7 @@ class IntegrationTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, error):
                     p.load_reference(self.reference)
 
-    def test_missing_paper_extra_record_and_wrong_field_enter_end_to_end(self):
+    def test_missing_paper_extra_record_and_wrong_field_enter_all_records(self):
         self.write_reference([
             reference_row(time_h="12", metal_1="ZnCl2"),
             reference_row("P002-R001", "10.example/b", "MOF-B", time_h="24"),
@@ -501,7 +614,7 @@ class IntegrationTests(unittest.TestCase):
         record = result["record_detection"]
         self.assertEqual((record["TP"], record["FP"], record["FN"]), (1, 1, 1))
         _, metrics = p.read_csv(folder / "field_metrics.csv")
-        time = next(row for row in metrics if row["field"] == "time_h" and row["scope"] == "end_to_end")
+        time = next(row for row in metrics if row["field"] == "time_h" and row["scope"] == "all_records")
         self.assertEqual((int(time["TP"]), int(time["FP"]), int(time["FN"])), (0, 2, 2))
         self.assertEqual(result["paper_evaluation"]["macro_paper_recall"], 0.5)
         manifest = json.loads((folder / "run_manifest.json").read_text())

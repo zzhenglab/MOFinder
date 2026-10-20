@@ -35,27 +35,35 @@ Outputs go to a new numbered directory under `results/positive_extraction/`;
 use `--output-dir` to select a new destination explicitly.
 
 Records match one to one within each DOI using the MOF name and recipe.
-The evaluator scores 26 fields, accepting any listed ` | ` alternative.
+The evaluator scores 26 field slots, accepting any listed ` | ` alternative.
 Reagent names and amounts move together when aligning metal, linker,
 modulator and solvent slots. Explicit unit conversions and name equivalences
 are supported; missing quantities are not inferred from molecular weights.
+Results pool repeated slots into 14 field types: metal, linker, modulator
+and solvent names and amounts, plus the six condition and characterization
+fields. Names and amounts are reported separately. Each pooled metric is
+calculated from summed counts across the corresponding slots.
 
 Record precision, recall and F1 measure synthesis recovery. Record TN,
 accuracy and balanced accuracy are undefined because the reference does not
 enumerate nonsynthesis negatives. Field-value precision, recall and F1
 measure accepted-value retrieval: a wrong populated value contributes FP and,
-when a value is required, FN. **Exact cell accuracy** counts each accepted
-value or absence once. **Presence accuracy and balanced accuracy** measure
+when a value is required, FN. **Exact cell accuracy** divides correct values
+or accepted absences by assessable slot cells. **Presence accuracy and balanced accuracy** measure
 whether a field is populated; balanced accuracy averages sensitivity and
 specificity. Fields accepting both absence and a value are excluded from
 presence metrics.
 
-`end_to_end` includes missed and extra records; `matched_records` evaluates
-fields conditional on recovering the synthesis. Micro metrics pool counts;
-macro metrics average defined field or paper metrics equally. Intervals use
+**All-protocol evaluation** (`all_records`) includes fields on missed and
+extra records; empty fields on unmatched records do not count as correct
+absences. **Recovered-protocol evaluation** (`matched_records`) evaluates
+fields on matched syntheses. Micro metrics pool all slot counts;
+field-macro metrics average defined metrics equally across the 14 field
+types, and paper-macro metrics average defined publication metrics equally. Intervals use
 2,000 whole-paper bootstrap resamples and seed 42; `--bootstraps 0` skips them.
 Each run saves `summary.json`, field and paper metrics, record and field
-labels, matching diagnostics, reference snapshots and file hashes.
+labels, matching diagnostics, reference snapshots and file hashes. Field
+labels retain the individual slots for inspection.
 
 ## Extraction from local documents
 

@@ -36,7 +36,7 @@ DEFAULT_REFERENCE = REPO_ROOT / "benchmarks/positive_extraction/ground_truth.xls
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "results/positive_extraction"
 
 
-SCHEMA_VERSION = "positive-evaluation-v5-standalone"
+SCHEMA_VERSION = "positive-evaluation-v6-pooled-fields"
 FIELDS = tuple(
     field
     for role, count in (("metal", 3), ("linker", 3), ("modulator", 2))
@@ -76,6 +76,26 @@ ROLE_GROUPS = (
     ("modulator_1", "modulator_2"),
     ("solvent_main", "solvent_secondary"),
 )
+FIELD_GROUPS = {
+    "metal_name": ("metal_1", "metal_2", "metal_3"),
+    "metal_amount": ("metal_1_amount_text", "metal_2_amount_text", "metal_3_amount_text"),
+    "linker_name": ("linker_1", "linker_2", "linker_3"),
+    "linker_amount": ("linker_1_amount_text", "linker_2_amount_text", "linker_3_amount_text"),
+    "modulator_name": ("modulator_1", "modulator_2"),
+    "modulator_amount": ("modulator_1_amount_text", "modulator_2_amount_text"),
+    "solvent_name": ("solvent_main", "solvent_secondary"),
+    "solvent_amount": ("solvent_main_amount_text", "solvent_secondary_amount_text"),
+    "temperature_c": ("temperature_c",),
+    "time_h": ("time_h",),
+    "tga_decomposition_temp_c": ("tga_decomposition_temp_c",),
+    "BET_surface_area_m2g": ("BET_surface_area_m2g",),
+    "crystal_code": ("crystal_code",),
+    "topology_code": ("topology_code",),
+}
+SCOPE_LABELS = {
+    "all_records": "all-protocol evaluation",
+    "matched_records": "recovered-protocol evaluation",
+}
 # These are identities, not a claim that metal counterions, hydration states,
 # acid/base states, or concentrations are interchangeable.
 ALIASES = {
@@ -1111,6 +1131,22 @@ def mean_defined(values):
     return sum(values) / len(values) if values else None
 
 
+def summarize_field_groups(field_labels):
+    """Pool slot-level counts and cell denominators before computing metrics."""
+    by_field = defaultdict(list)
+    for row in field_labels:
+        by_field[row["field"]].append(row)
+    metrics = []
+    for scope in SCOPE_LABELS:
+        for field, members in FIELD_GROUPS.items():
+            rows = [
+                row for member in members for row in by_field[member]
+                if scope == "all_records" or row["alignment"] == "matched"
+            ]
+            metrics.append({"scope": scope, "field": field, **summarize_fields(rows)})
+    return metrics
+
+
 def summarize(record_labels, field_labels, reference, coverage):
     counts = Counter(row["record_label"] for row in record_labels)
     record_metrics = confusion_metrics(counts["TP"], counts["FP"], None, counts["FN"])
@@ -1124,16 +1160,7 @@ def summarize(record_labels, field_labels, reference, coverage):
         "exact_record_accuracy_matched_26_fields": divide(
             sum(row["all_26_fields_correct"] for row in record_labels), counts["TP"]),
     })
-    groups = defaultdict(list)
-    for row in field_labels:
-        groups[row["field"]].append(row)
-    field_metrics = []
-    for scope in ("end_to_end", "matched_records"):
-        for field in FIELDS:
-            rows = groups[field]
-            if scope == "matched_records":
-                rows = [row for row in rows if row["alignment"] == "matched"]
-            field_metrics.append({"scope": scope, "field": field, **summarize_fields(rows)})
+    field_metrics = summarize_field_groups(field_labels)
     paper_rows = []
     records_by_doi, fields_by_doi = defaultdict(list), defaultdict(list)
     for row in record_labels:
@@ -1157,8 +1184,8 @@ def summarize(record_labels, field_labels, reference, coverage):
             "field_recall": summarize_fields(fields_by_doi[paper["doi"]])["recall"],
         })
     scopes = {}
-    for scope in ("end_to_end", "matched_records"):
-        rows = field_labels if scope == "end_to_end" else [
+    for scope in SCOPE_LABELS:
+        rows = field_labels if scope == "all_records" else [
             row for row in field_labels if row["alignment"] == "matched"]
         fields = [row for row in field_metrics if row["scope"] == scope]
         scopes[scope] = {
@@ -1178,6 +1205,8 @@ def summarize(record_labels, field_labels, reference, coverage):
         "schema_version": SCHEMA_VERSION, "reference_sheet": reference.get("reference_sheet", SHEETS[0]),
         "record_detection": record_metrics,
         "field_evaluation": scopes,
+        "field_groups": {field: list(members) for field, members in FIELD_GROUPS.items()},
+        "scope_labels": dict(SCOPE_LABELS),
         "paper_evaluation": {
             "sampled_papers": len(reference["papers"]), "evaluated_papers": len(paper_rows),
             "excluded_papers": sum(not row["included"] for row in reference["papers"]),
@@ -1207,9 +1236,14 @@ def summarize(record_labels, field_labels, reference, coverage):
             "field_TN": "Matched record with both reference and prediction absent.",
             "field_accuracy": "Use exact_cell_accuracy; FP+FN for a wrong value must not double its denominator.",
             "presence_metrics": "Binary present/absent classification; a wrong nonempty value is presence TP.",
-            "end_to_end": "Includes populated fields on missed reference records and extra prediction records.",
+            "all_records": "All-protocol evaluation includes matched records and populated fields on "
+                           "missed reference records and extra prediction records.",
+            "matched_records": "Recovered-protocol evaluation includes only fields on matched records.",
             "empty_unmatched_fields": "Do not contribute TN because no corresponding record exists.",
-            "macro_fields": "Unweighted mean of defined per-field metrics; defined counts are reported.",
+            "pooled_fields": "Sum counts and cell denominators across the listed reagent slots before "
+                             "computing each of the 14 field-type metrics; names and amounts are separate.",
+            "macro_fields": "Unweighted mean of defined metrics across the 14 pooled field types; "
+                            "defined counts are reported.",
             "macro_papers": "Unweighted mean of defined per-paper metrics; no-output paper recall is zero when reference positive.",
             "micro": "Pool numerator and denominator counts before computing the metric.",
             "reference_scope": "Recovery relative to the fixed reviewed reference, not an exhaustive census of all literature syntheses.",
@@ -1311,6 +1345,7 @@ def evaluate(csv_path=DEFAULT_CSV, ground_truth=DEFAULT_REFERENCE, *,
         "implementation_sha256": digest(__file__),
         "settings": {"match_threshold": match_threshold, "bootstraps": bootstraps, "seed": seed},
         "evaluated_fields": list(FIELDS), "sheet_names": list(reference["sheet_names"]),
+        "field_groups": summary["field_groups"], "scope_labels": summary["scope_labels"],
         "matching_protocol": {
             "within_doi": True, "one_to_one": True, "algorithm": "Hungarian assignment with unmatched choices",
             "role_slots": "Within each metal/linker/modulator/solvent role, names and amounts move together "
