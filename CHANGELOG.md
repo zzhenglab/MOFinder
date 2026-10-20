@@ -86,4 +86,4 @@ The replaced workflow and datasets remain accessible in [repository history at `
 - Added the archived fine-tuning training and validation JSONL files without changes.
 - Integrated holdout and 22-question model evaluation, with deferred API clients, saved-output analysis, explicit configurations, and hidden API-key entry in notebooks.
 - Added anonymous human benchmark records and analysis aligned by reaction ID.
-- Retained the recorded evaluation rules and model settings; separate positive/negative reference-based workflows remain pending their source code and ground truth.
+- Added positive-extraction evaluation with the 200-paper reference and saved extraction CSV. Negative reconstruction has no separate reference-based evaluator.

@@ -46,6 +46,8 @@ jobs:
         run: python Demo/03_api_data_mining/mof_api_data_mining_demo.py triage
       - name: Validate all reference abstracts
         run: python -m mofinder.literature.triage validate-inputs --metadata data/processed_data/literature_metadata.csv --ground-truth benchmarks/abstract_triage/ground_truth.xlsx
+      - name: Validate the positive extraction benchmark
+        run: python -m mofinder.evaluation.positive --validate-only
       - name: Audit article literature retrieval without a desktop
         run: python tools/literature_retrieval/fetch_papers.py --validate
       - name: Audit SI literature retrieval without a desktop

@@ -6,6 +6,59 @@
 
 **Note:** Section S4 refers to the [negative data mining workflow](negative_reconstruction.md).
 
+## Benchmark evaluation
+
+Compare the saved 913 model extraction records with 1,087 reference syntheses
+from 200 publications, without making model requests:
+
+```bash
+python -m pip install -e ".[evaluation]"
+python -m mofinder.evaluation.positive --validate-only
+python -m mofinder.evaluation.positive
+```
+
+The defaults read `data/processed_data/positive_extraction_200.csv` and
+`benchmarks/positive_extraction/ground_truth.xlsx`, with its adjacent
+`reference_rules.json`. The [benchmark README](../benchmarks/positive_extraction/README.md)
+describes the five workbook sheets.
+
+For another raw extraction CSV, run:
+
+```bash
+python -m mofinder.evaluation.positive path/to/mof_extraction.csv
+```
+
+The input may contain the benchmark subset or a full corpus; only reference
+DOIs are scored. Missing papers retain their missed reference records.
+`--ground-truth` selects another workbook with its companion rules.
+Outputs go to a new numbered directory under `results/positive_extraction/`;
+use `--output-dir` to select a new destination explicitly.
+
+Records match one to one within each DOI using the MOF name and recipe.
+The evaluator scores 26 fields, accepting any listed ` | ` alternative.
+Reagent names and amounts move together when aligning metal, linker,
+modulator and solvent slots. Explicit unit conversions and name equivalences
+are supported; missing quantities are not inferred from molecular weights.
+
+Record precision, recall and F1 measure synthesis recovery. Record TN,
+accuracy and balanced accuracy are undefined because the reference does not
+enumerate nonsynthesis negatives. Field-value precision, recall and F1
+measure accepted-value retrieval: a wrong populated value contributes FP and,
+when a value is required, FN. **Exact cell accuracy** counts each accepted
+value or absence once. **Presence accuracy and balanced accuracy** measure
+whether a field is populated; balanced accuracy averages sensitivity and
+specificity. Fields accepting both absence and a value are excluded from
+presence metrics.
+
+`end_to_end` includes missed and extra records; `matched_records` evaluates
+fields conditional on recovering the synthesis. Micro metrics pool counts;
+macro metrics average defined field or paper metrics equally. Intervals use
+2,000 whole-paper bootstrap resamples and seed 42; `--bootstraps 0` skips them.
+Each run saves `summary.json`, field and paper metrics, record and field
+labels, matching diagnostics, reference snapshots and file hashes.
+
+## Extraction from local documents
+
 The input manifest must contain `DOI`, `Main File` and `SI File`. CSV and Excel inputs are supported. An empty document field is allowed when the other document has readable text. Bare filenames resolve within the configured article or supporting-information directory; absolute document paths are accepted. Existing project-relative paths also work. Conflicting paths for one DOI, blank DOIs and colliding JSON directory names are rejected. Identical repeated DOI/document pairs produce one extraction job.
 
 Install the `mining` extra and review `configs/positive_extraction.json`. Its model, concurrency of 100 and flush threshold of 50 follow the revised full-corpus invocation; lower concurrency if required by the available API limits. The `validate` command reads local documents and reports missing files and text lengths without sending model requests:

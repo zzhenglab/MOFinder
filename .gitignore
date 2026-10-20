@@ -18,6 +18,10 @@ Demo/**/*_executed.ipynb
 demo/out/
 demo/*_executed.ipynb
 /results/
+report/
+reports/
+manuscript/
+audit/
 data/local/
 configs/local/
 downloaded/

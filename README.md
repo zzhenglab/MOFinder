@@ -42,6 +42,7 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | Screen abstracts and analyze saved predictions | [Abstract triage](docs/triage.md) |
 | Download articles and supporting information | [Literature retrieval](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Workflow guide](docs/workflow.md) |
+| Evaluate saved positive extraction records | [Positive extraction benchmark](docs/positive_extraction.md#benchmark-evaluation) |
 | Curate records and prepare training and holdout JSONL | [Data curation](docs/curation.md) and [dataset preparation](docs/datasets.md) |
 | Look up chemical names and SMILES | [Mapping tables](data/name_SMILES_mappers/README.md) |
 | Inspect processed records and publication metadata | [Processed data](data/processed_data/README.md) |
@@ -62,13 +63,13 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | `src/mofinder/curation/` | Chemical normalization, amount conversion, process details, and ablation datasets |
 | `src/mofinder/datasets/` | Condition-classification records, grouped splits, and training JSONL |
 | `src/mofinder/training/` | Single-dataset training input preparation and HPC fine-tuning |
-| `src/mofinder/evaluation/` | Triage statistics, reaction holdout/model evaluation, and human benchmark analysis |
+| `src/mofinder/evaluation/` | Triage statistics, extraction benchmarks, reaction holdout/model evaluation, and human benchmark analysis |
 | `src/mofinder/plotting/` | Dataset distributions, pairwise condition coverage, publisher coverage, and triage evaluation figures |
 | `configs/` and `prompts/` | Named settings and prompt text |
 | `data/` | Input manifests, metadata, organic linker information, dataset snapshots, and split records |
 | `data/processed_data/` | Processed positive and negative CSVs, publication metadata, retrieval inventories, and a linker-corrected alternative |
 | `data/processed_data_json/` | Final training and holdout JSONL with record assignments, split summary, and class map |
-| `benchmarks/` | Human references and benchmark-specific documentation |
+| `benchmarks/` | Benchmark references and evaluation documentation |
 | `Demo/` | Offline curation, dataset preparation, and executed figure notebooks; API examples for triage, extraction, and reconstruction |
 | `docs/` | Installation, workflow guides, source provenance, and reproduction instructions |
 | `tools/literature_retrieval/` | Entry points for optional desktop download tools |

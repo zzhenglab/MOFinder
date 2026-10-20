@@ -33,6 +33,7 @@ Data curation produces **processed positive records** and **processed negative r
 | --- | --- | --- | --- |
 | Document matching | DOI inventory and local article/SI files | Document manifest; local file-status inventory | [Matching](document_matching.md) |
 | Positive extraction | Document manifest, article/SI text, extraction prompts | Raw responses, parsed article and synthesis JSONs, synthesis CSV | [Positive extraction](positive_extraction.md) |
+| Positive extraction evaluation | Raw synthesis CSV and benchmark workbook with reference rules | Record, field and paper metrics; scoring labels | [Extraction benchmark](positive_extraction.md#benchmark-evaluation) |
 | CSV recovery | Document manifest and saved positive JSONs | Reconstructed or completed synthesis CSV | [Positive extraction](positive_extraction.md) |
 | Negative reconstruction: planning | Raw positive CSV, successful synthesis JSONs, article/SI text | Evidence-based modification plans and parent-synthesis snapshots | [Negative reconstruction](negative_reconstruction.md) |
 | Negative reconstruction: enumeration | Modification plans and their successful parents | Enumerated negative JSONs and CSV | [Negative reconstruction](negative_reconstruction.md) |
@@ -143,6 +144,6 @@ The processed positive and negative tables in `data/processed_data/` preserve th
 
 ## Reproducing research results
 
-Complete saved model predictions and training-job records are not distributed with this checkout. Reproducing a model-performance result requires its prediction archive, reference data, dataset version, configuration, and model identity. Keep these records together with each new run.
+The positive-extraction benchmark includes its 200-paper prediction CSV and reference data. Other model-performance results require their corresponding prediction archives, reference data, dataset versions, configurations, and model identities. Keep these records together with each new run.
 
-Offline software checks do not establish extraction accuracy or reproduce model-training results. See [evaluation](evaluation.md) for the available holdout and question-panel analyses. Reference-based evaluation of positive extraction and negative reconstruction is not provided.
+Offline software checks do not establish extraction accuracy or reproduce model-training results. Use the [positive-extraction benchmark](positive_extraction.md#benchmark-evaluation) to score saved extractions, and [evaluation](evaluation.md) for reaction holdout and question-panel analyses. Negative reconstruction has no separate reference-based evaluator.

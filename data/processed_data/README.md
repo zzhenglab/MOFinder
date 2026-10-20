@@ -8,6 +8,7 @@ Start with the processed positive and negative synthesis records below to prepar
 | [processed_negative.csv](processed_negative.csv) | Processed negative synthesis records, including reconstructed conditions | 15,063 |
 | [publication_years.csv](publication_years.csv) | DOI-to-year input for dataset preparation | 13,773 |
 | [literature_metadata.csv](literature_metadata.csv) | Six bibliographic fields used for abstract screening | 13,773 |
+| [positive_extraction_200.csv](positive_extraction_200.csv) | Raw model extraction records for the [200-paper benchmark](../../benchmarks/positive_extraction/README.md) | 913 |
 | [literature_retrieval/](literature_retrieval/README.md) | Article and supporting-information inventories | 7,437 each |
 | [linker_corrected/](linker_corrected/README.md) | Optional negative table with documented linker prime glyphs restored | 15,063 |
 | [with_process_details/](with_process_details/README.md) | Positive/negative tables with cleaned vessel type, capacity, and agitation | 15,340 / 15,063 |

@@ -1,6 +1,6 @@
 # Model evaluation and human benchmark analysis
 
-The evaluation modules score model predictions on the reaction holdout and 22-question panel and analyze anonymous human responses. Live model calls, saved-result analysis, and human calculations have separate commands.
+The evaluation modules score saved synthesis extractions, model predictions on the reaction holdout and 22-question panel, and anonymous human responses. Live model calls, saved-result analysis, and human calculations have separate commands.
 
 Install the dependencies from the repository root:
 
@@ -12,6 +12,7 @@ python -m pip install -e ".[evaluation]"
 
 | Workflow | Input | Entry point | Guide |
 | --- | --- | --- | --- |
+| Positive extraction evaluation | Raw extraction CSV and 200-paper synthesis reference | `mofinder.evaluation.positive` | [Extraction benchmark](positive_extraction.md#benchmark-evaluation) |
 | Holdout model evaluation | Final holdout JSONL, 2,595 reactions | `mofinder.evaluation.holdout` | [Holdout](holdout_evaluation.md) |
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
@@ -21,6 +22,7 @@ The training set is `data/processed_data_json/train.jsonl`, and the holdout set 
 ## Offline checks
 
 ```bash
+python -m mofinder.evaluation.positive --validate-only
 python -m mofinder.evaluation.holdout validate --config configs/holdout_evaluation.json
 python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
 python -m mofinder.evaluation.human_quest analyze
@@ -48,6 +50,7 @@ Model requests exclude reference answers. Reference labels and benchmark metadat
 Existing prediction CSVs can be analyzed without repeating model calls:
 
 ```bash
+python -m mofinder.evaluation.positive
 python -m mofinder.evaluation.holdout analyze --csv results/evaluation/holdout/holdout_mofinder.csv
 python -m mofinder.evaluation.quest analyze path/to/saved_question_predictions.csv
 ```
@@ -56,4 +59,4 @@ Use the filenames produced by the configured run. The stage guides describe outp
 
 ## Evaluation scope
 
-Separate reference-based scoring for positive extraction and negative reconstruction is not included. The available model evaluators score reaction-condition predictions; reproducing model-performance results requires the corresponding saved predictions.
+Positive extraction is evaluated against the included 200-paper reference, with record, field and paper metrics. Negative reconstruction has no separate reference-based evaluator. The reaction evaluators score P/N condition predictions; reproducing those results requires the corresponding saved predictions.
