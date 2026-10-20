@@ -10,8 +10,6 @@ code, and topology. Paper and record IDs link the sheets; MOF names support
 record matching.
 
 Accepted alternatives use ` | `; `not reported` accepts an empty value.
-Keep `reference_rules.json` beside the workbook: it preserves coupled reagent
-names and amounts and explicit record-specific equivalences.
 
 The [prediction CSV](../../data/processed_data/positive_extraction_200.csv)
 contains 913 model extraction records for the same publications. File hashes
