@@ -244,7 +244,7 @@
     },
     {
       "path": "benchmarks/positive_extraction/ground_truth.xlsx",
-      "sha256": "3c4f5c370a06ff6561661a41dfdb7008fe92f8fd81e7db1b12b0f65dbf6c2472",
+      "sha256": "2b8addc45b6955ff8899a02d1018a9523b0ffbcb97f660173aa1c7df6e42f8ed",
       "rows": 1086,
       "publications": 200,
       "sheets": {

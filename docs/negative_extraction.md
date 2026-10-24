@@ -11,9 +11,10 @@ The [reference workbook](../benchmarks/negative_reconstruction/ground_truth.xlsx
 contains 431 scored conditions and 36 accepted alternatives from 100 papers.
 Its single sheet displays `Negative condition`, `A1 contribution` through
 `A4 contribution`, and `Optional: comment by contributing annotator`.
-`Yes` records a listed contribution; `No` means none was recorded, not a rejection.
-Contributing annotators can use the optional comment column for a correction,
-qualification, or explanation; comments do not change evaluation scores.
+`Yes` marks contributor attribution; previously unassigned rows default to `A1`.
+Contribution flags and optional comments do not affect scores.
+`OPTIONAL ALL` accepts outputs satisfying every listed constraint, but its recovery
+is not required for recall, paper completion or reference accuracy.
 Record IDs identify the paper and successful parent. Matching context is stored
 within the workbook.
 
