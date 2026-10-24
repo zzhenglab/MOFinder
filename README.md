@@ -43,6 +43,7 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | Download articles and supporting information | [Literature retrieval](docs/literature_retrieval.md) |
 | Match documents and extract synthesis records | [Workflow guide](docs/workflow.md) |
 | Evaluate saved positive extraction records | [Positive extraction benchmark](docs/positive_extraction.md#benchmark-evaluation) |
+| Evaluate saved negative reconstruction records | [Negative reconstruction benchmark](docs/negative_extraction.md#benchmark-evaluation) |
 | Curate records and prepare training and holdout JSONL | [Data curation](docs/curation.md) and [dataset preparation](docs/datasets.md) |
 | Look up chemical names and SMILES | [Mapping tables](data/name_SMILES_mappers/README.md) |
 | Inspect processed records and publication metadata | [Processed data](data/processed_data/README.md) |

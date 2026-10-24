@@ -13,6 +13,7 @@ python -m pip install -e ".[evaluation]"
 | Workflow | Input | Entry point | Guide |
 | --- | --- | --- | --- |
 | Positive extraction evaluation | Raw extraction CSV and 200-paper synthesis reference | `mofinder.evaluation.positive` | [Extraction benchmark](positive_extraction.md#benchmark-evaluation) |
+| Negative reconstruction evaluation | Saved negative recipes and 100-paper failure-condition reference | `mofinder.evaluation.negative` | [Negative benchmark](negative_extraction.md#benchmark-evaluation) |
 | Holdout model evaluation | Final holdout JSONL, 2,595 reactions | `mofinder.evaluation.holdout` | [Holdout](holdout_evaluation.md) |
 | Question-panel model evaluation | 22 configured reaction conditions | `mofinder.evaluation.quest` | [Question panel](quest_evaluation.md) |
 | Human benchmark analysis | Anonymous answers and human question definitions | `mofinder.evaluation.human_quest` | [Human benchmark](human_benchmark.md) |
@@ -59,4 +60,4 @@ Use the filenames produced by the configured run. The stage guides describe outp
 
 ## Evaluation scope
 
-Positive extraction is evaluated against the included 200-paper reference, with record, field and paper metrics. Negative reconstruction has no separate reference-based evaluator. The reaction evaluators score P/N condition predictions; reproducing those results requires the corresponding saved predictions.
+Positive extraction is evaluated against the included 200-paper reference, with record, field and paper metrics. Negative reconstruction is evaluated against its included 100-paper reference, with paper completion, fixed-reference record and field metrics, and separate output-support diagnostics. The reaction evaluators score P/N condition predictions; reproducing those results requires the corresponding saved predictions.

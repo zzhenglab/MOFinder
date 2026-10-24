@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Updated negative reconstruction benchmark files and evaluation documentation.
+
 - Bundled positive-extraction matching metadata in the five-sheet reference workbook, removing the separate JSON input.
 
 - Pooled repeated metal, linker, modulator and solvent slots in positive-extraction field metrics. Names and amounts remain separate, and overall micro metrics are unchanged. The two scopes are named all-protocol and recovered-protocol evaluation.
