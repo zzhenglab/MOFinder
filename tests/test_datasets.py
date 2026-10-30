@@ -1,5 +1,4 @@
 """Offline checks for condition features, cluster splits, and training JSONL."""
-
 import importlib.util
 import json
 from pathlib import Path
@@ -34,7 +33,6 @@ def synthetic_tables(pd):
     positives.append(dict(positives[0], metal_1=None))  # Missing required reagent.
     years.append({"DOI": forced["doi"], "Publication Year": 2020})
     return pd.DataFrame(positives), pd.DataFrame(negatives), pd.DataFrame(years)
-
 
 @unittest.skipUnless(HAS_TABLE_DEPENDENCIES, "Install the datasets extra for dataset tests.")
 class DatasetTests(unittest.TestCase):
