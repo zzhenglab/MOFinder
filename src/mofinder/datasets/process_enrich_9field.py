@@ -8,7 +8,6 @@ import json
 from pathlib import Path
 import tempfile
 import zipfile
-
 from mofinder.curation import agitation_source_reviews, process_stirring, stirring_presence
 from mofinder.curation.stirring_presence import classify_stirring, STIRRING_VALUES
 from mofinder.training.common import sha256
