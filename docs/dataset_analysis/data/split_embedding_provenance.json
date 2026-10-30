@@ -14,7 +14,7 @@
     {
       "partition": "holdout",
       "path": "data/processed_data_json/holdout.jsonl",
-      "sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
+      "sha256": "31fcf777ce64dc719e7f64b4b87a5c921f7af19430a76911c8ef73b16c6a3234",
       "records": 2595,
       "outcomes": {
         "P": 1320,
@@ -24,11 +24,11 @@
   ],
   "coordinates": {
     "path": "docs/dataset_analysis/data/tsne_coordinates.csv",
-    "sha256": "a429cf8a5f4c07c92e37f330f8a1e0f3f16d9194286b296c552e876cfc45213b",
+    "sha256": "ec165869a83028dda295e7886f8977b4208ee98cf3045320a813110d5179ae79",
     "rows": 26123,
     "row_identity": "Partition and one-based JSONL line number."
   },
-  "source_inputs_match_repository": "Coordinates were refitted from the repository JSONL inputs identified above. The released input files were not modified.",
+  "source_inputs_match_repository": "Coordinates were refitted from the repository JSONL inputs identified above. The input files were not modified during this refit; training is unchanged and the two holdout recipe corrections are recorded below.",
   "categorical_fields": [
     "metal_precursor",
     "organic_linker",
@@ -70,10 +70,10 @@
   },
   "fit": {
     "categories_by_field": {
-      "metal_precursor": 804,
+      "metal_precursor": 805,
       "organic_linker": 5396,
       "modulator": 1792,
-      "solvent": 330
+      "solvent": 331
     },
     "numeric_missing_counts": {
       "metal_concentration_mM": 2039,
@@ -90,18 +90,18 @@
     "numeric_scaler_means": {
       "metal_concentration_mM": 4695.532021590169,
       "M_L_ratio": 518.2211158749012,
-      "temperature_C": 114.94215442330514,
+      "temperature_C": 114.94483405428169,
       "time_h": 61.59530472253057
     },
     "numeric_scaler_scales": {
       "metal_concentration_mM": 131937.20694837673,
       "M_L_ratio": 13314.022059184392,
-      "temperature_C": 47.513924615502965,
+      "temperature_C": 47.51223586970356,
       "time_h": 110.33863054562075
     },
     "descriptor_shape": [
       26123,
-      8330
+      8332
     ],
     "descriptor_nonzero_entries": 212487,
     "svd": {
@@ -109,7 +109,7 @@
       "algorithm": "randomized",
       "n_iter": 5,
       "random_state": 42,
-      "explained_variance_ratio_sum": 0.7760831713676453
+      "explained_variance_ratio_sum": 0.7760511040687561
     },
     "tsne": {
       "n_components": 2,
@@ -126,7 +126,7 @@
       "angle": 0.5,
       "n_jobs": 4,
       "effective_learning_rate": 544.2291666666666,
-      "kl_divergence": 0.7825720906257629,
+      "kl_divergence": 0.7821187376976013,
       "n_iter_completed_zero_based": 999
     },
     "software": {
@@ -147,13 +147,13 @@
   },
   "refit": {
     "performed": true,
-    "started_utc": "2026-10-30T19:35:23.556124+00:00",
-    "reason": "Released reaction-name corrections changed categorical condition descriptors; the previous coordinates represented earlier JSONL inputs.",
+    "started_utc": "2026-10-30T20:08:11.414676+00:00",
+    "reason": "Two user-corrected holdout recipes changed chemical identity/name descriptors and synthesis temperatures: line 1675 AlCl3 to AlCl36H2O, sodium hydroxide (NaOH) to NaOH, 100 to 120 C; line 2206 dimethylformamide to N,N-dimethylformamide, 50 to 100 C. Training records, split membership, order, labels and all other holdout fields are unchanged.",
     "previous_repository_inputs": [
       {
         "partition": "training",
         "path": "data/processed_data_json/train.jsonl",
-        "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+        "sha256": "9be9cb13b43e1c7255236c30644926095e830ffea4dd572bf573c2d3e58b6ccc",
         "records": 23528,
         "outcomes": {
           "P": 11968,
@@ -163,7 +163,7 @@
       {
         "partition": "holdout",
         "path": "data/processed_data_json/holdout.jsonl",
-        "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+        "sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
         "records": 2595,
         "outcomes": {
           "P": 1320,
@@ -171,8 +171,48 @@
         }
       }
     ],
-    "previous_coordinates_sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d",
+    "previous_coordinates_sha256": "a429cf8a5f4c07c92e37f330f8a1e0f3f16d9194286b296c552e876cfc45213b",
+    "previous_source_code_hashes": {
+      "src/mofinder/plotting/split_embedding.py": "1532bf9f46729fc4ae4df7777f448846f625ecd11ac45992849b5c2bf8a75a2a",
+      "src/mofinder/plotting/dataset_analysis.py": "9f4c47401171a9ea6c672160b2ed031a6cbbee762f8255ee0ede2052125a2ff1"
+    },
+    "corrected_holdout_jsonl_lines": [
+      1675,
+      2206
+    ],
     "parameters_unchanged": true,
     "coordinate_identity": "All 26,123 coordinates verified against partition, one-based JSONL line number, and P/N outcome."
-  }
+  },
+  "refit_history": [
+    {
+      "performed": true,
+      "started_utc": "2026-10-30T19:35:23.556124+00:00",
+      "reason": "Released reaction-name corrections changed categorical condition descriptors; the previous coordinates represented earlier JSONL inputs.",
+      "previous_repository_inputs": [
+        {
+          "partition": "training",
+          "path": "data/processed_data_json/train.jsonl",
+          "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+          "records": 23528,
+          "outcomes": {
+            "P": 11968,
+            "N": 11560
+          }
+        },
+        {
+          "partition": "holdout",
+          "path": "data/processed_data_json/holdout.jsonl",
+          "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+          "records": 2595,
+          "outcomes": {
+            "P": 1320,
+            "N": 1275
+          }
+        }
+      ],
+      "previous_coordinates_sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d",
+      "parameters_unchanged": true,
+      "coordinate_identity": "All 26,123 coordinates verified against partition, one-based JSONL line number, and P/N outcome."
+    }
+  ]
 }

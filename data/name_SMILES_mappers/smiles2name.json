@@ -1589,6 +1589,7 @@
     "[Zn4O(mu-dimethylcarbamate)6]·toluene"
   ],
   "CN(C)C=O": [
+    "N,N-dimethylformamide",
     "dimethylformamide"
   ],
   "CN(C)C=[O]->[Fe+3](<-[O]=CN(C)C)(<-[O]=CN(C)C)(<-[O]=CN(C)C)(<-[O]=CN(C)C)<-[O]=CN(C)C.[O-][Cl+3]([O-])([O-])[O-].[O-][Cl+3]([O-])([O-])[O-].[O-][Cl+3]([O-])([O-])[O-]": [
@@ -3536,6 +3537,7 @@
     "AgClO4·6H2O"
   ],
   "O.O.O.O.O.O.[Al+3].[Cl-].[Cl-].[Cl-]": [
+    "AlCl36H2O",
     "AlCl3·6H2O"
   ],
   "O.O.O.O.O.O.[Cd+2].[Cl-].[Cl-]": [

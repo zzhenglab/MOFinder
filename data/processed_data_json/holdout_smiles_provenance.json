@@ -2,9 +2,9 @@
   "schema_version": 1,
   "purpose": "Provenance for the baseline-testing SMILES view of the unchanged holdout membership.",
   "parent_holdout": "holdout.jsonl",
-  "parent_holdout_sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
+  "parent_holdout_sha256": "31fcf777ce64dc719e7f64b4b87a5c921f7af19430a76911c8ef73b16c6a3234",
   "smiles_holdout": "holdout_smiles.jsonl",
-  "smiles_holdout_sha256": "b6cc0a931cc18f725cbdaa5ae22c50b6c47dc97b047bcbd0940f006a0f455f50",
+  "smiles_holdout_sha256": "5a63f93eeaf172a85dd5802eba3e5e486404558ccfe7fd73ee1d4872d56455e1",
   "frozen_structure_mapping_sha256": "3be44258ed243c6d396962ce350711347ba7dd3af28e5b203e52157a301fb47f",
   "chemical_fields": [
     "metal_precursor",
@@ -12,7 +12,7 @@
     "modulator",
     "solvent"
   ],
-  "representation": "Each role contains unique canonical SMILES copied from the frozen reviewed mapping. Separate array items preserve reagent-level boundaries; disconnected fragments within an item remain together. An empty array means no reagent in that role.",
+  "representation": "Each role contains unique canonical SMILES from the frozen reviewed mapping, with the explicitly documented user-requested recipe corrections below. Separate array items preserve reagent-level boundaries; disconnected fragments within an item remain together. An empty array means no reagent in that role.",
   "qualification": "A graph can be a qualified parent, component inventory or polymer motif. Assumptions and incomplete connectivity are explicitly flagged. structure_complete means reviewed representation without fallback assumptions, not a guarantee of complete supplied-material connectivity.",
   "summary": {
     "records": 2595,
@@ -262437,10 +262437,10 @@
       "roles": {
         "metal_precursor": {
           "smiles": [
-            "[Al+3].[Cl-].[Cl-].[Cl-]"
+            "O.O.O.O.O.O.[Al+3].[Cl-].[Cl-].[Cl-]"
           ],
           "canonical_names": [
-            "AlCl3"
+            "AlCl3·6H2O"
           ],
           "has_assumption": false,
           "has_formula_inventory": false,
@@ -262448,12 +262448,12 @@
           "components": [
             {
               "field": "metal_1",
-              "raw_name": "AlCl3",
+              "raw_name": "AlCl36H2O",
               "canonical_names": [
-                "AlCl3"
+                "AlCl3·6H2O"
               ],
               "smiles": [
-                "[Al+3].[Cl-].[Cl-].[Cl-]"
+                "O.O.O.O.O.O.[Al+3].[Cl-].[Cl-].[Cl-]"
               ],
               "assumed": false,
               "full_connectivity": true,
@@ -262464,7 +262464,7 @@
               "mapping_comment": "",
               "review_ids": [],
               "catalog_identity_ids": [
-                "C89df9355aed709"
+                "Cf9b17aac040a49"
               ],
               "source_confirmed_reagent": null
             }
@@ -262542,7 +262542,7 @@
           "components": [
             {
               "field": "modulator_1",
-              "raw_name": "sodium hydroxide (NaOH)",
+              "raw_name": "NaOH",
               "canonical_names": [
                 "NaOH"
               ],
@@ -345729,7 +345729,7 @@
           "components": [
             {
               "field": "solvent_main",
-              "raw_name": "dimethylformamide",
+              "raw_name": "N,N-dimethylformamide",
               "canonical_names": [
                 "dimethylformamide"
               ],
@@ -407351,6 +407351,66 @@
           ]
         }
       }
+    }
+  ],
+  "frozen_structure_mapping_note": "frozen_structure_mapping_sha256 identifies the historical mapping used for the initial SMILES export. The 2026-10-30 correction changes the identity assigned to holdout row 1675 from anhydrous AlCl3 to the existing catalog AlCl3 hexahydrate identity; the frozen mapping file itself was not regenerated.",
+  "recipe_corrections": [
+    {
+      "date": "2026-10-30",
+      "basis": "Explicit user-provided corrections to the two released holdout recipes; canonical hydrate graph verified against the existing reagent catalog.",
+      "previous_parent_holdout_sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
+      "previous_smiles_holdout_sha256": "b6cc0a931cc18f725cbdaa5ae22c50b6c47dc97b047bcbd0940f006a0f455f50",
+      "records": [
+        {
+          "jsonl_row_number": 1675,
+          "source_row_id": 2966,
+          "doi": "10.1021/jacs.2c09756",
+          "base_condition_changes": {
+            "metal_precursor": {
+              "old": "AlCl3",
+              "new": "AlCl36H2O"
+            },
+            "modulator": {
+              "old": "sodium hydroxide (NaOH)",
+              "new": "NaOH"
+            },
+            "temperature_C": {
+              "old": 100.0,
+              "new": 120.0
+            }
+          },
+          "chemical_graph_change": {
+            "role": "metal_precursor",
+            "old": [
+              "[Al+3].[Cl-].[Cl-].[Cl-]"
+            ],
+            "new": [
+              "O.O.O.O.O.O.[Al+3].[Cl-].[Cl-].[Cl-]"
+            ],
+            "canonical_name": "AlCl3·6H2O",
+            "catalog_identity_ids": [
+              "Cf9b17aac040a49"
+            ]
+          }
+        },
+        {
+          "jsonl_row_number": 2206,
+          "source_row_id": 8310,
+          "doi": "10.1002/anie.202421942",
+          "base_condition_changes": {
+            "solvent": {
+              "old": "dimethylformamide",
+              "new": "N,N-dimethylformamide"
+            },
+            "temperature_C": {
+              "old": 50.0,
+              "new": 100.0
+            }
+          },
+          "chemical_graph_change": null
+        }
+      ],
+      "unchanged": "All other records, chemical graphs, numeric conditions, membership, ordering, labels, system messages and mapping qualification flags are unchanged. NaOH and N,N-dimethylformamide are name-only corrections to their existing chemical graphs."
     }
   ]
 }

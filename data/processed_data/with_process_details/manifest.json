@@ -9,8 +9,8 @@
       "input_columns": 83,
       "output_columns": 86,
       "input": "data/processed_data/processed_positive.csv",
-      "input_sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "sha256": "45d593cee581aec5a0ea95f72b0920765c06dab0b67bdd91d5057dd335ffa3ad",
+      "input_sha256": "db3dece2a19aea6d1a4e4ec2f8924a68a01c85f7b729f5e830cd64575721aab8",
+      "sha256": "b17affc7f0e815ffd3b0ec4c48b652ab33ff30ace525c085a21e36a8084fa199",
       "retained_cells_and_order_equal": true,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
@@ -24,12 +24,21 @@
       "input_columns": 76,
       "output_columns": 79,
       "input": "data/processed_data/processed_negative.csv",
-      "input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
+      "input_sha256": "a65be7a987bda0209fc82814b94c572f17ea209a0aeb851667284300d124abaa",
       "sha256": "664c81efd6c4c06246fd8352efba6261c923d9e93cc3e412fc9a29eb9693e266",
-      "retained_cells_and_order_equal": true,
+      "retained_cells_and_order_equal": false,
       "raw_column_renames": {
         "vessel_type": "vessel_type_raw",
         "stirring": "stirring_raw"
+      },
+      "original_input_sha256": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
+      "source_alignment": {
+        "rows_and_order_equal": true,
+        "retained_cell_differences": {
+          "metal_1": 6,
+          "linker_1": 40
+        },
+        "interpretation": "This negative process-detail export retains reagent names from its original input hash. Those 46 name cells differ from the current processed_negative.csv; all other retained values and source row order agree."
       }
     }
   ],
@@ -125,6 +134,7 @@
     "unresolved_records": 21
   },
   "rows_preserved": true,
-  "source_values_preserved": true,
-  "negative_provenance": "Negative process annotations can be inherited; normalization does not validate failed attempts."
+  "source_values_preserved": false,
+  "negative_provenance": "Negative process annotations can be inherited; normalization does not validate failed attempts.",
+  "source_values_scope": "Positive retained values match the current positive input, including the two targeted holdout-record corrections. The negative export retains its original reagent names; its existing differences from the current input are quantified in files[].source_alignment."
 }

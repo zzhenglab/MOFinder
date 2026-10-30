@@ -1,6 +1,6 @@
 # Nine-field process-enriched dataset
 
-The original eight reaction inputs plus `stirring`. The existing split, row order, P/N labels, and all eight original values are preserved.
+The eight reaction inputs plus `stirring`. The archived split, row order, labels, and training inputs are retained. Holdout rows 1,675 and 2,206 include the requested reagent-name and temperature corrections; the remaining inputs retain the archived build values. These files therefore do not claim complete eight-input equality with the current baseline, which also contains separate reagent-name corrections.
 
 | File | P | N | Total |
 |---|---:|---:|---:|

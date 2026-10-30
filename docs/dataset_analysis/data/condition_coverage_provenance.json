@@ -4,7 +4,7 @@
     {
       "class": "Positive",
       "path": "data/processed_data/processed_positive.csv",
-      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
+      "sha256": "db3dece2a19aea6d1a4e4ec2f8924a68a01c85f7b729f5e830cd64575721aab8",
       "records": 15340
     },
     {
@@ -14,7 +14,14 @@
       "records": 15063
     }
   ],
-  "verification": {
+  "selection": {
+    "finite_values": "Each parameter pair is checked independently.",
+    "logarithmic_axes": "Nonpositive values are excluded.",
+    "coordinates": "Exact coordinates are grouped within each outcome.",
+    "opacity": "1 - (1 - 0.24) ** record_count",
+    "concentration_unit": "mM"
+  },
+  "historical_source_verification": {
     "code_sha256": "c29e894d9792d7e8c04ce16d7e20cc91b0c5f1c492ed87f239dd641b18724bf8",
     "input_sha256": "cf2fc7e9cc6d8a99a5d89333b0f70969266958acb453f569fa9a4713214d0d46",
     "matched_records": 30403,
@@ -26,11 +33,15 @@
       "M_L_ratio"
     ]
   },
-  "selection": {
-    "finite_values": "Each parameter pair is checked independently.",
-    "logarithmic_axes": "Nonpositive values are excluded.",
-    "coordinates": "Exact coordinates are grouped within each outcome.",
-    "opacity": "1 - (1 - 0.24) ** record_count",
-    "concentration_unit": "mM"
+  "verification": {
+    "code_path": "src/mofinder/plotting/condition_coverage.py",
+    "code_sha256": "727e9f269855ce145cf789ddbab4488b8ca537eda015d326adcefe53d4948baf",
+    "input_records": 30403,
+    "positive_records": 15340,
+    "negative_records": 15063,
+    "pair_summaries_verified": 12,
+    "expected_statistics_path": "docs/dataset_analysis/data/condition_coverage_expected.json",
+    "expected_statistics_sha256": "68c87b8758de962728afd811744038e2438984c5f7858610dee03f1eb5856401",
+    "method": "Recomputed all six parameter pairs for both classes from the pinned current CSVs, including exact coordinate multiplicities. The earlier source-comparison audit is retained separately as historical provenance."
   }
 }

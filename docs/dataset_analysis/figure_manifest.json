@@ -53,14 +53,14 @@
     },
     {
       "path": "figures/01_synthesis_records/Figure_D4_top10_solvents.png",
-      "sha256": "ce27f895462451429055189f5d13af03edb13817a965ea52c662258a7c13198b",
+      "sha256": "bf08dfd4b843bf0683cdcded2ee0f32850e55738ce9e22729b74d0444b3d18c9",
       "width_inches": 6,
       "height_inches": 3.1,
       "dpi": 600
     },
     {
       "path": "figures/02_records_and_DOI/Figure_D4_top10_solvents.png",
-      "sha256": "0a70d83ea9d6f6c19df00ac8457af8fe69e282fe444e0f1bcc5decf94a3c3850",
+      "sha256": "1357540076e21e80af904e079ec44403e0ffedc66a4e790c6d8e09cb8281705b",
       "width_inches": 6,
       "height_inches": 6.2,
       "dpi": 600

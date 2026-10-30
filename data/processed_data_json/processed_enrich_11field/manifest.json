@@ -34,12 +34,14 @@
       "sha256": "664c81efd6c4c06246fd8352efba6261c923d9e93cc3e412fc9a29eb9693e266"
     },
     "baseline_train": {
-      "path": "data/processed_data_json/train.jsonl",
-      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095"
+      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "historical_path": "data/processed_data_json/train.jsonl",
+      "availability": "Historical build input identity; the current baseline at this former path contains later corrections."
     },
     "baseline_holdout": {
-      "path": "data/processed_data_json/holdout.jsonl",
-      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
+      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "historical_path": "data/processed_data_json/holdout.jsonl",
+      "availability": "Historical build input identity; the current baseline at this former path contains later corrections."
     },
     "split_assignments": {
       "historical_path": "data/processed_data_json/split_assignments.csv",
@@ -276,15 +278,15 @@
     "holdout": {
       "path": "holdout_process_enrich.jsonl",
       "rows": 2595,
-      "sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e",
-      "bytes": 2524281,
+      "sha256": "aa6ea965d1cb07d9e2a562463b699511fc5a06ce8df2c05d2398d17ba33f5878",
+      "bytes": 2524271,
       "labels": {
         "N": 1275,
         "P": 1320
       },
       "source_rows": {
         "path": "holdout_sources.csv",
-        "sha256": "71030b751a7a7ebee042463f30975aa34870d00add39f3b85640d912c424326c"
+        "sha256": "4fe14346b16494a2202ef3526e3ffa4a6d33371d3e3cf67a4c61fdf957a35070"
       },
       "process_distributions_by_label": {
         "vessel_type": {
@@ -435,7 +437,8 @@
     "path_base": "project_root (absolute paths retained for external inputs)",
     "sha256": "433111a0cacc8f9ad90647768bc2c002aa1c68eb1af53bef5750d4d7c695028f"
   },
-  "validation": {
+  "source_hash_scope": "Historical build inputs are retained by hash; their former paths may now contain later versions. Corrected output identities and current dependency identities are recorded separately.",
+  "original_build_validation": {
     "mapped_source_rows": 26123,
     "all_assignments_consumed_once": true,
     "baseline_order_labels_and_eight_inputs_preserved": true,
@@ -443,5 +446,91 @@
     "source_chemistry_and_doi_match_assignments": true,
     "condition_and_cluster_overlap": 0,
     "shared_train_holdout_dois": 864
+  },
+  "validation": {
+    "archived_split_order_labels_and_training_inputs_preserved": true,
+    "only_documented_holdout_rows_changed": [
+      1675,
+      2206
+    ],
+    "process_fields_and_system_prompts_preserved": true,
+    "current_baseline_eight_input_comparison": {
+      "train": {
+        "rows_compared": 23528,
+        "different_rows": 34,
+        "different_fields": 34,
+        "differences_by_field": {
+          "organic_linker": 34
+        },
+        "labels_and_row_order_preserved": true,
+        "all_eight_values_match": false
+      },
+      "holdout": {
+        "rows_compared": 2595,
+        "different_rows": 12,
+        "different_fields": 12,
+        "differences_by_field": {
+          "metal_precursor": 6,
+          "organic_linker": 6
+        },
+        "labels_and_row_order_preserved": true,
+        "all_eight_values_match": false
+      }
+    }
+  },
+  "holdout_corrections": {
+    "authorization": "User-requested correction of holdout lines 1675 and 2206; no retraining or rescoring performed.",
+    "reference_current_holdout": {
+      "path": "data/processed_data_json/holdout.jsonl",
+      "sha256": "31fcf777ce64dc719e7f64b4b87a5c921f7af19430a76911c8ef73b16c6a3234"
+    },
+    "rows": [
+      {
+        "jsonl_row_number": 1675,
+        "fields": {
+          "metal_precursor": {
+            "before": "AlCl3",
+            "after": "AlCl36H2O"
+          },
+          "modulator": {
+            "before": "sodium hydroxide (NaOH)",
+            "after": "NaOH"
+          },
+          "temperature_C": {
+            "before": 100.0,
+            "after": 120.0
+          }
+        }
+      },
+      {
+        "jsonl_row_number": 2206,
+        "fields": {
+          "solvent": {
+            "before": "dimethylformamide",
+            "after": "N,N-dimethylformamide"
+          },
+          "temperature_C": {
+            "before": 50.0,
+            "after": 100.0
+          }
+        }
+      }
+    ],
+    "previous_enriched_holdout_sha256": "02e5728a850c99bf62df0dc5f2fdb6c6c139b7fe1513525a5b0d73179802ea3e",
+    "condition_key_scope": "Corrected holdout condition keys; archived cluster keys and split membership remain unchanged."
+  },
+  "historical_independent_verification": {
+    "path": "independent_verification.json",
+    "sha256": "2fd5f7340f6c626fad6e580d1c89bacd9ffec3c6d4cee38d94948ed6b297b4c1",
+    "scope": "Original build audit against the archived baseline; predates the current holdout corrections and is preserved unchanged."
+  },
+  "package": {
+    "path": "process_enrich_train_holdout.zip",
+    "sha256": "e699afda9169d2b2a5a5548b6f774886863c795061238eb055ea54bf15e3a9b0",
+    "members": [
+      "train_process_enrich.jsonl",
+      "holdout_process_enrich.jsonl",
+      "README.md"
+    ]
   }
 }

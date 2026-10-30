@@ -6,13 +6,13 @@
   "repository_inputs": [
     {
       "path": "data/processed_data/processed_positive.csv",
-      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "bytes": 11274305
+      "sha256": "db3dece2a19aea6d1a4e4ec2f8924a68a01c85f7b729f5e830cd64575721aab8",
+      "bytes": 11274298
     },
     {
       "path": "docs/dataset_analysis/data/expected_statistics.json",
-      "sha256": "888130770c7b7e1c712cd1b1959749d11c1c21e6ff38c2996a1903f6079472e7",
-      "bytes": 1122489
+      "sha256": "a7a17de4f88997aa19433384c671897314afdb6160e58c7e3b7f70250732e672",
+      "bytes": 1122919
     }
   ],
   "category_normalization": {
@@ -22,7 +22,7 @@
       "top_n": 20,
       "nonempty_records": 15340,
       "missing_records": 0,
-      "unique_categories": 713,
+      "unique_categories": 714,
       "top_n_records": 8597,
       "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
       "normalization": "existing cleaned names; whitespace and prime-character normalization only"
@@ -44,8 +44,8 @@
       "top_n": 10,
       "nonempty_records": 15340,
       "missing_records": 0,
-      "unique_categories": 75,
-      "top_n_records": 15089,
+      "unique_categories": 76,
+      "top_n_records": 15088,
       "counting_unit": "one primary field occurrence per cleaned positive synthesis row",
       "normalization": "existing cleaned names; whitespace and prime-character normalization only"
     },

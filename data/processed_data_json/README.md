@@ -22,7 +22,7 @@ Each JSONL record contains system, user, and assistant messages. The user messag
 
 ## Process-enriched dataset
 
-[processed_enrich_11field/](processed_enrich_11field/README.md) preserves the same records, order, labels, and eight original inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation` to the user and system prompts.
+[processed_enrich_11field/](processed_enrich_11field/README.md) retains the archived records, order, labels, and training inputs, adding `vessel_type`, `vessel_volume_mL`, and `agitation`. Holdout rows 1,675 and 2,206 include the requested corrections; other inputs retain their archived values, so these controls are not fully identical to the current baseline's eight inputs.
 
 [processed_enrich_9field/](processed_enrich_9field/README.md) adds only `stirring` (`yes`, `no`, or `not reported`) to the original eight inputs, with a corresponding nine-field system prompt.
 
@@ -38,7 +38,7 @@ These JSONL files preserve the original Step 5 exports and use the shared [holdo
 - [artificial_perturbation/](artificial_perturbation/README.md): field-matched and count-matched training sets replacing reconstructed negatives with artificial perturbations of training positives.
 - [leave_one_perturbation_out/](leave_one_perturbation_out/README.md): one training set removing single-field negative neighbors and five equally sized random-drop controls.
 
-Both folders include the standard holdout and use the existing trained baseline for comparison.
+Both folders retain the archived study holdout used with the existing trained baseline. These frozen study files preserve their original conditions and do not incorporate later corrections to the current holdout.
 
 ## Training and test visualization
 

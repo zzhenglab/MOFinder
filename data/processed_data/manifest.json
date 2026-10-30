@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
-  "description": "Processed synthesis inputs. Positive records are unchanged. Negative records omit product characterization/property columns as documented below and include source-verified reagent-name corrections; numeric values and source row order are unchanged. Included final JSONL predates the column-only cleanup and carries the corresponding name corrections.",
+  "description": "Processed synthesis inputs. Positive records include targeted reagent-name and temperature corrections in two holdout source records. Negative records omit product characterization/property columns and include source-verified reagent-name corrections as documented below. Source row order is preserved.",
   "files": [
     {
       "file": "processed_positive.csv",
       "source_sha256": "3d18198fd3cffec8da6d7b18bbcb9131e2ffac9b6a30d6ab8d5128e36100844b",
-      "sha256": "c348398050f74de5bb275546890dc26d95bbc6f49175f856ac8f6d654757c7c5",
-      "size_bytes": 11274305,
+      "sha256": "db3dece2a19aea6d1a4e4ec2f8924a68a01c85f7b729f5e830cd64575721aab8",
+      "size_bytes": 11274298,
       "rows": 15340,
       "columns": 83,
       "removed_columns": [
@@ -15,7 +15,7 @@
         "raw_output",
         "parsed_json"
       ],
-      "transformation": "Removed only the four local file-path columns. All remaining cell values and source row order preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
+      "transformation": "Removed the four local file-path columns. Seven cells across zero-based source rows 2966 and 8310 contain the requested holdout corrections: metal_1 AlCl3 to AlCl36H2O, modulator_1 to NaOH, and temperature 100 to 120 degrees C in row 2966; solvent_main to N,N-dimethylformamide and temperature 50 to 100 degrees C in row 8310. Both temperature_c_text values agree with temperature_c. All other retained cell values and source row order are preserved. UTF-8 byte-order mark included for spreadsheet compatibility.",
       "source_description": "Processed positive synthesis records",
       "encoding": "utf-8-sig"
     },

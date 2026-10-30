@@ -103,16 +103,16 @@
     },
     {
       "path": "data/name_SMILES_mappers/name2smiles.json",
-      "sha256": "560f6b257b25961ddad26303b0c30d5337c27c9d332f86505d445d21f3ce6fef",
-      "entries": 3302,
-      "source_description": "Audited MOF reagent catalog and source-verified corrected-record aliases",
-      "transformation": "Chemical names mapped to their audited SMILES, including four source-verified full names used in corrected records. Identical names across roles collapsed only when their SMILES agree; the positive-record catalog is unchanged."
+      "sha256": "8da550db97e404862d39abb769ca58a66d47921b5beb44a3a4aadaf95e59c3f8",
+      "entries": 3304,
+      "source_description": "Audited MOF reagent catalog and aliases for released records",
+      "transformation": "Chemical names mapped to their audited SMILES, including aliases used in released corrected records. Identical names across roles collapsed only when their SMILES agree; the positive-record catalog is unchanged."
     },
     {
       "path": "data/name_SMILES_mappers/smiles2name.json",
-      "sha256": "ad1d299b9d75eba8f2c1a3dc6e0c515572a2d9eb697ef814d9c9dd847b1e7300",
+      "sha256": "8c91663507766f31e1efb61811b56704996680318e0e951808121da5c422227c",
       "entries": 3236,
-      "source_description": "Audited MOF reagent catalog and source-verified corrected-record aliases",
+      "source_description": "Audited MOF reagent catalog and aliases for released records",
       "transformation": "Reverse dictionary generated from name2smiles.json, retaining every chemical name for each exact SMILES."
     },
     {

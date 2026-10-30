@@ -21,24 +21,24 @@
   "dpi": 600,
   "limits_all_panels": {
     "x": [
-      -142.63859928999997,
-      132.72252229
+      -141.55533900999998,
+      132.39415301
     ],
     "y": [
-      -133.80367629,
-      141.55744528999998
+      -133.51311450999998,
+      140.43637751
     ]
   },
   "png": "figures/Figure_D10_training_test_tsne.png",
-  "png_sha256": "c6b8f0dca4eeff70969a332f0d57252424d15afbf8913d0c95b54892853e1ecf",
-  "provenance_sha256": "39b632b38ffd0834c13116573f6691ec7ebbaa0d2941c9d63edaaa2ca9f478f4",
-  "coordinates_sha256": "a429cf8a5f4c07c92e37f330f8a1e0f3f16d9194286b296c552e876cfc45213b",
+  "png_sha256": "20b23f8980f5f5621aaefe17d342ca1c7ffa2cda75462a0e76207854c2a35770",
+  "provenance_sha256": "f5e3eb2b47de8eee197beb65d790b1dac6b667d30520782d33d02046f471834d",
+  "coordinates_sha256": "ec165869a83028dda295e7886f8977b4208ee98cf3045320a813110d5179ae79",
   "fit": {
     "categories_by_field": {
-      "metal_precursor": 804,
+      "metal_precursor": 805,
       "organic_linker": 5396,
       "modulator": 1792,
-      "solvent": 330
+      "solvent": 331
     },
     "numeric_missing_counts": {
       "metal_concentration_mM": 2039,
@@ -55,18 +55,18 @@
     "numeric_scaler_means": {
       "metal_concentration_mM": 4695.532021590169,
       "M_L_ratio": 518.2211158749012,
-      "temperature_C": 114.94215442330514,
+      "temperature_C": 114.94483405428169,
       "time_h": 61.59530472253057
     },
     "numeric_scaler_scales": {
       "metal_concentration_mM": 131937.20694837673,
       "M_L_ratio": 13314.022059184392,
-      "temperature_C": 47.513924615502965,
+      "temperature_C": 47.51223586970356,
       "time_h": 110.33863054562075
     },
     "descriptor_shape": [
       26123,
-      8330
+      8332
     ],
     "descriptor_nonzero_entries": 212487,
     "svd": {
@@ -74,7 +74,7 @@
       "algorithm": "randomized",
       "n_iter": 5,
       "random_state": 42,
-      "explained_variance_ratio_sum": 0.7760831713676453
+      "explained_variance_ratio_sum": 0.7760511040687561
     },
     "tsne": {
       "n_components": 2,
@@ -91,7 +91,7 @@
       "angle": 0.5,
       "n_jobs": 4,
       "effective_learning_rate": 544.2291666666666,
-      "kl_divergence": 0.7825720906257629,
+      "kl_divergence": 0.7821187376976013,
       "n_iter_completed_zero_based": 999
     },
     "software": {
