@@ -13,7 +13,7 @@
     }
   },
   "coordinate_source": "docs/dataset_analysis/data/tsne_coordinates.csv",
-  "embedding_refitted": false,
+  "embedding_refitted": true,
   "dimensions_inches": [
     6,
     3.9
@@ -21,16 +21,85 @@
   "dpi": 600,
   "limits_all_panels": {
     "x": [
-      -145.32556405000003,
-      136.33974005
+      -142.63859928999997,
+      132.72252229
     ],
     "y": [
-      -140.88767555,
-      140.77762855
+      -133.80367629,
+      141.55744528999998
     ]
   },
   "png": "figures/Figure_D10_training_test_tsne.png",
-  "png_sha256": "4e3510e3f39a61a66c59451c98b649a262a6d578af77365ef763d1bbca603b8b",
-  "provenance_sha256": "3d8154ba5c4c7f230bec3a03ba03df925027e5ac6af13d40a5667984b295da83",
-  "coordinates_sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d"
+  "png_sha256": "c6b8f0dca4eeff70969a332f0d57252424d15afbf8913d0c95b54892853e1ecf",
+  "provenance_sha256": "39b632b38ffd0834c13116573f6691ec7ebbaa0d2941c9d63edaaa2ca9f478f4",
+  "coordinates_sha256": "a429cf8a5f4c07c92e37f330f8a1e0f3f16d9194286b296c552e876cfc45213b",
+  "fit": {
+    "categories_by_field": {
+      "metal_precursor": 804,
+      "organic_linker": 5396,
+      "modulator": 1792,
+      "solvent": 330
+    },
+    "numeric_missing_counts": {
+      "metal_concentration_mM": 2039,
+      "M_L_ratio": 580,
+      "temperature_C": 0,
+      "time_h": 884
+    },
+    "numeric_imputation_medians": {
+      "metal_concentration_mM": 40.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 120.0,
+      "time_h": 48.0
+    },
+    "numeric_scaler_means": {
+      "metal_concentration_mM": 4695.532021590169,
+      "M_L_ratio": 518.2211158749012,
+      "temperature_C": 114.94215442330514,
+      "time_h": 61.59530472253057
+    },
+    "numeric_scaler_scales": {
+      "metal_concentration_mM": 131937.20694837673,
+      "M_L_ratio": 13314.022059184392,
+      "temperature_C": 47.513924615502965,
+      "time_h": 110.33863054562075
+    },
+    "descriptor_shape": [
+      26123,
+      8330
+    ],
+    "descriptor_nonzero_entries": 212487,
+    "svd": {
+      "n_components": 50,
+      "algorithm": "randomized",
+      "n_iter": 5,
+      "random_state": 42,
+      "explained_variance_ratio_sum": 0.7760831713676453
+    },
+    "tsne": {
+      "n_components": 2,
+      "perplexity": 30,
+      "early_exaggeration": 12,
+      "learning_rate": "auto",
+      "max_iter": 1000,
+      "n_iter_without_progress": 300,
+      "min_grad_norm": 1e-07,
+      "metric": "euclidean",
+      "init": "pca",
+      "random_state": 42,
+      "method": "barnes_hut",
+      "angle": 0.5,
+      "n_jobs": 4,
+      "effective_learning_rate": 544.2291666666666,
+      "kl_divergence": 0.7825720906257629,
+      "n_iter_completed_zero_based": 999
+    },
+    "software": {
+      "python": "3.11.9",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "scikit_learn": "1.9.0",
+      "matplotlib": "3.11.0"
+    }
+  }
 }

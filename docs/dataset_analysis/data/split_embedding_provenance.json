@@ -4,7 +4,7 @@
     {
       "partition": "training",
       "path": "data/processed_data_json/train.jsonl",
-      "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+      "sha256": "9be9cb13b43e1c7255236c30644926095e830ffea4dd572bf573c2d3e58b6ccc",
       "records": 23528,
       "outcomes": {
         "P": 11968,
@@ -14,7 +14,7 @@
     {
       "partition": "holdout",
       "path": "data/processed_data_json/holdout.jsonl",
-      "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+      "sha256": "6c5db5e8811cbcd08f30e9c06bff49de7f5c160faad7db40f48d741e0f230b01",
       "records": 2595,
       "outcomes": {
         "P": 1320,
@@ -24,15 +24,11 @@
   ],
   "coordinates": {
     "path": "docs/dataset_analysis/data/tsne_coordinates.csv",
-    "sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d",
+    "sha256": "a429cf8a5f4c07c92e37f330f8a1e0f3f16d9194286b296c552e876cfc45213b",
     "rows": 26123,
     "row_identity": "Partition and one-based JSONL line number."
   },
-  "source_code_hashes": {
-    "feature_pipeline": "3045ee070840bd6c4b011fbf91e24f4e75a77e2ef442d3e700cb238864017d20",
-    "composite_plot": "b72ef109575fe950a62ca96391e000af01a123d6bacff27ac252f4a777afd406"
-  },
-  "source_inputs_match_repository": "Both JSONL inputs are byte-identical to the supplied inputs.",
+  "source_inputs_match_repository": "Coordinates were refitted from the repository JSONL inputs identified above. The released input files were not modified.",
   "categorical_fields": [
     "metal_precursor",
     "organic_linker",
@@ -75,7 +71,7 @@
   "fit": {
     "categories_by_field": {
       "metal_precursor": 804,
-      "organic_linker": 5399,
+      "organic_linker": 5396,
       "modulator": 1792,
       "solvent": 330
     },
@@ -105,7 +101,7 @@
     },
     "descriptor_shape": [
       26123,
-      8333
+      8330
     ],
     "descriptor_nonzero_entries": 212487,
     "svd": {
@@ -113,14 +109,13 @@
       "algorithm": "randomized",
       "n_iter": 5,
       "random_state": 42,
-      "explained_variance_ratio_sum": 0.7760723829269409
+      "explained_variance_ratio_sum": 0.7760831713676453
     },
     "tsne": {
       "n_components": 2,
       "perplexity": 30,
       "early_exaggeration": 12,
       "learning_rate": "auto",
-      "effective_learning_rate": 544.2291666666666,
       "max_iter": 1000,
       "n_iter_without_progress": 300,
       "min_grad_norm": 1e-07,
@@ -130,15 +125,54 @@
       "method": "barnes_hut",
       "angle": 0.5,
       "n_jobs": 4,
-      "kl_divergence": 0.7812546491622925,
+      "effective_learning_rate": 544.2291666666666,
+      "kl_divergence": 0.7825720906257629,
       "n_iter_completed_zero_based": 999
     },
     "software": {
-      "python": "3.12.14",
-      "numpy": "2.3.5",
-      "scipy": "1.17.0",
-      "scikit_learn": "1.8.0",
-      "matplotlib": "3.10.8"
+      "python": "3.11.9",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "scikit_learn": "1.9.0",
+      "matplotlib": "3.11.0"
     }
+  },
+  "historical_source_code_hashes": {
+    "feature_pipeline": "3045ee070840bd6c4b011fbf91e24f4e75a77e2ef442d3e700cb238864017d20",
+    "composite_plot": "b72ef109575fe950a62ca96391e000af01a123d6bacff27ac252f4a777afd406"
+  },
+  "source_code_hashes": {
+    "src/mofinder/plotting/split_embedding.py": "1532bf9f46729fc4ae4df7777f448846f625ecd11ac45992849b5c2bf8a75a2a",
+    "src/mofinder/plotting/dataset_analysis.py": "9f4c47401171a9ea6c672160b2ed031a6cbbee762f8255ee0ede2052125a2ff1"
+  },
+  "refit": {
+    "performed": true,
+    "started_utc": "2026-10-30T19:35:23.556124+00:00",
+    "reason": "Released reaction-name corrections changed categorical condition descriptors; the previous coordinates represented earlier JSONL inputs.",
+    "previous_repository_inputs": [
+      {
+        "partition": "training",
+        "path": "data/processed_data_json/train.jsonl",
+        "sha256": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
+        "records": 23528,
+        "outcomes": {
+          "P": 11968,
+          "N": 11560
+        }
+      },
+      {
+        "partition": "holdout",
+        "path": "data/processed_data_json/holdout.jsonl",
+        "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
+        "records": 2595,
+        "outcomes": {
+          "P": 1320,
+          "N": 1275
+        }
+      }
+    ],
+    "previous_coordinates_sha256": "fa885f169b54e95fbef6ee800e0c280301ae14d7efbed821b0a4b0960629850d",
+    "parameters_unchanged": true,
+    "coordinate_identity": "All 26,123 coordinates verified against partition, one-based JSONL line number, and P/N outcome."
   }
 }

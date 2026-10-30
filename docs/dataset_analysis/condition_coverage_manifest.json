@@ -77,7 +77,7 @@
   "base_marker_opacity": 0.24,
   "png": "figures/Figure_D1_pairwise_condition_coverage.png",
   "png_sha256": "90525a44de1be8253187f7c1fda290a13cfdcd3ba31690360ae1a137b0bb062b",
-  "provenance_sha256": "6bbea1dff55c92406207241475d4e11f83c40d8af2ac59868dcf7e891780e51b",
+  "provenance_sha256": "78451cf0f0f963d1bbb623c2128ca8ebf4f8fa01463c4bc1f7620fe0cb55ad98",
   "counts": [
     {
       "pair_id": "time_temperature",
