@@ -220,7 +220,7 @@ class ProcessEnrichTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, "Supply matching baseline split assignments.*--split-assignments"):
                         loader(config)
                     settings = loader(config, split_assignments=self.settings["split_assignments"])
-                    self.assertEqual(settings["split_assignments"], self.settings["split_assignments"])
+                    self.assertEqual(settings["split_assignments"], self.settings["split_assignments"].resolve())
                     self.assertEqual(sha256(config), original_hash)
 
     def test_assignment_config_path_resolves_from_project_root_and_override_wins(self):
@@ -230,12 +230,12 @@ class ProcessEnrichTests(unittest.TestCase):
         for loader in (process_enrich.load_settings, process_enrich_9field.load_settings):
             with self.subTest(loader=loader.__module__):
                 config.write_text(json.dumps(values), encoding="utf-8")
-                self.assertEqual(loader(config)["split_assignments"], self.root / "assignments.csv")
+                self.assertEqual(loader(config)["split_assignments"], (self.root / "assignments.csv").resolve())
                 config.write_text(json.dumps(dict(values, split_assignments="missing.csv")), encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, "Matching baseline split assignments file not found"):
                     loader(config)
                 self.assertEqual(loader(config, split_assignments=self.root / "assignments.csv")["split_assignments"],
-                                 self.root / "assignments.csv")
+                                 (self.root / "assignments.csv").resolve())
 
     def test_nine_field_cli_uses_explicit_assignments_without_changing_config(self):
         prepare_process_enrich(self.settings)
