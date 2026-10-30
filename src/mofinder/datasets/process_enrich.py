@@ -1,6 +1,7 @@
 """Append audited process fields to an existing split without resplitting or relabeling.
 
-Run with ``python -m mofinder.datasets.process_enrich --config CONFIG``.
+Run with ``python -m mofinder.datasets.process_enrich --config CONFIG
+--split-assignments MATCHING_ASSIGNMENTS.csv``.
 The assignment table, not a fresh deduplication, selects the original source row.
 """
 
@@ -41,14 +42,33 @@ def extend_input_description(prompt):
     return prompt.replace(original, expanded, 1)
 
 
-def load_settings(config):
+def _split_assignments_path(settings, root, override=None):
+    """Require an explicit source mapping; never reconstruct one from JSONL."""
+    configured = settings.get("split_assignments")
+    if override is not None:
+        path = Path(override).resolve()
+    elif configured:
+        path = (root / configured).resolve()
+    else:
+        raise ValueError(
+            "Supply matching baseline split assignments with --split-assignments PATH "
+            "or a split_assignments config path. The CSV must match the baseline JSONL "
+            "and source CSV row order; assignments are never inferred."
+        )
+    if not path.is_file():
+        raise ValueError(f"Matching baseline split assignments file not found: {path}")
+    return path
+
+
+def load_settings(config, *, split_assignments=None):
     config = Path(config).resolve()
     settings = json.loads(config.read_text(encoding="utf-8"))
     root = (config.parent / settings.get("project_root", "..")).resolve()
-    missing = set(PATH_KEYS) - set(settings)
+    missing = set(PATH_KEYS) - {"split_assignments"} - set(settings)
     if missing:
         raise ValueError(f"Configuration lacks paths: {sorted(missing)}")
-    result = {key: (root / settings[key]).resolve() for key in PATH_KEYS}
+    result = {key: (root / settings[key]).resolve() for key in PATH_KEYS if key != "split_assignments"}
+    result["split_assignments"] = _split_assignments_path(settings, root, split_assignments)
     result.update(project_root=root, config_file=config)
     return result
 
@@ -276,8 +296,13 @@ def prepare_process_enrich(settings):
             "`jsonl_row_number` is one-based; source indices are zero-based, with positives preceding negatives.\n\n"
             "See the [system prompt](../../../prompts/training/reaction_prediction_process_enrich_11field.txt) "
             "and [positive-data distributions](../../../docs/process_details/README.md).\n\n"
+            "The released JSONL files can be used directly. Regeneration requires a supplied assignment CSV "
+            "matching the baseline JSONL and source CSV row order; the config leaves this path unset. "
+            "Assignments are never inferred.\n\n"
             "Reproduce with `python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json "
-            "--output results/datasets/process_enrich` using a new output directory.\n",
+            "--split-assignments path/to/matching_split_assignments.csv "
+            "--output results/datasets/process_enrich` using a new output directory. "
+            "Replace the example assignment path with your matching CSV.\n",
             encoding="utf-8",
         )
         staged.rename(output)
@@ -287,9 +312,11 @@ def prepare_process_enrich(settings):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parents[3] / "configs/dataset_preparation_process_enrich.json")
+    parser.add_argument("--split-assignments", type=Path,
+                        help="Matching baseline assignment CSV; overrides the config and resolves from the working directory")
     parser.add_argument("--output", type=Path, help="New output directory, resolved relative to the current working directory")
     args = parser.parse_args(argv)
-    settings = load_settings(args.config)
+    settings = load_settings(args.config, split_assignments=args.split_assignments)
     if args.output is not None:
         settings["output_dir"] = args.output.resolve()
     manifest = prepare_process_enrich(settings)

@@ -8,8 +8,6 @@ Training and holdout files prepared from the [processed positive and negative re
 | [holdout.jsonl](holdout.jsonl) | Holdout records for model evaluation |
 | [holdout_smiles.jsonl](holdout_smiles.jsonl) | SMILES version for baseline testing |
 | [holdout_smiles_provenance.json](holdout_smiles_provenance.json) | Chemical mapping qualifications for the SMILES version |
-| [split_assignments.csv](split_assignments.csv) | Retained source rows, condition keys, cluster keys, labels, and partition |
-| [split_summary.json](split_summary.json) | Input hashes, preparation settings, filtering counts, split counts, and output identities |
 | [class_map.json](class_map.json) | P = success; N = failure |
 | [manifest.json](manifest.json) | JSONL checksums, file identities, and label counts |
 
@@ -58,13 +56,13 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 This reads the processed CSVs and publication years, then writes training, holdout, split metadata, and publication-year subsets under `results/datasets/conditions/`.
 
-To prepare newly generated curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json). The [linker-corrected input](../processed_data/linker_corrected/README.md) uses a separate configuration and recalculated partitions.
+To prepare newly generated curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json). Optional linker-prime corrections can be regenerated from the current CSV with `python -m mofinder.curation.linker_primes data/processed_data/processed_negative.csv results/local/negative_prime_corrected.csv --lookup data/organic_linker_info/linker_prime_corrections.json`; use a separate dataset configuration for that output.
 
-## Trace records to their source rows
+## Source rows for regenerated datasets
 
-In `split_assignments.csv`, `source_row_id` is the zero-based row number in the original concatenation of the positive and negative tables, before filtering. IDs below 15,340 refer to [processed_positive.csv](../processed_data/processed_positive.csv). For larger IDs, subtract 15,340 to obtain the zero-based row number in [processed_negative.csv](../processed_data/processed_negative.csv). Header rows are excluded.
+Dataset preparation writes `mof_ft_split_assignments.csv` and `mof_ft_split_summary.json` beside each newly generated train/holdout pair under `results/datasets/conditions/`. Use those assignments only with the exact inputs and JSONL pair from the same preparation run. Source row IDs refer to the positive and negative tables used for that run, before filtering; `is_success` is `True` for P and `False` for N.
 
-`is_success` is `True` for P and `False` for N. The assignment table contains retained records only; filtering counts appear in the summary. The CSV uses UTF-8 with a byte-order mark for spreadsheet compatibility.
+The released JSONL identities and label counts are recorded in `manifest.json`. Process-enrichment regeneration requires an explicitly supplied assignment table that matches the selected baseline records; a source mapping is not inferred from a different dataset version.
 
 ## Use the final records
 

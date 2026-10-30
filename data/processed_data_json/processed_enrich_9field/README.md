@@ -15,8 +15,8 @@ The [nine-field system prompt](../../../prompts/training/reaction_prediction_pro
 
 [Download training, holdout, and prompt](process_enrich_9field_train_holdout.zip).
 
-Regenerate from the existing eleven-field files, source mappings, and processed CSVs:
+The released JSONL files can be used directly. Regeneration requires a supplied split-assignment CSV matching the baseline JSONL and source CSV row order, together with the existing eleven-field files, source mappings, and processed CSVs. The historical assignment file is not distributed, and the config leaves `split_assignments` as `null`; preparation never infers a replacement. Replace the example assignment path below with your matching CSV:
 
 ```bash
-python -m mofinder.datasets.process_enrich_9field --config configs/dataset_preparation_process_enrich_9field.json --output results/datasets/process_enrich_9field
+python -m mofinder.datasets.process_enrich_9field --config configs/dataset_preparation_process_enrich_9field.json --split-assignments path/to/matching_split_assignments.csv --output results/datasets/process_enrich_9field
 ```

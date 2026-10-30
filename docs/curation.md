@@ -93,7 +93,13 @@ The two branches retain these distinct rules. In both branches, `h3btb` and `H3B
 
 `linker_prime_corrections` in `configs/curation.json` points to [167 documented spellings](../data/organic_linker_info/linker_prime_corrections.json) restored from intact same-publication records. The linker stage applies each rule only when the DOI and entire linker name or abbreviation match. Single, double, triple, and quadruple primes are distinguished. Missing or null configuration disables this lookup. The run manifest records the correction file and its SHA-256 hash.
 
-The [corrected processed negative table](../data/processed_data/linker_corrected/README.md) changes only the supported linker fields. `configs/dataset_preparation_corrected.json` creates fresh grouped partitions under `results/datasets/corrected_conditions/`. The processed inputs and final training and holdout files remain available for reproducing the original runs. Corrected names must be grouped again because linker spellings contribute to cluster identity.
+To restore the supported linker fields in the current processed negative table, generate a separate CSV from the repository root:
+
+```bash
+python -m mofinder.curation.linker_primes data/processed_data/processed_negative.csv results/local/negative_prime_corrected.csv --lookup data/organic_linker_info/linker_prime_corrections.json
+```
+
+This preserves the current source schema, row order, and all other field values. To prepare JSONL from the corrected CSV, copy `configs/dataset_preparation.json` to `configs/local/`, set `project_root` to `"../.."`, set `negative_csv` to `"results/local/negative_prime_corrected.csv"`, and select a separate `output_dir`, such as `"results/datasets/corrected_conditions"`. Corrected names require recalculated partitions because linker spellings contribute to cluster identity.
 
 The Python mass parser corrects two related formula parsing errors found in the notebooks. A leading coefficient now multiplies the complete dot-separated fragment, and square brackets remain intact during abbreviation expansion. Thus `6H2O` contributes H12O6, fractional hydrates are handled consistently, and bracketed complexes can be parsed.
 

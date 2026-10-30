@@ -9,6 +9,7 @@ import tempfile
 import unittest
 
 from mofinder.datasets.prepare import canonical_condition_key, row_to_conditions
+from mofinder.datasets import process_enrich, process_enrich_9field
 from mofinder.datasets.process_enrich import extend_input_description, main, prepare_process_enrich
 from mofinder.training.common import sha256
 from mofinder.training.prepare import prepare_bundle, validate_bundle, validate_dataset
@@ -30,6 +31,7 @@ class ProcessEnrichTests(unittest.TestCase):
                 "temperature_c": "100", "time_h": "24",
                 "vessel_type_raw": "25-mL Teflon-lined autoclave",
                 "stirring_raw": "not stated", "vessel_type": "PTFE-lined autoclave",
+                "stirring": "not stated",
                 "vessel_volume_mL": "25", "agitation": "Not reported",
             })
         self.sources[1]["vessel_volume_mL"] = "Not reported"
@@ -190,14 +192,76 @@ class ProcessEnrichTests(unittest.TestCase):
 
     def test_cli_output_override_keeps_config_and_default_destination_unchanged(self):
         config = self.root / "config.json"
-        config.write_text(json.dumps({key: str(value) for key, value in self.settings.items()}), encoding="utf-8")
+        values = {key: str(value) for key, value in self.settings.items()}
+        values["split_assignments"] = None
+        config.write_text(json.dumps(values), encoding="utf-8")
         original_hash = sha256(config)
         destination = self.root / "reproduced"
         with redirect_stdout(StringIO()):
-            main(["--config", str(config), "--output", str(destination)])
+            main(["--config", str(config), "--split-assignments", str(self.settings["split_assignments"]),
+                  "--output", str(destination)])
         self.assertEqual(original_hash, sha256(config))
         self.assertFalse(self.settings["output_dir"].exists())
         self.assertEqual(len(self.records(destination / "train_process_enrich.jsonl")), 2)
+        self.assertIn("--split-assignments path/to/matching_split_assignments.csv",
+                      (destination / "README.md").read_text(encoding="utf-8"))
+
+    def test_loaders_require_assignments_and_accept_override_before_validation(self):
+        config = self.root / "config.json"
+        for loader in (process_enrich.load_settings, process_enrich_9field.load_settings):
+            for include_null in (False, True):
+                with self.subTest(loader=loader.__module__, include_null=include_null):
+                    values = {key: str(value) for key, value in self.settings.items() if key != "split_assignments"}
+                    values["enriched_dir"] = str(self.root / "enriched")
+                    if include_null:
+                        values["split_assignments"] = None
+                    config.write_text(json.dumps(values), encoding="utf-8")
+                    original_hash = sha256(config)
+                    with self.assertRaisesRegex(ValueError, "Supply matching baseline split assignments.*--split-assignments"):
+                        loader(config)
+                    settings = loader(config, split_assignments=self.settings["split_assignments"])
+                    self.assertEqual(settings["split_assignments"], self.settings["split_assignments"])
+                    self.assertEqual(sha256(config), original_hash)
+
+    def test_assignment_config_path_resolves_from_project_root_and_override_wins(self):
+        config = self.root / "config.json"
+        values = {key: str(value) for key, value in self.settings.items()}
+        values.update(enriched_dir=str(self.root / "enriched"), split_assignments="assignments.csv")
+        for loader in (process_enrich.load_settings, process_enrich_9field.load_settings):
+            with self.subTest(loader=loader.__module__):
+                config.write_text(json.dumps(values), encoding="utf-8")
+                self.assertEqual(loader(config)["split_assignments"], self.root / "assignments.csv")
+                config.write_text(json.dumps(dict(values, split_assignments="missing.csv")), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Matching baseline split assignments file not found"):
+                    loader(config)
+                self.assertEqual(loader(config, split_assignments=self.root / "assignments.csv")["split_assignments"],
+                                 self.root / "assignments.csv")
+
+    def test_nine_field_cli_uses_explicit_assignments_without_changing_config(self):
+        prepare_process_enrich(self.settings)
+        values = {key: str(value) for key, value in self.settings.items()}
+        values.update(enriched_dir=str(self.root / "enriched"), split_assignments=None,
+                      prompt_file=str(REACTION_PROMPT_FILE.with_name("reaction_prediction_process_enrich_9field.txt")),
+                      output_dir=str(self.root / "default-nine"))
+        config = self.root / "nine.json"
+        config.write_text(json.dumps(values), encoding="utf-8")
+        original_hash = sha256(config)
+        destination = self.root / "nine"
+        with redirect_stdout(StringIO()):
+            process_enrich_9field.main(["--config", str(config), "--split-assignments", str(self.root / "assignments.csv"),
+                                       "--output", str(destination)])
+        self.assertEqual(sha256(config), original_hash)
+        self.assertFalse((self.root / "default-nine").exists())
+        for split in ("train", "holdout"):
+            rows = self.records(destination / f"{split}_process_enrich_9field.jsonl")
+            self.assertEqual(len(rows), 2)
+            for baseline, enriched in zip(self.records(self.root / f"{split}.jsonl"), rows):
+                self.assertEqual(baseline["messages"][2], enriched["messages"][2])
+                conditions = json.loads(enriched["messages"][1]["content"])
+                self.assertEqual(conditions.pop("stirring"), "not reported")
+                self.assertEqual(conditions, json.loads(baseline["messages"][1]["content"]))
+        self.assertIn("--split-assignments path/to/matching_split_assignments.csv",
+                      (destination / "README.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

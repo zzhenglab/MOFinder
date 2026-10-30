@@ -11,8 +11,8 @@ Both files preserve the standard dataset's row order, split, labels, and eight o
 
 [Download the training and holdout ZIP](process_enrich_train_holdout.zip) or see the [system and user prompt comparison](README_training_package.md). Normalization is shared with the [cleaned CSVs](../../processed_data/with_process_details/README.md); the [positive-data plots](../../../docs/process_details/README.md) summarize the three added fields.
 
-Recreate the files with the [preparation code](../../../src/mofinder/datasets/process_enrich.py), using a new output directory:
+The released JSONL files can be used directly. Recreating them with the [preparation code](../../../src/mofinder/datasets/process_enrich.py) requires a supplied split-assignment CSV matching the baseline JSONL and source CSV row order. The historical assignment file is not distributed, and the config leaves `split_assignments` as `null`; preparation never infers a replacement. Replace the example assignment path below with your matching CSV and use a new output directory:
 
 ```bash
-python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --output results/datasets/process_enrich
+python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --split-assignments path/to/matching_split_assignments.csv --output results/datasets/process_enrich
 ```

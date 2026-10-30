@@ -1,7 +1,6 @@
 """Offline checks for condition features, cluster splits, and training JSONL."""
 
 import importlib.util
-import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -144,29 +143,6 @@ class DatasetTests(unittest.TestCase):
         forced = {result["train"].condition_key.iloc[0]}
         with self.assertRaisesRegex(ValueError, "forced benchmark"):
             self.module.validate_split(result["train"], result["holdout"], forced)
-
-    def test_archived_split_assignments_match_training_and_holdout(self):
-        assignments = self.pd.read_csv(self.repo / "data/processed_data_json/split_assignments.csv")
-        self.assertTrue(assignments.source_row_id.is_unique)
-        train_clusters = set(assignments.loc[assignments.split == "train", "cluster_key"])
-        holdout_clusters = set(assignments.loc[assignments.split == "holdout", "cluster_key"])
-        self.assertFalse(train_clusters & holdout_clusters)
-        manifest = json.loads((self.repo / "data/processed_data_json/manifest.json").read_text())
-        for entry in manifest["files"]:
-            path = self.repo / entry["path"]
-            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), entry["sha256"])
-            split = "train" if path.name == "train.jsonl" else "holdout"
-            selected = assignments.loc[assignments.split == split]
-            expected = set(zip(selected.condition_key, selected.is_success))
-            records = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
-            actual = set()
-            for record in records:
-                messages = {message["role"]: message["content"] for message in record["messages"]}
-                key = self.module.forced_question_condition_key(json.loads(messages["user"]))
-                actual.add((key, messages["assistant"] == "P"))
-            self.assertEqual(len(records), len(selected))
-            self.assertEqual(actual, expected)
-
 
 if __name__ == "__main__":
     unittest.main()

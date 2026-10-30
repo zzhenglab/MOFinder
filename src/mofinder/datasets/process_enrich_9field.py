@@ -13,7 +13,7 @@ from mofinder.curation import agitation_source_reviews, process_stirring, stirri
 from mofinder.curation.stirring_presence import classify_stirring, STIRRING_VALUES
 from mofinder.training.common import sha256
 from mofinder.training.records import INPUT_FIELDS, PROCESS_FIELDS, read_reaction_prompt
-from .process_enrich import _csv_rows, _assignments, _read_baseline, extend_input_description
+from .process_enrich import _csv_rows, _assignments, _read_baseline, _split_assignments_path, extend_input_description
 from .prepare import forced_question_condition_key
 
 FIELDS = INPUT_FIELDS + ("stirring",)
@@ -37,11 +37,15 @@ def extend_prompt(prompt):
         insertion, STIRRING_DESCRIPTION + insertion, 1)
 
 
-def load_settings(config):
+def load_settings(config, *, split_assignments=None):
     config = Path(config).resolve()
     settings = json.loads(config.read_text(encoding="utf-8"))
     root = (config.parent / settings.get("project_root", "..")).resolve()
-    result = {key: (root / settings[key]).resolve() for key in PATH_KEYS}
+    missing = set(PATH_KEYS) - {"split_assignments"} - set(settings)
+    if missing:
+        raise ValueError(f"Configuration lacks paths: {sorted(missing)}")
+    result = {key: (root / settings[key]).resolve() for key in PATH_KEYS if key != "split_assignments"}
+    result["split_assignments"] = _split_assignments_path(settings, root, split_assignments)
     result.update(project_root=root, config_file=config)
     return result
 
@@ -64,8 +68,12 @@ def _readme(manifest):
               "", "The [nine-field system prompt](../../../prompts/training/reaction_prediction_process_enrich_9field.txt) "
               "lists the nine inputs and defines these values. A `yes` value does not imply continuous reaction-stage stirring.",
               "", "[Download training, holdout, and prompt](process_enrich_9field_train_holdout.zip).", "",
-              "Regenerate from the existing eleven-field files, source mappings, and processed CSVs:", "", "```bash",
-              "python -m mofinder.datasets.process_enrich_9field --config configs/dataset_preparation_process_enrich_9field.json --output results/datasets/process_enrich_9field",
+              "The released JSONL files can be used directly. Regeneration requires a supplied assignment CSV "
+              "matching the baseline JSONL and source CSV row order, in addition to the eleven-field files and their "
+              "source mappings. The config leaves this path unset; assignments are never inferred. "
+              "Replace the example assignment path below with your matching CSV.", "", "```bash",
+              "python -m mofinder.datasets.process_enrich_9field --config configs/dataset_preparation_process_enrich_9field.json "
+              "--split-assignments path/to/matching_split_assignments.csv --output results/datasets/process_enrich_9field",
               "```", ""]
     return "\n".join(lines)
 
@@ -211,10 +219,12 @@ def prepare(settings, review_csv=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=Path(__file__).resolve().parents[3] / "configs/dataset_preparation_process_enrich_9field.json")
+    parser.add_argument("--split-assignments", type=Path,
+                        help="Matching baseline assignment CSV; overrides the config and resolves from the working directory")
     parser.add_argument("--output", type=Path, help="New output directory")
     parser.add_argument("--review-csv", type=Path, help="Optional local row-level classification review")
     args = parser.parse_args(argv)
-    settings = load_settings(args.config)
+    settings = load_settings(args.config, split_assignments=args.split_assignments)
     if args.output is not None:
         settings["output_dir"] = args.output.resolve()
     result = prepare(settings, args.review_csv)

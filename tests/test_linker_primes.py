@@ -1,8 +1,7 @@
-"""Exact linker glyph restoration and corrected derivative provenance."""
+"""Exact linker glyph restoration and safe CSV correction."""
 from contextlib import redirect_stdout
 import importlib.util
 from io import StringIO
-import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -60,20 +59,12 @@ class LinkerPrimeTests(unittest.TestCase):
                     )
                     self.assertEqual(result.linker_1.tolist(), ["2,2′-bipyrimidine"])
 
-    def test_corrected_derivative_and_recorded_provenance(self):
-        source = ROOT / "data/processed_data/processed_negative.csv"
-        corrected_dir = ROOT / "data/processed_data/linker_corrected"
-        manifest = json.loads((corrected_dir / "manifest.json").read_text())
+    def test_csv_correction_rejects_in_place_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:
-            output = Path(directory) / "corrected.csv"
-            result = correct_csv(source, output, LOOKUP)
-            self.assertEqual(result["changed_rows"], 1458)
-            self.assertEqual(result["changed_cells"], 1551)
-            self.assertEqual(output.read_bytes(), (corrected_dir / "processed_negative.csv").read_bytes())
-            self.assertEqual(result["output_sha256"], manifest["output_sha256"])
-            self.assertEqual(result["input_sha256"], manifest["input_sha256"])
-        with self.assertRaisesRegex(ValueError, "separate"):
-            correct_csv(source, source, LOOKUP)
+            source = Path(directory) / "input.csv"
+            source.write_text("doi,linker_1\n10.1021/ic901133k,unresolved?\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "separate"):
+                correct_csv(source, source, LOOKUP)
 
 
 if __name__ == "__main__":

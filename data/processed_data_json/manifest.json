@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "description": "Standard training and holdout JSONL, four- and five-period year subsets, and split metadata.",
+  "description": "Standard training and holdout JSONL, four- and five-period year subsets, and file identities.",
   "files": [
     {
       "path": "data/processed_data_json/train.jsonl",
@@ -50,8 +50,6 @@
       "partial_connectivity_records": 441
     }
   ],
-  "split_assignments": "data/processed_data_json/split_assignments.csv",
-  "split_summary": "data/processed_data_json/split_summary.json",
   "preparation_config": "configs/dataset_preparation.json",
   "processed_inputs_manifest": "data/processed_data/manifest.json",
   "class_map": "data/processed_data_json/class_map.json",

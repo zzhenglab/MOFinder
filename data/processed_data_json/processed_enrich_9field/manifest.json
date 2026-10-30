@@ -35,8 +35,9 @@
       "sha256": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55"
     },
     "split_assignments": {
-      "path": "data/processed_data_json/split_assignments.csv",
-      "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa"
+      "historical_path": "data/processed_data_json/split_assignments.csv",
+      "sha256": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa",
+      "availability": "Historical build input; not distributed with the current release."
     },
     "prompt_file": {
       "path": "prompts/training/reaction_prediction_process_enrich_9field.txt",

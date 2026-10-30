@@ -1,6 +1,6 @@
 # Dataset preparation
 
-`mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The prepared research files and their assignments are together in [data/processed_data_json](../data/processed_data_json/README.md).
+`mofinder.datasets.prepare` turns processed positive and negative records into final condition-classification JSONL, publication-year training subsets, and split records. The default configuration uses the bundled CSVs and publication metadata in [data/processed_data](../data/processed_data/README.md). The released research files are in [data/processed_data_json](../data/processed_data_json/README.md). Fresh preparation writes assignments beside its generated JSONL files.
 
 ```bash
 python -m pip install -e ".[datasets]"
@@ -33,7 +33,7 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 This reads the positive and negative description-stage CSVs under `results/curation/` and writes a separate run to `results/datasets/curated_conditions/`.
 
-For the source-confirmed linker corrections, use `configs/dataset_preparation_corrected.json`. It reads `data/processed_data/linker_corrected/processed_negative.csv` with the same processed positive table and writes to `results/datasets/corrected_conditions/`. Linker corrections change cluster identities, so this version calculates new assignments.
+For source-confirmed linker-prime corrections, generate a new CSV from the current source with `python -m mofinder.curation.linker_primes data/processed_data/processed_negative.csv results/local/negative_prime_corrected.csv --lookup data/organic_linker_info/linker_prime_corrections.json`. Copy `configs/dataset_preparation.json` to `configs/local/`, set `project_root` to `../..`, point `negative_csv` to that output, and choose a new `output_dir`. Linker corrections change cluster identities, so this route calculates new assignments.
 
 A run from newly extracted or curated records is a new dataset and can produce different split assignments. Each run records its input notes and SHA-256 hashes in the summary. The default bundled inputs retain the scientific values used for the original research dataset.
 
@@ -97,6 +97,6 @@ The implementation also adds explicit failure messages for infeasible splits and
 
 ## Final JSONL and split records
 
-The final training and holdout records are available at `data/processed_data_json/train.jsonl` and `data/processed_data_json/holdout.jsonl`. Their hashes exactly match the corresponding original preparation outputs. The same folder contains `split_assignments.csv`, `split_summary.json`, `class_map.json`, and `manifest.json`; see [the file guide](../data/processed_data_json/README.md). Regenerating from `configs/dataset_preparation.json` reproduces both JSONL files byte for byte. The four removed local-path columns in the processed public tables do not affect any condition input, cluster key, or DOI mapping across all 30,403 rows.
+The final training and holdout records are available at `data/processed_data_json/train.jsonl` and `data/processed_data_json/holdout.jsonl`. Their current hashes and source-verified reagent-name corrections are recorded in `manifest.json`, alongside `class_map.json`; see [the file guide](../data/processed_data_json/README.md). Fresh preparation writes a new JSONL pair, `mof_ft_split_assignments.csv` and `mof_ft_split_summary.json` together under the configured output directory. Use the assignments only with that matching preparation run; regeneration from current CSVs is not a claim of byte-for-byte identity with the released JSONL.
 
 The bundled records retain their original scientific values. New curation runs use `h3btb` → `1,3,5-Tris(4-carboxyphenyl)benzene` and the reference molecular-weight lookup. These curation changes do not rewrite the bundled training and holdout files.

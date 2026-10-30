@@ -315,7 +315,6 @@
     "organic_linker_info": "data/organic_linker_info/manifest.json",
     "human_mof_quest": "benchmarks/mof_quest/human_manifest.json",
     "data_curation_demo": "Demo/01_data_curation/input/source_manifest.json",
-    "dataset_preparation_demo": "Demo/02_dataset_preparation/input/source_manifest.json",
-    "linker_corrected_data": "data/processed_data/linker_corrected/manifest.json"
+    "dataset_preparation_demo": "Demo/02_dataset_preparation/input/source_manifest.json"
   }
 }

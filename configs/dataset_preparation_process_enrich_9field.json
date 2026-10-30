@@ -5,7 +5,7 @@
   "baseline_train": "data/processed_data_json/train.jsonl",
   "baseline_holdout": "data/processed_data_json/holdout.jsonl",
   "enriched_dir": "data/processed_data_json/processed_enrich_11field",
-  "split_assignments": "data/processed_data_json/split_assignments.csv",
+  "split_assignments": null,
   "prompt_file": "prompts/training/reaction_prediction_process_enrich_9field.txt",
   "output_dir": "data/processed_data_json/processed_enrich_9field"
 }

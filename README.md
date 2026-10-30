@@ -83,10 +83,8 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | --- | --- | ---: |
 | [`data/processed_data/processed_positive.csv`](data/processed_data/processed_positive.csv) | Positive records after curation, before dataset filtering | 15,340 |
 | [`data/processed_data/processed_negative.csv`](data/processed_data/processed_negative.csv) | Reconstructed negative records after curation, before dataset filtering | 15,063 |
-| [`data/processed_data/linker_corrected/processed_negative.csv`](data/processed_data/linker_corrected/README.md) | Same negative records with source-confirmed linker prime symbols restored | 15,063 |
 | [`data/processed_data_json/train.jsonl`](data/processed_data_json/train.jsonl) | Training set: 11,968 P and 11,560 N | 23,528 |
 | [`data/processed_data_json/holdout.jsonl`](data/processed_data_json/holdout.jsonl) | Holdout set: 1,320 P and 1,275 N | 2,595 |
-| [`data/processed_data_json/split_assignments.csv`](data/processed_data_json/split_assignments.csv) | Source-row assignments for the retained training and holdout records | 26,123 |
 
 
 

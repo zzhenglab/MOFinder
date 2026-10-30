@@ -10,7 +10,6 @@ Start with the processed positive and negative synthesis records below to prepar
 | [literature_metadata.csv](literature_metadata.csv) | Six bibliographic fields used for abstract screening | 13,773 |
 | [positive_extraction_200.csv](positive_extraction_200.csv) | Raw model extraction records for the [200-paper benchmark](../../benchmarks/positive_extraction/README.md) | 913 |
 | [literature_retrieval/](literature_retrieval/README.md) | Article and supporting-information inventories | 7,437 each |
-| [linker_corrected/](linker_corrected/README.md) | Optional negative table with documented linker prime glyphs restored | 15,063 |
 | [with_process_details/](with_process_details/README.md) | Positive/negative tables with cleaned vessel type, capacity, and agitation | 15,340 / 15,063 |
 
 ## Dataset analysis
@@ -29,7 +28,7 @@ python -m mofinder.datasets.prepare prepare --config configs/dataset_preparation
 
 The default configuration reads `processed_positive.csv`, `processed_negative.csv`, and `publication_years.csv` from this folder. It writes training and holdout JSONL, split assignments, preparation summaries, and publication-year subsets to `results/datasets/conditions/`.
 
-For new curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`. Original extraction JSON stores are needed for negative reconstruction before curation. The optional [linker-corrected input](linker_corrected/README.md) has its own preparation configuration and output directory because changed linker spellings affect chemical grouping.
+For new curation outputs, use [dataset_preparation_from_curation.json](../../configs/dataset_preparation_from_curation.json), which writes to `results/datasets/curated_conditions/`. Original extraction JSON stores are needed for negative reconstruction before curation. To restore documented linker prime glyphs, [generate a corrected CSV from the current source](../../docs/curation.md#publication-specific-prime-restoration) and use a local dataset configuration with a separate output directory. Changed linker spellings affect chemical grouping and require recalculated partitions.
 
 ## Schema and provenance
 
@@ -37,7 +36,7 @@ The counts above are before dataset-preparation filtering. The positive table ha
 
 The negative table excludes product-property columns: `crystal_morphology`, `yield_percent`, `crystal_size`, `topology_code`, `metal_cluster_connectivity`, `metal_cluster_connectivity_classified`, `unit_cell_short`, `pore_diameter_A`, `BET_surface_area_m2g`, `air_stable`, `water_stable`, `tga_decomposition_temp_c`, and `applications`.
 
-Dataset preparation selects eight synthesis-condition fields. The optional linker-corrected copy retains its earlier 89-column schema; applying its correction lookup to the current negative table retains the current 76-column schema.
+Dataset preparation selects eight synthesis-condition fields. Applying the publication-specific linker correction lookup to the current negative table retains its 76-column schema, row order, and all fields outside the supported linker corrections.
 
 Both synthesis CSVs use UTF-8 with a byte-order mark (`utf-8-sig`) for spreadsheet compatibility. Python readers can use `encoding="utf-8-sig"`; the byte-order mark is not part of the first column name.
 

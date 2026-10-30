@@ -1,5 +1,8 @@
 """Regressions for the three-state stirring control's reporting boundaries."""
+import hashlib
+import json
 import unittest
+import zipfile
 
 from mofinder.curation.stirring_presence import classify_stirring
 from mofinder.datasets.process_enrich_9field import extend_prompt
@@ -61,6 +64,24 @@ class StirringPresenceTests(unittest.TestCase):
         self.assertIn("does not imply continuous stirring", prompt)
         with self.assertRaises(ValueError):
             extend_prompt("Unrecognized system prompt")
+
+    def test_canonical_prompt_matches_released_nine_field_data(self):
+        prompt_file = REACTION_PROMPT_FILE.with_name("reaction_prediction_process_enrich_9field.txt")
+        prompt_bytes = prompt_file.read_bytes()
+        prompt = prompt_bytes.decode("utf-8")
+        data_dir = REACTION_PROMPT_FILE.parents[2] / "data/processed_data_json/processed_enrich_9field"
+        manifest = json.loads((data_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(hashlib.sha256(prompt_bytes).hexdigest(), manifest["sources"]["prompt_file"]["sha256"])
+        for split, dataset in manifest["datasets"].items():
+            with self.subTest(split=split):
+                rows = 0
+                with (data_dir / dataset["path"]).open(encoding="utf-8") as handle:
+                    for rows, line in enumerate(handle, 1):
+                        system = json.loads(line)["messages"][0]
+                        self.assertEqual(system, {"role": "system", "content": prompt}, f"{split}:{rows}")
+                self.assertEqual(rows, dataset["rows"])
+        with zipfile.ZipFile(data_dir / manifest["package"]["path"]) as archive:
+            self.assertEqual(archive.read(prompt_file.name), prompt_bytes)
 
 
 if __name__ == "__main__":

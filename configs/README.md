@@ -52,13 +52,12 @@ without opening a browser. See [literature-retrieval](../docs/literature_retriev
 | `curation.json` | Positive and negative curation paths and required molecular-weight lookup |
 | `dataset_preparation.json` | Prepare final JSONL and split records from the included processed positive and negative CSVs and publication years |
 | `dataset_preparation_from_curation.json` | Prepare a new dataset from generated positive and negative curation outputs |
-| `dataset_preparation_corrected.json` | Prepare a separate dataset using the linker-corrected processed negative CSV |
 | `dataset_forced_questions.json` | Fixed benchmark conditions used to select holdout clusters |
 | `process_details.json` | Append vessel type, vessel volume in mL, and agitation to positive and negative records |
 | `dataset_preparation_process_enrich.json` | Prepare the eleven-field version: original eight inputs plus vessel type, vessel capacity, and agitation |
 | `dataset_preparation_process_enrich_9field.json` | Preserve the same train/holdout records and add only three-state `stirring` with a nine-field prompt |
 
-Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output and linker-corrected alternatives write to `results/datasets/curated_conditions/` and `results/datasets/corrected_conditions/`, respectively. Bundled final JSONL and split records are together in `data/processed_data_json/`. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
+Paths are resolved from `project_root`. The default dataset configuration reads `data/processed_data/` and writes to `results/datasets/conditions/`. The curation-output alternative writes to `results/datasets/curated_conditions/`. Bundled final JSONL files are in `data/processed_data_json/`. For publication-specific linker prime restoration, [generate a corrected CSV from the current source](../docs/curation.md#publication-specific-prime-restoration) and select it in a local dataset configuration with a separate output directory. Use a separate local configuration for a small live extraction run. The [workflow guide](../docs/workflow.md) explains stage order and required inputs.
 
 ## Model evaluation settings
 

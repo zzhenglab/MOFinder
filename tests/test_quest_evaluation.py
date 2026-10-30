@@ -49,7 +49,17 @@ class QuestEvaluationTests(unittest.TestCase):
         for q, item in zip(questions, items):
             condition = json.loads(item["user_text"])
             human = human_questions[q["reaction_id"]]
-            self.assertEqual(condition, json.loads(human["conditions_json"]))
+            recorded_condition = json.loads(human["conditions_json"])
+            # The current panel uses the requested plain reagent names; keep
+            # the historical participant question strings unchanged on disk.
+            plain_modulators = {
+                "hydrofluoric acid (HF)": "hydrofluoric acid",
+                "nitric acid (70%)": "nitric acid",
+                "sodium hydroxide (NaOH)": "sodium hydroxide",
+            }
+            recorded_condition["modulator"] = plain_modulators.get(
+                recorded_condition["modulator"], recorded_condition["modulator"])
+            self.assertEqual(condition, recorded_condition)
             self.assertEqual(q["label"], human["label"])
             self.assertEqual(tuple(condition), self.module.CONDITION_FIELDS)
             self.assertEqual(condition, {key: q[key] for key in self.module.CONDITION_FIELDS})

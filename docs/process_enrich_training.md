@@ -14,13 +14,15 @@ Vessel categories with fewer than 10 positive-reference records and unspecified 
 
 ## Prepare the paired JSONL files
 
-From the repository root, with the package and its `datasets` dependencies installed:
+The released JSONL files can be used directly, including for the local/HPC bundle command below. Rebuilding them requires a supplied split-assignment CSV that matches the baseline JSONL files and source CSV row order. The historical assignment file is not distributed, and both process-enrichment configs leave `split_assignments` as `null`. Preparation never infers a replacement mapping.
+
+From the repository root, with the package and its `datasets` dependencies installed, replace the example assignment path with your matching CSV:
 
 ```powershell
-python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --output results/datasets/process_enrich
+python -m mofinder.datasets.process_enrich --config configs/dataset_preparation_process_enrich.json --split-assignments path/to/matching_split_assignments.csv --output results/datasets/process_enrich
 ```
 
-Paths in the config resolve relative to `project_root`, which resolves relative to the config file. Absolute paths are also accepted. The optional `--output` override resolves relative to the current working directory and leaves the config unchanged. Preparation refuses to overwrite an existing directory, so choose a fresh output path for each reproduction. Without an override, the config targets `data/processed_data_json/processed_enrich_11field/`, which already contains the supplied release:
+Paths in the config resolve relative to `project_root`, which resolves relative to the config file. Absolute paths are also accepted. The `--split-assignments` override is applied before config validation; it and the optional `--output` override resolve relative to the current working directory and leave the config unchanged. Alternatively, set `split_assignments` to the matching CSV path in a local config. An absent or null assignment path raises a clear error. Preparation refuses to overwrite an existing directory, so choose a fresh output path for each reproduction. Without an output override, the config targets `data/processed_data_json/processed_enrich_11field/`, which already contains the supplied release:
 
 | File | Content |
 | --- | --- |
@@ -62,6 +64,12 @@ Train the eight-input baseline and eleven-input control from the same starting m
 Report performance both across the full matched holdout and by process availability. A supplementary missingness-only control can replace each observed process value with a generic `Reported` flag to assess whether a gain comes mainly from reporting patterns. Do not describe such flags as physical process settings.
 
 The separate [nine-field control](../data/processed_data_json/processed_enrich_9field/README.md) adds only `stirring`, with lowercase `yes`, `no`, and `not reported` values and its own [system prompt](../prompts/training/reaction_prediction_process_enrich_9field.txt). It includes reported preparation stirring in `yes` unless an explicitly static synthesis follows. It does not use the eleven-field `agitation` categories or the eleven-field HPC profile above.
+
+Rebuilding the nine-field control also requires the matching assignment CSV and the eleven-field release with its source sidecars:
+
+```powershell
+python -m mofinder.datasets.process_enrich_9field --config configs/dataset_preparation_process_enrich_9field.json --split-assignments path/to/matching_split_assignments.csv --output results/datasets/process_enrich_9field
+```
 
 Negative annotations may be inherited from successful source recipes, so a predictive difference is not evidence that a process change causes synthesis success. The archived split is disjoint by chemistry cluster but shares 864 DOIs between training and holdout. Retaining it supports the direct paired comparison; an independently prepared DOI/parent-grouped split is needed for a stronger paper-independent assessment. Washing, activation, other post-synthesis treatment, and product characterization are excluded from this control. Agitation categories summarize reported descriptions and may include preparative mixing rather than continuous agitation during crystallization.
 

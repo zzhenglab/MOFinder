@@ -33,7 +33,6 @@ REFERENCE_HASHES = {
     "data/processed_data/processed_negative.csv": "9e0db15503a21eed93c34af0de05a932df4a6fa8c9f4b7e42d32d279ad774ce7",
     "data/processed_data_json/train.jsonl": "815e0ff6d2728547d5e644c6fc1b9c583d75b053a011fa3a3962b91e179cd095",
     "data/processed_data_json/holdout.jsonl": "e60678f291fa59367c473741f8f543ae587c3c57ec2c1920fac9cf8c238fbd55",
-    "data/processed_data_json/split_assignments.csv": "68946ccd61d1c4665e6896f937ee514bee31bc2a3025cc9776e7fdeb669e10aa",
 }
 EXPECTED_TRAIN_HASHES = {
     "train_leave_one_perturbation_out.jsonl": "859511bbfe4cf5c7391281003c2d1d2a106dc04883d935300ca40b0114a6c8ea",
@@ -103,13 +102,6 @@ def _prepare_baseline(repo, work):
         if sha256(path) != REFERENCE_HASHES[f"data/processed_data_json/{split}.jsonl"]:
             raise ValueError(f"Regenerated {split} differs in content or row order from the standard split")
     assignment_path = settings["output_dir"] / "mof_ft_split_assignments.csv"
-    # pandas' CSV newline convention differs across platforms. Check every cell
-    # and row against the archived table, without rewriting model JSONL bytes.
-    with assignment_path.open(encoding="utf-8-sig", newline="") as actual:
-        with (repo / "data/processed_data_json/split_assignments.csv").open(
-                encoding="utf-8-sig", newline="") as reference:
-            if list(csv.reader(actual)) != list(csv.reader(reference)):
-                raise ValueError("Regenerated split assignments differ from the standard split")
     return paths, assignment_path, stages, result["summary"]["labels"]
 
 
