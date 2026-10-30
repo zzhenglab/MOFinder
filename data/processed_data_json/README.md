@@ -69,6 +69,5 @@ The released JSONL identities and label counts are recorded in `manifest.json`. 
 Training instructions:
 
 - [GPT-4.1 in the OpenAI dashboard](../../docs/training_openai.md): upload the training JSONL and enter the recorded hyperparameters.
-- [GPT-oss-20B on a local GPU or HPC system](../../docs/training_hpc.md): prepare one dataset bundle, transfer it to the training environment, and train a LoRA adapter.
 
 See [holdout evaluation](../../docs/holdout_evaluation.md) to evaluate a configured model. Live evaluation sends only the system instruction and reaction conditions; the reference answer stays local for scoring.

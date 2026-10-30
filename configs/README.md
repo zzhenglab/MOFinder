@@ -25,7 +25,7 @@ Store personal configurations in `configs/local/`, which is excluded from Git. W
 
 An explicit `--output-dir` selects a run directory. Add `--resume` only when continuing that existing run with the same configuration and inputs. Resume retains recorded attempts, including failures, and schedules only requests without a saved record. The [triage guide](../docs/triage.md) describes saved-run analysis and its statistical overrides.
 
-Configurations for the downstream stages are listed below. Training settings are described in the [HPC training guide](../docs/training_hpc.md).
+Configurations for the downstream stages are listed below.
 
 ## Literature retrieval settings
 

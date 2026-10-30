@@ -72,7 +72,7 @@ and missing templates. No API credentials are used by these tools.
 
 Set `OPENAI_API_KEY` in the environment before live screening or synthesis extraction. `.env.example` shows the variable name; the workflow does not automatically load an `.env` file. Offline commands do not use API credentials.
 
-Check model settings and account access before scheduling a full run. Offline software checks cover request handling and response parsing; they do not verify live model access. Training instructions cover the [OpenAI interface](training_openai.md) and [HPC execution](training_hpc.md).
+Check model settings and account access before scheduling a full run. Offline software checks cover request handling and response parsing; they do not verify live model access. Training instructions cover the [OpenAI interface](training_openai.md).
 
 ## Demo notebooks
 

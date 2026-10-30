@@ -127,10 +127,7 @@ This offline route reads `data/processed_data/processed_positive.csv`, `processe
 
 ## Train a model
 
-The prepared training JSONL supports two separate training routes:
-
-- [GPT-4.1 dashboard training](training_openai.md) records the upload procedure and hyperparameters.
-- [GPT-oss-20B GPU training](training_hpc.md) prepares one training and holdout pair for transfer to an HPC system and runs the local LoRA training workflow.
+The [GPT-4.1 dashboard training guide](training_openai.md) records the upload procedure and hyperparameters.
 
 Keep the dataset hashes and resulting model identity with each run. The existing evaluation model IDs refer to completed research runs; preparing a new dataset or training job does not update those IDs automatically.
 

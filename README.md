@@ -51,7 +51,7 @@ Reusable Python modules are in [`src/mofinder/`](src/mofinder/). The [source cod
 | Inspect training datasets and ablations | [JSONL datasets](data/processed_data_json/README.md) |
 | Add vessel type, volume, and agitation to model inputs | [Eleven-field process-enriched dataset](data/processed_data_json/processed_enrich_11field/README.md) |
 | Add only reported stirring to model inputs | [Nine-field process-enriched dataset](data/processed_data_json/processed_enrich_9field/README.md) |
-| Train a model | [OpenAI interface](docs/training_openai.md) or [HPC workflow](docs/training_hpc.md) |
+| Train a model | [OpenAI interface](docs/training_openai.md) |
 | Evaluate models and human predictions | [Evaluation workflow](docs/evaluation.md) |
 
 ## Repository layout
