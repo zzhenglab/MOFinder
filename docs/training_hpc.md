@@ -37,7 +37,7 @@ Replace all `/path/to/` values before running. The output directory must be new.
 
 ## Training recipe
 
-Settings are stored in `configs/training_hpc.json` and copied into the prepared manifest.
+Preparation uses the built-in recipe below and records the effective settings in the prepared manifest. To customize the recipe, save the dictionary returned by `mofinder.training.prepare.default_settings()` as JSON, edit the desired values, and pass its path with `--config PATH`. For built-in defaults, `configuration_source` records `built-in defaults` and `configuration_sha256` hashes the UTF-8 JSON of the effective settings with sorted keys, no extra spaces, and `ensure_ascii=False`. An explicit configuration retains the SHA-256 hash of the supplied file bytes.
 
 | Setting | Value |
 |---|---|
@@ -68,7 +68,7 @@ Act as an expert in reticular chemistry. You will receive reaction conditions as
 
 The `reaction_prediction` renderer appends two newlines, `Reaction conditions:`, a newline, the eight-field condition JSON, two newlines, and `Label:`. The canonical prompt file contains only the instructions shown above. Reference labels remain separate from the rendered model input.
 
-Tokenization retains the complete instructions and conditions. If any input exceeds `max_length`, increase `max_length` in `configs/training_hpc.json` and rebuild the bundle into a new output directory. This setting can increase GPU memory use; the trainer never silently truncates a reaction input.
+Tokenization retains the complete instructions and conditions. If any input exceeds `max_length`, increase `recipe.max_length` in a custom JSON configuration passed with `--config PATH` and rebuild the bundle into a new output directory. This setting can increase GPU memory use; the trainer never silently truncates a reaction input.
 
 Training labels are encoded as N = 0 and P = 1. P probability is the softmax probability over these two label logits. The classification threshold is fixed at 0.5. Both labels must correspond to single tokens in the model tokenizer.
 

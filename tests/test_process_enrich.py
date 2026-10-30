@@ -72,7 +72,7 @@ class ProcessEnrichTests(unittest.TestCase):
             "train": self.root / "enriched/train_process_enrich.jsonl", "holdout": self.root / "enriched/holdout_process_enrich.jsonl",
             "questions": self.repo / "benchmarks/mof_quest/questions.json",
             "class_map": self.repo / "data/processed_data_json/class_map.json",
-            "config": self.repo / "configs/training_hpc.json", "output": self.root / "bundle",
+            "config": None, "output": self.root / "bundle",
             "feature_profile": "process_enrich", "manual_process_policy": "missing_control",
         }
         options.update(overrides)

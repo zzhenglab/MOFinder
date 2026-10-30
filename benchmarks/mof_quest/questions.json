@@ -55,7 +55,7 @@
     "conditions": {
       "metal_precursor": "Fe powder",
       "organic_linker": "benzene-1,3,5-tricarboxylic acid",
-      "modulator": "hydrofluoric acid (HF)",
+      "modulator": "hydrofluoric acid",
       "solvent": "water",
       "metal_concentration_mM": 200.0,
       "M_L_ratio": 1.52,
@@ -87,7 +87,7 @@
     "conditions": {
       "metal_precursor": "Cu(NO3)2·2.5H2O",
       "organic_linker": "bis(4-(4-carboxyphenyl)-1H-pyrazolyl)methane",
-      "modulator": "nitric acid (70%)",
+      "modulator": "nitric acid",
       "solvent": "dimethylformamide and water",
       "metal_concentration_mM": 80.0,
       "M_L_ratio": 1.45,
@@ -279,7 +279,7 @@
     "conditions": {
       "metal_precursor": "AlCl3",
       "organic_linker": "1H-pyrazole-3,5-dicarboxylic acid monohydrate and 2,5-thiophenedicarboxylic acid",
-      "modulator": "sodium hydroxide (NaOH)",
+      "modulator": "sodium hydroxide",
       "solvent": "water",
       "metal_concentration_mM": 50.0,
       "M_L_ratio": 4.0,

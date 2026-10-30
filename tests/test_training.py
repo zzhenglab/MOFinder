@@ -1,6 +1,9 @@
 """Offline checks for training data transfer and prediction exports."""
 
 import json
+import hashlib
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 import subprocess
 import sys
@@ -9,7 +12,7 @@ import unittest
 from unittest.mock import Mock
 
 from mofinder.training.common import binary_metrics, export_predictions, sha256
-from mofinder.training.prepare import prepare_bundle, validate_bundle, validate_dataset
+from mofinder.training.prepare import default_settings, main, prepare_bundle, validate_bundle, validate_dataset
 from mofinder.training.records import (
     REACTION_PROMPT_FILE, read_message_rows, read_reaction_prompt,
     render_prompt, tokenize_prompts,
@@ -43,7 +46,7 @@ class TrainingTests(unittest.TestCase):
             self.root / "train.jsonl", self.root / "holdout.jsonl",
             self.repo / "benchmarks/mof_quest/questions.json",
             self.repo / "data/processed_data_json/class_map.json",
-            config or self.repo / "configs/training_hpc.json", self.root / "bundle",
+            config, self.root / "bundle",
             prompt=prompt,
         )
 
@@ -59,6 +62,31 @@ class TrainingTests(unittest.TestCase):
         self.assertEqual(validate_bundle(self.root / "bundle"), manifest)
         with self.assertRaises(FileExistsError):
             self.prepare()
+
+    def test_cli_uses_builtin_settings_without_config(self):
+        with redirect_stdout(StringIO()):
+            main(["--train", str(self.root / "train.jsonl"),
+                  "--holdout", str(self.root / "holdout.jsonl"),
+                  "--output", str(self.root / "bundle")])
+        manifest = validate_bundle(self.root / "bundle")
+        self.assertEqual(manifest["configuration_source"], "built-in defaults")
+        effective = {key: manifest[key] for key in ("model_name", "model_directory", "recipe", "protocol")}
+        encoded = json.dumps(effective, sort_keys=True, ensure_ascii=False,
+                             separators=(",", ":")).encode("utf-8")
+        self.assertEqual(manifest["configuration_sha256"], hashlib.sha256(encoded).hexdigest())
+        self.assertEqual(manifest["recipe"]["max_length"], 512)
+
+    def test_custom_config_preserves_settings_and_file_hash(self):
+        settings = default_settings()
+        settings["recipe"]["max_length"] = 1024
+        config = self.root / "custom_config.json"
+        config.write_text(json.dumps(settings, indent=4), encoding="utf-8")
+        manifest = self.prepare(config=config)
+        self.assertEqual(manifest["recipe"], settings["recipe"])
+        self.assertEqual(manifest["configuration_sha256"], sha256(config))
+        self.assertNotIn("configuration_source", manifest)
+        self.assertEqual(validate_bundle(self.root / "bundle"), manifest)
+        self.assertEqual(default_settings()["recipe"]["max_length"], 512)
 
     def test_changed_inputs_fail_validation(self):
         self.prepare()
@@ -150,7 +178,7 @@ class TrainingTests(unittest.TestCase):
                     validate_bundle(self.root / "bundle")
 
     def test_other_prompt_styles_are_rejected(self):
-        settings = json.loads((self.repo / "configs/training_hpc.json").read_text(encoding="utf-8"))
+        settings = default_settings()
         config = self.root / "config.json"
         for style in ("short", "chat", "long", None):
             with self.subTest(style=style):
@@ -161,7 +189,7 @@ class TrainingTests(unittest.TestCase):
                 self.assertFalse((self.root / "bundle").exists())
 
     def test_invalid_max_lengths_are_rejected(self):
-        settings = json.loads((self.repo / "configs/training_hpc.json").read_text(encoding="utf-8"))
+        settings = default_settings()
         config = self.root / "config.json"
         for length in (0, -1, 1.5, "512", True, None):
             with self.subTest(max_length=length):

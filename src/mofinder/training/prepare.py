@@ -2,6 +2,7 @@
 
 import argparse
 from collections import Counter
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -13,6 +14,46 @@ from .records import (
     INPUT_FIELDS, PROCESS_FIELDS, PROCESS_PROMPT_FILE, REACTION_PROMPT_FILE,
     input_fields, read_message_rows, read_reaction_prompt, validate_process_fields,
 )
+
+
+def default_settings():
+    """Return a fresh copy of the standard training recipe and protocol."""
+    return {
+        "model_name": "gpt-oss-20b",
+        "model_directory": None,
+        "recipe": {
+            "max_length": 512,
+            "batch_size": 24,
+            "eval_batch_size": 96,
+            "gradient_accumulation": 1,
+            "epochs": 3.0,
+            "max_steps": 5000,
+            "learning_rate": 5e-05,
+            "lr_scheduler": "cosine",
+            "warmup_ratio": 0.03,
+            "weight_decay": 0.01,
+            "logging_steps": 50,
+            "lora_r": 32,
+            "lora_alpha": 64,
+            "lora_dropout": 0.05,
+            "lora_target_modules": "q_proj,k_proj,v_proj,o_proj",
+            "lora_target_parameters": "",
+            "negative_class_weight": 1.0,
+            "focal_gamma": 0.0,
+            "label_smoothing": 0.0,
+            "gradient_checkpointing": False,
+            "seed": 42,
+            "prompt_style": "reaction_prediction",
+        },
+        "protocol": {
+            "eval_start": 2500,
+            "eval_every": 100,
+            "threshold": 0.5,
+            "positive_label": "P",
+            "zero_division": 0,
+            "checkpoint_selection": "none",
+        },
+    }
 
 
 def _validate_recipe(recipe):
@@ -46,7 +87,13 @@ def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=
     output = Path(output).resolve()
     if output.exists():
         raise FileExistsError(f"Choose a new output directory: {output}")
-    settings = read_json(config)
+    settings = default_settings() if config is None else read_json(config)
+    if config is None:
+        serialized_settings = json.dumps(settings, sort_keys=True, ensure_ascii=False,
+                                         separators=(",", ":")).encode("utf-8")
+        configuration_hash = hashlib.sha256(serialized_settings).hexdigest()
+    else:
+        configuration_hash = sha256(config)
     _validate_recipe(settings["recipe"])
     input_fields(feature_profile)
     if feature_profile == "process_enrich" and manual_process_policy != "missing_control":
@@ -108,11 +155,13 @@ def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=
             "datasets": datasets,
             "class_map": {"path": "data/class_map.json", "sha256": sha256(staged / "data/class_map.json")},
             "question_panel_sha256": sha256(questions),
-            "configuration_sha256": sha256(config),
+            "configuration_sha256": configuration_hash,
             "reaction_prediction": {"path": "prompts/reaction_prediction.txt", "sha256": sha256(staged / "prompts/reaction_prediction.txt")},
             "recipe": settings["recipe"],
             "protocol": settings["protocol"],
         }
+        if config is None:
+            manifest["configuration_source"] = "built-in defaults"
         if feature_profile == "process_enrich":
             manifest["feature_profile"] = feature_profile
             manifest["input_fields"] = list(input_fields(feature_profile))
@@ -176,7 +225,8 @@ def main(argv=None):
     parser.add_argument("--holdout", type=Path, default=root / "data/processed_data_json/holdout.jsonl")
     parser.add_argument("--questions", type=Path, default=root / "benchmarks/mof_quest/questions.json")
     parser.add_argument("--class-map", type=Path, default=root / "data/processed_data_json/class_map.json")
-    parser.add_argument("--config", type=Path, default=root / "configs/training_hpc.json")
+    parser.add_argument("--config", type=Path,
+                        help="Optional JSON training configuration; otherwise use built-in defaults")
     parser.add_argument("--prompt", type=Path,
                         help="Full reaction-prediction instructions; conditions are appended separately")
     parser.add_argument("--output", type=Path, default=root / "results/local/hpc_training")
