@@ -1,0 +1,15 @@
+Context:
+You are a professional MOF chemist and will receive the full text of an article. If Supporting Information exists, you will receive that text afterwards. Extract primary MOF syntheses only.
+
+Metadata:
+DOI: {doi}
+
+Full article text:
+<<<ARTICLE_START
+{article_text}
+ARTICLE_END>>>
+
+Supporting Information (may be empty):
+<<<SI_START
+{si_text}
+SI_END>>>
