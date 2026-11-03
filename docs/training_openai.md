@@ -1,4 +1,4 @@
-# Model training: GPT-4.1 in the OpenAI dashboard
+# Model fine-tuning: GPT-4.1 in the OpenAI dashboard
 
 The GPT-4.1 training workflow uses the OpenAI fine-tuning interface. The settings are recorded in [training_openai.json](../configs/training_openai.json), which is a manual training recipe. Dataset preparation is described in [datasets.md](datasets.md).
 
