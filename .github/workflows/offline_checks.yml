@@ -79,7 +79,7 @@ jobs:
       - name: Validate question evaluation
         run: python -m mofinder.evaluation.quest validate --config configs/quest_evaluation.json
       - name: Check question exports
-        run: python tools/sync_quest_questions.py --check
+        run: python tools/sync_quest_questions.py --check 
       - name: Analyze anonymous human responses
         run: python -m mofinder.evaluation.human_quest analyze
       - name: Prepare the portable training bundle
