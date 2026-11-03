@@ -1,0 +1,61 @@
+{
+  "schema_version": 3,
+  "exports": [
+    {
+      "file": "papers.csv",
+      "source_sha256": "f665855f1398880df613317a34d883a0bd68a4428d3fd9c7e32c0fbc9a439cce",
+      "source_sheet": "Sheet1",
+      "sha256": "b09f6e3a20a7ba690eab5381f9b1d61ef9032522cb03bc777f883873d2bb70c8",
+      "row_count": 7437,
+      "columns": [
+        "DOI",
+        "Publisher",
+        "DOI Link"
+      ],
+      "publisher_id_counts": {
+        "publisher_A": 1770,
+        "publisher_E": 1714,
+        "publisher_R": 2038,
+        "publisher_S": 262,
+        "publisher_W": 989,
+        "unmapped": 664
+      },
+      "publisher_resolution": "Original paper prefix resolver, followed by neutral identifier replacement.",
+      "unsupported_value": "unmapped",
+      "missing_doi_count": 0,
+      "unique_doi_count": 7435,
+      "source_id": "article_retrieval_inventory",
+      "source_description": "Article retrieval inventory workbook"
+    },
+    {
+      "file": "supporting_information.csv",
+      "source_sha256": "01d6c0bb6a118da50c5c9a35954f099c75d0c23620aee21a5ecab753a91c3024",
+      "source_sheet": "Sheet1",
+      "sha256": "dabd54f799ed25a5348619b08dd2e47238736471a9ef8f15f62e041b69635c19",
+      "row_count": 7437,
+      "columns": [
+        "DOI",
+        "Publisher",
+        "DOI Link"
+      ],
+      "publisher_id_counts": {
+        "publisher_A": 1770,
+        "publisher_E": 2345,
+        "publisher_R": 2038,
+        "publisher_S": 292,
+        "publisher_W": 989,
+        "unmapped": 3
+      },
+      "publisher_resolution": "Original SI alias resolver and canonical contains fallback, followed by neutral identifier replacement.",
+      "unsupported_value": "unmapped",
+      "missing_doi_count": 0,
+      "unique_doi_count": 7435,
+      "source_id": "si_retrieval_inventory",
+      "source_description": "Supporting-information retrieval inventory workbook"
+    }
+  ],
+  "transformations": [
+    "Preserve retrieval DOI, publisher identifiers, DOI links, duplicate rows, and original row order.",
+    "Remove Downloaded and SI Downloaded columns from published inventories."
+  ]
+}
