@@ -1,0 +1,14 @@
+{
+  "project_root": "..",
+  "manifest_file": "results/extraction/document_manifest.csv",
+  "article_dir": "data/local/articles",
+  "si_dir": "data/local/supporting_information",
+  "csv_out": "results/extraction/positive/mof_extraction.csv",
+  "json_out_dir": "results/extraction/positive/mof_json_store",
+  "system_prompt_file": "prompts/positive_system.txt",
+  "user_prompt_file": "prompts/positive_user.txt",
+  "model": "gpt-5",
+  "start_row": 0,
+  "concurrency": 100,
+  "flush_every": 50
+}
