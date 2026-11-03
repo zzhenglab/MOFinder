@@ -1,0 +1,147 @@
+﻿doi,mof_name,metal_1,metal_1_amount_value,metal_1_amount_unit,linker_1,linker_1_amount_value,linker_1_amount_unit,solvent_main,solvent_main_ml,temperature_c,time_h,time_text,M_L_ratio,metel_concnertation
+10.1038/s41560-018-0261-6,PCN-222,ZrCl4,0.321839,mmol,tetrakis(4-carboxyphenyl)porphyrin,0.0632271,mmol,"N,N-diethylformamide",8,120,48,48 h,5.09,40
+10.1038/s41560-018-0261-6,PCN-224,ZrCl4,0.643677,mmol,tetrakis(4-carboxyphenyl)porphyrin,0.0632271,mmol,dimethylformamide,10,120,24,24 h,10.18,64
+10.1038/s41560-018-0261-6,MOF-808,ZrOCl2·8H2O,6.70292,mmol,"benzene-1,3,5-tricarboxylic acid",7.09051,mmol,dimethylformamide,128,110,48,48 h,0.95,52
+10.1038/s41560-018-0261-6,UiO-66,ZrCl4,3,mmol,terephthalic acid,3,mmol,dimethylformamide,20,120,24,24 h,1.00,150
+10.1038/s41560-018-0261-6,MIL-101(Cr),Cr(NO3)3·9H2O,1,mmol,terephthalic acid,1,mmol,water,4.8,220,8,8 h,1.00,208
+10.1038/s41560-018-0261-6,MOF-801,ZrOCl2·8H2O,10,mmol,fumaric acid,10,mmol,dimethylformamide,32,130,6,6 h,1.00,312
+10.1021/acs.cgd.6b01732,calixMOF1,Cu(NO3)2·1H2O,0.205,mmol,tetracarboxylic meta-substituted four-wall aryl-extended calix[4]pyrrole,0.411,mmol,dimethylformamide,45,100,24,24 h,0.50,5
+10.1021/acsami.5c01476,NH2-MIL-101(Fe),FeCl3·6H2O,1.00003,mmol,2-aminoterephthalic acid,1.00028,mmol,ethanol,7,25,12,12 h,1.00,143
+10.1021/acsami.5c01476,NH2-MIL-101(Fe),FeCl3·6H2O,2.49729,mmol,2-aminoterephthalic acid,1.24206,mmol,dimethylformamide,15,110,12,12 h,2.01,166
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,1.362,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,1.00,45
+10.1021/acs.cgd.6b01533,UiO-66,ZrCl4,2.724,mmol,terephthalic acid,1.362,mmol,dimethylformamide,30,120,24,24 h,2.00,91
+10.1016/j.cattod.2006.09.003,,FeCl2·4H2O,0.38,mmol,"2,3,5,6-tetrafluorobenzene-1,4-dicarboxylic acid",0.13,mmol,dimethylformamide,1,25,,,2.92,380
+10.1002/ejic.201000402,,CoCl2·6H2O,1,mmol,"pyridine-3,5-dicarboxylate",1,mmol,water,7,160,72,3 d,1.00,143
+10.1002/chem.200801856,MIL-110,Al(NO3)3·9H2O,1.77,mmol,"trimethyl 1,3,5-benzenetricarboxylate",1.19,mmol,water,5,210,72,72 h,1.49,354
+10.1002/chem.200801856,MIL-110,Al(NO3)3·9H2O,0.874,mmol,"trimethyl 1,3,5-benzenetricarboxylate",0.436,mmol,water,5,210,3,3 h,2.00,175
+10.1002/chem.201901939,NH2-MIL-88B(Fe),FeCl3·6H2O,2,mmol,2-aminoterephthalic acid,1,mmol,dimethylformamide,15,120,24,24 h,2.00,133
+10.1002/chem.201901939,NH2-MIL-88B(Fe/Co),FeCl3·6H2O,1,mmol,2-aminoterephthalic acid,1,mmol,dimethylformamide,15,120,24,24 h,1.00,67
+10.1002/chem.201901939,NH2-MIL-88B/MIL-101 (Fe/Co) mixed phase,FeCl3·6H2O,0.5,mmol,2-aminoterephthalic acid,1,mmol,dimethylformamide,15,120,24,24 h,0.50,33
+10.1002/chem.201901939,NH2-MIL-88B(Fe/Co),FeCl3·6H2O,0.2,mmol,2-aminoterephthalic acid,1,mmol,dimethylformamide,15,120,24,24 h,0.20,13
+10.1002/chem.201901939,Co-MOF (NH2-BDC-Co),CoCl2·6H2O,2,mmol,2-aminoterephthalic acid,1,mmol,dimethylformamide,15,120,24,24 h,2.00,133
+10.1039/c3ce41095a,,Cu(NO3)2·3H2O,0.12,mmol,5-(bis(4-carboxybenzyl)amino)isophthalic acid monohydrate,0.02,mmol,dimethylformamide,2,75,36,36 h,6.00,60
+10.1039/c3ce41095a,,Cu(NO3)2·3H2O,0.12,mmol,5-(bis(4-carboxybenzyl)amino)isophthalic acid monohydrate,0.02,mmol,dimethylformamide,1,75,60,"30 h, add HBF4, then 30 h more (total 60 h)",6.00,120
+10.1021/acs.inorgchem.0c02674,UiO-(OH)2,ZrOCl2·8H2O,0.540004,mmol,"2,5-dihydroxyterephthalic acid",0.739918,mmol,dimethylformamide,15,80,12,overnight,0.73,36
+10.1021/acs.cgd.1c00385,[Co2(dip)2(obb)2]·2H2O (1),Co(NO3)2·6H2O,0.5,mmol,"2,6-di(1H-imidazol-1-yl)pyridine",0.5,mmol,water,10,140,72,"heated to 140 °C over 12 h, maintained 72 h; cooled to 40 °C over 24 h",1.00,50
+10.1021/acs.cgd.1c00385,[Co2(dip)2(btec)(H2O)]·3H2O (2),Co(NO3)2·6H2O,0.5,mmol,"2,6-di(1H-imidazol-1-yl)pyridine",0.5,mmol,water,10,140,72,"heated to 140 °C over 12 h, maintained 72 h; cooled to 40 °C over 24 h",1.00,50
+10.1021/acs.inorgchem.3c04060,UCY-16,Cu(NO3)2·5/2H2O,0.34,mmol,5-aminoisophthalic acid,0.55,mmol,dimethylformamide,8,100,6,∼4 to 6 h,0.62,42
+10.1021/cg201059d,PCN-131,Zn(NO3)2·6H2O,0.2,mmol,"anthracene-9,10-dicarboxylic acid",0.1,mmol,dimethylformamide,3,120,168,1 week,2.00,67
+10.1021/cg201059d,PCN-132,Zn(NO3)2·6H2O,0.2,mmol,"anthracene-9,10-dicarboxylic acid",0.1,mmol,"N,N-dimethylacetamide",3,60,72,3 days,2.00,67
+10.1021/cg201059d,PCN-1310,Zn(NO3)2·6H2O,0.2,mmol,"anthracene-9,10-dicarboxylic acid",0.1,mmol,dimethylformamide,3,120,48,2 days,2.00,67
+10.1021/cg201059d,PCN-1320,Zn(NO3)2·6H2O,0.2,mmol,"anthracene-9,10-dicarboxylic acid",0.1,mmol,dimethylformamide,3,120,48,2 days,2.00,67
+10.1016/j.micromeso.2015.07.001,,Cu(NO3)2·2H2O,0.07,mmol,"5,5′-(1,3-phenylenebis(methylene))bis(oxy)diisophthalic acid",0.035,mmol,dimethylformamide,8,85,96,4 days,2.00,9
+10.1016/j.micromeso.2015.07.001,,Cu(NO3)2·2H2O,0.1,mmol,"5,5′-(1,3-phenylenebis(methylene))bis(oxy)diisophthalic acid",0.05,mmol,water,6,85,96,4 days,2.00,17
+10.1016/j.ica.2004.07.029,,MoO3,1.119,mmol,tetra-2-pyridylpyrazine,0.221,mmol,water,,170,48,48 h,5.06,
+10.1016/j.ica.2004.07.029,,MoO3,1.112,mmol,tetra-2-pyridylpyrazine,0.221,mmol,water,,170,48,48 h,5.03,
+10.1016/j.ica.2004.07.029,,Mo7O24·4H2O,0.081,mmol,tetra-2-pyridylpyrazine,0.111,mmol,water,,200,48,48 h,0.73,
+10.1039/d1mh01663f,MOF-235(Fe),FeCl3·6H2O,1,mmol,terephthalic acid,1,mmol,dimethylformamide,10,120,24,24 h,1.00,100
+10.1039/d1mh01663f,MIL-53(Fe),FeCl2·4H2O,1,mmol,terephthalic acid,1,mmol,dimethylformamide,10,150,72,3 days,1.00,100
+10.1039/d1mh01663f,[Fe(DMF)(BDC)],Fe(BF4)2·6H2O,1,mmol,terephthalic acid,1,mmol,dimethylformamide,10,150,72,3 days,1.00,100
+10.1039/d1mh01663f,,Fe(BF4)2·6H2O,1,mmol,terephthalic acid,1,mmol,dimethylformamide,10,120,24,24 h,1.00,100
+10.1039/d1mh01663f,MIL-88B(Fe),Fe(SO4)·7H2O,0.05,mmol,terephthalic acid,0.05,mmol,dimethylformamide,4,120,24,24 h,1.00,12
+10.1039/d1mh01663f,Fe–BDC-Br,Fe(SO4)·7H2O,0.05,mmol,2-bromoterephthalic acid,0.05,mmol,dimethylformamide,4,120,24,24 h,1.00,12
+10.1016/j.ica.2012.01.011,,Cu(CH3COO)2,0.38,mmol,"1,4-butylenediphosphonic acid",0.35,mmol,water,10,100,48,48 h,1.09,38
+10.1016/j.ica.2012.01.011,,Cu(CH3COO)2,0.38,mmol,"1,4-butylenediphosphonic acid",0.275,mmol,water,10,100,48,48 h,1.38,38
+10.1039/b713705b,,Cu2(MeCOO)4·2H2O,0.095,mmol,hexacarboxylic polychlorotriphenylmethyl radical,0.063,mmol,water,10,25,1080,slow diffusion over 45 days,1.51,10
+10.1039/b713705b,,Cu2(MeCOO)4·2H2O,0.095,mmol,aH-PTMHC,0.063,mmol,water,10,25,480,slow diffusion over 20 days,1.51,10
+10.1039/c6nj00822d,,La(CH3SO3)3,8,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,16.00,615
+10.1039/c6nj00822d,,Nd(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,11,180,72,3 days,8.00,364
+10.1039/c6nj00822d,,Sm(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,8.00,308
+10.1039/c6nj00822d,,Eu(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,8.00,308
+10.1039/c6nj00822d,,Gd(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,8.00,308
+10.1039/c6nj00822d,,Tb(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,8.00,308
+10.1039/c6nj00822d,,Er(CH3SO3)3,4,mmol,2-nitroterephthalic acid,0.5,mmol,water,13,180,72,3 days,8.00,308
+10.1021/ic000209d,[Er(C9H9O6)(H2O)2]·2.5H2O,Er(NO3)3·5H2O,0.8,mmol,"cis,cis-1,3,5-cyclohexanetricarboxylic acid",1,mmol,water,15,170,24,24 h,0.80,53
+10.1021/ja905690t,[Ca(L-Tar)(H2O)2]·2H2O,Ca(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,25,0.1,immediate precipitation,1.00,100
+10.1021/ja905690t,[Ca(L-Tar)],Ca(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,125,48,48 h,1.00,100
+10.1021/ja905690t,"[Ca(D,L-Tar)(H2O)4]",Ca(CH3COO)2,1,mmol,"D,L-tartaric acid",1,mmol,water,10,60,48,48 h,1.00,100
+10.1021/ja905690t,"[Ca(D,L-Tar)]2·H2O",Ca(CH3COO)2,1,mmol,"D,L-tartaric acid",1,mmol,water,10,200,48,48 h,1.00,100
+10.1021/ja905690t,[Ca(meso-Tar)(H2O)2]·H2O,Ca(CH3COO)2,1,mmol,meso-tartaric acid hydrate,1,mmol,water,10,25,0.1,immediate precipitation,1.00,100
+10.1021/ja905690t,[Ca(meso-Tar)]·2H2O,Ca(CH3COO)2,1,mmol,meso-tartaric acid hydrate,1,mmol,water,10,100,48,48 h,1.00,100
+10.1021/ja905690t,[Ca(meso-Tar)],Ca(CH3COO)2,1,mmol,meso-tartaric acid hydrate,1,mmol,water,10,150,48,48 h,1.00,100
+10.1021/ja905690t,[Sr(L-Tar)(H2O)2]·2H2O,Sr(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,25,144,6 days,1.00,100
+10.1021/ja905690t,[Sr(L-Tar)(H2O)3],Sr(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,60,48,48 h (closed vial),1.00,100
+10.1021/ja905690t,[Sr(L-Tar)(H2O)],Sr(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,60,48,48 h,1.00,100
+10.1021/ja905690t,[Sr(L-Tar)],Sr(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,150,48,48 h,1.00,100
+10.1021/ja905690t,"[Sr(D,L-Tar)(H2O)4]",Sr(CH3COO)2,1,mmol,"D,L-tartaric acid",1,mmol,water,10,100,48,48 h,1.00,100
+10.1021/ja905690t,[Sr(meso-Tar)],Sr(CH3COO)2,1,mmol,meso-tartaric acid hydrate,1,mmol,water,10,125,48,48 h,1.00,100
+10.1021/ja905690t,[Ba(L-Tar)],Ba(CH3COO)2,1,mmol,L-tartaric acid,1,mmol,water,10,25,24,12–24 h (stirred),1.00,100
+10.1021/ja905690t,"[Ba2(D,L-Tar)2(H2O)5]",Ba(CH3COO)2,0.25,mmol,"D,L-tartaric acid",0.25,mmol,water,20,25,48,1–2 days (evaporation),1.00,12
+10.1021/ja905690t,"[Ba(D,L-Tar)(H2O)2]",Ba(CH3COO)2,0.25,mmol,"D,L-tartaric acid",0.25,mmol,water,20,25,48,1–2 days (evaporation),1.00,12
+10.1021/ja905690t,"[Ba(D,L-Tar)]",Ba(CH3COO)2,1,mmol,"D,L-tartaric acid",1,mmol,water,10,60,48,48 h,1.00,100
+10.1021/ja905690t,[Ba(meso-Tar)(H2O)],Ba(CH3COO)2,1,mmol,meso-tartaric acid hydrate,1,mmol,water,10,100,48,48 h,1.00,100
+10.1002/ejic.201301010,[Y2(bpdc)3(H2O)4],Y(NO3)3·6H2O,0.12,mmol,"2,2'-bipyridine-5,5'-dicarboxylate",0.18,mmol,dimethylformamide,6,120,72,72 h,0.67,20
+10.1002/anie.202000299,DIA-1,Zn(NO3)2·6H2O,0.480711,mmol,pyrimidin-2-ol,1.43615,mmol,water,7.2,25,0.5,30 min,0.33,67
+10.1002/anie.202000299,ZPF-1,Zn(NO3)2·6H2O,0.48,mmol,pyrimidin-2-ol,1.44,mmol,water,7.2,25,0.5,30 min,0.33,67
+10.1002/anie.202000299,ZPF-1,Zn(NO3)2·6H2O,0.48,mmol,pyrimidin-2-ol,1.44,mmol,water,7.2,25,0.5,30 min,0.33,67
+10.1002/anie.202000299,ZPF-1,Zn(NO3)2·6H2O,0.48,mmol,pyrimidin-2-ol,1.44,mmol,water,7.2,25,0.5,30 min,0.33,67
+10.1002/anie.202000299,ZPF-1,Zn(NO3)2·6H2O,0.480711,mmol,pyrimidin-2-ol,1.43615,mmol,water,7.2,25,0.5,30 min,0.33,67
+10.1002/cctc.201402546,Zr-NDC,ZrCl4,1.7,mmol,"2,6-naphthalenedicarboxylic acid",1.7,mmol,dimethylformamide,100,120,24,24 h,1.00,17
+10.1002/cctc.201402546,Zr-NDC-NH2(20),ZrCl4,1.7,mmol,"2,6-naphthalenedicarboxylic acid",1.36,mmol,dimethylformamide,100,120,24,24 h,1.25,17
+10.1002/cctc.201402546,Zr-NDC-NH2(35),ZrCl4,1.7,mmol,"2,6-naphthalenedicarboxylic acid",1.105,mmol,dimethylformamide,100,120,24,24 h,1.54,17
+10.1039/c3dt53167h,,Al2(SO4)3·18H2O,0.125,mmol,"(2,4,6-trimethylbenzene-1,3,5-triyl)tris(methylene)triphosphonic acid",0.2,mmol,ethanol,9,140,72,3 days,0.62,14
+10.1021/cg401825f,,La(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Pr(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Sm(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Eu(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Gd(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Tb(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Dy(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1021/cg401825f,,Er(NO3)3,0.5,mmol,"1,4-naphthalenedicarboxylic acid",0.5,mmol,water,10,120,72,3 days,1.00,50
+10.1039/c2ce25081k,,Cu(ClO4)2·6H2O,0.2,mmol,"2-p-methoxyphenyl-1H-imidazole-4,5-dicarboxylic acid",0.1,mmol,water,7,150,96,96 h,2.00,29
+10.1039/c2ce25081k,,Zn(CH3COO)2·2H2O,0.1,mmol,"2-p-methoxyphenyl-1H-imidazole-4,5-dicarboxylic acid",0.1,mmol,ethanol,7,160,72,72 h,1.00,14
+10.1039/c2ce25081k,,Co(NO3)2·6H2O,0.2,mmol,"2-p-methoxyphenyl-1H-imidazole-4,5-dicarboxylic acid",0.2,mmol,ethanol,7,160,72,72 h,1.00,29
+10.1039/c2ce25081k,,Co(NO3)2·6H2O,0.2,mmol,"2-p-methoxyphenyl-1H-imidazole-4,5-dicarboxylic acid",0.2,mmol,ethanol,7,160,72,72 h,1.00,29
+10.1039/c2ce25081k,,CoCl2·6H2O,0.1,mmol,"2-p-methoxyphenyl-1H-imidazole-4,5-dicarboxylic acid",0.1,mmol,water,7,160,72,72 h,1.00,14
+10.1021/acs.inorgchem.9b01408,Hf-HHU-2,HfCl4,1,mmol,acetylenedicarboxylic acid,3,mmol,water,2.5,85,6,6 h,0.33,400
+10.1021/acs.inorgchem.9b01408,Hf-HHU-2 (defect nanodomains),HfCl4,1,mmol,acetylenedicarboxylic acid,1,mmol,water,2.5,85,6,6 h,1.00,400
+10.1021/ic500234r,,Zn(NO3)2·6H2O,0.1,mmol,"biphenyl-4,4'-dicarboxylic acid",0.1,mmol,dimethylformamide,10,80,72,3 days,1.00,10
+10.1021/ic500234r,,Zn(NO3)2·6H2O,0.1,mmol,"biphenyl-4,4'-dicarboxylic acid",0.1,mmol,"N,N-diethylformamide",10,120,72,3 days,1.00,10
+10.1021/ic500234r,MOF1N,Zn(CH3COO)2·2H2O,0.1,mmol,"biphenyl-4,4'-dicarboxylic acid",0.1,mmol,dimethylformamide,10,80,72,3 days,1.00,10
+10.1002/ejic.201500133,ZrIV muconate,ZrCl4,0.43,mmol,"trans,trans-muconic acid",0.43,mmol,dimethylformamide,3,150,24,24 h,1.00,143
+10.1002/ejic.201500133,ZrIV muconate,ZrCl4,0.43,mmol,"trans,trans-muconic acid",0.43,mmol,dimethylformamide,3,150,24,24 h,1.00,143
+10.1039/c7dt01084b,UiO-66,ZrCl4,2,mmol,terephthalic acid,1.9864,mmol,dimethylformamide,34,120,24,24 h,1.01,59
+10.1039/c7dt01084b,UiO-66-PYDC,ZrCl4,1,mmol,"2,5-pyridinedicarboxylic acid",1.00527,mmol,water,8,100,24,24 h,0.99,125
+10.1039/c7dt01084b,UiO-66-PYDC,ZrCl4,1,mmol,"2,5-pyridinedicarboxylic acid",1.00527,mmol,water,6,100,24,24 h,0.99,167
+10.1039/c7dt01084b,UiO-66-PYDC,ZrCl4,1,mmol,"2,5-pyridinedicarboxylic acid",1.00527,mmol,water,4,100,24,24 h,0.99,250
+10.1039/c7dt01084b,UiO-66-PYDC,ZrCl4,1,mmol,"2,5-pyridinedicarboxylic acid",1.00527,mmol,water,2,100,24,24 h,0.99,500
+10.1039/c7dt01084b,UiO-66-PYDC,ZrCl4,1,mmol,"2,5-pyridinedicarboxylic acid",1.00527,mmol,acetic acid,10,100,24,24 h,0.99,100
+10.1021/acs.cgd.9b00611,YCM-31,InCl3,1.32,mmol,"4,4′,4″-benzene-1,3,5-triyl-tribenzoic acid",0.62,mmol,dimethylformamide,18,120,24,24 h,2.13,73
+10.1021/acs.cgd.9b00611,YCM-32,InCl3,1.32,mmol,"4,4′,4″-benzene-1,3,5-triyl-tribenzoic acid",0.62,mmol,dimethylformamide,18,120,24,24 h,2.13,73
+10.1021/acs.cgd.9b00611,YCM-32,InCl3,1.32,mmol,"4,4′,4″-benzene-1,3,5-triyl-tribenzoic acid",0.62,mmol,dimethylformamide,18,120,24,24 h,2.13,73
+10.1021/acs.cgd.9b00611,YCM-32,InCl3,1.32,mmol,"4,4′,4″-benzene-1,3,5-triyl-tribenzoic acid",0.62,mmol,dimethylformamide,18,120,24,24 h,2.13,73
+10.1002/chem.202402363,Y-CU-45,Y(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Lu-CU-45,Lu(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Yb-CU-45,Yb(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Tm-CU-45,Tm(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Er-CU-45,Er(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Ho-CU-45,Ho(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Dy-CU-45,Dy(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Tb-CU-45,Tb(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Gd-CU-45,Gd(NO3)3,0.31,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1.5,130,120,120 h (5 days),4.77,207
+10.1002/chem.202402363,Eu-CU-45,Eu(NO3)3,0.25,mmol,"benzene-1,3,5-tricarboxylic acid",0.065,mmol,dimethylformamide,1,130,120,120 h (5 days),3.85,250
+10.1021/cg070144q,,Cu(NO3)2·3H2O,0.5,mmol,"1,3-benzenedicarboxylate acid",0.5,mmol,dimethylformamide,15,25,144,several days,1.00,33
+10.1039/c5ra10799g,,Nd(NO3)3·6H2O,0.02,mmol,"2,6-naphthalenedicarboxylic acid",0.0300661,mmol,dimethylformamide,6,25,432,several weeks,0.67,3
+10.1039/c5ra10799g,,Nd(NO3)3·6H2O,0.02,mmol,"2,6-naphthalenedicarboxylic acid",0.0300661,mmol,"N,N-dimethylacetamide",6,25,2160,several months,0.67,3
+10.1039/c5ra10799g,,Nd(NO3)3·6H2O,0.02,mmol,"2,6-naphthalenedicarboxylic acid",0.0300661,mmol,"N,N-dimethylacetamide",6,25,2160,several months,0.67,3

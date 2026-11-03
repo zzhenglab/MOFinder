@@ -1,0 +1,4 @@
+Training: 252 records; holdout: 28 records.
+Shared clusters: 0
+Output: MOFinder\Demo\02_dataset_preparation\run_history\run_001\outputs
+Expected JSONL, labels, and split assignments: PASS

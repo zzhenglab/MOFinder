@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Please cite this software and the associated article when using MOFinder."
+type: software
+title: MOFinder
+authors:
+  - family-names: Liu
+    given-names: Xinxin
+  - family-names: Walther
+    given-names: Peter
+  - family-names: Zheng
+    given-names: Zhiling
+repository-code: "https://github.com/zzhenglab/MOFinder"
+license: MIT

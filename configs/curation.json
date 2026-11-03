@@ -1,0 +1,13 @@
+{
+  "project_root": "..",
+  "linker_mw_csv": "data/organic_linker_info/linker_molecular_weights.csv",
+  "linker_prime_corrections": "data/organic_linker_info/linker_prime_corrections.json",
+  "positive": {
+    "input_csv": "results/extraction/positive/mof_extraction.csv",
+    "output_dir": "results/curation/positive"
+  },
+  "negative": {
+    "input_csv": "results/extraction/negative/mof_extraction_failures_enum.csv",
+    "output_dir": "results/curation/negative"
+  }
+}

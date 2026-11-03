@@ -1,0 +1,246 @@
+"""Prepare one train/holdout pair for transfer to a GPU workstation or cluster."""
+
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import tempfile
+
+from mofinder.display import display_paths
+from .common import atomic_json, inspect_jsonl, read_json, sha256
+from .records import (
+    INPUT_FIELDS, PROCESS_FIELDS, PROCESS_PROMPT_FILE, REACTION_PROMPT_FILE,
+    input_fields, read_message_rows, read_reaction_prompt, validate_process_fields,
+)
+
+
+def default_settings():
+    """Return a fresh copy of the standard training recipe and protocol."""
+    return {
+        "model_name": "gpt-oss-20b",
+        "model_directory": None,
+        "recipe": {
+            "max_length": 512,
+            "batch_size": 24,
+            "eval_batch_size": 96,
+            "gradient_accumulation": 1,
+            "epochs": 3.0,
+            "max_steps": 5000,
+            "learning_rate": 5e-05,
+            "lr_scheduler": "cosine",
+            "warmup_ratio": 0.03,
+            "weight_decay": 0.01,
+            "logging_steps": 50,
+            "lora_r": 32,
+            "lora_alpha": 64,
+            "lora_dropout": 0.05,
+            "lora_target_modules": "q_proj,k_proj,v_proj,o_proj",
+            "lora_target_parameters": "",
+            "negative_class_weight": 1.0,
+            "focal_gamma": 0.0,
+            "label_smoothing": 0.0,
+            "gradient_checkpointing": False,
+            "seed": 42,
+            "prompt_style": "reaction_prediction",
+        },
+        "protocol": {
+            "eval_start": 2500,
+            "eval_every": 100,
+            "threshold": 0.5,
+            "positive_label": "P",
+            "zero_division": 0,
+            "checkpoint_selection": "none",
+        },
+    }
+
+
+def _validate_recipe(recipe):
+    if recipe.get("prompt_style") != "reaction_prediction":
+        raise ValueError("Set recipe.prompt_style to reaction_prediction to use the full instructions")
+    if type(recipe.get("max_length")) is not int or recipe["max_length"] < 1:
+        raise ValueError("recipe.max_length must be a positive integer")
+
+
+def validate_dataset(path, feature_profile="baseline8", expected_prompt=None):
+    fields = input_fields(feature_profile)
+    metadata = inspect_jsonl(path)
+    rows, system_prompt = read_message_rows(path)
+    for index, row in enumerate(rows, 1):
+        if set(row["reaction"]) != set(fields):
+            description = "eight reaction-condition fields" if feature_profile == "baseline8" else "eleven process_enrich fields"
+            raise ValueError(f"Expected the {description}: {path}:{index}")
+        if feature_profile == "process_enrich":
+            validate_process_fields(row["reaction"])
+        if expected_prompt is not None:
+            systems = [m["content"] for m in row["messages"] if m["role"] == "system"]
+            if systems != [expected_prompt]:
+                raise ValueError(f"System prompt differs from the recorded process prompt: {path}:{index}")
+    metadata["labels"] = dict(Counter("P" if row["labels"] else "N" for row in rows))
+    return metadata, system_prompt
+
+
+def prepare_bundle(train, holdout, questions, class_map, config, output, prompt=None,
+                   feature_profile="baseline8", manual_process_policy=None):
+    """Copy dataset bytes and record hashes without changing the existing split."""
+    output = Path(output).resolve()
+    if output.exists():
+        raise FileExistsError(f"Choose a new output directory: {output}")
+    settings = default_settings() if config is None else read_json(config)
+    if config is None:
+        serialized_settings = json.dumps(settings, sort_keys=True, ensure_ascii=False,
+                                         separators=(",", ":")).encode("utf-8")
+        configuration_hash = hashlib.sha256(serialized_settings).hexdigest()
+    else:
+        configuration_hash = sha256(config)
+    _validate_recipe(settings["recipe"])
+    input_fields(feature_profile)
+    if feature_profile == "process_enrich" and manual_process_policy != "missing_control":
+        raise ValueError("The 22 benchmark questions have no curated process annotations. "
+                         "For this runner explicitly set --manual-process-policy missing_control "
+                         "to evaluate a missing-process control; no process values are inferred.")
+    if feature_profile == "baseline8" and manual_process_policy is not None:
+        raise ValueError("manual_process_policy applies only to process_enrich")
+    default_prompt = PROCESS_PROMPT_FILE if feature_profile == "process_enrich" else REACTION_PROMPT_FILE
+    prompt = Path(prompt) if prompt is not None else default_prompt
+    reaction_prompt = read_reaction_prompt(prompt)
+    expected_prompt = reaction_prompt if feature_profile == "process_enrich" else None
+    if settings["protocol"]["threshold"] != 0.5:
+        raise ValueError("The P/N classifier uses a fixed probability threshold of 0.5")
+    if read_json(class_map) != {"P": "success", "N": "failure"}:
+        raise ValueError("Expected class map P=success and N=failure")
+    datasets = {}
+    for name, path in (("train", train), ("holdout", holdout)):
+        metadata, _ = validate_dataset(path, feature_profile, expected_prompt)
+        datasets[name] = {"path": f"data/{name}.jsonl", **metadata}
+    panel = read_json(questions)
+    if not isinstance(panel, list) or len(panel) != 22:
+        raise ValueError("Expected a list of 22 benchmark questions")
+    question_rows = []
+    for item in panel:
+        if item.get("label") not in {"P", "N"} or set(item.get("conditions", {})) != set(INPUT_FIELDS):
+            raise ValueError(f"Invalid benchmark question: {item.get('question')}")
+        conditions = dict(item["conditions"])
+        if feature_profile == "process_enrich":
+            conditions.update({field: "Not reported" for field in PROCESS_FIELDS})
+        question_rows.append({
+            "record_id": item.get("reaction_id", item["question"]),
+            "messages": [
+                {"role": "system", "content": reaction_prompt},
+                {"role": "user", "content": json.dumps(conditions, ensure_ascii=False)},
+                {"role": "assistant", "content": item["label"]},
+            ],
+        })
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".training-", dir=output.parent) as temporary:
+        staged = Path(temporary) / "bundle"
+        (staged / "data").mkdir(parents=True)
+        (staged / "prompts").mkdir()
+        shutil.copyfile(prompt, staged / "prompts/reaction_prediction.txt")
+        for name, path in (("train", train), ("holdout", holdout)):
+            destination = staged / datasets[name]["path"]
+            shutil.copyfile(path, destination)
+            if sha256(destination) != datasets[name]["sha256"]:
+                raise ValueError(f"Dataset changed during copying: {path}")
+        manual_path = staged / "data/questions.jsonl"
+        manual_path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in question_rows), encoding="utf-8")
+        metadata, _ = validate_dataset(manual_path, feature_profile, expected_prompt)
+        datasets["manual22"] = {"path": "data/questions.jsonl", **metadata}
+        shutil.copyfile(class_map, staged / "data/class_map.json")
+        manifest = {
+            "schema_version": 2,
+            "model_name": settings["model_name"],
+            "model_directory": settings.get("model_directory"),
+            "datasets": datasets,
+            "class_map": {"path": "data/class_map.json", "sha256": sha256(staged / "data/class_map.json")},
+            "question_panel_sha256": sha256(questions),
+            "configuration_sha256": configuration_hash,
+            "reaction_prediction": {"path": "prompts/reaction_prediction.txt", "sha256": sha256(staged / "prompts/reaction_prediction.txt")},
+            "recipe": settings["recipe"],
+            "protocol": settings["protocol"],
+        }
+        if config is None:
+            manifest["configuration_source"] = "built-in defaults"
+        if feature_profile == "process_enrich":
+            manifest["feature_profile"] = feature_profile
+            manifest["input_fields"] = list(input_fields(feature_profile))
+            manifest["manual_process_policy"] = manual_process_policy
+            manifest["manual22_caveat"] = (
+                "All three process fields are unknown (missing-process control)."
+            )
+        atomic_json(staged / "manifest.json", manifest)
+        staged.rename(output)
+    return manifest
+
+
+def validate_bundle(bundle):
+    """Check all data files against their recorded hashes and row counts."""
+    bundle = Path(bundle).resolve()
+    manifest = read_json(bundle / "manifest.json")
+    if manifest.get("schema_version") != 2 or "reaction_prediction" not in manifest:
+        raise ValueError("Rebuild this bundle with tools/training/prepare_hpc.py to use the reaction prediction prompt")
+    _validate_recipe(manifest["recipe"])
+    feature_profile = manifest.get("feature_profile", "baseline8")
+    fields = input_fields(feature_profile)
+    expected_prompt = None
+    if feature_profile == "process_enrich":
+        if manifest.get("input_fields") != list(fields) or manifest.get("manual_process_policy") != "missing_control":
+            raise ValueError("Invalid process_enrich feature or manual-question policy")
+        process_prompt_path = (bundle / manifest["reaction_prediction"]["path"]).resolve()
+        if not process_prompt_path.is_relative_to(bundle):
+            raise ValueError("Reaction prediction prompt is outside the bundle")
+        expected_prompt = read_reaction_prompt(process_prompt_path)
+    for name, info in manifest["datasets"].items():
+        path = (bundle / info["path"]).resolve()
+        if not path.is_relative_to(bundle):
+            raise ValueError(f"Dataset path is outside the bundle: {name}")
+        observed, _ = validate_dataset(path, feature_profile, expected_prompt)
+        for key in ("sha256", "rows", "bytes", "labels"):
+            if observed[key] != info[key]:
+                raise ValueError(f"Changed {key} for {name}")
+        if feature_profile == "process_enrich" and name == "manual22":
+            rows, _ = read_message_rows(path)
+            if len(rows) != 22 or any(row["reaction"][field] != "Not reported" for row in rows for field in PROCESS_FIELDS):
+                raise ValueError("manual22 must remain an explicit missing-process control")
+    class_map = manifest["class_map"]
+    path = (bundle / class_map["path"]).resolve()
+    if not path.is_relative_to(bundle) or sha256(path) != class_map["sha256"]:
+        raise ValueError("Changed class map")
+    if read_json(path) != {"P": "success", "N": "failure"}:
+        raise ValueError("Expected class map P=success and N=failure")
+    prompt = manifest["reaction_prediction"]
+    path = (bundle / prompt["path"]).resolve()
+    if not path.is_relative_to(bundle) or sha256(path) != prompt["sha256"]:
+        raise ValueError("Changed reaction prediction prompt")
+    read_reaction_prompt(path)
+    return manifest
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    root = Path(__file__).resolve().parents[3]
+    parser.add_argument("--train", type=Path, default=root / "data/processed_data_json/train.jsonl")
+    parser.add_argument("--holdout", type=Path, default=root / "data/processed_data_json/holdout.jsonl")
+    parser.add_argument("--questions", type=Path, default=root / "benchmarks/mof_quest/22_questions.json")
+    parser.add_argument("--class-map", type=Path, default=root / "data/processed_data_json/class_map.json")
+    parser.add_argument("--config", type=Path,
+                        help="Optional JSON training configuration; otherwise use built-in defaults")
+    parser.add_argument("--prompt", type=Path,
+                        help="Full reaction-prediction instructions; conditions are appended separately")
+    parser.add_argument("--output", type=Path, default=root / "results/local/hpc_training")
+    parser.add_argument("--validate-bundle", type=Path)
+    parser.add_argument("--feature-profile", choices=("baseline8", "process_enrich"), default="baseline8")
+    parser.add_argument("--manual-process-policy", choices=("missing_control",),
+                        help="Explicitly mark uncurated benchmark process fields Not reported")
+    args = parser.parse_args(argv)
+    if args.validate_bundle:
+        manifest = validate_bundle(args.validate_bundle)
+    else:
+        manifest = prepare_bundle(args.train, args.holdout, args.questions, args.class_map, args.config, args.output,
+                                  args.prompt, args.feature_profile, args.manual_process_policy)
+    print(json.dumps(display_paths(manifest["datasets"]), indent=2))
+
+
+if __name__ == "__main__":
+    main()

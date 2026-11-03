@@ -1,0 +1,10 @@
+[submodule "SMILESearcher"]
+	path = SMILESearcher
+	url = https://github.com/zach-zhiling-zheng/SMILESearcher.git
+[submodule "MOFinder"]
+	path = WebApplication
+	url = https://github.com/CodeAPretzel/MOFinder.git
+[submodule "MOF-Quest"]
+	path = MOF-Quest
+	url = https://github.com/zzhenglab/MOF-Quest.git
+ 

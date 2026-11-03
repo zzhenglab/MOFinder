@@ -1,0 +1,24 @@
+{
+  "project_root": "../../..",
+  "prompt_file": "prompts/abstract_triage.txt",
+  "output_root": "results/examples/03_api_data_mining/triage",
+  "input_file": "Demo/03_api_data_mining/inputs/triage_metadata.csv",
+  "input_sheet": null,
+  "ground_truth_file": "Demo/03_api_data_mining/inputs/triage_ground_truth.csv",
+  "models": [
+    {
+      "name": "GPT-5 high",
+      "model": "gpt-5",
+      "reasoning_effort": "high"
+    }
+  ],
+  "n_rounds": 1,
+  "benchmark_only": true,
+  "max_papers": 4,
+  "max_concurrent": 1,
+  "max_output_tokens": 25000,
+  "request_timeout": 600,
+  "save_every": 1,
+  "bootstraps": 1000,
+  "statistics_seed": 42
+}
