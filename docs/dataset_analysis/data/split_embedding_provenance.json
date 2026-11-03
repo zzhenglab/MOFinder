@@ -1,0 +1,195 @@
+{
+  "figure": "D10",
+  "repository_inputs": [
+    {
+      "partition": "training",
+      "path": "data/processed_data_json/train.jsonl",
+      "sha256": "db91bdf98a0b2a242d2b0e050d906bdd5e03c0b0aa3a6156bc3d1a66e8274106",
+      "records": 23528,
+      "outcomes": {
+        "P": 11968,
+        "N": 11560
+      }
+    },
+    {
+      "partition": "holdout",
+      "path": "data/processed_data_json/holdout.jsonl",
+      "sha256": "547e66c3e1babafc7138c0c6a58a39fe891f963933b31ac6b130c97ed06c627f",
+      "records": 2595,
+      "outcomes": {
+        "P": 1320,
+        "N": 1275
+      }
+    }
+  ],
+  "coordinates": {
+    "path": "docs/dataset_analysis/data/tsne_coordinates.csv",
+    "sha256": "d64fd1ea9c8ee02c79af5d125ab9dcbe8bb24a4993e7e6ec43ced97629a8a016",
+    "rows": 26123,
+    "row_identity": "Partition and one-based JSONL line number."
+  },
+  "source_inputs_match_repository": "Coordinates were refitted from the repository JSONL inputs identified above. The refit includes the current linker and modulator names and the holdout line 915 reaction duration of 144 hours. Dataset rows, partitions, order and outcome labels are unchanged.",
+  "categorical_fields": [
+    "metal_precursor",
+    "organic_linker",
+    "modulator",
+    "solvent"
+  ],
+  "categorical_preprocessing": "NFKC, whitespace normalization, casefold, and sorted members; each complete combination is one category. Missing values use <missing>.",
+  "numeric_fields": [
+    "metal_concentration_mM",
+    "M_L_ratio",
+    "temperature_C",
+    "time_h"
+  ],
+  "numeric_preprocessing": "Median imputation, standard scaling, and four binary missingness indicators. No log transform or outlier removal.",
+  "feature_weighting": "One-hot categories, standardized numeric values, and missingness indicators concatenated without additional weighting.",
+  "fitting_scope": "All training and test condition descriptors; outcomes and partition labels enter display only.",
+  "display": {
+    "dimensions_inches": [
+      6,
+      3.9
+    ],
+    "dpi": 600,
+    "font": "Arial",
+    "text_size_pt": 8,
+    "panel_letter_size_pt": 12,
+    "point_draw_order_seed": 42,
+    "overview": {
+      "P": "#285953",
+      "N": "#8D969E",
+      "size_pt2": 1.4,
+      "alpha": 0.65
+    },
+    "subsets": {
+      "P": "#A2C4F1",
+      "N": "#F2DAE7",
+      "negative_edge": "#D9AEC6",
+      "size_pt2": 2.4
+    }
+  },
+  "fit": {
+    "categories_by_field": {
+      "metal_precursor": 805,
+      "organic_linker": 5398,
+      "modulator": 1791,
+      "solvent": 331
+    },
+    "numeric_missing_counts": {
+      "metal_concentration_mM": 2039,
+      "M_L_ratio": 580,
+      "temperature_C": 0,
+      "time_h": 884
+    },
+    "numeric_imputation_medians": {
+      "metal_concentration_mM": 40.0,
+      "M_L_ratio": 1.0,
+      "temperature_C": 120.0,
+      "time_h": 48.0
+    },
+    "numeric_scaler_means": {
+      "metal_concentration_mM": 4695.532021590169,
+      "M_L_ratio": 518.2211158749012,
+      "temperature_C": 114.94483405428169,
+      "time_h": 61.6005874235986
+    },
+    "numeric_scaler_scales": {
+      "metal_concentration_mM": 131937.20694837673,
+      "M_L_ratio": 13314.022059184392,
+      "temperature_C": 47.51223586970356,
+      "time_h": 110.3392721961294
+    },
+    "descriptor_shape": [
+      26123,
+      8333
+    ],
+    "descriptor_nonzero_entries": 212487,
+    "svd": {
+      "n_components": 50,
+      "algorithm": "randomized",
+      "n_iter": 5,
+      "random_state": 42,
+      "explained_variance_ratio_sum": 0.7760460376739502
+    },
+    "tsne": {
+      "n_components": 2,
+      "perplexity": 30,
+      "early_exaggeration": 12,
+      "learning_rate": "auto",
+      "max_iter": 1000,
+      "n_iter_without_progress": 300,
+      "min_grad_norm": 1e-07,
+      "metric": "euclidean",
+      "init": "pca",
+      "random_state": 42,
+      "method": "barnes_hut",
+      "angle": 0.5,
+      "n_jobs": 4,
+      "effective_learning_rate": 544.2291666666666,
+      "kl_divergence": 0.7847517132759094,
+      "n_iter_completed_zero_based": 999
+    },
+    "software": {
+      "python": "3.11.9",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "scikit_learn": "1.9.0",
+      "matplotlib": "3.11.0"
+    }
+  },
+  "source_code_hashes": {
+    "src/mofinder/plotting/split_embedding.py": "844db6cadef26bbe7bf56ad315f4822ea99a42a2542fb43ac0a4b4493c37b0af",
+    "src/mofinder/plotting/dataset_analysis.py": "c7e61a374dff533d4f4f3d6469ec99c85f5e38684fb2469eda8637fdc8d0833b"
+  },
+  "refit": {
+    "performed": true,
+    "reason": "Current linker and modulator names change categorical descriptors; holdout line 915 changes time_h from 6 to 144. Compared with the preceding fit, 1,577 training records and 213 holdout records have updated descriptors. The prior holdout corrections documented under previous_refit remain included. Dataset membership, row order and outcome labels are unchanged.",
+    "updated_records": {
+      "training": 1577,
+      "holdout": 213
+    },
+    "numeric_corrections": [
+      {
+        "partition": "holdout",
+        "jsonl_line": 915,
+        "field": "time_h",
+        "previous": 6.0,
+        "current": 144.0
+      }
+    ],
+    "parameters_unchanged": true,
+    "coordinate_identity": "All 26,123 coordinates verified against partition, one-based JSONL line number, and P/N outcome."
+  },
+  "previous_refit": {
+    "performed": true,
+    "reason": "Corrections to two holdout recipes changed chemical name descriptors and synthesis temperatures: line 1675 AlCl3 to AlCl36H2O, sodium hydroxide (NaOH) to NaOH, 100 to 120 C; line 2206 dimethylformamide to N,N-dimethylformamide, 50 to 100 C. Training records, split membership, order, labels and all other holdout fields are unchanged.",
+    "corrected_holdout_jsonl_lines": [
+      1675,
+      2206
+    ],
+    "parameters_unchanged": true,
+    "coordinate_identity": "All 26,123 coordinates verified against partition, one-based JSONL line number, and P/N outcome.",
+    "repository_inputs": [
+      {
+        "partition": "training",
+        "path": "data/processed_data_json/train.jsonl",
+        "sha256": "9be9cb13b43e1c7255236c30644926095e830ffea4dd572bf573c2d3e58b6ccc",
+        "records": 23528,
+        "outcomes": {
+          "P": 11968,
+          "N": 11560
+        }
+      },
+      {
+        "partition": "holdout",
+        "path": "data/processed_data_json/holdout.jsonl",
+        "sha256": "31fcf777ce64dc719e7f64b4b87a5c921f7af19430a76911c8ef73b16c6a3234",
+        "records": 2595,
+        "outcomes": {
+          "P": 1320,
+          "N": 1275
+        }
+      }
+    ]
+  }
+}
