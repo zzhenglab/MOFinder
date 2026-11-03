@@ -1,0 +1,14 @@
+{
+  "project_root": "../../..",
+  "input_file": "Demo/03_api_data_mining/inputs/extraction/inventory.csv",
+  "article_dir": "Demo/03_api_data_mining/inputs/extraction/articles",
+  "si_dir": "Demo/03_api_data_mining/inputs/extraction/supporting_information",
+  "manifest_file": "results/examples/03_api_data_mining/extraction/document_manifest.csv",
+  "matched_inventory_file": "results/examples/03_api_data_mining/extraction/matched_inventory.csv",
+  "summary_file": "results/examples/03_api_data_mining/extraction/document_matching_summary.json",
+  "counts_file": "results/examples/03_api_data_mining/extraction/document_counts.csv",
+  "counts_summary_file": "results/examples/03_api_data_mining/extraction/document_counts_summary.json",
+  "plots_dir": "results/examples/03_api_data_mining/extraction/document_count_plots",
+  "tokenizer_model": "gpt-4o",
+  "tokenizer_fallback": "cl100k_base"
+}
