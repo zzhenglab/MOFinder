@@ -1,0 +1,15 @@
+# ECE and Brier calculations
+
+[Code](../../../src/mofinder/evaluation/calibration.py) and [one prediction CSV](predictions.csv) for three models on the same 2,595 holdout reactions.
+
+The prediction inputs match the [holdout at commit 200cdcf](https://github.com/zzhenglab/MOFinder-archive-20261101/blob/200cdcf6272fbd31ceca8227d7762e59583460df/data/processed_data_json/holdout.jsonl). The archive is private and requires permission. The current holdout differs in 14 input records; no model rerun or rescoring is included for those corrections.
+
+From the repository root after installation:
+
+```bash
+python -m mofinder.evaluation.calibration --bootstrap 5000
+```
+
+ECE uses ten equal-width bins and weights each absolute probability/positive-fraction gap by its record count. Brier is `mean((p-y)**2)`, with P = 1. Predictions use `p >= 0.5`; the last bin includes 1. Optional DOI bootstrap intervals use shared draws across models (seed 20261002).
+
+The CSV includes probabilities, predictions, per-record Brier terms and available token log probabilities. Blank log probabilities are unobserved, not zeros; 22 GPT-4.1 tails have explicit bounds. The scorer rejects missing probabilities and duplicate inputs.
