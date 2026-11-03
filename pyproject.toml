@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mofinder"
+version = "0.2.0.dev0"
+description = "Literature-mining and LLM fine-tuning pipeline for Metal-Organic Framework (MOF) synthesis prediction."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Xinxin Liu, University of Pennsylvania, Washington University in St. Louis" },
+    { name = "Peter Walther, Washington University in St. Louis" },
+    { name = "Zhiling Zheng, Washington University in St. Louis" },
+]
+keywords = [
+    "metal-organic-framework",
+    "MOF",
+    "synthesis-prediction",
+    "literature-mining",
+    "large-language-model",
+    "fine-tuning",
+    "chemistry",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+
+# Dependencies for the reusable triage validation and statistical functions.
+dependencies = ["numpy>=1.23", "scipy>=1.10"]
+
+[project.optional-dependencies]
+api = ["openai>=1.68"]
+plotting = ["matplotlib>=3.6"]
+embedding = ["matplotlib>=3.6", "scikit-learn>=1.5"]
+literature-retrieval = ["pandas>=1.5", "openpyxl>=3.1"]
+mining = [
+    "pandas>=1.5", "openpyxl>=3.1", "pydantic>=2", "pypdf>=4",
+    "openai>=1.68", "python-docx>=1.1",
+]
+document-counts = ["pdfminer.six>=20221105", "tiktoken>=0.5", "matplotlib>=3.6"]
+curation = ["pandas>=1.5", "matplotlib>=3.6"]
+datasets = ["pandas>=1.5", "openpyxl>=3.1"]
+evaluation = ["pandas>=1.5", "openpyxl>=3.1", "scikit-learn>=1.2", "openai>=1.68", "matplotlib>=3.6"]
+notebook = [
+    "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4", "nbconvert>=7",
+    "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
+]
+triage = [
+    "openai>=1.68", "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4",
+    "nbconvert>=7", "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
+]
+fetch-gui = [
+    "pandas>=1.5", "openpyxl>=3.1", "Pillow>=9",
+    "pyautogui>=0.9.54", "pyperclip>=1.8", "pynput>=1.7", "opencv-python>=4.7",
+]
+fetch-web = ["selenium>=4.10", "webdriver-manager>=4"]
+chem = ["rdkit>=2023.3"]
+all = [
+    "openai>=1.68", "matplotlib>=3.6", "ipython>=8", "jupyterlab>=4",
+    "nbconvert>=7", "nbformat>=5", "nbclient>=0.8", "ipykernel>=6",
+    "pandas>=1.5", "scikit-learn>=1.2", "pydantic>=2", "tiktoken>=0.5",
+    "pypdf>=4", "openpyxl>=3.1", "requests>=2.28", "tqdm>=4.64",
+    "python-docx>=1.1", "pdfminer.six>=20221105",
+    "rich>=13", "python-dotenv>=1", "ipywidgets>=8", "nest_asyncio>=1.5",
+    "Pillow>=9", "pyautogui>=0.9.54", "pyperclip>=1.8", "pynput>=1.7", "opencv-python>=4.7",
+    "selenium>=4.10", "webdriver-manager>=4", "rdkit>=2023.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/zzhenglab/MOFinder"
+Repository = "https://github.com/zzhenglab/MOFinder"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mofinder*"]
