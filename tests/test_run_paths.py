@@ -7,7 +7,6 @@ import unittest
 
 from mofinder.run_paths import create_run_directory
 
-
 class RunDirectoryTests(unittest.TestCase):
     def test_numbering_preserves_gaps_legacy_runs_and_existing_files(self):
         with tempfile.TemporaryDirectory() as temporary:
